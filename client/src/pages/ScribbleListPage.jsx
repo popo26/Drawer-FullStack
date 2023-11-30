@@ -10,7 +10,9 @@ export default function ScribbleListPage({ files }) {
   const {drawers, scribbles} = useDataContext();
 
   // const strayScribbles = data["scribbles"];
-  const strayScribbles = Array(scribbles);
+  // const strayScribbles = Array(scribbles);
+  const strayScribbles = scribbles;
+
 
 
   const deleteScribble = (id) => {

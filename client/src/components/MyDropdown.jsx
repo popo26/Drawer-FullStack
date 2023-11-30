@@ -88,7 +88,9 @@ export default function MyDropdown(
   };
 
   // const existingDrawersList = data["drawers"].map((item) => {
-    const existingDrawersList = Array(drawers).map((item) => {
+    // const existingDrawersList = Array(drawers).map((item) => {
+      const existingDrawersList = drawers.map((item) => {
+
 
     if (item.root === true) {
       return (
@@ -106,7 +108,9 @@ export default function MyDropdown(
           <div>
             {item["subDrawer"] === true ? (
               // <>{findSubDrawers(item.id, Array(data["drawers"]))} </>
-              <>{findSubDrawers(item.id, Array(drawers))} </>
+              // <>{findSubDrawers(item.id, Array(drawers))} </>
+              <>{findSubDrawers(item.id, drawers)} </>
+
 
             ) : null}
           </div>

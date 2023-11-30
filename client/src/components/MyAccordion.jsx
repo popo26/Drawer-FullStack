@@ -17,7 +17,11 @@ export default function MyAccordion({
   // const data = useDataContext();
   const {drawers, scribbles} = useDataContext();
 
-  console.log("drawers in MyAccordion", drawers)
+  // console.log("drawers in MyAccordion", drawers)
+  console.log("Scribbles in MyAccordion", scribbles)
+  //console.log("Scribbles in MyAccordion Type", typeof scribbles)
+
+
 
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
@@ -83,7 +87,7 @@ export default function MyAccordion({
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   // const renderedList = data["drawers"].map((item) => {
-    const renderedList = Array(drawers).map((item) => {
+    const renderedList = drawers.map((item) => {
 
     if (!item.drawerId) {
       const isExpanded = item.id === expandedIndex;

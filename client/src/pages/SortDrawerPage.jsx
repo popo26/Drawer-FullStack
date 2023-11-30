@@ -46,21 +46,29 @@ export default function SortDrawerPage() {
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     console.log("PUT - move Children");
     // const drawerToBeMovedObject = data["drawers"].filter(
-      const drawerToBeMovedObject = Array(drawers).filter(
+      // const drawerToBeMovedObject = Array(drawers).filter(
+        const drawerToBeMovedObject = drawers.filter(
+
 
       (item) => item.id == parentDrawerId
     );
 
     // const newTopLevelDrawerObject = data["drawers"].filter(
-        const newTopLevelDrawerObject = Array(drawers).filter(
+        // const newTopLevelDrawerObject = Array(drawers).filter(
+                const newTopLevelDrawerObject = drawers.filter(
+
 
       (item) => item.id == newTopLevelDrawerId
     );
 
     // const allDrawers = data["drawers"];
-    const allDrawers = Array(drawers);
+    // const allDrawers = Array(drawers);
+    const allDrawers = drawers;
+
     // const allScribbles = data["scribbles"];
-        const allScribbles = Array(scribbles);
+        // const allScribbles = Array(scribbles);
+        const allScribbles = scribbles;
+
 
 
     let subDrawersToBeMoved = [];
@@ -149,7 +157,9 @@ export default function SortDrawerPage() {
 
   const moveDrawerToNewDrawer = (passedId) => {
     // const drawerToBeMovedObject = data["drawers"].filter(
-      const drawerToBeMovedObject = Array(drawers).filter(
+      // const drawerToBeMovedObject = Array(drawers).filter(
+        const drawerToBeMovedObject = drawers.filter(
+
 
       (item) => item.id == drawerToBeMoved
       // (item) => item.id == sessionStorage.getItem("DrawerToBeMoved")
@@ -248,7 +258,9 @@ export default function SortDrawerPage() {
 
   //Using ID of drawerToBeMoved stored in sessionStorage to avoid error in case of page refresh
   // const drawerToBeMovedObj = data["drawers"].filter(
-    const drawerToBeMovedObj = Array(drawers).filter(
+    // const drawerToBeMovedObj = Array(drawers).filter(
+        const drawerToBeMovedObj = drawers.filter(
+
 
     (item) => item.id == sessionStorage.getItem("drawerToBeMoved")
   );

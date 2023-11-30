@@ -41,7 +41,9 @@ export default function SortScribblePage() {
   const addScribbleToNewSubDrawer = (passedId) => {
     console.log("PUT");
     // const scribbleObject = data["scribbles"].filter(
-      const scribbleObject = Array(scribbles).filter(
+      // const scribbleObject = Array(scribbles).filter(
+        const scribbleObject = scribbles.filter(
+
 
       (item) => item.id == selectedScribbleId
     );

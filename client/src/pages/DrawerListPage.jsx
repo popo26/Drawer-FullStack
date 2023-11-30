@@ -32,7 +32,9 @@ export default function DrawerListPage({ expandedIndex }) {
 
   const deleteScribbles = (drawerId) => {
     // const associatedScribbles = data["scribbles"].filter(
-      const associatedScribbles = Array(scribbles).filter(
+      // const associatedScribbles = Array(scribbles).filter(
+        const associatedScribbles = scribbles.filter(
+
 
       (scrb) => scrb.drawerId === drawerId
     );
@@ -84,7 +86,9 @@ export default function DrawerListPage({ expandedIndex }) {
       if (x.root === true) {
         //delete all rootId
         // const sameRootIdDrawers = data["drawers"].filter(
-                const sameRootIdDrawers = Array(drawers).filter(
+                // const sameRootIdDrawers = Array(drawers).filter(
+                  const sameRootIdDrawers = drawers.filter(
+
 
           (item) => item.rootId == id
         );
@@ -105,7 +109,9 @@ export default function DrawerListPage({ expandedIndex }) {
       } else if (x.root === false && x["subDrawer"] === true) {
         //delete all subdrawers whose drawerId is id
         // const subDrawers = data["drawers"].filter(
-                const subDrawers = Array(drawers).filter(
+                // const subDrawers = Array(drawers).filter(
+                                const subDrawers = drawers.filter(
+
 
           (item) => item.drawerId == id
         );
@@ -191,7 +197,9 @@ export default function DrawerListPage({ expandedIndex }) {
     setUpdateIconIndex(clickedId);
     test(clickedId);
     // const drawerName = data["drawers"].filter((item) => item.id == clickedId);
-        const drawerName = Array(drawers).filter((item) => item.id == clickedId);
+        // const drawerName = Array(drawers).filter((item) => item.id == clickedId);
+                const drawerName = drawers.filter((item) => item.id == clickedId);
+
 
     setDrawerNameToEdit(drawerName[0]["name"]);
     setDrawerIdToEdit(drawerName[0]["id"]);
@@ -396,7 +404,9 @@ export default function DrawerListPage({ expandedIndex }) {
   ///////++++++++Update Drawer Name in DB+++++++++++++
   const updateDrawerName = (id) => {
     // const drawerToBeUpdated = data["drawers"].filter((item) => item.id == id);
-        const drawerToBeUpdated = Array(drawers).filter((item) => item.id == id);
+        // const drawerToBeUpdated = Array(drawers).filter((item) => item.id == id);
+                const drawerToBeUpdated = drawers.filter((item) => item.id == id);
+
 
 
     //setDrawerIdToEdit(id)
@@ -436,7 +446,9 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   // const renderedList = data["drawers"].map((item) => {
-    const renderedList = Array(drawers).map((item) => {
+    // const renderedList = Array(drawers).map((item) => {
+        const renderedList = drawers.map((item) => {
+
 
     if (id == item.id) {
       return (
@@ -533,7 +545,9 @@ export default function DrawerListPage({ expandedIndex }) {
 
               </div>
               {/* <div>{findSubDrawers(item.id, Array(data["drawers"]))} </div> */}
-                            <div>{findSubDrawers(item.id, Array(drawers))} </div>
+                            {/* <div>{findSubDrawers(item.id, Array(drawers))} </div> */}
+                                                        <div>{findSubDrawers(item.id, drawers)} </div>
+
 
             </div>
           ) : (
