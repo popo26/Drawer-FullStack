@@ -1,0 +1,14 @@
+.PageNotFound{
+    background-color: black;
+    padding:30px;
+    height:70%;
+}
+
+.PageNotFound-msg{
+    color:red;
+}
+
+.PageNotFound>img{
+    width:60%;
+    object-fit: contain;
+}

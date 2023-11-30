@@ -1,0 +1,47 @@
+.sort-preview-drawer {
+  text-align: left;
+  color: green;
+}
+
+.sort-drawer-preview-div>h3{
+  font-size:12px;
+}
+
+.sort-preview-sub-drawers {
+  text-align: left;
+  color: purple;
+  /* text-indent:20px; */
+}
+
+.sort-preview-scribbles {
+  text-align: left;
+  color: darkcyan;
+}
+
+/* .indent-2 {
+  text-indent: 40px;
+}
+
+.indent-3 {
+  text-indent: 80px;
+}
+
+.scrb-indent1 {
+  text-indent: 20px;
+}
+
+.scrb-indent2 {
+  text-indent: 50px;
+}
+
+.scrb-indent3 {
+  text-indent: 90px;
+} */
+
+.move-btn {
+  margin-bottom:20px;
+}
+
+.back-btn{
+  margin-top:30px;
+}

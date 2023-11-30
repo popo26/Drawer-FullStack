@@ -1,0 +1,28 @@
+.AccordionItem {
+  /* border: 2px solid rgb(210, 208, 208); */
+  border: 6px solid #404040;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  /* background-color:rgb(205, 191, 240); */
+  /* background:url('../assets/images/green.jpg'); */
+  font-weight: 900;
+  position: relative;
+}
+
+.drawer-icon {
+  position: absolute;
+  right: 10px;
+}
+
+.sub-drawer-name {
+  background-color: rgb(224, 220, 220);
+}
+
+.no-subfolder {
+  /* background-color: lightgrey; */
+}

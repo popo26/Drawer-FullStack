@@ -1,0 +1,15 @@
+.SearchPage {
+    padding:20px;
+    /* border:2px solid black; */
+}
+
+.Search{
+    text-align:center
+} 
+
+.search-input{
+    margin-bottom:20px;
+    margin-right:6px;
+    border-radius:6px;
+    border: 3px solid #b0b0b0
+}
