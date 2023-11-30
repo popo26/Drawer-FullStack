@@ -31,7 +31,7 @@ const {drawers, scribbles} = useDataContext();
       "level":1,
     }
     // fetch("http://localhost:3000/drawers", {
-      fetch("http://localhost:8080/api/drawers", {
+      fetch("http://localhost:8080/api/drawers/create", {
 
       method: "POST",
       mode: "cors",
@@ -45,12 +45,12 @@ const {drawers, scribbles} = useDataContext();
   };
 
   const handleChange = (value) => {
-    console.log(value);
+    //console.log(value);
     setDrawerName(value);
   };
 
   const handleCreate = (value) => {
-    console.log("Create btn clicked", value);
+    //console.log("Create btn clicked", value);
     createNewDrawer();
   };
 

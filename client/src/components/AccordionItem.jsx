@@ -14,7 +14,7 @@ export default function AccordionItem({
   findScribbles,
   item,
 }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const data = useDataContext();
   const {drawers, scribbles} = useDataContext();
 

@@ -14,7 +14,9 @@ export default function SortDrawerPreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
   //const [newSubDrawerName, setNewSubDrawerName] = useState("");
-  const data = useDataContext();
+  // const data = useDataContext();
+  const {drawers, scribbles} = useDataContext();
+
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
@@ -31,7 +33,9 @@ export default function SortDrawerPreviewPage() {
   const updateParentDrawerBoolean = (parentDrawerId) => {
     console.log("PUT2");
     let dataPost;
-    const parentDrawerObj = data["drawers"].filter(
+    // const parentDrawerObj = data["drawers"].filter(
+      const parentDrawerObj = Array(drawers).filter(
+
       (item) => item.id == parentDrawerId
     );
     //Something wrong with here
@@ -80,8 +84,12 @@ export default function SortDrawerPreviewPage() {
   };
 
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
-    const allDrawers = data["drawers"];
-    const allScribbles = data["scribbles"];
+    // const allDrawers = data["drawers"];
+    const allDrawers = Array(drawers);
+
+    // const allScribbles = data["scribbles"];
+    const allScribbles = Array(scribbles);
+
 
     const drawerToBeMovedObject = allDrawers.filter(
       //   (item) => item.id == drawerToBeMoved
@@ -178,10 +186,14 @@ export default function SortDrawerPreviewPage() {
   };
 
   const moveDrawerToNewDrawer = (passedId) => {
-    const drawerToBeMovedObject = data["drawers"].filter(
+    // const drawerToBeMovedObject = data["drawers"].filter(
+      const drawerToBeMovedObject = Array(drawers).filter(
+
       (item) => item.id == drawerToBeMoved
     );
-    const parentDrawerObject = data["drawers"].filter(
+    // const parentDrawerObject = data["drawers"].filter(
+        const parentDrawerObject = Array(drawers).filter(
+
       (item) => item.id == passedId
     );
     let dataPost = {
@@ -226,7 +238,9 @@ export default function SortDrawerPreviewPage() {
   //     createNewSubDrawer();
   //   };
 
-  const renderedList = data["drawers"]
+  // const renderedList = data["drawers"]
+    const renderedList = Array(drawers)
+
     .filter((item) => item.id == state.selectedDrawerId)
     .map((item) => (
       <h4 className="sort-preview-drawer" key={item.id}>
@@ -235,7 +249,9 @@ export default function SortDrawerPreviewPage() {
     ));
 
   const scribblies = (x) => {
-    return data["scribbles"]
+    // return data["scribbles"]
+        return Array(scribbles)
+
       .filter((scrb) => scrb.drawerId == x[0].id)
       .map((scrb) => (
         <p
@@ -249,7 +265,9 @@ export default function SortDrawerPreviewPage() {
   };
 
   const subDrawers = (x) => {
-    return data["drawers"]
+    // return data["drawers"]
+        return Array(drawers)
+
       .filter((sub) => sub.drawerId == x[0].id)
       .map((sub) => (
         <p
@@ -263,7 +281,9 @@ export default function SortDrawerPreviewPage() {
   };
 
   const FindSubDrawers = () => {
-    const x = data["drawers"].filter(
+    // const x = data["drawers"].filter(
+        const x = Array(drawers).filter(
+
       (item) => item.id == state.selectedDrawerId
     );
     const renderedChildren =
@@ -289,11 +309,13 @@ export default function SortDrawerPreviewPage() {
   );
 
   //To persist those 2 values incase of browser refresh
-  const drawerToBeMovedObj = data["drawers"].filter(
+  // const drawerToBeMovedObj = data["drawers"].filter(
+    const drawerToBeMovedObj = Array(drawers).filter(
     (item) => item.id == sessionStorage.getItem("drawerToBeMoved")
   );
 
-  const destinationObj = data["drawers"].filter(
+  // const destinationObj = data["drawers"].filter(
+    const destinationObj = Array(drawers).filter(
     (item) => item.id == sessionStorage.getItem("selectedDrawerId")
   );
 

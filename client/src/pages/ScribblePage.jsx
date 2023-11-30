@@ -16,7 +16,9 @@ export default function ScribblePage({
   setFiles,
 }) {
   const navigate = useNavigate();
-  const data = useDataContext();
+  // const data = useDataContext();
+  const {drawers, scribbles} = useDataContext();
+
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
@@ -81,7 +83,9 @@ export default function ScribblePage({
 
   const handleTitleChange = (value) => {
     setScribbleTitle(value);
-    setSelectedScribbleId(Object.values(data["scribbles"]).length + 1);
+    // setSelectedScribbleId(Object.values(data["scribbles"]).length + 1);
+    setSelectedScribbleId(Object.values(scribbles).length + 1);
+
   };
 
   const handleSubmitScribble = () => {

@@ -43,6 +43,10 @@ const DataContext = createContext();
 //     .catch((error) => console.error(error.message));
 // };
 
+let drawers = [];
+let scribbles = [];
+let users = [];
+
 async function getDrawers() {
   let obj;
   const response = await fetch("http://localhost:8080/api/drawers", {
@@ -53,8 +57,11 @@ async function getDrawers() {
     // },
   });
 
-  obj = await response.json()
-  return obj;
+  obj = await response.json();
+  //console.log("obj", obj.data);
+  drawers.push(obj.data);
+  // console.log("array", drawerTest);
+  // return obj.data;
 }
 
 async function getScribbles() {
@@ -67,8 +74,8 @@ async function getScribbles() {
     // },
   });
 
-  obj = await response.json()
-  return obj;
+  obj = await response.json();
+  return obj.data;
 }
 
 async function getUsers() {
@@ -81,22 +88,23 @@ async function getUsers() {
     // },
   });
 
-  obj = await response.json()
-  return obj;
+  obj = await response.json();
+  return obj.data;
 }
-
-
 
 export const DataProvider = (props) => {
   // store the current user in state at the top level
   //const [data, setData] = useState("");
 
-  const drawers = getDrawers();
-  const scribbles = getScribbles();
-  const users = getUsers();
+  // const drawers = getDrawers();
+  // const scribbles = getScribbles();
+  // const users = getUsers();
+  getDrawers();
+  getScribbles();
+  getUsers();
 
   // const data = { drawers: drawers, scribbles: scribbles, users: users };
-  console.log("DATA in CONTEXT", typeof drawers);
+  console.log("DATA in CONTEXT", drawers);
 
   return (
     <DataContext.Provider value={{ drawers, scribbles, users }}>

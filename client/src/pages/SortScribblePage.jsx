@@ -19,7 +19,9 @@ export default function SortScribblePage() {
 
   const navigate = useNavigate();
   const { state } = useLocation();
-  const data = useDataContext();
+  // const data = useDataContext();
+  const {drawers, scribbles} = useDataContext();
+
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [selectedScribbleId, setSelectedScribbleId] =
@@ -38,7 +40,9 @@ export default function SortScribblePage() {
 
   const addScribbleToNewSubDrawer = (passedId) => {
     console.log("PUT");
-    const scribbleObject = data["scribbles"].filter(
+    // const scribbleObject = data["scribbles"].filter(
+      const scribbleObject = Array(scribbles).filter(
+
       (item) => item.id == selectedScribbleId
     );
 
@@ -70,11 +74,15 @@ export default function SortScribblePage() {
   };
 
   const createNewDrawer = () => {
-    console.log("drawer length: ", Object.values(data["drawers"]).length);
+    // console.log("drawer length: ", Object.values(data["drawers"]).length);
     let dataPost = {
-      rootId: Object.values(data["drawers"]).length + 1,
+      // rootId: Object.values(data["drawers"]).length + 1,
+      rootId: Object.values(drawers).length + 1,
+
       userId: 1,
-      id: Object.values(data["drawers"]).length + 1,
+      // id: Object.values(data["drawers"]).length + 1,
+      id: Object.values(drawers).length + 1,
+
       name: drawerName.toUpperCase(),
       type: "drawer",
       "subDrawer": false,
@@ -92,7 +100,9 @@ export default function SortScribblePage() {
       body: JSON.stringify(dataPost),
     }).then((response) => console.log(response.json()));
 
-    addScribbleToNewSubDrawer(Object.values(data["drawers"]).length + 1);
+    // addScribbleToNewSubDrawer(Object.values(data["drawers"]).length + 1);
+    addScribbleToNewSubDrawer(Object.values(drawers).length + 1);
+
   };
 
   const handleChange = (value) => {

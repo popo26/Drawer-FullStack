@@ -6,11 +6,15 @@ import { useDataContext } from "../context/DataContext";
 
 export default function ScribbleListPage({ files }) {
   const navigate = useNavigate();
-  const data = useDataContext();
-  const strayScribbles = data["scribbles"];
+  // const data = useDataContext();
+  const {drawers, scribbles} = useDataContext();
+
+  // const strayScribbles = data["scribbles"];
+  const strayScribbles = Array(scribbles);
+
 
   const deleteScribble = (id) => {
-    console.log("drawer length: ", Object.values(data["scribbles"]).length);
+    // console.log("drawer length: ", Object.values(data["scribbles"]).length);
     // fetch(`http://localhost:3000/scribbles/${id}`, {
       fetch(`http://localhost:8080/api/scribbles/${id}`, {
 

@@ -17,6 +17,8 @@ export default function MyAccordion({
   // const data = useDataContext();
   const {drawers, scribbles} = useDataContext();
 
+  console.log("drawers in MyAccordion", drawers)
+
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
   const findScribbles = (id, scribbles) => {

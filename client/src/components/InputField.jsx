@@ -11,7 +11,7 @@ export default function InputField({
   handleNewDrawerChange,
 }) {
   const handleChange = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     let value = e.target.value;
     // Change the name - handleNewDrawerChange
     handleNewDrawerChange(value);
