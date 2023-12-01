@@ -48,7 +48,7 @@ export default function ScribblePage({
     let dataPost = {
       userId: 1,
       // id: Object.values(data["scribbles"]).length + 1,
-      id: selectedScribbleId,
+      //_id: selectedScribbleId,
       title: scribbleTitle ? scribbleTitle : "Untitled",
       type: "scribble",
       // content: scribbleContent,
@@ -84,7 +84,9 @@ export default function ScribblePage({
   const handleTitleChange = (value) => {
     setScribbleTitle(value);
     // setSelectedScribbleId(Object.values(data["scribbles"]).length + 1);
-    setSelectedScribbleId(Object.values(scribbles).length + 1);
+    // setSelectedScribbleId(Object.values(scribbles).length + 1);
+    setSelectedScribbleId(scribbles.length + 1);
+
 
   };
 

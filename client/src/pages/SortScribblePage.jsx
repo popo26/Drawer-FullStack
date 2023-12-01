@@ -20,7 +20,7 @@ export default function SortScribblePage() {
   const navigate = useNavigate();
   const { state } = useLocation();
   // const data = useDataContext();
-  const {drawers, scribbles} = useDataContext();
+  const { drawers, scribbles } = useDataContext();
 
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
@@ -41,11 +41,9 @@ export default function SortScribblePage() {
   const addScribbleToNewSubDrawer = (passedId) => {
     console.log("PUT");
     // const scribbleObject = data["scribbles"].filter(
-      // const scribbleObject = Array(scribbles).filter(
-        const scribbleObject = scribbles.filter(
-
-
-      (item) => item.id == selectedScribbleId
+    // const scribbleObject = Array(scribbles).filter(
+    const scribbleObject = scribbles.filter(
+      (item) => item._id == selectedScribbleId
     );
 
     let dataPost = {
@@ -55,15 +53,14 @@ export default function SortScribblePage() {
       title: scribbleObject[0]["title"],
       content: scribbleObject[0]["content"],
       type: "scribble",
-      id: selectedScribbleId,
+      //ids: selectedScribbleId,
       stray: false,
       level: 1,
       attachment: scribbleObject[0]["attachment"],
       files: [scribbleObject[0]["files"]],
     };
     // fetch(`http://localhost:3000/scribbles/${selectedScribbleId}`, {
-      fetch(`http://localhost:8080/api/scribbles/${selectedScribbleId}`, {
-
+    fetch(`http://localhost:8080/api/scribbles/${selectedScribbleId}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -80,20 +77,21 @@ export default function SortScribblePage() {
     let dataPost = {
       // rootId: Object.values(data["drawers"]).length + 1,
       rootId: Object.values(drawers).length + 1,
+      // rootId: dataPost._id,
 
       userId: 1,
       // id: Object.values(data["drawers"]).length + 1,
-      id: Object.values(drawers).length + 1,
+      // id: Object.values(drawers).length + 1,
+      //idd: drawers.length + 1,
 
       name: drawerName.toUpperCase(),
       type: "drawer",
-      "subDrawer": false,
+      subDrawer: false,
       root: true,
       level: 1,
     };
     // fetch("http://localhost:3000/drawers", {
-      fetch("http://localhost:8080/api/drawers/create", {
-
+    fetch("http://localhost:8080/api/drawers/create", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -103,8 +101,9 @@ export default function SortScribblePage() {
     }).then((response) => console.log(response.json()));
 
     // addScribbleToNewSubDrawer(Object.values(data["drawers"]).length + 1);
-    addScribbleToNewSubDrawer(Object.values(drawers).length + 1);
-
+    // addScribbleToNewSubDrawer(Object.values(drawers).length + 1);
+    console.log("dataPost.ID", dataPost._id)
+    addScribbleToNewSubDrawer(dataPost._id);
   };
 
   const handleChange = (value) => {

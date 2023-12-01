@@ -40,7 +40,7 @@ export default function DrawerListPage({ expandedIndex }) {
     );
     for (let t of associatedScribbles) {
       // fetch(`http://localhost:3000/scribbles/${t.id}`, {
-        fetch(`http://localhost:8080/api/scribbles/${t.id}`, {
+        fetch(`http://localhost:8080/api/scribbles/${t._id}`, {
 
         method: "DELETE",
         mode: "cors",
@@ -94,7 +94,7 @@ export default function DrawerListPage({ expandedIndex }) {
         );
         for (let y of sameRootIdDrawers) {
           // fetch(`http://localhost:3000/drawers/${y.id}`, {
-            fetch(`http://localhost:8080/api/drawers/${y.id}`, {
+            fetch(`http://localhost:8080/api/drawers/${y._id}`, {
 
             method: "DELETE",
             mode: "cors",
@@ -104,7 +104,7 @@ export default function DrawerListPage({ expandedIndex }) {
           })
             .then((response) => console.log(response.json()))
             .catch((error) => console.error(error.message));
-          deleteScribbles(y.id);
+          deleteScribbles(y._id);
         }
       } else if (x.root === false && x["subDrawer"] === true) {
         //delete all subdrawers whose drawerId is id
@@ -117,7 +117,7 @@ export default function DrawerListPage({ expandedIndex }) {
         );
         for (let y of subDrawers) {
           // fetch(`http://localhost:3000/drawers/${y.id}`, {
-            fetch(`http://localhost:8080/api/drawers/${y.id}`, {
+            fetch(`http://localhost:8080/api/drawers/${y._id}`, {
 
             method: "DELETE",
             mode: "cors",
@@ -127,7 +127,7 @@ export default function DrawerListPage({ expandedIndex }) {
           })
             .then((response) => console.log(response.json()))
             .catch((error) => console.error(error.message));
-          deleteScribbles(y.id);
+          deleteScribbles(y._id);
         }
       }
     }
@@ -198,11 +198,11 @@ export default function DrawerListPage({ expandedIndex }) {
     test(clickedId);
     // const drawerName = data["drawers"].filter((item) => item.id == clickedId);
         // const drawerName = Array(drawers).filter((item) => item.id == clickedId);
-                const drawerName = drawers.filter((item) => item.id == clickedId);
+                const drawerName = drawers.filter((item) => item._id == clickedId);
 
 
     setDrawerNameToEdit(drawerName[0]["name"]);
-    setDrawerIdToEdit(drawerName[0]["id"]);
+    setDrawerIdToEdit(drawerName[0]["idd"]);
     text.current = document.getElementById(
       `targetDrawerId${clickedId}`
     ).innerText;
@@ -267,7 +267,7 @@ export default function DrawerListPage({ expandedIndex }) {
       }
     }
     return scribbleArray.map((item) => (
-      <Link key={item.id} to={`/scribble/${item.id}`}>
+      <Link key={item._id} to={`/scribble/${item._id}`}>
         <p className="individual-scribble">{item.title} </p>
       </Link>
     ));
@@ -291,19 +291,19 @@ export default function DrawerListPage({ expandedIndex }) {
 
       return newArray.map((item) => {
         // const scribbleList = findScribbles(item.id, data["scribbles"]);
-                const scribbleList = findScribbles(item.id, scribbles);
+                const scribbleList = findScribbles(item._id, scribbles);
 
         return (
-          <div key={item.id} className="sub-drawer-header">
+          <div key={item._id} className="sub-drawer-header">
             {/* <h3 className={"sub-drawer indent-" + item.level}>
               {item.name} */}
 
             <h3
-              id={`targetDrawerId${item.id}`}
+              id={`targetDrawerId${item._id}`}
               style={{ display: "inline-block" }}
               className={"sub-drawer indent-" + item.level}
               onClick={() => {
-                handleSelectedDrawer(item.id);
+                handleSelectedDrawer(item._id);
               }}
               contentEditable="true"
               // contentEditable={isContentEditable}
@@ -323,7 +323,7 @@ export default function DrawerListPage({ expandedIndex }) {
             </h3>
 
             <Icon
-              onClick={() => handleDelete(item.id)}
+              onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
               color="black"
               width="18"
@@ -340,12 +340,12 @@ export default function DrawerListPage({ expandedIndex }) {
               onClick={() => {
                 // drawerToBeMoved = item.id;
                 // setDrawerToBeMoved(drawerToBeMoved);
-                setDrawerToBeMoved(item.id);
+                setDrawerToBeMoved(item.idd);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
                 console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
                 // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
-                sessionStorage.setItem("drawerToBeMoved", item.id);
+                sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
 
@@ -377,7 +377,7 @@ export default function DrawerListPage({ expandedIndex }) {
               />
             )} */}
 
-            {showUpdateIcon(item.id)}
+            {showUpdateIcon(item._id)}
 
             {/* <button onClick={() => save(item.id)}>Save</button> */}
             {/* </Link> */}
@@ -405,7 +405,7 @@ export default function DrawerListPage({ expandedIndex }) {
   const updateDrawerName = (id) => {
     // const drawerToBeUpdated = data["drawers"].filter((item) => item.id == id);
         // const drawerToBeUpdated = Array(drawers).filter((item) => item.id == id);
-                const drawerToBeUpdated = drawers.filter((item) => item.id == id);
+                const drawerToBeUpdated = drawers.filter((item) => item._id == id);
 
 
 
@@ -419,7 +419,7 @@ export default function DrawerListPage({ expandedIndex }) {
       rootId: drawerToBeUpdated[0]["rootId"],
       userId: 1,
       drawerId: drawerToBeUpdated[0]["drawerId"],
-      id: id,
+      //_id: id,
       name: drawerNameToEdit,
 
       // name: newName,
@@ -450,19 +450,19 @@ export default function DrawerListPage({ expandedIndex }) {
         const renderedList = drawers.map((item) => {
 
 
-    if (id == item.id) {
+    if (id == item._id) {
       return (
-        <div key={item.id}>
+        <div key={item._id}>
           <div className="rendered-drawers">
             {/* <h2 contentEditable={isContentEditable} style={{display:"inline-block"}} value={drawerNameToEdit}>
             {item.name}
             </h2>             */}
             <h2
-              id={`targetDrawerId${item.id}`}
+              id={`targetDrawerId${item._id}`}
               // contentEditable={isContentEditable}
               style={{ display: "inline-block" }}
               onClick={() => {
-                handleSelectedDrawer(item.id);
+                handleSelectedDrawer(item._id);
               }}
               contentEditable="true"
               // contentEditable={isContentEditable}
@@ -484,7 +484,7 @@ export default function DrawerListPage({ expandedIndex }) {
               /> */}
             </h2>
             <Icon
-              onClick={() => handleDelete(item.id)}
+              onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
               color="black"
               width="18"
@@ -496,12 +496,12 @@ export default function DrawerListPage({ expandedIndex }) {
               onClick={() => {
                 // drawerToBeMoved = item.id;
                 // setDrawerToBeMoved(drawerToBeMoved);
-                setDrawerToBeMoved(item.id);
+                setDrawerToBeMoved(item._id);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
                 console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
                 // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
-                sessionStorage.setItem("drawerToBeMoved", item.id);
+                sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
             {/* <Icon
@@ -521,7 +521,7 @@ export default function DrawerListPage({ expandedIndex }) {
               />
             )} */}
 
-            {showUpdateIcon(item.id)}
+            {showUpdateIcon(item._id)}
 
             {/* <Icon
               icon="material-symbols:update"
@@ -541,18 +541,18 @@ export default function DrawerListPage({ expandedIndex }) {
             <div>
               <div className="no-subfolder">
                 {/* {findScribbles(item.id, data["scribbles"])} */}
-                                {findScribbles(item.id, scribbles)}
+                                {findScribbles(item._id, scribbles)}
 
               </div>
               {/* <div>{findSubDrawers(item.id, Array(data["drawers"]))} </div> */}
                             {/* <div>{findSubDrawers(item.id, Array(drawers))} </div> */}
-                                                        <div>{findSubDrawers(item.id, drawers)} </div>
+                                                        <div>{findSubDrawers(item._id, drawers)} </div>
 
 
             </div>
           ) : (
             // <div>{findScribbles(item.id, data["scribbles"])}</div>
-                        <div>{findScribbles(item.id, scribbles)}</div>
+                        <div>{findScribbles(item._id, scribbles)}</div>
 
           )}
         </div>

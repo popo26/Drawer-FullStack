@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const drawerSchema = new Schema({
-  rootId: { type: Number },
-  drawerId: { type: Number },
-  id: { type: Number, trim: true, required: true, unique: true },
+  rootId: { type: String },
+  drawerId: { type: String },
+  //idd: { type: Number, trim: true, required: true, unique: true },
   name: { type: String, trim: true, required: true },
   type: { type: String, trim: true, required: true},
   subDrawer: { type: Boolean, required: true },

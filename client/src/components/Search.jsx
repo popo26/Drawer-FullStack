@@ -87,9 +87,9 @@ export default function Search() {
         <div>
           {searchResult.map((item) => {
             return (
-              <Link to={`/scribble/${item.id}`} key={item.id}>
+              <Link to={`/scribble/${item._id}`} key={item._id}>
                 <p>
-                  ID{item.id}: {item.title}
+                  ID{item._id}: {item.title}
                 </p>
               </Link>
             );

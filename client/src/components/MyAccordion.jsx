@@ -1,7 +1,7 @@
 import AccordionItem from "./AccordionItem";
 import "../css/Accordion.css";
 import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
@@ -16,6 +16,8 @@ export default function MyAccordion({
 
   // const data = useDataContext();
   const {drawers, scribbles} = useDataContext();
+
+
 
   // console.log("drawers in MyAccordion", drawers)
   console.log("Scribbles in MyAccordion", scribbles)
@@ -37,7 +39,7 @@ export default function MyAccordion({
       }
     }
     return scribbleArray.map((item) => (
-      <Link key={item.id} to={`/scribble/${item.id}`}>
+      <Link key={item._id} to={`/scribble/${item._id}`}>
         <p className={"individual-scribble scrb-indent"+item.level}>{item.title} </p>
       </Link>
     ));
@@ -66,12 +68,12 @@ export default function MyAccordion({
 
     return newArray.map((item) => {
       // const scribbleList = findScribbles(item.id, data["scribbles"]);
-      const scribbleList = findScribbles(item.id, scribbles);
+      const scribbleList = findScribbles(item._id, scribbles);
 
       //console.log(data["drawers"])
       //console.log("Item ID", item.id)
       return (
-        <div key={item.id} className="sub-drawer-div">
+        <div key={item._id} className="sub-drawer-div">
           <h3 className={"sub-drawer-name indent-"+item.level}>{item.name}</h3>
           <div>
             {scribbleList.length === 0 ? (
@@ -90,7 +92,7 @@ export default function MyAccordion({
     const renderedList = drawers.map((item) => {
 
     if (!item.drawerId) {
-      const isExpanded = item.id === expandedIndex;
+      const isExpanded = item._id === expandedIndex;
       const triangle = (
         <div className="triangle"> {isExpanded ? <GoTriangleDown /> : <GoTriangleRight />}</div>
       );
@@ -98,9 +100,9 @@ export default function MyAccordion({
       return (
 
         <AccordionItem
-          key={item.id}
+          key={item._id}
           triangle={triangle}
-          handleExpand={() => handleExpand(item.id)}
+          handleExpand={() => handleExpand(item._id)}
           findSubDrawers={findSubDrawers}
           findScribbles={findScribbles}
           item={item}

@@ -38,7 +38,7 @@ export default function SortDrawerPreviewPage() {
         const parentDrawerObj = drawers.filter(
 
 
-      (item) => item.id == parentDrawerId
+      (item) => item._id == parentDrawerId
     );
     //Something wrong with here
     // console.log("x[0][drawerId]", x[0]["drawerId"]);
@@ -48,8 +48,6 @@ export default function SortDrawerPreviewPage() {
         rootId: parentDrawerObj[0]["rootId"],
         drawerId: parentDrawerObj[0]["drawerId"],
         userId: 1,
-        // name: "Bagger",
-        // type: "drawer",
         name: parentDrawerObj[0]["name"],
         type: "drawer",
         ["subDrawer"]: true,
@@ -99,11 +97,11 @@ export default function SortDrawerPreviewPage() {
 
     const drawerToBeMovedObject = allDrawers.filter(
       //   (item) => item.id == drawerToBeMoved
-      (item) => item.id == parentDrawerId
+      (item) => item._id == parentDrawerId
     );
 
     const newTopLevelDrawerObject = allDrawers.filter(
-      (item) => item.id == newTopLevelDrawerId
+      (item) => item._id == newTopLevelDrawerId
     );
 
     // for (let x of allDrawers) {
@@ -133,7 +131,7 @@ export default function SortDrawerPreviewPage() {
           rootId: newTopLevelDrawerId,
           userId: 1,
           drawerId: x.drawerId,
-          id: x.id,
+          //idd: x.idd,
           name: x.name,
           type: "drawer",
           ["subDrawer"]: x["subDrawer"],
@@ -146,7 +144,7 @@ export default function SortDrawerPreviewPage() {
         };
 
         // fetch(`http://localhost:3000/drawers/${x.id}`, {
-          fetch(`http://localhost:8080/api/drawers/${x.id}`, {
+          fetch(`http://localhost:8080/api/drawers/${x._id}`, {
 
           method: "PUT",
           mode: "cors",
@@ -166,7 +164,7 @@ export default function SortDrawerPreviewPage() {
           rootDrawerId: newTopLevelDrawerId,
           userId: 1,
           drawerId: x.drawerId,
-          id: x.id,
+          //ids: x.ids,
           title: x.title,
           content: x.content,
           type: "scribble",
@@ -176,7 +174,7 @@ export default function SortDrawerPreviewPage() {
           // level: x.level + 1,
         };
         // fetch(`http://localhost:3000/scribbles/${x.id}`, {
-          fetch(`http://localhost:8080/api/scribbles/${x.id}`, {
+          fetch(`http://localhost:8080/api/scribbles/${x._id}`, {
 
           method: "PUT",
           mode: "cors",
@@ -197,22 +195,22 @@ export default function SortDrawerPreviewPage() {
             const drawerToBeMovedObject = drawers.filter(
 
 
-      (item) => item.id == drawerToBeMoved
+      (item) => item._id == drawerToBeMoved
     );
     // const parentDrawerObject = data["drawers"].filter(
         // const parentDrawerObject = Array(drawers).filter(
                 const parentDrawerObject = drawers.filter(
 
 
-      (item) => item.id == passedId
+      (item) => item._id == passedId
     );
     let dataPost = {
       // rootId: passedId,
       rootId: parentDrawerObject[0]["rootId"],
       userId: 1,
       // drawerId: passedId,
-      drawerId: parentDrawerObject[0]["id"],
-      id: drawerToBeMovedObject[0]["id"],
+      drawerId: parentDrawerObject[0]["_id"],
+      //idd: drawerToBeMovedObject[0]["idd"],
       name: drawerToBeMovedObject[0]["name"],
       type: "drawer",
       ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
@@ -253,9 +251,9 @@ export default function SortDrawerPreviewPage() {
     const renderedList = drawers
 
 
-    .filter((item) => item.id == state.selectedDrawerId)
+    .filter((item) => item._id == state.selectedDrawerId)
     .map((item) => (
-      <h4 className="sort-preview-drawer" key={item.id}>
+      <h4 className="sort-preview-drawer" key={item._id}>
         {item.name}
       </h4>
     ));
@@ -266,13 +264,13 @@ export default function SortDrawerPreviewPage() {
                 return scribbles
 
 
-      .filter((scrb) => scrb.drawerId == x[0].id)
+      .filter((scrb) => scrb.drawerId == x[0]._id)
       .map((scrb) => (
         <p
-          key={scrb.id}
+          key={scrb._id}
           className={"sort-preview-scribbles scrb-indent" + scrb.level}
         >
-          ID:{scrb.id}:{scrb.title}
+          ID:{scrb._id}:{scrb.title}
           <span>-- [scribble]</span>
         </p>
       ));
@@ -284,13 +282,13 @@ export default function SortDrawerPreviewPage() {
                 return drawers
 
 
-      .filter((sub) => sub.drawerId == x[0].id)
+      .filter((sub) => sub.drawerId == x[0]._id)
       .map((sub) => (
         <p
-          key={sub.id}
+          key={sub._id}
           className={"sort-preview-sub-drawers indent-" + sub.level}
         >
-          ID:{sub.id}:{sub.name}
+          ID:{sub._id}:{sub.name}
           <span>-- [Sub-Drawer]</span>
         </p>
       ));
@@ -302,10 +300,10 @@ export default function SortDrawerPreviewPage() {
                 const x = drawers.filter(
 
 
-      (item) => item.id == state.selectedDrawerId
+      (item) => item._id == state.selectedDrawerId
     );
     const renderedChildren =
-      x[0]["sub-drawer"] === true ? (
+      x[0]["subDrawer"] === true ? (
         <>
           {scribblies(x)}
           {subDrawers(x)}
@@ -331,14 +329,14 @@ export default function SortDrawerPreviewPage() {
     // const drawerToBeMovedObj = Array(drawers).filter(
         const drawerToBeMovedObj = drawers.filter(
 
-    (item) => item.id == sessionStorage.getItem("drawerToBeMoved")
+    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
   );
 
   // const destinationObj = data["drawers"].filter(
     // const destinationObj = Array(drawers).filter(
         const destinationObj = drawers.filter(
 
-    (item) => item.id == sessionStorage.getItem("selectedDrawerId")
+    (item) => item._id == sessionStorage.getItem("selectedDrawerId")
   );
 
   console.log("LOOK", drawerToBeMovedObj[0]["name"]);

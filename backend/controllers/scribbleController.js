@@ -25,7 +25,7 @@ const createScribble = (data, res) => {
 const updateScribble = (req, res) => {
   //updates the user matching the ID from the param using JSON data POSTed in request body
   console.log(req.body)
-  Models.Scribble.findByIdAndUpdate(req.params.id, req.body, {
+  Models.Scribble.findByIdAndUpdate(req.params.ids, req.body, {
   useFindAndModify: false })
   .then(data => res.send({result: 200, data: data}))
   .catch(err => {
@@ -35,7 +35,7 @@ const updateScribble = (req, res) => {
   }
   const deleteScribble = (req, res) => {
   //deletes the user matching the ID from the param
-  Models.Scribble.findByIdAndRemove(req.params.id, req.body, {
+  Models.Scribble.findByIdAndDelete(req.params.ids, req.body, {
   useFindAndModify: false })
   .then(data => res.send({result: 200, data: data}))
   .catch(err => {

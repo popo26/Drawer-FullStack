@@ -73,11 +73,11 @@ export default function MyDropdown(
         return (
           <p
             className={"sub-drawer indent-" + item.level}
-            key={item.id}
+            key={item._id}
             onClick={() => {
               setCurrentDropDown(item.name);
               // setSelectedDrawerId(item.id);
-              handleSelectedDrawerId(item.id);
+              handleSelectedDrawerId(item._id);
             }}
           >
             {item.name}
@@ -96,11 +96,11 @@ export default function MyDropdown(
       return (
         <>
           <div
-            key={item.id}
+            key={item._id}
             onClick={() => {
               setCurrentDropDown(item.name);
               // setSelectedDrawerId(item.id);
-              handleSelectedDrawerId(item.id);
+              handleSelectedDrawerId(item._id);
             }}
           >
             <p className="top-drawer">{item.name}</p>
@@ -109,7 +109,7 @@ export default function MyDropdown(
             {item["subDrawer"] === true ? (
               // <>{findSubDrawers(item.id, Array(data["drawers"]))} </>
               // <>{findSubDrawers(item.id, Array(drawers))} </>
-              <>{findSubDrawers(item.id, drawers)} </>
+              <>{findSubDrawers(item._id, drawers)} </>
 
 
             ) : null}

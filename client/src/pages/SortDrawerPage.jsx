@@ -15,7 +15,7 @@ export default function SortDrawerPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
   // const data = useDataContext();
-  const {drawers, scribbles} = useDataContext();
+  const { drawers, scribbles } = useDataContext();
 
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
@@ -46,19 +46,15 @@ export default function SortDrawerPage() {
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     console.log("PUT - move Children");
     // const drawerToBeMovedObject = data["drawers"].filter(
-      // const drawerToBeMovedObject = Array(drawers).filter(
-        const drawerToBeMovedObject = drawers.filter(
-
-
-      (item) => item.id == parentDrawerId
+    // const drawerToBeMovedObject = Array(drawers).filter(
+    const drawerToBeMovedObject = drawers.filter(
+      (item) => item._id == parentDrawerId
     );
 
     // const newTopLevelDrawerObject = data["drawers"].filter(
-        // const newTopLevelDrawerObject = Array(drawers).filter(
-                const newTopLevelDrawerObject = drawers.filter(
-
-
-      (item) => item.id == newTopLevelDrawerId
+    // const newTopLevelDrawerObject = Array(drawers).filter(
+    const newTopLevelDrawerObject = drawers.filter(
+      (item) => item._id == newTopLevelDrawerId
     );
 
     // const allDrawers = data["drawers"];
@@ -66,15 +62,13 @@ export default function SortDrawerPage() {
     const allDrawers = drawers;
 
     // const allScribbles = data["scribbles"];
-        // const allScribbles = Array(scribbles);
-        const allScribbles = scribbles;
-
-
+    // const allScribbles = Array(scribbles);
+    const allScribbles = scribbles;
 
     let subDrawersToBeMoved = [];
     for (let x of allDrawers) {
       if (
-        x.drawerId === parentDrawerId ||
+        x.drawerId == parentDrawerId ||
         // (x.rootId === drawerToBeMovedObject[0]["rootId"] &&
         //   x.level > drawerToBeMovedObject[0]["level"])
         (x.rootId == drawerToBeMoved && x.level > 1)
@@ -90,7 +84,7 @@ export default function SortDrawerPage() {
           rootId: newTopLevelDrawerId,
           userId: 1,
           drawerId: x.drawerId,
-          id: x.id,
+          //idd: x.idd,
           name: x.name,
           type: "drawer",
           ["subDrawer"]: x["subDrawer"],
@@ -99,12 +93,10 @@ export default function SortDrawerPage() {
           level: 2 + subDrawersToBeMoved.indexOf(x),
           // level: 2 + parseInt(subDrawersToBeMoved.indexOf(x)),
           // level: drawerToBeMovedObj[0]['level'] - subDrawersToBeMoved.indexOf(x),
-
         };
 
         // fetch(`http://localhost:3000/drawers/${x.id}`, {
-          fetch(`http://localhost:8080/api/drawers/${x.id}`, {
-
+        fetch(`http://localhost:8080/api/drawers/${x._id}`, {
           method: "PUT",
           mode: "cors",
           headers: {
@@ -121,13 +113,13 @@ export default function SortDrawerPage() {
       if (x.rootDrawerId === parentDrawerId) {
         // const linkedDrawerObj = allDrawers.filter((item)=> item.id == x.drawerId);
         // const newLevel = parseInt(linkedDrawerObj[0]['level'])+1;
-        
+
         // console.log("NewLEVEL!!!!!!!!!!!!!!!!!!!!!!!!!!", newLevel)
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           userId: 1,
           drawerId: x.drawerId,
-          id: x.id,
+          //ids: x.ids,
           title: x.title,
           content: x.content,
           type: "scribble",
@@ -138,8 +130,7 @@ export default function SortDrawerPage() {
           // level:newLevel,
         };
         // fetch(`http://localhost:3000/scribbles/${x.id}`, {
-          fetch(`http://localhost:8080/api/scribbles/${x.id}`, {
-
+        fetch(`http://localhost:8080/api/scribbles/${x._id}`, {
           method: "PUT",
           mode: "cors",
           headers: {
@@ -157,11 +148,9 @@ export default function SortDrawerPage() {
 
   const moveDrawerToNewDrawer = (passedId) => {
     // const drawerToBeMovedObject = data["drawers"].filter(
-      // const drawerToBeMovedObject = Array(drawers).filter(
-        const drawerToBeMovedObject = drawers.filter(
-
-
-      (item) => item.id == drawerToBeMoved
+    // const drawerToBeMovedObject = Array(drawers).filter(
+    const drawerToBeMovedObject = drawers.filter(
+      (item) => item._id == drawerToBeMoved
       // (item) => item.id == sessionStorage.getItem("DrawerToBeMoved")
     );
     // const parentDrawerObject = data["drawers"].filter(
@@ -171,7 +160,7 @@ export default function SortDrawerPage() {
       rootId: passedId,
       userId: 1,
       drawerId: passedId,
-      id: drawerToBeMovedObject[0]["id"],
+      //idd: drawerToBeMovedObject[0]["idd"],
       name: drawerToBeMovedObject[0]["name"],
       type: "drawer",
       ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
@@ -179,8 +168,7 @@ export default function SortDrawerPage() {
       level: 2,
     };
     // fetch(`http://localhost:3000/drawers/${drawerToBeMoved}`, {
-      fetch(`http://localhost:8080/api/drawers/${drawerToBeMoved}`, {
-
+    fetch(`http://localhost:8080/api/drawers/${drawerToBeMoved}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -195,46 +183,47 @@ export default function SortDrawerPage() {
   const createNewDrawer = () => {
     let dataPost = {
       // rootId: Object.values(data["drawers"]).length + 1,
-            rootId: Object.values(drawers).length + 1,
+      rootId: Object.values(drawers).length + 1,
 
       userId: 1,
       // id: Object.values(data["drawers"]).length + 1,
-            id: Object.values(drawers).length + 1,
+      // id: Object.values(drawers).length + 1,
+      // idd: drawers.length + 1,
 
       name: drawerName.toUpperCase(),
       type: "drawer",
-      "subDrawer": true,
+      subDrawer: true,
       root: true,
       level: 1,
     };
     // fetch("http://localhost:3000/drawers", {
-      fetch("http://localhost:8080/api/drawers/create", {
-
+    fetch("http://localhost:8080/api/drawers/create", {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataPost),
-    })
-      .then((response) => console.log(response.json()))
-      // .then(moveDrawerToNewDrawer(Object.values(data["drawers"]).length + 1))
-      // .then(
-      //   moveAllChildrenToNewDrawer(
-      //     drawerToBeMoved,
-      //     Object.values(data["drawers"]).length + 1
-      //   )
-      // )
-      ;
+    }).then((response) => console.log(response.json()));
+    // .then(moveDrawerToNewDrawer(Object.values(data["drawers"]).length + 1))
+    // .then(moveDrawerToNewDrawer(dataPost._id))
+
+    // .then(
+    //   moveAllChildrenToNewDrawer(
+    //     drawerToBeMoved,
+    //     Object.values(data["drawers"]).length + 1
+    //   )
+    // )
 
     // moveDrawerToNewDrawer(Object.values(data["drawers"]).length + 1);
-        moveDrawerToNewDrawer(Object.values(drawers).length + 1);
+    // moveDrawerToNewDrawer(Object.values(drawers).length + 1);
+    moveDrawerToNewDrawer(dataPost._id);
 
     moveAllChildrenToNewDrawer(
       drawerToBeMoved,
       // Object.values(data["drawers"]).length + 1
-            Object.values(drawers).length + 1
-
+      // Object.values(drawers).length + 1
+      dataPost._id
     );
   };
 
@@ -258,11 +247,9 @@ export default function SortDrawerPage() {
 
   //Using ID of drawerToBeMoved stored in sessionStorage to avoid error in case of page refresh
   // const drawerToBeMovedObj = data["drawers"].filter(
-    // const drawerToBeMovedObj = Array(drawers).filter(
-        const drawerToBeMovedObj = drawers.filter(
-
-
-    (item) => item.id == sessionStorage.getItem("drawerToBeMoved")
+  // const drawerToBeMovedObj = Array(drawers).filter(
+  const drawerToBeMovedObj = drawers.filter(
+    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
   );
   console.log("LOOK", drawerToBeMoved);
 

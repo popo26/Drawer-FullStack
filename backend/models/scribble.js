@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const scribbleSchema = new Schema({
-  rootDrawerId: { type: Number },
-  drawerId: { type: Number },
-  id: { type: Number, trim: true, required: true, unique: true },
+  rootDrawerId: { type: String },
+  drawerId: { type: String },
+  //ids: { type: Number, trim: true, required: true, unique: true },
   title: { type: String, trim: true },
   content: { type: String },
   type: { type: String, trim: true, required: true },

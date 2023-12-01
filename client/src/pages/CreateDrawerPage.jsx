@@ -20,9 +20,11 @@ const {drawers, scribbles} = useDataContext();
     let dataPost = {
       // "rootId":Object.values(data['drawers']).length + 1,
       "rootId":Object.values(drawers).length + 1,
+      // "rootId":dataPost._id,
+
       "userId": 1,
       // "id":Object.values(data['drawers']).length + 1,
-      "id":Object.values(drawers).length + 1,
+      // "idd":Object.values(drawers).length + 1,
 
       "name": drawerName.toUpperCase(),
       "type": "drawer",

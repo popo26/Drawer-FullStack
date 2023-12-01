@@ -45,14 +45,14 @@ export default function ScribbleListPage({ files }) {
   const renderedList = strayScribbles.map(
     (item) =>
       item.stray === true && (
-        <p key={item.id}>
-          <Link to={`/scribble/${item.id}`}>
+        <p key={item._id}>
+          <Link to={`/scribble/${item._id}`}>
             {item.attachment && (
               <Icon icon="ic:outline-attachment" color="lightpink" width="36" />
             )}
-            ID:{item.id}, {item.title}
+            ID:{item._id}, {item.title}
           </Link>{" "}
-          <a onClick={() => handleDelete(item.id)}>
+          <a onClick={() => handleDelete(item._id)}>
             <Icon icon="ion:trash-outline" color="black" width="20" />
           </a>
           <Icon
@@ -60,7 +60,7 @@ export default function ScribbleListPage({ files }) {
             color="black"
             width="22"
             onClick={() => {
-              navigate("/sort", { state: { id: item.id } });
+              navigate("/sort", { state: { id: item._id } });
             }}
           />
         </p>

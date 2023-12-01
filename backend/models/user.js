@@ -8,7 +8,7 @@ const userSchema = new Schema({
   password: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  userId: { type: Number, required: true}, //Forein key
+  //userId: { type: Number, required: true}, //Forein key
 });
 
 module.exports = mongoose.model("user", userSchema);

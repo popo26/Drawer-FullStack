@@ -29,7 +29,7 @@ export default function SortScribblePreviewPage() {
     let dataPost;
     // const x = data["drawers"].filter((item) => item.id == parentDrawerId);
     // const x = Array(drawers).filter((item) => item.id == parentDrawerId);
-    const x = drawers.filter((item) => item.id == parentDrawerId);
+    const x = drawers.filter((item) => item._id == parentDrawerId);
 
     //Something wrong with here
     // console.log("x[0][drawerId]", x[0]["drawerId"]);
@@ -80,7 +80,7 @@ export default function SortScribblePreviewPage() {
     // const scribbleObject = data["scribbles"].filter(
     // const scribbleObject = Array(scribbles).filter(
     const scribbleObject = scribbles.filter(
-      (item) => item.id == selectedScribbleId
+      (item) => item._id == selectedScribbleId
     );
 
     // const newlyCreatedDrawerObj = data["data"].filter((item)=> item.id == passedId)
@@ -88,7 +88,7 @@ export default function SortScribblePreviewPage() {
     // const newlyCreatedDrawerObj = data["drawers"].filter(
     // const newlyCreatedDrawerObj = Array(drawers).filter(
     const newlyCreatedDrawerObj = drawers.filter(
-      (item) => item.id == state.selectedDrawerId
+      (item) => item._id == state.selectedDrawerId
     );
     //console.log("scribble length: ", Object.values(data["scribbles"]).length);
     let dataPost = {
@@ -99,7 +99,7 @@ export default function SortScribblePreviewPage() {
       title: scribbleObject[0]["title"],
       content: scribbleObject[0]["content"],
       type: "scribble",
-      id: state.selectedScribbleId,
+      //ids: state.selectedScribbleId,
       stray: false,
       // level:parentDrawerObject[0]["level"]+1,
       level: selectedDrawerLevel,
@@ -124,7 +124,7 @@ export default function SortScribblePreviewPage() {
     // const selectedDrawerObject = data["drawers"].filter(
     // const selectedDrawerObject = Array(drawers).filter(
     const selectedDrawerObject = drawers.filter(
-      (item) => item.id == state.selectedDrawerId
+      (item) => item._id == state.selectedDrawerId
     );
 
     let dataPost = {
@@ -132,14 +132,16 @@ export default function SortScribblePreviewPage() {
       // rootId: data["drawers"][state.selectedDrawerId]["rootId"],
       userId: 1,
       // id: Object.values(data["drawers"]).length + 1,
-      id: Object.values(drawers).length + 1,
+      // id: Object.values(drawers).length + 1,
+      //idd: drawers.length + 1,
+
 
       name: newSubDrawerName,
       type: "drawer",
       // "subDrawer": false,
       subDrawer: selectedDrawerObject[0]["subDrawer"],
       // drawerId: state.selectedDrawerId,
-      drawerId: selectedDrawerObject[0]["id"],
+      drawerId: selectedDrawerObject[0]["_id"],
       root: false,
       // level:Object.values(data["drawers"])[state.selectedDrawerId]["level"],
       level: selectedDrawerObject[0]["level"] + 1,
@@ -160,7 +162,11 @@ export default function SortScribblePreviewPage() {
 
     addScribbleToNewSubDrawer(
       // Object.values(data["drawers"]).length + 1,
-      Object.values(drawers).length + 1,
+      // Object.values(drawers).length + 1,
+      // drawers.length + 1,
+      dataPost._id,
+
+
 
       selectedDrawerObject[0]["level"] + 1
     );
@@ -178,7 +184,7 @@ export default function SortScribblePreviewPage() {
     // const selectedDrawerObject = data["drawers"].filter(
     // const selectedDrawerObject = Array(drawers).filter(
     const selectedDrawerObject = drawers.filter(
-      (item) => item.id == state.selectedDrawerId
+      (item) => item._id == state.selectedDrawerId
     );
     addScribbleToNewSubDrawer(
       state.selectedDrawerId,
@@ -198,9 +204,9 @@ export default function SortScribblePreviewPage() {
   // const renderedList = Array(drawers)
   const renderedList = drawers
 
-    .filter((item) => item.id == state.selectedDrawerId)
+    .filter((item) => item._id == state.selectedDrawerId)
     .map((item) => (
-      <h4 className="sort-preview-drawer" key={item.id}>
+      <h4 className="sort-preview-drawer" key={item._id}>
         {item.name}
       </h4>
     ));
@@ -210,13 +216,13 @@ export default function SortScribblePreviewPage() {
     // return Array(scribbles)
     return scribbles
 
-      .filter((scrb) => scrb.drawerId == x[0].id)
+      .filter((scrb) => scrb.drawerId == x[0]._id)
       .map((scrb) => (
         <p
-          key={scrb.id}
+          key={scrb._id}
           className={"sort-preview-scribbles scrb-indent" + scrb.level}
         >
-          ID:{scrb.id}:{scrb.title}
+          ID:{scrb._id}:{scrb.title}
           <span>-- [scribble]</span>
         </p>
       ));
@@ -227,13 +233,13 @@ export default function SortScribblePreviewPage() {
     // return Array(drawers)
     return drawers
 
-      .filter((sub) => sub.drawerId == x[0].id)
+      .filter((sub) => sub.drawerId == x[0]._id)
       .map((sub) => (
         <p
-          key={sub.id}
+          key={sub._id}
           className={"sort-preview-subDrawers indent-" + sub.level}
         >
-          ID:{sub.id}:{sub.name}
+          ID:{sub._id}:{sub.name}
           <span>-- [Sub-Drawer]</span>
         </p>
       ));
@@ -242,7 +248,7 @@ export default function SortScribblePreviewPage() {
   const FindSubDrawers = () => {
     // const x = data["drawers"].filter(
     // const x = Array(drawers).filter(
-    const x = drawers.filter((item) => item.id == state.selectedDrawerId);
+    const x = drawers.filter((item) => item._id == state.selectedDrawerId);
     const renderedChildren =
       x[0]["sub-drawer"] === true ? (
         <>

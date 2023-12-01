@@ -55,7 +55,7 @@ const {drawers, scribbles} = useDataContext();
   // for (let x of data["scribbles"]) {
     for (let x of scribbles) {
 
-    if (x.id == id) {
+    if (x._id == id) {
       //console.log(x)
       scribbleData = x;
     }
@@ -84,7 +84,7 @@ const {drawers, scribbles} = useDataContext();
         const scribbleToBeDeleted = scribbles.filter(
 
 
-      (item) => item.id == id
+      (item) => item._id == id
     );
     console.log("stray", scribbleToBeDeleted);
     scribbleToBeDeleted[0].stray == true
@@ -95,7 +95,7 @@ const {drawers, scribbles} = useDataContext();
   const deleteAttachment = (id, blob) => {
     // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
     // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
-    const selectedScribble = scribbles.filter((item) => item.id == id);
+    const selectedScribble = scribbles.filter((item) => item._id == id);
 
 
     const newAttachments = selectedScribble[0].files.filter(
@@ -115,7 +115,7 @@ const {drawers, scribbles} = useDataContext();
     }
     let dataPost = {
       userId: 1,
-      id: id,
+      //_id: id,
       title: selectedScribble[0].title,
       type: "scribble",
       content: selectedScribble[0].content,
@@ -147,7 +147,7 @@ const {drawers, scribbles} = useDataContext();
                 const currentAttachemnts = scribbles.filter(
 
 
-      (item) => item.id == id
+      (item) => item._id == id
     ).files;
     // const newAttachments = currentAttachments.filter((item) => item.preview != blob);
     // setFiles(newFiles);
@@ -155,7 +155,7 @@ const {drawers, scribbles} = useDataContext();
       "Delete clicked",
       // data["scribbles"].filter((item) => item.id == id)[0].files
             // Array(scribbles).filter((item) => item.id == id)[0].files
-                        scribbles.filter((item) => item.id == id)[0].files
+                        scribbles.filter((item) => item._id == id)[0].files
 
 
     );
@@ -201,7 +201,7 @@ const {drawers, scribbles} = useDataContext();
                 return scribbles
 
 
-      .find((item) => item.id == id)
+      .find((item) => item._id == id)
       .files.map((file) => (
         <div style={thumb} key={file.preview}>
           <div style={thumbInner}>
@@ -232,7 +232,7 @@ const {drawers, scribbles} = useDataContext();
                 const scribbleContentToBeUpdated = scribbles.filter(
 
 
-      (item) => item.id == id
+      (item) => item._id == id
     );
 
     const newContent = body.current.innerHTML;
@@ -242,7 +242,7 @@ const {drawers, scribbles} = useDataContext();
       rootDrawerId: scribbleContentToBeUpdated[0]["rootDrawerId"],
       userId: 1,
       drawerId: scribbleContentToBeUpdated[0]["drawerId"],
-      id: id,
+      //_id: id,
       title: scribbleContentToBeUpdated[0]["title"],
       type: "scribble",
       content: newContent,
@@ -310,7 +310,7 @@ const {drawers, scribbles} = useDataContext();
   // html string
   // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
     // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
-        const selectedScribble = scribbles.filter((item) => item.id == id);
+        const selectedScribble = scribbles.filter((item) => item._id == id);
 
 
   const htmlStr = selectedScribble[0].content;
@@ -328,7 +328,7 @@ const {drawers, scribbles} = useDataContext();
   useEffect(() => {
     // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
         // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
-                const selectedScribble = scribbles.filter((item) => item.id == id);
+                const selectedScribble = scribbles.filter((item) => item._id == id);
 
 
     setSecreenshots(selectedScribble[0].content);
@@ -341,7 +341,7 @@ const {drawers, scribbles} = useDataContext();
 
       <div>
         <h2>
-          {scribbleData.id}, {scribbleData.title}
+          {scribbleData._id}, {scribbleData.title}
         </h2>
 
         {/* <section id="content">{decodedHTML}</section> */}
@@ -381,7 +381,7 @@ const {drawers, scribbles} = useDataContext();
           icon="ion:trash-outline"
           color="black"
           width="30"
-          onClick={() => handleDelete(scribbleData.id)}
+          onClick={() => handleDelete(scribbleData.ids)}
         />
 
         <Icon

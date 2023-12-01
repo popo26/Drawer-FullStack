@@ -65,10 +65,10 @@ export default function AccordionItem({
       {/* NEED TO CHECK BEHAVIOUR - OPEN&CLOSE */}
       <div
         className="AccordionItem"
-        key={item.id}
+        key={item._id}
         onClick={() => {
-          console.log("Itemmmm id", item.id);
-          handleExpand(item.id);
+          console.log("Itemmmm id", item._id);
+          handleExpand(item._id);
         }}
        
       >
@@ -78,7 +78,7 @@ export default function AccordionItem({
               {item.name} {triangle}
             </h1>
             <div className="drawer-icon">
-              <Link to={`/drawer-list/${item.id}`}>
+              <Link to={`/drawer-list/${item._id}`}>
                 <Icon
                   icon="mingcute:drawer-line"
                   color="black"
@@ -95,16 +95,16 @@ export default function AccordionItem({
               <div>
                 <div className="no-subfolder">
                   {/* {findScribbles(item.id, data["scribbles"])} */}
-                  {findScribbles(item.id, scribbles)}
+                  {findScribbles(item._id, scribbles)}
 
                 </div>
                 {/* <div>{findSubDrawers(item.id, Array(data["drawers"]))}</div> */}
-                <div>{findSubDrawers(item.id, Array(drawers))}</div>
+                <div>{findSubDrawers(item._id, drawers)}</div>
 
               </div>
             ) : (
               // <div>{findScribbles(item.id, data["scribbles"])}</div>
-              <div>{findScribbles(item.id, scribbles)}</div>
+              <div>{findScribbles(item._id, scribbles)}</div>
 
             )
           ) : null}
