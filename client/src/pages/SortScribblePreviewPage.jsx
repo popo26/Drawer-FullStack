@@ -250,7 +250,7 @@ export default function SortScribblePreviewPage() {
     // const x = Array(drawers).filter(
     const x = drawers.filter((item) => item._id == state.selectedDrawerId);
     const renderedChildren =
-      x[0]["sub-drawer"] === true ? (
+      x[0]["subDrawer"] === true ? (
         <>
           {scribblies(x)}
           {subDrawers(x)}

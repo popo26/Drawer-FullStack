@@ -138,7 +138,7 @@ export const DataProvider = (props) => {
 
 
   // const data = { drawers: drawers, scribbles: scribbles, users: users };
-  //console.log("DRAWERS in CONTEXT", drawers);
+  console.log("DRAWERS in CONTEXT", drawers);
   console.log("SCRIBBLES in CONTEXT", scribbles);
   //console.log("USERS in CONTEXT", users);
 
