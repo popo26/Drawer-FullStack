@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import MyNavbar from "./components/MyNavbar";
@@ -10,15 +10,12 @@ import { SelectedScribbleProvider } from "./context/SelectedScribbleContext";
 import { DrawerToBeMovedContextProvider } from "./context/DrawerToBeMovedContext";
 import { DrawerNameProvider } from "./context/DrawerNameContext";
 import { useDataContext } from "./context/DataContext";
-import {getUsers, getDrawers, getScribbles} from "./utils/getData";
-
-
+import { getUsers, getDrawers, getScribbles } from "./utils/getData";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
   const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
-
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -29,18 +26,6 @@ export default function App() {
       }
     });
   };
-
-  // useEffect(()=>{
-  //   const drawersArray = getDrawers();
-  //   const scribblesArray = getScribbles();
-    
-  //   sessionStorage.setItem("drawers", JSON.stringify(drawersArray));
-  //   // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
-  //   sessionStorage.setItem("scribbles", JSON.stringify(scribblesArray))
-  //   // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
-  //   setDrawers(drawersArray);
-  //   setScribbles(scribblesArray)
-  // }, [])
 
   return (
     <>

@@ -1,64 +1,33 @@
 import AccordionItem from "./AccordionItem";
 import "../css/Accordion.css";
 import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
-//import { getDrawers, getScribbles} from "../utils/getData";
+//import { getDrawers, getScribbles } from "../utils/getData";
 
 export default function MyAccordion({
   expandedIndex,
   setExpandedIndex,
   handleExpand,
 }) {
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const { drawers, scribbles } = useDataContext();
 
   console.log("drawers in MyAccordion", drawers);
   console.log("Scribbles in MyAccordion", scribbles);
 
-  useEffect(()=>{
-    sessionStorage.setItem("drawers", JSON.stringify(drawers));
-    // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
-    sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
-    // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
-    setDrawers(drawers);
-    setScribbles(scribbles)
-  }, [])
-
+ 
   // useEffect(() => {
-  //   // setDrawers(() => {
-  //   //    sessionStorage.getItem("drawers", JSON.parse(drawers));
-  //   // });
-  //   // setScribbles(() => {
-  //   //   sessionStorage.getItem("scribbles", JSON.parse(scribbles));
-  //   // });
   //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
-  //   // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
   //   sessionStorage.setItem("scribbles", JSON.stringify(scribbles));
-  //   // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
+  //   // return () => {
+  //   //   setDrawers(JSON.parse(sessionStorage.getItem("drawers")));
+  //   //   setScribbles(JSON.parse(sessionStorage.getItem("scribbles")));
+  //   // };
   // }, []);
 
-  // useEffect(() => {
-  //   const storedDrawersState = sessionStorage.getItem("drawers");
-  //   if (storedDrawersState) {
-  //     // setDrawers(JSON.parse(storedDrawersState));
-  //     drawers = storedDrawersState;
-  //   }
-  // }, [drawers]);
-
-  // useEffect(() => {
-  //   const storedScribblesState = sessionStorage.getItem("scribbles");
-  //   if (storedScribblesState) {
-  //     // setScribbles(JSON.parse(storedScribblesState));
-  //     scribbles = storedScribblesState;
-  //   }
-  // }, [scribbles]);
-
-  // const test = sessionStorage.getItem("drawers")
-  // console.log("test", test)
-  // let sessionS;
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
   const findScribbles = (id, scribbles) => {
