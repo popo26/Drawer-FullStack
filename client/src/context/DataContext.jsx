@@ -91,6 +91,13 @@ export const DataProvider = (props) => {
   }, []);
 
   useEffect(() => {
+    const scribblesData = JSON.parse(sessionStorage.getItem("scribblesData"));
+    if (scribblesData) {
+      setDrawers(scribblesData);
+    }
+  }, []);
+
+  useEffect(() => {
     sessionStorage.setItem("drawersData", JSON.stringify(drawers));
   }, [drawers]);
 
@@ -98,13 +105,7 @@ export const DataProvider = (props) => {
     sessionStorage.setItem("scribblesData", JSON.stringify(scribbles));
   }, [scribbles]);
 
-  // Local Storage: setting & getting data
-  useEffect(() => {
-    const scribblesData = JSON.parse(sessionStorage.getItem("scribblesData"));
-    if (scribblesData) {
-      setDrawers(scribblesData);
-    }
-  }, []);
+
 
   useEffect(() => {
     fetch("http://localhost:8080/api/scribbles", {
@@ -124,31 +125,6 @@ export const DataProvider = (props) => {
       .then((json) => setDrawers(json.data));
   }, []);
 
-  // useEffect(() => {
-  //     fetch("http://localhost:8080/api/drawers", {
-  //       method: "GET",
-  //       mode: "cors",
-  //     })
-  //       .then((response) => response.json())
-  //       .then((json) => {
-  //         for (let x of json.data) {
-  //           drawersArray.push(x);
-  //         }
-  //       }).then(setDrawers((prevItems => [...prevItems, scribblesArray])));
-  //   }, []);
-
-  // useEffect(() => {
-  //     fetch("http://localhost:8080/api/scribbles", {
-  //       method: "GET",
-  //       mode: "cors",
-  //     })
-  //       .then((response) => response.json())
-  //       .then((json) => {
-  //         for (let x of json.data) {
-  //           scribblesArray.push(x);
-  //         }
-  //       }).then(setScribbles(prevItems => [...prevItems, scribblesArray]));
-  //   }, []);
 
   return (
     // <DataContext.Provider value={{ drawers, scribbles, users }}>

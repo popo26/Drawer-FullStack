@@ -17,7 +17,7 @@ export default function ScribblePage({
 }) {
   const navigate = useNavigate();
   // const data = useDataContext();
-  const {drawers, scribbles} = useDataContext();
+  const {drawers, scribbles, setScribbles} = useDataContext();
 
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
@@ -72,7 +72,9 @@ export default function ScribblePage({
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
+      .then((json)=>setScribbles((prevItems)=>[...prevItems, json.data]))
+
       .catch((error) => console.error(error.message));
   };
 
@@ -93,6 +95,10 @@ export default function ScribblePage({
   const handleSubmitScribble = () => {
     createNewScribble();
     setTempFiles([]);
+    setScribbleTitle("")
+    setContent("")
+    body.current = "";
+    navigate("/stray")
   };
 
   // const deleteAttachment = (blob) => {

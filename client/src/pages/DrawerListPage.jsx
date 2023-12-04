@@ -64,9 +64,10 @@ export default function DrawerListPage({ expandedIndex }) {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => console.log(response.json()))
-      .catch((error) => console.error(error.message));
-    deleteSubDrawers(id);
+      .then((response) => response.json())
+      .catch((error) => console.error(error.message))
+      .then(deleteSubDrawers(id));
+    
   };
 
   // // for (let x of data["drawers"]) {

@@ -13,21 +13,14 @@ export default function MyAccordion({
   setExpandedIndex,
   handleExpand,
 }) {
-  const { drawers, scribbles } = useDataContext();
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
   console.log("drawers in MyAccordion", drawers);
   console.log("Scribbles in MyAccordion", scribbles);
 
- 
-  // useEffect(() => {
-  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
-  //   sessionStorage.setItem("scribbles", JSON.stringify(scribbles));
-  //   // return () => {
-  //   //   setDrawers(JSON.parse(sessionStorage.getItem("drawers")));
-  //   //   setScribbles(JSON.parse(sessionStorage.getItem("scribbles")));
-  //   // };
-  // }, []);
-
+  useEffect(() => {
+    setDrawers(drawers);
+  }, []);
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
   const findScribbles = (id, scribbles) => {
