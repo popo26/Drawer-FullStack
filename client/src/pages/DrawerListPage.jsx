@@ -36,7 +36,7 @@ export default function DrawerListPage({ expandedIndex }) {
         const associatedScribbles = scribbles.filter(
 
 
-      (scrb) => scrb.drawerId === drawerId
+      (scrb) => scrb.drawerId == drawerId
     );
     for (let t of associatedScribbles) {
       // fetch(`http://localhost:3000/scribbles/${t.id}`, {
@@ -162,7 +162,7 @@ export default function DrawerListPage({ expandedIndex }) {
   //top
   const handleUpdateIcon = (passedIndex) => {
     setUpdateIconIndex((currentExpandedIndex) => {
-      if (currentExpandedIndex === passedIndex) {
+      if (currentExpandedIndex == passedIndex) {
         return -1;
       } else {
         return passedIndex;

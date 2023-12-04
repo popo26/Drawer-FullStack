@@ -1,110 +1,45 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect, useRef } from "react";
+import usePersistState from "../hooks/usePersistState";
+//import {getUsers, getDrawers, getScribbles} from "../utils/getData";
 
 const DataContext = createContext("");
 
-// const getDrawers = () => {
-//   fetch('http://localhost:8080/api/drawers'
-//   , {
-//     method: "GET",
-//     mode: "cors",
-//     // headers: {
-//     //   "Content-Type": "application/json",
-//     // },
-//   }
-//   )
-//     .then((response) => console.log(response.json()))
-//     .then((json) => json)
-//     .catch((error) => console.error(error.message));
-// };
-
-// const getScribbles = () => {
-//   fetch("http://localhost:8080/api/scribbles", {
-//     method: "GET",
-//     mode: "cors",
-//     // headers: {
-//     //   "Content-Type": "application/json",
-//     // },
-//   })
-//     .then((response) => console.log(response.json()))
-//     .then((json) => json)
-//     .catch((error) => console.error(error.message));
-// };
-
-// const getUsers = () => {
-//   fetch("http://localhost:8080/api/users", {
-//     method: "GET",
-//     mode: "cors",
-//     // headers: {
-//     //   "Content-Type": "application/json",
-//     // },
-//   })
-//     .then((response) => console.log(response.json()))
-//     .then((json) => json)
-//     .catch((error) => console.error(error.message));
-// };
-
-//=================================================================================================
-let drawers = [];
-let scribbles = [];
+let drawersArray = [];
+let scribblesArray = [];
 let users = [];
 
-// let drawers={};
-// let scribbles={};
-// let users={};
-
 async function getDrawers() {
-  // let obj;
-  // const response = await fetch("http://localhost:8080/api/drawers", {
-    await fetch("http://localhost:8080/api/drawers", {
+  await fetch("http://localhost:8080/api/drawers", {
     method: "GET",
     mode: "cors",
     // headers: {
     //   "Content-Type": "application/json",
     // },
   })
-  .then((response)=>response.json())
-  .then((json)=> {
-    for (let x of json.data){
-      drawers.push(x)
-    }
-  })
-  ;
-
-  // obj = await response.json();
-  // console.log("obj", obj.data);
-  // drawers.push(obj.data);
-// drawers.data = obj.data;
-
-  // console.log("array", drawerTest);
-  // return obj.data;
+    .then((response) => response.json())
+    .then((json) => {
+      for (let x of json.data) {
+        drawersArray.push(x);
+      }
+    });
 }
 
 async function getScribbles() {
   // let obj;
-  const response = await fetch("http://localhost:8080/api/scribbles", {
+  await fetch("http://localhost:8080/api/scribbles", {
     method: "GET",
     mode: "cors",
     // headers: {
     //   "Content-Type": "application/json",
     // },
   })
-  .then((response)=>response.json())
-  .then((json)=> {
-    for (let x of json.data){
-      //console.log("X is",x.title)
-      scribbles.push(x)
-    }
-  })
-  ;
-
-  // obj = await response.json();
-  // scribbles.push(obj.data);
-  // scribbles.data=obj.data;
-
-  // return obj.data;
-
-  
-
+    .then((response) => response.json())
+    .then((json) => {
+      for (let x of json.data) {
+        //console.log("X is",x.title)
+        scribblesArray.push(x);
+      }
+    });
 }
 
 async function getUsers() {
@@ -119,39 +54,96 @@ async function getUsers() {
 
   obj = await response.json();
   users.push(obj.data);
-  // users.data=obj.data;
-
-  // return obj.data;
 }
+
 getDrawers();
 getScribbles();
 getUsers();
 
-
-// const DataContext = createContext({ drawers, scribbles, users });
-
-
-
 export const DataProvider = (props) => {
-  // store the current user in state at the top level
-  //const [data, setData] = useState("");
+  // const [drawers, setDrawersState] = usePersistState('drawers', drawersArray);
+  // const [scribbles, setScribblesState] = usePersistState('scribbles', scribblesArray);
 
+  // const [drawers, setDrawers] = useState(drawersArray);
+  // const [scribbles, setScribbles] = useState(scribblesArray);
 
-  // const data = { drawers: drawers, scribbles: scribbles, users: users };
-  console.log("DRAWERS in CONTEXT", drawers);
-  console.log("SCRIBBLES in CONTEXT", scribbles);
+  const [drawers, setDrawers] = useState(() => {
+    const drawersData = sessionStorage.getItem("drawers");
+    return JSON.parse(drawersData);
+  });
+
+  const [scribbles, setScribbles] = useState(() => {
+    const scribblesData = sessionStorage.getItem("scribbles");
+    return JSON.parse(scribblesData);
+  });
+
+  const [users, setUsers] = useState(() => {
+    const usersData = sessionStorage.getItem("users");
+    return JSON.parse(usersData) ;
+  });
+
+  //DONT need?
+  // useEffect(() => {
+  //   sessionStorage.getItem("drawers", JSON.stringify(drawers));
+  //   sessionStorage.getItem("scribbles", JSON.stringify(scribbles));
+  // }, [drawers, scribbles]);
+
+  // useEffect(()=>{
+  //    setDrawers(() => {
+  //      sessionStorage.getItem("drawers", JSON.stringify(drawers));
+  //   });
+  //   setScribbles(() => {
+  //     sessionStorage.getItem("scribbles", JSON.stringify(scribbles));
+  //   });
+  // }, [])
+
+  // useEffect(() => {
+  //   setDrawers(drawersArray);
+  //   setScribbles(scribblesArray);
+  // }, []);
+
+  // setDrawersState(drawers);
+  // setScribblesState(scribbles)
+
+  // console.log("drawersState", drawers)
+
+  // useEffect(() => {
+  //   const storedDrawersState = sessionStorage.getItem("drawers");
+  //   if (storedDrawersState) {
+  //     setDrawers(JSON.parse(storedDrawersState));
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   const storedScribblesState = sessionStorage.getItem("scribbles");
+  //   if (storedScribblesState) {
+  //     setScribbles(JSON.parse(storedScribblesState));
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+
+  //   sessionStorage.setItem("drawers", JSON.stringify(drawersArray));
+  // }, []);
+
+  // useEffect(() => {
+  //   sessionStorage.setItem("scribbles", JSON.stringify(scribblesArray));
+  // }, []);
+
+  //console.log("DRAWERS in CONTEXT", drawers);
+  // console.log("SCRIBBLES in CONTEXT", scribbles);
   //console.log("USERS in CONTEXT", users);
 
-
   return (
-    <DataContext.Provider value={{ drawers, scribbles, users }}>
+    // <DataContext.Provider value={{ drawers, scribbles, users }}>
+    <DataContext.Provider
+      value={{ drawers, scribbles, users, setDrawers, setScribbles }}
+    >
       {props.children}
     </DataContext.Provider>
   );
 };
-// 3. Use the context. This custom hook allows easy access
-// of this particular context from any child component
+
 export const useDataContext = () => {
   return useContext(DataContext);
 };
-// Save as UserContext.jsx in a separate 'context' folder

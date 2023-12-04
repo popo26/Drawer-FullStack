@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import "../css/CreateDrawerPage.css";
@@ -11,7 +11,7 @@ import { useDrawerNameContext } from "../context/DrawerNameContext";
 
   const navigate = useNavigate();
 //  const data = useDataContext();
-const {drawers, scribbles} = useDataContext();
+const {drawers, scribbles, setDrawers} = useDataContext();
 
  const [drawerName, setDrawerName] = useDrawerNameContext();
   //working! POST
@@ -55,6 +55,15 @@ const {drawers, scribbles} = useDataContext();
     //console.log("Create btn clicked", value);
     createNewDrawer();
   };
+
+  // useEffect(()=>{
+  //   setDrawers(drawers)
+  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
+  //   //setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
+  //   // sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
+
+  // }, [createNewDrawer])
+
 
   return (
     <div className="CreateDrawerPage">

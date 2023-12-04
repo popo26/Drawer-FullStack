@@ -121,8 +121,8 @@ export default function SortDrawerPreviewPage() {
 
     for (let x of allDrawers) {
       if (
-        x.drawerId === parentDrawerId ||
-        (x.rootId === drawerToBeMovedObject[0]["rootId"] &&
+        x.drawerId == parentDrawerId ||
+        (x.rootId == drawerToBeMovedObject[0]["rootId"] &&
           x.level > drawerToBeMovedObject[0]["level"])
       ) {
         subDrawersToBeMoved.push(x);
@@ -159,7 +159,7 @@ export default function SortDrawerPreviewPage() {
     }
 
     for (let x of allScribbles) {
-      if (x.rootDrawerId === parentDrawerId) {
+      if (x.rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           userId: 1,

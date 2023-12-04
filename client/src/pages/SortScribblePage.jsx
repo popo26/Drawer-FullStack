@@ -123,7 +123,7 @@ export default function SortScribblePage() {
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);
     {
-      displayMessage === "Or choose from existing drawer"
+      displayMessage == "Or choose from existing drawer"
         ? setDisplayMessage("Or create new top level drawer")
         : setDisplayMessage("Or choose from existing drawer");
     }

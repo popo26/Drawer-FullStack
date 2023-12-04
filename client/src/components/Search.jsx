@@ -20,7 +20,7 @@ export default function Search() {
       for (let y in dataValues[x]) {
         //console.log(dataValues[x][y])
         if (
-          dataValues[x][y]["userId"] === 1 &&
+          dataValues[x][y]["userId"] == 1 &&
           dataValues[x][y]["type"] == "scribble" &&
           dataValues[x][y]["title"]
             .toLowerCase()

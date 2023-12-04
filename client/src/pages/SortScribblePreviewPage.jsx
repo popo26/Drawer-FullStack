@@ -268,7 +268,7 @@ export default function SortScribblePreviewPage() {
   const handleDisplay = () => {
     setSaveHereSelected(!saveHereSelected);
     {
-      displayMessage === "Or create sub-drawer"
+      displayMessage == "Or create sub-drawer"
         ? setDisplayMessage("Or save here")
         : setDisplayMessage("Or create sub-drawer");
     }

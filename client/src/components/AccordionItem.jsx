@@ -91,7 +91,7 @@ export default function AccordionItem({
         </div>
         <div>
           {isExpanded ? (
-            item["subDrawer"] === true ? (
+            item["subDrawer"] == true ? (
               <div>
                 <div className="no-subfolder">
                   {/* {findScribbles(item.id, data["scribbles"])} */}

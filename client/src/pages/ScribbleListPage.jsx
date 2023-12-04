@@ -1,16 +1,24 @@
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/ScribbleListPage.css";
 import { useDataContext } from "../context/DataContext";
 
 export default function ScribbleListPage({ files }) {
   const navigate = useNavigate();
   // const data = useDataContext();
-  const {drawers, scribbles} = useDataContext();
+  const {drawers, scribbles, setDrawers, setScribbles} = useDataContext();
 
-  // const strayScribbles = data["scribbles"];
-  // const strayScribbles = Array(scribbles);
+  
+  // useEffect(()=>{
+  //   // setDrawers(drawers);
+  //   // setScribbles(scribbles)
+  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
+  //   // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
+  //   sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
+  //   // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
+  // })
+
   const strayScribbles = scribbles;
 
 

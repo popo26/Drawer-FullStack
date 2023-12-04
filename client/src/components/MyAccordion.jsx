@@ -6,25 +6,59 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
-
+//import { getDrawers, getScribbles} from "../utils/getData";
 
 export default function MyAccordion({
   expandedIndex,
   setExpandedIndex,
   handleExpand,
 }) {
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
-  // const data = useDataContext();
-  const {drawers, scribbles} = useDataContext();
+  console.log("drawers in MyAccordion", drawers);
+  console.log("Scribbles in MyAccordion", scribbles);
 
+  useEffect(()=>{
+    sessionStorage.setItem("drawers", JSON.stringify(drawers));
+    // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
+    sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
+    // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
+    setDrawers(drawers);
+    setScribbles(scribbles)
+  }, [])
 
+  // useEffect(() => {
+  //   // setDrawers(() => {
+  //   //    sessionStorage.getItem("drawers", JSON.parse(drawers));
+  //   // });
+  //   // setScribbles(() => {
+  //   //   sessionStorage.getItem("scribbles", JSON.parse(scribbles));
+  //   // });
+  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
+  //   // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
+  //   sessionStorage.setItem("scribbles", JSON.stringify(scribbles));
+  //   // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
+  // }, []);
 
-  // console.log("drawers in MyAccordion", drawers)
-  console.log("Scribbles in MyAccordion", scribbles)
-  //console.log("Scribbles in MyAccordion Type", typeof scribbles)
+  // useEffect(() => {
+  //   const storedDrawersState = sessionStorage.getItem("drawers");
+  //   if (storedDrawersState) {
+  //     // setDrawers(JSON.parse(storedDrawersState));
+  //     drawers = storedDrawersState;
+  //   }
+  // }, [drawers]);
 
+  // useEffect(() => {
+  //   const storedScribblesState = sessionStorage.getItem("scribbles");
+  //   if (storedScribblesState) {
+  //     // setScribbles(JSON.parse(storedScribblesState));
+  //     scribbles = storedScribblesState;
+  //   }
+  // }, [scribbles]);
 
-
+  // const test = sessionStorage.getItem("drawers")
+  // console.log("test", test)
+  // let sessionS;
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
   const findScribbles = (id, scribbles) => {
@@ -40,7 +74,9 @@ export default function MyAccordion({
     }
     return scribbleArray.map((item) => (
       <Link key={item._id} to={`/scribble/${item._id}`}>
-        <p className={"individual-scribble scrb-indent"+item.level}>{item.title} </p>
+        <p className={"individual-scribble scrb-indent" + item.level}>
+          {item.title}{" "}
+        </p>
       </Link>
     ));
   };
@@ -53,18 +89,17 @@ export default function MyAccordion({
     for (let x in values) {
       for (let y in values[x]) {
         //console.log("values[x][y]", values[x][y])
-        if (values[x][y].drawerId && values[x][y].rootId==id ) {
-        // if (values[x][y].drawerId == id) {
+        if (values[x][y].drawerId && values[x][y].rootId == id) {
+          // if (values[x][y].drawerId == id) {
           // console.log("DrawerId: ", values[x][y].drawerId);
           // console.log("ID: ", values[x][y].id);
           newArray.push(values[x][y]);
         }
-      // }
+        // }
       }
     }
 
     newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
-
 
     return newArray.map((item) => {
       // const scribbleList = findScribbles(item.id, data["scribbles"]);
@@ -74,9 +109,11 @@ export default function MyAccordion({
       //console.log("Item ID", item.id)
       return (
         <div key={item._id} className="sub-drawer-div">
-          <h3 className={"sub-drawer-name indent-"+item.level}>{item.name}</h3>
+          <h3 className={"sub-drawer-name indent-" + item.level}>
+            {item.name}
+          </h3>
           <div>
-            {scribbleList.length === 0 ? (
+            {scribbleList.length == 0 ? (
               <h6 className="no-scribble">No Scribbles</h6>
             ) : (
               <div className="sub-drawer-scribble-list">{scribbleList}</div>
@@ -89,16 +126,17 @@ export default function MyAccordion({
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   // const renderedList = data["drawers"].map((item) => {
-    const renderedList = drawers.map((item) => {
-
+  const renderedList = drawers.map((item) => {
     if (!item.drawerId) {
-      const isExpanded = item._id === expandedIndex;
+      const isExpanded = item._id == expandedIndex;
       const triangle = (
-        <div className="triangle"> {isExpanded ? <GoTriangleDown /> : <GoTriangleRight />}</div>
+        <div className="triangle">
+          {" "}
+          {isExpanded ? <GoTriangleDown /> : <GoTriangleRight />}
+        </div>
       );
 
       return (
-
         <AccordionItem
           key={item._id}
           triangle={triangle}

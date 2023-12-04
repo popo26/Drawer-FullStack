@@ -110,7 +110,7 @@ export default function SortDrawerPage() {
     }
 
     for (let x of allScribbles) {
-      if (x.rootDrawerId === parentDrawerId) {
+      if (x.rootDrawerId == parentDrawerId) {
         // const linkedDrawerObj = allDrawers.filter((item)=> item.id == x.drawerId);
         // const newLevel = parseInt(linkedDrawerObj[0]['level'])+1;
 
@@ -239,7 +239,7 @@ export default function SortDrawerPage() {
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);
     {
-      displayMessage === "Or move it to existing drawer"
+      displayMessage == "Or move it to existing drawer"
         ? setDisplayMessage("Or create new top level drawer")
         : setDisplayMessage("Or move it to existing drawer");
     }

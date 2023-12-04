@@ -93,7 +93,6 @@ export default function AppRoutes({
             />
           }
         ></Route>
-        {/* TEST */}
         <Route
           path="/test"
           element={<TestPage files={files} setFiles={setFiles} />}
