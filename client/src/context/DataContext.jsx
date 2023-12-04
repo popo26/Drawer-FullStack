@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 import usePersistState from "../hooks/usePersistState";
 //import {getUsers, getDrawers, getScribbles} from "../utils/getData";
 
-const DataContext = createContext("");
+// const DataContext = createContext({drawersArray, scribblesArray});
 
 let drawersArray = [];
 let scribblesArray = [];
@@ -59,6 +59,9 @@ async function getUsers() {
 getDrawers();
 getScribbles();
 getUsers();
+
+const DataContext = createContext({drawersArray, scribblesArray});
+
 
 export const DataProvider = (props) => {
   // const [drawers, setDrawersState] = usePersistState('drawers', drawersArray);
