@@ -17,8 +17,7 @@ export default function DrawerListPage({ expandedIndex }) {
   //const [isContentEditableDisabled, setIsContentEditableDisabled] = useState(true);
   const [isContentEditable, setIsContentEditable] = useState(false);
   // const data = useDataContext();
-  const {drawers, scribbles} = useDataContext();
-
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const { selectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const text = useRef(drawerNameToEdit);
@@ -31,33 +30,30 @@ export default function DrawerListPage({ expandedIndex }) {
   // ++++++++Delete Drawer and its sub-drawers and scribbles
 
   const deleteScribbles = (drawerId) => {
-    // const associatedScribbles = data["scribbles"].filter(
-      // const associatedScribbles = Array(scribbles).filter(
-        const associatedScribbles = scribbles.filter(
-
-
+    const associatedScribbles = scribbles.filter(
       (scrb) => scrb.drawerId == drawerId
     );
     for (let t of associatedScribbles) {
-      // fetch(`http://localhost:3000/scribbles/${t.id}`, {
-        fetch(`http://localhost:8080/api/scribbles/${t._id}`, {
-
+      fetch(`http://localhost:8080/api/scribbles/${t._id}`, {
         method: "DELETE",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
       })
-        .then((response) => console.log(response.json()))
+        .then((response) => response.json())
+        .then(() => {
+          const updatedScribbles = scribbles.filter((item) => item._id != t._id);
+          setScribbles(updatedScribbles);
+        })
         .catch((error) => console.error(error.message));
     }
   };
 
   const deleteSelectedDrawer = (id) => {
+    console.log("delete ID", id);
     // console.log("drawer length: ", Object.values(data["drawers"]).length);
-    // fetch(`http://localhost:3000/drawers/${id}`, {
-      fetch(`http://localhost:8080/api/drawers/${id}`, {
-
+    fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -65,9 +61,12 @@ export default function DrawerListPage({ expandedIndex }) {
       },
     })
       .then((response) => response.json())
+      .then(() => {
+        const updatedDrawers = drawers.filter((item) => item._id != id);
+        setDrawers(updatedDrawers);
+      })
       .catch((error) => console.error(error.message))
       .then(deleteSubDrawers(id));
-    
   };
 
   // // for (let x of data["drawers"]) {
@@ -82,51 +81,48 @@ export default function DrawerListPage({ expandedIndex }) {
 
   const deleteSubDrawers = (id) => {
     // for (let x of data["drawers"]) {
-        for (let x of drawers) {
-
+    for (let x of drawers) {
       if (x.root === true) {
         //delete all rootId
         // const sameRootIdDrawers = data["drawers"].filter(
-                // const sameRootIdDrawers = Array(drawers).filter(
-                  const sameRootIdDrawers = drawers.filter(
-
-
-          (item) => item.rootId == id
-        );
+        // const sameRootIdDrawers = Array(drawers).filter(
+        const sameRootIdDrawers = drawers.filter((item) => item.rootId == id);
         for (let y of sameRootIdDrawers) {
           // fetch(`http://localhost:3000/drawers/${y.id}`, {
-            fetch(`http://localhost:8080/api/drawers/${y._id}`, {
-
+          fetch(`http://localhost:8080/api/drawers/${y._id}`, {
             method: "DELETE",
             mode: "cors",
             headers: {
               "Content-Type": "application/json",
             },
           })
-            .then((response) => console.log(response.json()))
+            .then((response) => response.json())
+            .then(() => {
+              const updatedSubDrawers = drawers.filter((item) => item._id != y._id);
+              setDrawers(updatedSubDrawers);
+            })
             .catch((error) => console.error(error.message));
           deleteScribbles(y._id);
         }
       } else if (x.root === false && x["subDrawer"] === true) {
         //delete all subdrawers whose drawerId is id
         // const subDrawers = data["drawers"].filter(
-                // const subDrawers = Array(drawers).filter(
-                                const subDrawers = drawers.filter(
-
-
-          (item) => item.drawerId == id
-        );
+        // const subDrawers = Array(drawers).filter(
+        const subDrawers = drawers.filter((item) => item.drawerId == id);
         for (let y of subDrawers) {
           // fetch(`http://localhost:3000/drawers/${y.id}`, {
-            fetch(`http://localhost:8080/api/drawers/${y._id}`, {
-
+          fetch(`http://localhost:8080/api/drawers/${y._id}`, {
             method: "DELETE",
             mode: "cors",
             headers: {
               "Content-Type": "application/json",
             },
           })
-            .then((response) => console.log(response.json()))
+            .then((response) => response.json())
+            .then(() => {
+              const updatedSubDrawers = drawers.filter((item) => item._id != y._id);
+              setDrawers(updatedSubDrawers);
+            })
             .catch((error) => console.error(error.message));
           deleteScribbles(y._id);
         }
@@ -198,9 +194,8 @@ export default function DrawerListPage({ expandedIndex }) {
     setUpdateIconIndex(clickedId);
     test(clickedId);
     // const drawerName = data["drawers"].filter((item) => item.id == clickedId);
-        // const drawerName = Array(drawers).filter((item) => item.id == clickedId);
-                const drawerName = drawers.filter((item) => item._id == clickedId);
-
+    // const drawerName = Array(drawers).filter((item) => item.id == clickedId);
+    const drawerName = drawers.filter((item) => item._id == clickedId);
 
     setDrawerNameToEdit(drawerName[0]["name"]);
     setDrawerIdToEdit(drawerName[0]["idd"]);
@@ -292,7 +287,7 @@ export default function DrawerListPage({ expandedIndex }) {
 
       return newArray.map((item) => {
         // const scribbleList = findScribbles(item.id, data["scribbles"]);
-                const scribbleList = findScribbles(item._id, scribbles);
+        const scribbleList = findScribbles(item._id, scribbles);
 
         return (
           <div key={item._id} className="sub-drawer-header">
@@ -405,10 +400,8 @@ export default function DrawerListPage({ expandedIndex }) {
   ///////++++++++Update Drawer Name in DB+++++++++++++
   const updateDrawerName = (id) => {
     // const drawerToBeUpdated = data["drawers"].filter((item) => item.id == id);
-        // const drawerToBeUpdated = Array(drawers).filter((item) => item.id == id);
-                const drawerToBeUpdated = drawers.filter((item) => item._id == id);
-
-
+    // const drawerToBeUpdated = Array(drawers).filter((item) => item.id == id);
+    const drawerToBeUpdated = drawers.filter((item) => item._id == id);
 
     //setDrawerIdToEdit(id)
     const newName = text.current.innerText;
@@ -431,8 +424,7 @@ export default function DrawerListPage({ expandedIndex }) {
       level: drawerToBeUpdated[0]["level"],
     };
     // fetch(`http://localhost:3000/drawers/${id}`, {
-      fetch(`http://localhost:8080/api/drawers/${id}`, {
-
+    fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -447,10 +439,8 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   // const renderedList = data["drawers"].map((item) => {
-    // const renderedList = Array(drawers).map((item) => {
-        const renderedList = drawers.map((item) => {
-
-
+  // const renderedList = Array(drawers).map((item) => {
+  const renderedList = drawers.map((item) => {
     if (id == item._id) {
       return (
         <div key={item._id}>
@@ -542,19 +532,15 @@ export default function DrawerListPage({ expandedIndex }) {
             <div>
               <div className="no-subfolder">
                 {/* {findScribbles(item.id, data["scribbles"])} */}
-                                {findScribbles(item._id, scribbles)}
-
+                {findScribbles(item._id, scribbles)}
               </div>
               {/* <div>{findSubDrawers(item.id, Array(data["drawers"]))} </div> */}
-                            {/* <div>{findSubDrawers(item.id, Array(drawers))} </div> */}
-                                                        <div>{findSubDrawers(item._id, drawers)} </div>
-
-
+              {/* <div>{findSubDrawers(item.id, Array(drawers))} </div> */}
+              <div>{findSubDrawers(item._id, drawers)} </div>
             </div>
           ) : (
             // <div>{findScribbles(item.id, data["scribbles"])}</div>
-                        <div>{findScribbles(item._id, scribbles)}</div>
-
+            <div>{findScribbles(item._id, scribbles)}</div>
           )}
         </div>
       );

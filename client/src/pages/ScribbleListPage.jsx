@@ -9,23 +9,12 @@ export default function ScribbleListPage({ files }) {
   // const data = useDataContext();
   const {drawers, scribbles, setDrawers, setScribbles} = useDataContext();
 
-  
-  // useEffect(()=>{
-  //   // setDrawers(drawers);
-  //   // setScribbles(scribbles)
-  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
-  //   // setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
-  //   sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
-  //   // setScribbles(sessionStorage.setItem("scribbles", JSON.stringify(scribbles)))
-  // })
-
-  const strayScribbles = scribbles;
+    const strayScribbles = scribbles;
 
 
 
   const deleteScribble = (id) => {
     // console.log("drawer length: ", Object.values(data["scribbles"]).length);
-    // fetch(`http://localhost:3000/scribbles/${id}`, {
       fetch(`http://localhost:8080/api/scribbles/${id}`, {
 
       method: "DELETE",
@@ -33,9 +22,12 @@ export default function ScribbleListPage({ files }) {
       headers: {
         "Content-Type": "application/json",
       },
-      // body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
+      .then(() => {
+        const updatedScribbles = scribbles.filter((item) => item._id != id);
+        setScribbles(updatedScribbles);
+      })
       .catch((error) => console.error(error.message));
   };
 
@@ -45,10 +37,6 @@ export default function ScribbleListPage({ files }) {
   };
 
   console.log("files length", files.length);
-
-  // const attachmentIcon = () => {
-  //   return
-  // }
 
   const renderedList = strayScribbles.map(
     (item) =>

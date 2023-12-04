@@ -6,7 +6,6 @@ import { useEffect, useState, useRef } from "react";
 import FileDrop from "../components/FileDrop";
 import { useDataContext } from "../context/DataContext";
 
-
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",
@@ -39,65 +38,50 @@ const img = {
 };
 
 // export default function PerScribblePage({ data, files, setFiles }) {
-  export default function PerScribblePage() {
-
+export default function PerScribblePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-// const data = useDataContext();
-const {drawers, scribbles} = useDataContext();
+  const { drawers, scribbles, setScribbles } = useDataContext();
 
   const body = useRef(screenshots);
 
   let scribbleData;
 
-  // for (let x of data["scribbles"]) {
-    for (let x of scribbles) {
-
+  for (let x of scribbles) {
     if (x._id == id) {
-      //console.log(x)
       scribbleData = x;
     }
   }
 
   const deleteScribble = (id) => {
     // console.log("drawer length: ", Object.values(data["scribbles"]).length);
-    // fetch(`http://localhost:3000/scribbles/${id}`, {
-      fetch(`http://localhost:8080/api/scribbles/${id}`, {
-
+    fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
+      .then(() => {
+        const updatedScribbles = scribbles.filter((item) => item._id != id);
+        setScribbles(updatedScribbles);
+      })
       .catch((error) => console.error(error.message));
   };
 
   const handleDelete = (id) => {
     alert(`Are you sure to delete this scribble? -ID:${id}`);
     deleteScribble(id);
-    // const scribbleToBeDeleted = data["scribbles"].filter(
-      // const scribbleToBeDeleted = Array(scribbles).filter(
-        const scribbleToBeDeleted = scribbles.filter(
-
-
-      (item) => item._id == id
-    );
+    const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
     console.log("stray", scribbleToBeDeleted);
-    scribbleToBeDeleted[0].stray == true
-      ? navigate("/stray")
-      : navigate("/");
+    scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
   };
 
   const deleteAttachment = (id, blob) => {
-    // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
-    // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
     const selectedScribble = scribbles.filter((item) => item._id == id);
-
-
     const newAttachments = selectedScribble[0].files.filter(
       (item) => item.preview != blob
     );
@@ -126,8 +110,7 @@ const {drawers, scribbles} = useDataContext();
       files: filesInfo,
     };
     // fetch(`http://localhost:3000/scribbles/${id}`, {
-      fetch(`http://localhost:8080/api/scribbles/${id}`, {
-
+    fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -143,21 +126,15 @@ const {drawers, scribbles} = useDataContext();
     //e.stopPropagation();
     // console.log("current files", files);
     // const currentAttachemnts = data["scribbles"].filter(
-        // const currentAttachemnts = Array(scribbles).filter(
-                const currentAttachemnts = scribbles.filter(
-
-
-      (item) => item._id == id
-    ).files;
+    // const currentAttachemnts = Array(scribbles).filter(
+    const currentAttachemnts = scribbles.filter((item) => item._id == id).files;
     // const newAttachments = currentAttachments.filter((item) => item.preview != blob);
     // setFiles(newFiles);
     console.log(
       "Delete clicked",
       // data["scribbles"].filter((item) => item.id == id)[0].files
-            // Array(scribbles).filter((item) => item.id == id)[0].files
-                        scribbles.filter((item) => item._id == id)[0].files
-
-
+      // Array(scribbles).filter((item) => item.id == id)[0].files
+      scribbles.filter((item) => item._id == id)[0].files
     );
     deleteAttachment(id, blob);
   };
@@ -197,9 +174,8 @@ const {drawers, scribbles} = useDataContext();
 
   const thumbs = () => {
     // return data["scribbles"]
-        // return Array(scribbles)
-                return scribbles
-
+    // return Array(scribbles)
+    return scribbles
 
       .find((item) => item._id == id)
       .files.map((file) => (
@@ -228,10 +204,8 @@ const {drawers, scribbles} = useDataContext();
 
   const updateContent = () => {
     // const scribbleContentToBeUpdated = data["scribbles"].filter(
-        // const scribbleContentToBeUpdated = Array(scribbles).filter(
-                const scribbleContentToBeUpdated = scribbles.filter(
-
-
+    // const scribbleContentToBeUpdated = Array(scribbles).filter(
+    const scribbleContentToBeUpdated = scribbles.filter(
       (item) => item._id == id
     );
 
@@ -251,8 +225,7 @@ const {drawers, scribbles} = useDataContext();
       files: scribbleContentToBeUpdated[0]["files"],
     };
     // fetch(`http://localhost:3000/scribbles/${id}`, {
-      fetch(`http://localhost:8080/api/scribbles/${id}`, {
-
+    fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -268,7 +241,7 @@ const {drawers, scribbles} = useDataContext();
 
   const update = () => {
     updateContent();
-    setIsEditable(false)
+    setIsEditable(false);
   };
 
   //console.log("fffilesPerScribble", files)
@@ -309,9 +282,8 @@ const {drawers, scribbles} = useDataContext();
 
   // html string
   // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
-    // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
-        const selectedScribble = scribbles.filter((item) => item._id == id);
-
+  // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
+  const selectedScribble = scribbles.filter((item) => item._id == id);
 
   const htmlStr = selectedScribble[0].content;
 
@@ -327,9 +299,8 @@ const {drawers, scribbles} = useDataContext();
   //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
     // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
-        // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
-                const selectedScribble = scribbles.filter((item) => item._id == id);
-
+    // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
+    const selectedScribble = scribbles.filter((item) => item._id == id);
 
     setSecreenshots(selectedScribble[0].content);
     return () => setSecreenshots([]);
