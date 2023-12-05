@@ -44,27 +44,18 @@ export default function SortDrawerPage() {
 
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     console.log("PUT - move Children");
-    // const drawerToBeMovedObject = data["drawers"].filter(
-    // const drawerToBeMovedObject = Array(drawers).filter(
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
     );
 
-    // const newTopLevelDrawerObject = data["drawers"].filter(
-    // const newTopLevelDrawerObject = Array(drawers).filter(
     const newTopLevelDrawerObject = drawers.filter(
       (item) => item._id == newTopLevelDrawerId
     );
 
-    const allDrawers = drawers;
-    const allScribbles = scribbles;
-
     let subDrawersToBeMoved = [];
-    for (let x of allDrawers) {
+    for (let x of drawers) {
       if (
         x.drawerId == parentDrawerId ||
-        // (x.rootId === drawerToBeMovedObject[0]["rootId"] &&
-        //   x.level > drawerToBeMovedObject[0]["level"])
         (x.rootId == drawerToBeMoved && x.level > 1)
       ) {
         subDrawersToBeMoved.push(x);
@@ -78,7 +69,6 @@ export default function SortDrawerPage() {
           rootId: newTopLevelDrawerId,
           userId: 1,
           drawerId: x.drawerId,
-          //idd: x.idd,
           name: x.name,
           type: "drawer",
           ["subDrawer"]: x["subDrawer"],
@@ -89,7 +79,6 @@ export default function SortDrawerPage() {
           // level: drawerToBeMovedObj[0]['level'] - subDrawersToBeMoved.indexOf(x),
         };
 
-        // fetch(`http://localhost:3000/drawers/${x.id}`, {
         fetch(`http://localhost:8080/api/drawers/${x._id}`, {
           method: "PUT",
           mode: "cors",
@@ -103,17 +92,12 @@ export default function SortDrawerPage() {
       }
     }
 
-    for (let x of allScribbles) {
+    for (let x of scribbles) {
       if (x.rootDrawerId == parentDrawerId) {
-        // const linkedDrawerObj = allDrawers.filter((item)=> item.id == x.drawerId);
-        // const newLevel = parseInt(linkedDrawerObj[0]['level'])+1;
-
-        // console.log("NewLEVEL!!!!!!!!!!!!!!!!!!!!!!!!!!", newLevel)
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           userId: 1,
           drawerId: x.drawerId,
-          //ids: x.ids,
           title: x.title,
           content: x.content,
           type: "scribble",
@@ -123,7 +107,6 @@ export default function SortDrawerPage() {
           // level: parseInt(linkedDrawerObj[0]['level'])+1,
           // level:newLevel,
         };
-        // fetch(`http://localhost:3000/scribbles/${x.id}`, {
         fetch(`http://localhost:8080/api/scribbles/${x._id}`, {
           method: "PUT",
           mode: "cors",
@@ -141,27 +124,20 @@ export default function SortDrawerPage() {
   console.log("drawerToBeMoved");
 
   const moveDrawerToNewDrawer = (passedId) => {
-    // const drawerToBeMovedObject = data["drawers"].filter(
-    // const drawerToBeMovedObject = Array(drawers).filter(
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == drawerToBeMoved
       // (item) => item.id == sessionStorage.getItem("DrawerToBeMoved")
     );
-    // const parentDrawerObject = data["drawers"].filter(
-    //   (item) => item.id == passedId
-    // );
     let dataPost = {
       rootId: passedId,
       userId: 1,
       drawerId: passedId,
-      //idd: drawerToBeMovedObject[0]["idd"],
       name: drawerToBeMovedObject[0]["name"],
       type: "drawer",
       ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
       root: false,
       level: 2,
     };
-    // fetch(`http://localhost:3000/drawers/${drawerToBeMoved}`, {
     fetch(`http://localhost:8080/api/drawers/${drawerToBeMoved}`, {
       method: "PUT",
       mode: "cors",
@@ -176,21 +152,14 @@ export default function SortDrawerPage() {
 
   const createNewDrawer = () => {
     let dataPost = {
-      // rootId: Object.values(data["drawers"]).length + 1,
-      rootId: Object.values(drawers).length + 1,
-
+      rootId: drawers.length + 1,
       userId: 1,
-      // id: Object.values(data["drawers"]).length + 1,
-      // id: Object.values(drawers).length + 1,
-      // idd: drawers.length + 1,
-
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: true,
       root: true,
       level: 1,
     };
-    // fetch("http://localhost:3000/drawers", {
     fetch("http://localhost:8080/api/drawers/create", {
       method: "POST",
       mode: "cors",
@@ -199,26 +168,9 @@ export default function SortDrawerPage() {
       },
       body: JSON.stringify(dataPost),
     }).then((response) => console.log(response.json()));
-    // .then(moveDrawerToNewDrawer(Object.values(data["drawers"]).length + 1))
-    // .then(moveDrawerToNewDrawer(dataPost._id))
 
-    // .then(
-    //   moveAllChildrenToNewDrawer(
-    //     drawerToBeMoved,
-    //     Object.values(data["drawers"]).length + 1
-    //   )
-    // )
-
-    // moveDrawerToNewDrawer(Object.values(data["drawers"]).length + 1);
-    // moveDrawerToNewDrawer(Object.values(drawers).length + 1);
     moveDrawerToNewDrawer(dataPost._id);
-
-    moveAllChildrenToNewDrawer(
-      drawerToBeMoved,
-      // Object.values(data["drawers"]).length + 1
-      // Object.values(drawers).length + 1
-      dataPost._id
-    );
+    moveAllChildrenToNewDrawer(drawerToBeMoved, dataPost._id);
   };
 
   const handleChange = (value) => {
@@ -240,8 +192,6 @@ export default function SortDrawerPage() {
   };
 
   //Using ID of drawerToBeMoved stored in sessionStorage to avoid error in case of page refresh
-  // const drawerToBeMovedObj = data["drawers"].filter(
-  // const drawerToBeMovedObj = Array(drawers).filter(
   const drawerToBeMovedObj = drawers.filter(
     (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
   );
@@ -282,11 +232,7 @@ export default function SortDrawerPage() {
       {!newDrawerNameFieldSelected && (
         <>
           <div>
-            <MyDropdown
-            // data={data}
-            // selectedDrawerId={selectedDrawerId}
-            // setSelectedDrawerId={setSelectedDrawerId}
-            />
+            <MyDropdown />
           </div>
           <Button
             variant="success"

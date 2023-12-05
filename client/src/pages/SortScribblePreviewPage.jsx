@@ -99,13 +99,12 @@ export default function SortScribblePreviewPage() {
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
- console.log("parent folder RootID", selectedDrawerObject[0]["rootId"])
+    console.log("parent folder RootID", selectedDrawerObject[0]["rootId"]);
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
       userId: 1,
       name: newSubDrawerName.toUpperCase(),
       type: "drawer",
-      // subDrawer: selectedDrawerObject[0]["subDrawer"],
       subDrawer: "false",
       drawerId: selectedDrawerObject[0]["_id"],
       root: false,
@@ -122,7 +121,7 @@ export default function SortScribblePreviewPage() {
       .then((response) => response.json())
       .then((json) => {
         setDrawers((prevItems) => [...prevItems, json.data]);
-        console.log("JSON ID", json.data._id)
+        console.log("JSON ID", json.data._id);
         addScribbleToNewSubDrawer(
           json.data._id,
           selectedDrawerObject[0]["level"] + 1
@@ -133,14 +132,14 @@ export default function SortScribblePreviewPage() {
   };
 
   const handleSaveHere = () => {
-    const selectedDrawerObject = drawers.filter(
+    const screateNewSubDrawerelectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
     addScribbleToNewSubDrawer(
       state.selectedDrawerId,
       selectedDrawerObject[0]["level"]
     );
-    navigate("/")
+    navigate("/");
   };
 
   const handleChange = (value) => {
