@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 
 // add to ErrorMessage.jsx
 function ErrorMessage({ error, resetErrorBoundary }) {
@@ -13,10 +13,17 @@ function ErrorMessage({ error, resetErrorBoundary }) {
     <div className="ErrorMessage">
       <p>An error occurred:</p>
       <pre>{error.message}</pre>
-      <Button variant="warning" onClick={() => resetErrorBoundary()}>Try Again?</Button>
+      <Button variant="warning" onClick={() => resetErrorBoundary()}>
+        Try Again?
+      </Button>
+      <br />
+      <br />
+      {/* <Button variant="dark" onClick={() => navigate("/")}>Home</Button> */}
+      <Link to="/">Home</Link>
+
       <div>
         <Icon
-        className="back-btn"
+          className="back-btn"
           icon="icon-park-outline:back"
           color="black"
           width="50"

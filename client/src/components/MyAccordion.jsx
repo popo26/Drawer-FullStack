@@ -46,7 +46,7 @@ export default function MyAccordion({
   const findSubDrawers = (id) => {
     let newArray = [];
     for (let x in drawers) {
-      console.log(drawers[x]);
+      //console.log(drawers[x]);
       if (drawers[x].drawerId && drawers[x].rootId == id) {
         newArray.push(drawers[x]);
       }

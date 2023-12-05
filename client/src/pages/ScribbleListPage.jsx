@@ -14,7 +14,6 @@ export default function ScribbleListPage({ files }) {
 
 
   const deleteScribble = (id) => {
-    // console.log("drawer length: ", Object.values(data["scribbles"]).length);
       fetch(`http://localhost:8080/api/scribbles/${id}`, {
 
       method: "DELETE",
@@ -36,7 +35,7 @@ export default function ScribbleListPage({ files }) {
     deleteScribble(id);
   };
 
-  console.log("files length", files.length);
+  //console.log("files length", files.length);
 
   const renderedList = strayScribbles.map(
     (item) =>

@@ -56,7 +56,6 @@ export default function PerScribblePage() {
   }
 
   const deleteScribble = (id) => {
-    // console.log("drawer length: ", Object.values(data["scribbles"]).length);
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "DELETE",
       mode: "cors",
@@ -76,7 +75,6 @@ export default function PerScribblePage() {
     alert(`Are you sure to delete this scribble? -ID:${id}`);
     deleteScribble(id);
     const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-    console.log("stray", scribbleToBeDeleted);
     scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
   };
 
@@ -99,7 +97,6 @@ export default function PerScribblePage() {
     }
     let dataPost = {
       userId: 1,
-      //_id: id,
       title: selectedScribble[0].title,
       type: "scribble",
       content: selectedScribble[0].content,
@@ -109,7 +106,6 @@ export default function PerScribblePage() {
         filesInfo.length === 0 ? false : selectedScribble[0].attachment,
       files: filesInfo,
     };
-    // fetch(`http://localhost:3000/scribbles/${id}`, {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
       mode: "cors",
@@ -352,7 +348,7 @@ export default function PerScribblePage() {
           icon="ion:trash-outline"
           color="black"
           width="30"
-          onClick={() => handleDelete(scribbleData.ids)}
+          onClick={() => handleDelete(scribbleData._id)}
         />
 
         <Icon

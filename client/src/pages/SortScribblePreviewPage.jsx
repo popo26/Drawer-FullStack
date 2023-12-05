@@ -140,7 +140,7 @@ export default function SortScribblePreviewPage() {
       state.selectedDrawerId,
       selectedDrawerObject[0]["level"]
     );
-    //navigate("/")
+    navigate("/")
   };
 
   const handleChange = (value) => {

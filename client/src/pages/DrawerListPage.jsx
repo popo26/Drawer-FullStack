@@ -16,7 +16,6 @@ export default function DrawerListPage({ expandedIndex }) {
   const [updateIconIndex, setUpdateIconIndex] = useState(-1);
   //const [isContentEditableDisabled, setIsContentEditableDisabled] = useState(true);
   const [isContentEditable, setIsContentEditable] = useState(false);
-  // const data = useDataContext();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const { selectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
@@ -43,7 +42,9 @@ export default function DrawerListPage({ expandedIndex }) {
       })
         .then((response) => response.json())
         .then(() => {
-          const updatedScribbles = scribbles.filter((item) => item._id != t._id);
+          const updatedScribbles = scribbles.filter(
+            (item) => item._id != t._id
+          );
           setScribbles(updatedScribbles);
         })
         .catch((error) => console.error(error.message));
@@ -52,7 +53,6 @@ export default function DrawerListPage({ expandedIndex }) {
 
   const deleteSelectedDrawer = (id) => {
     console.log("delete ID", id);
-    // console.log("drawer length: ", Object.values(data["drawers"]).length);
     fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "DELETE",
       mode: "cors",
@@ -69,26 +69,14 @@ export default function DrawerListPage({ expandedIndex }) {
       .then(deleteSubDrawers(id));
   };
 
-  // // for (let x of data["drawers"]) {
-  // //   if (x.root === true) {
-  // //     //delete all rootId
-  // //     console.log(x);
-  // //   } else if (x["sub-drawer"] === true) {
-  // //     //delete all subdrawers whose drawerId is id
-  // //     console.log("subdrawers");
-  // //   }
-  // // }
+ 
 
   const deleteSubDrawers = (id) => {
-    // for (let x of data["drawers"]) {
     for (let x of drawers) {
       if (x.root === true) {
         //delete all rootId
-        // const sameRootIdDrawers = data["drawers"].filter(
-        // const sameRootIdDrawers = Array(drawers).filter(
         const sameRootIdDrawers = drawers.filter((item) => item.rootId == id);
         for (let y of sameRootIdDrawers) {
-          // fetch(`http://localhost:3000/drawers/${y.id}`, {
           fetch(`http://localhost:8080/api/drawers/${y._id}`, {
             method: "DELETE",
             mode: "cors",
@@ -98,7 +86,9 @@ export default function DrawerListPage({ expandedIndex }) {
           })
             .then((response) => response.json())
             .then(() => {
-              const updatedSubDrawers = drawers.filter((item) => item._id != y._id);
+              const updatedSubDrawers = drawers.filter(
+                (item) => item._id != y._id
+              );
               setDrawers(updatedSubDrawers);
             })
             .catch((error) => console.error(error.message));
@@ -106,11 +96,8 @@ export default function DrawerListPage({ expandedIndex }) {
         }
       } else if (x.root === false && x["subDrawer"] === true) {
         //delete all subdrawers whose drawerId is id
-        // const subDrawers = data["drawers"].filter(
-        // const subDrawers = Array(drawers).filter(
         const subDrawers = drawers.filter((item) => item.drawerId == id);
         for (let y of subDrawers) {
-          // fetch(`http://localhost:3000/drawers/${y.id}`, {
           fetch(`http://localhost:8080/api/drawers/${y._id}`, {
             method: "DELETE",
             mode: "cors",
@@ -120,7 +107,9 @@ export default function DrawerListPage({ expandedIndex }) {
           })
             .then((response) => response.json())
             .then(() => {
-              const updatedSubDrawers = drawers.filter((item) => item._id != y._id);
+              const updatedSubDrawers = drawers.filter(
+                (item) => item._id != y._id
+              );
               setDrawers(updatedSubDrawers);
             })
             .catch((error) => console.error(error.message));
@@ -193,8 +182,6 @@ export default function DrawerListPage({ expandedIndex }) {
     console.log("update icon index", updateIconIndex);
     setUpdateIconIndex(clickedId);
     test(clickedId);
-    // const drawerName = data["drawers"].filter((item) => item.id == clickedId);
-    // const drawerName = Array(drawers).filter((item) => item.id == clickedId);
     const drawerName = drawers.filter((item) => item._id == clickedId);
 
     setDrawerNameToEdit(drawerName[0]["name"]);
@@ -203,17 +190,6 @@ export default function DrawerListPage({ expandedIndex }) {
       `targetDrawerId${clickedId}`
     ).innerText;
   };
-
-  // const update = (id) => {
-  //   save(id)
-  //   return()=>updateDrawerName(drawerIdToEdit);
-  // };
-
-  // const save = (id) => {
-  //   setDrawerNameToEdit(
-  //     document.getElementById(`targetDrawerId${id}`).innerText
-  //   );
-  // };
 
   const update = () => {
     updateDrawerName(drawerIdToEdit);
@@ -254,12 +230,12 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
-  const findScribbles = (id, scribbles) => {
+
+  const findScribbles = (id) => {
     let scribbleArray = [];
-    const scbs = Object.values(scribbles);
-    for (let x in scbs) {
-      if (scbs[x].drawerId == id) {
-        scribbleArray.push(scbs[x]);
+    for (let x in scribbles) {
+      if (scribbles[x].drawerId == id) {
+        scribbleArray.push(scribbles[x]);
       }
     }
     return scribbleArray.map((item) => (
@@ -270,130 +246,83 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
-  const findSubDrawers = (id, array) => {
+
+  const findSubDrawers = (id) => {
     console.log("ID", id);
     let newArray = [];
-    let values = Object.values(array);
 
-    for (let x in values) {
-      for (let y in values[x]) {
-        if (values[x][y].drawerId && values[x][y].rootId == id) {
-          //console.log("VALUE-X-Y", values[x][y])
-          newArray.push(values[x][y]);
-        }
+    for (let x in drawers) {
+      if (drawers[x].drawerId && drawers[x].rootId == id) {
+        newArray.push(drawers[x]);
       }
+    }
 
-      newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+    newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
 
-      return newArray.map((item) => {
-        // const scribbleList = findScribbles(item.id, data["scribbles"]);
-        const scribbleList = findScribbles(item._id, scribbles);
+    return newArray.map((item) => {
+      const scribbleList = findScribbles(item._id);
 
-        return (
-          <div key={item._id} className="sub-drawer-header">
-            {/* <h3 className={"sub-drawer indent-" + item.level}>
-              {item.name} */}
+      return (
+        <div key={item._id} className="sub-drawer-header">
+          <h3
+            id={`targetDrawerId${item._id}`}
+            style={{ display: "inline-block" }}
+            className={"sub-drawer indent-" + item.level}
+            onClick={() => {
+              handleSelectedDrawer(item._id);
+            }}
+            contentEditable="true"
+            // contentEditable={isContentEditable}
+            suppressContentEditableWarning={true}
+            //onChange={() => handleChange3(item.id)}
+            ref={text}
+          >
+            {item.name}
 
-            <h3
-              id={`targetDrawerId${item._id}`}
-              style={{ display: "inline-block" }}
-              className={"sub-drawer indent-" + item.level}
-              onClick={() => {
-                handleSelectedDrawer(item._id);
-              }}
-              contentEditable="true"
-              // contentEditable={isContentEditable}
-              suppressContentEditableWarning={true}
-              //onChange={() => handleChange3(item.id)}
-              ref={text}
-            >
-              {item.name}
-
-              {/* <ContentEditable
+            {/* <ContentEditable
                 onChange={onContentChange}
                 // onChange={handleChange2}
                 // html={drawerNameToEdit}
                 html={item.name}
                 // value={drawerNameToEdit}
               /> */}
-            </h3>
+          </h3>
 
-            <Icon
-              onClick={() => handleDelete(item._id)}
-              icon="ion:trash-outline"
-              color="black"
-              width="18"
-            />
-
-            {/* <Link
-                to={`/sort-preview`}
-                onClick={() => setSelectedDrawerId(item.id)}
-              > */}
-            <Icon
-              icon="mingcute:drawer-line"
-              color="black"
-              width="18"
-              onClick={() => {
-                // drawerToBeMoved = item.id;
-                // setDrawerToBeMoved(drawerToBeMoved);
-                setDrawerToBeMoved(item.idd);
-                let passingData = { selectedDrawerId, drawerToBeMoved };
-                console.log("PassingData", passingData);
-                navigate("/sort-drawer", { state: passingData });
-                // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
-                sessionStorage.setItem("drawerToBeMoved", item._id);
-              }}
-            />
-
-            {/* <button
-              onClick={() => {
-                drawerToBeMoved = item.id;
-                setDrawerToBeMoved(drawerToBeMoved);
-                let passingData = { drawerToBeMoved };
-                console.log("PassingData", passingData);
-                navigate("/sort-drawer", { state: passingData });
-              }}
+          <Icon
+            onClick={() => handleDelete(item._id)}
+            icon="ion:trash-outline"
+            color="black"
+            width="18"
+          />
+          <Icon
+            icon="mingcute:drawer-line"
+            color="black"
+            width="18"
+            onClick={() => {
+              // drawerToBeMoved = item.id;
+              // setDrawerToBeMoved(drawerToBeMoved);
+              setDrawerToBeMoved(item.idd);
+              let passingData = { selectedDrawerId, drawerToBeMoved };
+              console.log("PassingData", passingData);
+              navigate("/sort-drawer", { state: passingData });
+              // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
+              sessionStorage.setItem("drawerToBeMoved", item._id);
+            }}
+          />
+          {showUpdateIcon(item._id)}
+          {scribbleList.length === 0 ? (
+            <h6 className="no-scribble">No Scribbles</h6>
+          ) : (
+            <div
+              className={"sub-drawer-scribble-list scrb-indent" + item.level}
             >
-              <Icon icon="mingcute:drawer-line" color="black" width="12" />
-            </button> */}
-
-            {/* <Icon
-              icon="uiw:edit"
-              color="black"
-              width="22"
-              onClick={(e) => handleEdit(e, item.id)}
-            /> */}
-            {/* temp */}
-            {/* {isEditing && (
-              <Icon
-                icon="material-symbols:update"
-                color="black"
-                width="22"
-                onClick={update}
-              />
-            )} */}
-
-            {showUpdateIcon(item._id)}
-
-            {/* <button onClick={() => save(item.id)}>Save</button> */}
-            {/* </Link> */}
-            {/* </h3> */}
-            {scribbleList.length === 0 ? (
-              <h6 className="no-scribble">No Scribbles</h6>
-            ) : (
-              <div
-                className={"sub-drawer-scribble-list scrb-indent" + item.level}
-              >
-                {scribbleList}
-              </div>
-            )}
-          </div>
-        );
-      });
-    }
+              {scribbleList}
+            </div>
+          )}
+        </div>
+      );
+    });
   };
-  // sessionStorage.setItem("drawerToBeMoved", 1);
-  // sessionStorage.setItem("item_key2", 1);
 
   console.log("Ref", text);
 
@@ -530,17 +459,11 @@ export default function DrawerListPage({ expandedIndex }) {
 
           {item["subDrawer"] === true ? (
             <div>
-              <div className="no-subfolder">
-                {/* {findScribbles(item.id, data["scribbles"])} */}
-                {findScribbles(item._id, scribbles)}
-              </div>
-              {/* <div>{findSubDrawers(item.id, Array(data["drawers"]))} </div> */}
-              {/* <div>{findSubDrawers(item.id, Array(drawers))} </div> */}
-              <div>{findSubDrawers(item._id, drawers)} </div>
+              <div className="no-subfolder">{findScribbles(item._id)}</div>
+              <div>{findSubDrawers(item._id)} </div>
             </div>
           ) : (
-            // <div>{findScribbles(item.id, data["scribbles"])}</div>
-            <div>{findScribbles(item._id, scribbles)}</div>
+            <div>{findScribbles(item._id)}</div>
           )}
         </div>
       );

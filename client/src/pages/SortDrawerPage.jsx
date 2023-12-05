@@ -14,8 +14,7 @@ import { useDrawerNameContext } from "../context/DrawerNameContext";
 export default function SortDrawerPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  // const data = useDataContext();
-  const { drawers, scribbles } = useDataContext();
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
@@ -57,12 +56,7 @@ export default function SortDrawerPage() {
       (item) => item._id == newTopLevelDrawerId
     );
 
-    // const allDrawers = data["drawers"];
-    // const allDrawers = Array(drawers);
     const allDrawers = drawers;
-
-    // const allScribbles = data["scribbles"];
-    // const allScribbles = Array(scribbles);
     const allScribbles = scribbles;
 
     let subDrawersToBeMoved = [];
