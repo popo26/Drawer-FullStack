@@ -19,8 +19,7 @@ export default function SortScribblePage() {
 
   const navigate = useNavigate();
   const { state } = useLocation();
-  // const data = useDataContext();
-  const { drawers, scribbles } = useDataContext();
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
@@ -39,9 +38,6 @@ export default function SortScribblePage() {
   //console.log("Sccribleid is", selectedScribbleId);
 
   const addScribbleToNewSubDrawer = (passedId) => {
-    console.log("PUT");
-    // const scribbleObject = data["scribbles"].filter(
-    // const scribbleObject = Array(scribbles).filter(
     const scribbleObject = scribbles.filter(
       (item) => item._id == selectedScribbleId
     );
@@ -53,13 +49,11 @@ export default function SortScribblePage() {
       title: scribbleObject[0]["title"],
       content: scribbleObject[0]["content"],
       type: "scribble",
-      //ids: selectedScribbleId,
       stray: false,
       level: 1,
       attachment: scribbleObject[0]["attachment"],
       files: [scribbleObject[0]["files"]],
     };
-    // fetch(`http://localhost:3000/scribbles/${selectedScribbleId}`, {
     fetch(`http://localhost:8080/api/scribbles/${selectedScribbleId}`, {
       method: "PUT",
       mode: "cors",
@@ -68,29 +62,24 @@ export default function SortScribblePage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
+      .then((json) => {
+        setScribbles((prevItems) => [...prevItems, json.data]);
+        // setDrawers(drawers)
+      })
       .catch((error) => console.error(error.message));
   };
 
   const createNewDrawer = () => {
-    // console.log("drawer length: ", Object.values(data["drawers"]).length);
     let dataPost = {
-      // rootId: Object.values(data["drawers"]).length + 1,
-      rootId: Object.values(drawers).length + 1,
-      // rootId: dataPost._id,
-
+      rootId: drawers.length + 1,
       userId: 1,
-      // id: Object.values(data["drawers"]).length + 1,
-      // id: Object.values(drawers).length + 1,
-      //idd: drawers.length + 1,
-
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,
       root: true,
       level: 1,
     };
-    // fetch("http://localhost:3000/drawers", {
     fetch("http://localhost:8080/api/drawers/create", {
       method: "POST",
       mode: "cors",
@@ -98,12 +87,13 @@ export default function SortScribblePage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataPost),
-    }).then((response) => console.log(response.json()));
-
-    // addScribbleToNewSubDrawer(Object.values(data["drawers"]).length + 1);
-    // addScribbleToNewSubDrawer(Object.values(drawers).length + 1);
-    console.log("dataPost.ID", dataPost._id)
-    addScribbleToNewSubDrawer(dataPost._id);
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        setDrawers((prevItems) => [...prevItems, json.data]);
+        addScribbleToNewSubDrawer(json.data._id);
+      })
+      .catch((error) => console.error(error.message));
   };
 
   const handleChange = (value) => {
@@ -116,6 +106,7 @@ export default function SortScribblePage() {
     console.log("Create btn clicked", value);
     createNewDrawer();
     setDrawerName("");
+    navigate("/");
   };
 
   //console.log("NewDrawerNameFieldSelected", newDrawerNameFieldSelected);

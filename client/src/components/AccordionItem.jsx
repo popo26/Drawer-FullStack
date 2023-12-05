@@ -14,8 +14,7 @@ export default function AccordionItem({
   findScribbles,
   item,
 }) {
-  // const navigate = useNavigate();
-  // const data = useDataContext();
+
   const {drawers, scribbles} = useDataContext();
 
 
@@ -67,7 +66,7 @@ export default function AccordionItem({
         className="AccordionItem"
         key={item._id}
         onClick={() => {
-          console.log("Itemmmm id", item._id);
+          //console.log("Itemmmm id", item._id);
           handleExpand(item._id);
         }}
        
@@ -94,17 +93,14 @@ export default function AccordionItem({
             item["subDrawer"] == true ? (
               <div>
                 <div className="no-subfolder">
-                  {/* {findScribbles(item.id, data["scribbles"])} */}
-                  {findScribbles(item._id, scribbles)}
+                  {findScribbles(item._id)}
 
                 </div>
-                {/* <div>{findSubDrawers(item.id, Array(data["drawers"]))}</div> */}
-                <div>{findSubDrawers(item._id, drawers)}</div>
+                <div>{findSubDrawers(item._id)}</div>
 
               </div>
             ) : (
-              // <div>{findScribbles(item.id, data["scribbles"])}</div>
-              <div>{findScribbles(item._id, scribbles)}</div>
+              <div>{findScribbles(item._id)}</div>
 
             )
           ) : null}

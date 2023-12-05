@@ -6,7 +6,6 @@ import "../css/SortPreviewPage.css";
 import MyButton from "../components/MyButton";
 import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
-//import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 
 export default function SortScribblePreviewPage() {
@@ -15,37 +14,24 @@ export default function SortScribblePreviewPage() {
   const [newSubDrawerName, setNewSubDrawerName] = useState("");
   const [saveHereSelected, setSaveHereSelected] = useState(true);
   const [displayMessage, setDisplayMessage] = useState("Or create sub-drawer");
-  // const data = useDataContext();
-  const { drawers, scribbles } = useDataContext();
-
-  // const { selectedDrawerId, handleSelectedDrawerId } =
-  //   useSelectedDrawerContext();
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId] = useSelectedScribbleContext();
 
   console.log("State", state.selectedDrawerId);
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
-    console.log("PUT2");
     let dataPost;
-    // const x = data["drawers"].filter((item) => item.id == parentDrawerId);
-    // const x = Array(drawers).filter((item) => item.id == parentDrawerId);
     const x = drawers.filter((item) => item._id == parentDrawerId);
 
     //Something wrong with here
-    // console.log("x[0][drawerId]", x[0]["drawerId"]);
     if (x[0]["drawerId"]) {
       dataPost = {
-        // rootId: parentDrawerId,
         rootId: x[0]["rootId"],
         drawerId: x[0]["drawerId"],
         userId: 1,
-        // name: "Bagger",
-        // type: "drawer",
         name: x[0]["name"],
         type: "drawer",
         ["subDrawer"]: true,
-        // level:Object.values(data["drawers"])[parentDrawerId]["level"],
-        // root:Object.values(data["drawers"])[parentDrawerId]["root"]
         level: x[0]["level"],
         root: x[0]["root"],
       };
@@ -53,7 +39,6 @@ export default function SortScribblePreviewPage() {
       dataPost = {
         rootId: parentDrawerId,
         userId: 1,
-        // name: "Bomb",
         name: x[0]["name"],
         type: "drawer",
         ["subDrawer"]: true,
@@ -62,7 +47,6 @@ export default function SortScribblePreviewPage() {
       };
     }
 
-    // fetch(`http://localhost:3000/drawers/${parentDrawerId}`, {
     fetch(`http://localhost:8080/api/drawers/${parentDrawerId}`, {
       method: "PUT",
       mode: "cors",
@@ -71,42 +55,31 @@ export default function SortScribblePreviewPage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
+      .then((json) => (prevItems) => [...prevItems, json.data])
       .catch((error) => console.error(error.message));
   };
 
   const addScribbleToNewSubDrawer = (passedId, selectedDrawerLevel) => {
-    console.log("PUT");
-    // const scribbleObject = data["scribbles"].filter(
-    // const scribbleObject = Array(scribbles).filter(
     const scribbleObject = scribbles.filter(
       (item) => item._id == selectedScribbleId
     );
 
-    // const newlyCreatedDrawerObj = data["data"].filter((item)=> item.id == passedId)
-
-    // const newlyCreatedDrawerObj = data["drawers"].filter(
-    // const newlyCreatedDrawerObj = Array(drawers).filter(
     const newlyCreatedDrawerObj = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
-    //console.log("scribble length: ", Object.values(data["scribbles"]).length);
     let dataPost = {
-      //   drawerId: Object.values(data["drawers"]).length + 1,
       rootDrawerId: newlyCreatedDrawerObj[0]["rootId"],
       drawerId: passedId,
       userId: 1,
       title: scribbleObject[0]["title"],
       content: scribbleObject[0]["content"],
       type: "scribble",
-      //ids: state.selectedScribbleId,
       stray: false,
-      // level:parentDrawerObject[0]["level"]+1,
       level: selectedDrawerLevel,
       attachment: scribbleObject[0]["attachment"],
       files: scribbleObject[0]["files"],
     };
-    // fetch(`http://localhost:3000/scribbles/${state.selectedScribbleId}`, {
     fetch(`http://localhost:8080/api/scribbles/${state.selectedScribbleId}`, {
       method: "PUT",
       mode: "cors",
@@ -115,38 +88,29 @@ export default function SortScribblePreviewPage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
+      .then((json) => {
+        setScribbles((prevItems) => [...prevItems, json.data]);
+      })
       .catch((error) => console.error(error.message));
   };
 
   const createNewSubDrawer = () => {
-    console.log("POST");
-    // const selectedDrawerObject = data["drawers"].filter(
-    // const selectedDrawerObject = Array(drawers).filter(
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
-
+ console.log("parent folder RootID", selectedDrawerObject[0]["rootId"])
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
-      // rootId: data["drawers"][state.selectedDrawerId]["rootId"],
       userId: 1,
-      // id: Object.values(data["drawers"]).length + 1,
-      // id: Object.values(drawers).length + 1,
-      //idd: drawers.length + 1,
-
-
-      name: newSubDrawerName,
+      name: newSubDrawerName.toUpperCase(),
       type: "drawer",
-      // "subDrawer": false,
-      subDrawer: selectedDrawerObject[0]["subDrawer"],
-      // drawerId: state.selectedDrawerId,
+      // subDrawer: selectedDrawerObject[0]["subDrawer"],
+      subDrawer: "false",
       drawerId: selectedDrawerObject[0]["_id"],
       root: false,
-      // level:Object.values(data["drawers"])[state.selectedDrawerId]["level"],
       level: selectedDrawerObject[0]["level"] + 1,
     };
-    // fetch("http://localhost:3000/drawers", {
     fetch("http://localhost:8080/api/drawers/create", {
       method: "POST",
       mode: "cors",
@@ -155,34 +119,20 @@ export default function SortScribblePreviewPage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => {
-        console.log(response.json());
+      .then((response) => response.json())
+      .then((json) => {
+        setDrawers((prevItems) => [...prevItems, json.data]);
+        console.log("JSON ID", json.data._id)
+        addScribbleToNewSubDrawer(
+          json.data._id,
+          selectedDrawerObject[0]["level"] + 1
+        );
       })
+      .then(() => updateParentDrawerBoolean(state.selectedDrawerId))
       .catch((error) => console.error(error.message));
-
-    addScribbleToNewSubDrawer(
-      // Object.values(data["drawers"]).length + 1,
-      // Object.values(drawers).length + 1,
-      // drawers.length + 1,
-      dataPost._id,
-
-
-
-      selectedDrawerObject[0]["level"] + 1
-    );
-    updateParentDrawerBoolean(state.selectedDrawerId);
   };
 
-  // console.log("RootId",Object.values(data["drawers"]))
-  // // console.log("Selected one",Object.values(data["drawers"])["id"] = state.selectedDrawerId)
-  // // console.log("Selected ID",state.selectedDrawerId)
-  // const u = data['drawers'].filter((item)=> item.id == state.selectedDrawerId)
-  // console.log("U id", u[0]['rootId'])
-  // console.log("length", u.length)
-
   const handleSaveHere = () => {
-    // const selectedDrawerObject = data["drawers"].filter(
-    // const selectedDrawerObject = Array(drawers).filter(
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
@@ -190,6 +140,7 @@ export default function SortScribblePreviewPage() {
       state.selectedDrawerId,
       selectedDrawerObject[0]["level"]
     );
+    //navigate("/")
   };
 
   const handleChange = (value) => {
@@ -198,10 +149,9 @@ export default function SortScribblePreviewPage() {
 
   const handleCreate = (value) => {
     createNewSubDrawer();
+    navigate("/");
   };
 
-  // const renderedList = data["drawers"]
-  // const renderedList = Array(drawers)
   const renderedList = drawers
 
     .filter((item) => item._id == state.selectedDrawerId)
@@ -212,10 +162,7 @@ export default function SortScribblePreviewPage() {
     ));
 
   const scribblies = (x) => {
-    // return data["scribbles"]
-    // return Array(scribbles)
     return scribbles
-
       .filter((scrb) => scrb.drawerId == x[0]._id)
       .map((scrb) => (
         <p
@@ -229,10 +176,7 @@ export default function SortScribblePreviewPage() {
   };
 
   const subDrawers = (x) => {
-    // return data["drawers"]
-    // return Array(drawers)
     return drawers
-
       .filter((sub) => sub.drawerId == x[0]._id)
       .map((sub) => (
         <p
@@ -246,9 +190,7 @@ export default function SortScribblePreviewPage() {
   };
 
   const FindSubDrawers = () => {
-    // const x = data["drawers"].filter(
-    // const x = Array(drawers).filter(
-    const x = drawers.filter((item) => item._id == state.selectedDrawerId);
+    const x = drawers?.filter((item) => item._id == state.selectedDrawerId);
     const renderedChildren =
       x[0]["subDrawer"] === true ? (
         <>
@@ -325,42 +267,3 @@ export default function SortScribblePreviewPage() {
     </div>
   );
 }
-
-//   return (
-//     <div>
-//       <p>Sort Preview - Selected Drawer ID: {state.selectedDrawerId}</p>
-//       <p>Scribble ID: {state.selectedScribbleId}</p>
-
-//       <div>{renderedList}</div>
-//       <FindSubDrawers />
-
-//       <div>
-//         <button className="btn btn-outline-success" onClick={handleSaveHere}>Save Here</button>
-//         <h6 className="sort-msg">Or create new sub-drawer</h6>
-//         <InputField
-//           type="text"
-//           name="create-new-sub-drawer"
-//           id="create-new-sub-drawer"
-//           placeholder="New sub drawer name"
-//           value={newSubDrawerName}
-//           handleNewDrawerChange={handleChange}
-//         />
-//         <br />
-//         <MyButton
-//           href={null}
-//           btnName="Create & Save"
-//           handleNewDrawerCreate={handleCreate}
-//           drawerName={newSubDrawerName}
-//         />
-//       </div>
-//       <div className="back-btn">
-//         <Icon
-//           icon="icon-park-outline:back"
-//           color="black"
-//           width="50"
-//           onClick={() => navigate(-1)}
-//         />
-//       </div>
-//     </div>
-//   );
-// }

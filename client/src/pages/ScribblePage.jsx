@@ -60,9 +60,7 @@ export default function ScribblePage({
       level: 1,
       attachment: attachmentBool,
       files: filesInfo,
-      // files:form
     };
-    // fetch("http://localhost:3000/scribbles", {
       fetch("http://localhost:8080/api/scribbles/create", {
 
       method: "POST",

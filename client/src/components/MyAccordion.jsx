@@ -15,23 +15,21 @@ export default function MyAccordion({
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
-  console.log("drawers in MyAccordion", drawers);
-  console.log("Scribbles in MyAccordion", scribbles);
+  //console.log("drawers in MyAccordion", drawers);
+  //console.log("Scribbles in MyAccordion", scribbles);
 
-  useEffect(() => {
-    setDrawers(drawers);
-  }, []);
+  // useEffect(() => {
+  //   setDrawers(drawers);
+  //   setScribbles(scribbles);
+  // }, []);
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
-  const findScribbles = (id, scribbles) => {
+
+  const findScribbles = (id) => {
     let scribbleArray = [];
-    const scbs = Object.values(scribbles);
-    //console.log(scribbles)
-    for (let x in scbs) {
-      if (scbs[x].drawerId == id) {
-        //console.log("Scribble ID, ", scbs[x].id)
-        //console.log(scbs[x])
-        scribbleArray.push(scbs[x]);
+    for (let x in scribbles) {
+      if (scribbles[x].drawerId == id) {
+        scribbleArray.push(scribbles[x]);
       }
     }
     return scribbleArray.map((item) => (
@@ -44,31 +42,21 @@ export default function MyAccordion({
   };
 
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
-  const findSubDrawers = (id, array) => {
-    let newArray = [];
-    let values = Object.values(array);
 
-    for (let x in values) {
-      for (let y in values[x]) {
-        //console.log("values[x][y]", values[x][y])
-        if (values[x][y].drawerId && values[x][y].rootId == id) {
-          // if (values[x][y].drawerId == id) {
-          // console.log("DrawerId: ", values[x][y].drawerId);
-          // console.log("ID: ", values[x][y].id);
-          newArray.push(values[x][y]);
-        }
-        // }
+  const findSubDrawers = (id) => {
+    let newArray = [];
+    for (let x in drawers) {
+      console.log(drawers[x]);
+      if (drawers[x].drawerId && drawers[x].rootId == id) {
+        newArray.push(drawers[x]);
       }
     }
 
+    //console.log("newArray", newArray)
     newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
 
     return newArray.map((item) => {
-      // const scribbleList = findScribbles(item.id, data["scribbles"]);
-      const scribbleList = findScribbles(item._id, scribbles);
-
-      //console.log(data["drawers"])
-      //console.log("Item ID", item.id)
+      const scribbleList = findScribbles(item._id);
       return (
         <div key={item._id} className="sub-drawer-div">
           <h3 className={"sub-drawer-name indent-" + item.level}>
