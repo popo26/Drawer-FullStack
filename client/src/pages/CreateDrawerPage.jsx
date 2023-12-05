@@ -8,14 +8,13 @@ import { useDrawerNameContext } from "../context/DrawerNameContext";
 
 export default function CreateDrawerPage() {
   const navigate = useNavigate();
-  //  const data = useDataContext();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
+
   //working! POST
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      //rootId:this._id,
       userId: 1,
       name: drawerName.toUpperCase(),
       type: "drawer",
@@ -32,7 +31,9 @@ export default function CreateDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json) => setDrawers((prevItems) => [...prevItems, json.data]))
+      .then((json) => {
+        setDrawers((prevItems) => [...prevItems, json.data]);
+      })
       .catch((error) => console.error(error.message));
   };
 

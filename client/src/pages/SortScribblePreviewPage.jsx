@@ -96,12 +96,18 @@ export default function SortScribblePreviewPage() {
   };
 
   const createNewSubDrawer = () => {
+    
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
+    const item = selectedDrawerObject[0]["rootId"]
+    console.log("item", item.match(/[a-z]/i))
+    //const condition = item.match(/[a-z]/i) == null ? selectedDrawerObject[0]['_id']:item
+    
     console.log("parent folder RootID", selectedDrawerObject[0]["rootId"]);
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
+      //rootId:{condition},
       userId: 1,
       name: newSubDrawerName.toUpperCase(),
       type: "drawer",
@@ -132,6 +138,10 @@ export default function SortScribblePreviewPage() {
   };
 
   const handleSaveHere = () => {
+    const selectedDrawerObject = drawers.filter(
+      (item) => item._id == state.selectedDrawerId
+    );
+
     const screateNewSubDrawerelectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );

@@ -16,4 +16,10 @@ const drawerSchema = new Schema({
 
 });
 
+// PRE MIDDLEWARE
+// drawerSchema.pre('save', function (next) {
+//   this.rootId = this._id;
+//   next();
+// })
+
 module.exports = mongoose.model("drawer", drawerSchema);

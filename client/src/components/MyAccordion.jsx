@@ -23,6 +23,8 @@ export default function MyAccordion({
   //   setScribbles(scribbles);
   // }, []);
 
+
+
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
 
   const findScribbles = (id) => {
@@ -99,6 +101,10 @@ export default function MyAccordion({
       );
     }
   });
+
+
+
+  
 
   return <div className="Accordion">{renderedList}</div>;
 }

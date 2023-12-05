@@ -71,9 +71,9 @@ import usePersistState from "../hooks/usePersistState";
 const DataContext = createContext("");
 
 export const DataProvider = (props) => {
-  let drawersArray = [];
-  let scribblesArray = [];
-  let usersArray = [];
+  // let drawersArray = [];
+  // let scribblesArray = [];
+  // let usersArray = [];
   const [drawers, setDrawers] = useState([]);
   const [scribbles, setScribbles] = useState([]);
   const [users, setUsers] = useState([]);
@@ -83,6 +83,37 @@ export const DataProvider = (props) => {
   //console.log("USERS in CONTEXT", users);
 
   // Local Storage: setting & getting data
+  const updateRootId = (drawerId) => {
+    console.log("PUT - update RootID", drawerId);
+    const newDrawerObj = drawers.filter((item) => item._id == drawerId);
+    console.log("newDrawerObj", newDrawerObj);
+    let dataPost = {
+      rootId: newDrawerObj[0]["_id"],
+    };
+    fetch(`http://localhost:8080/api/drawers/${drawerId}`, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataPost),
+    })
+      .then((response) => response.json())
+      .catch((error) => console.error(error.message));
+  };
+
+  useEffect(() => {
+    for (let x in drawers) {
+      if (
+        drawers[x]["root"] == true &&
+        drawers[x]["rootId"] != drawers[x]["_id"]
+      ) {
+        console.log("Mismatch", drawers[x]);
+        updateRootId(drawers[x]["_id"]);
+      }
+    }
+  }, [scribbles, drawers]);
+
   useEffect(() => {
     const drawersData = JSON.parse(sessionStorage.getItem("drawersData"));
     if (drawersData) {
@@ -105,8 +136,6 @@ export const DataProvider = (props) => {
     sessionStorage.setItem("scribblesData", JSON.stringify(scribbles));
   }, [scribbles]);
 
-
-
   useEffect(() => {
     fetch("http://localhost:8080/api/scribbles", {
       method: "GET",
@@ -124,7 +153,6 @@ export const DataProvider = (props) => {
       .then((response) => response.json())
       .then((json) => setDrawers(json.data));
   }, []);
-
 
   return (
     // <DataContext.Provider value={{ drawers, scribbles, users }}>

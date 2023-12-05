@@ -2,7 +2,7 @@ import { GoTriangleLeft, GoTriangleDown } from "react-icons/go";
 import "../css/AccordionItem.css";
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 
@@ -14,8 +14,8 @@ export default function AccordionItem({
   findScribbles,
   item,
 }) {
+  const { drawers, scribbles, setDrawers } = useDataContext();
 
-  const {drawers, scribbles} = useDataContext();
 
 
   return (
@@ -69,9 +69,8 @@ export default function AccordionItem({
           //console.log("Itemmmm id", item._id);
           handleExpand(item._id);
         }}
-       
       >
-        <div  >
+        <div>
           <div className="accordion-header">
             <h1>
               {item.name} {triangle}
@@ -92,16 +91,11 @@ export default function AccordionItem({
           {isExpanded ? (
             item["subDrawer"] == true ? (
               <div>
-                <div className="no-subfolder">
-                  {findScribbles(item._id)}
-
-                </div>
+                <div className="no-subfolder">{findScribbles(item._id)}</div>
                 <div>{findSubDrawers(item._id)}</div>
-
               </div>
             ) : (
               <div>{findScribbles(item._id)}</div>
-
             )
           ) : null}
         </div>
