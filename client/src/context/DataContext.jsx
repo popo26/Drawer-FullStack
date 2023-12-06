@@ -71,7 +71,6 @@ import usePersistState from "../hooks/usePersistState";
 const DataContext = createContext("");
 
 export const DataProvider = (props) => {
-
   const [drawers, setDrawers] = useState([]);
   const [scribbles, setScribbles] = useState([]);
   const [users, setUsers] = useState([]);
@@ -150,7 +149,6 @@ export const DataProvider = (props) => {
   }, [drawers]);
 
   return (
-    // <DataContext.Provider value={{ drawers, scribbles, users }}>
     <DataContext.Provider
       value={{ drawers, scribbles, users, setDrawers, setScribbles, setUsers }}
     >

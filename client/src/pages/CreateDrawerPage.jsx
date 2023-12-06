@@ -31,9 +31,9 @@ export default function CreateDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
-      })
+      // .then((json) => {
+      //   setDrawers((prevItems) => [...prevItems, json.data]);
+      // })
       .catch((error) => console.error(error.message));
   };
 

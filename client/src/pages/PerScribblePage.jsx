@@ -64,15 +64,15 @@ export default function PerScribblePage() {
       },
     })
       .then((response) => response.json())
-      .then(() => {
-        const updatedScribbles = scribbles.filter((item) => item._id != id);
-        setScribbles(updatedScribbles);
-      })
+      // .then(() => {
+      //   const updatedScribbles = scribbles.filter((item) => item._id != id);
+      //   setScribbles(updatedScribbles);
+      // })
       .catch((error) => console.error(error.message));
   };
 
   const handleDelete = (id) => {
-    alert(`Are you sure to delete this scribble? -ID:${id}`);
+    confirm(`Are you sure to delete this scribble? -ID:${id}`);
     deleteScribble(id);
     const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
     scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
@@ -114,22 +114,18 @@ export default function PerScribblePage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
       .catch((error) => console.error(error.message));
   };
 
   const handleDeleteAttachment = (e, blob) => {
     //e.stopPropagation();
     // console.log("current files", files);
-    // const currentAttachemnts = data["scribbles"].filter(
-    // const currentAttachemnts = Array(scribbles).filter(
     const currentAttachemnts = scribbles.filter((item) => item._id == id).files;
     // const newAttachments = currentAttachments.filter((item) => item.preview != blob);
     // setFiles(newFiles);
     console.log(
       "Delete clicked",
-      // data["scribbles"].filter((item) => item.id == id)[0].files
-      // Array(scribbles).filter((item) => item.id == id)[0].files
       scribbles.filter((item) => item._id == id)[0].files
     );
     deleteAttachment(id, blob);
@@ -169,8 +165,6 @@ export default function PerScribblePage() {
   //     ));
 
   const thumbs = () => {
-    // return data["scribbles"]
-    // return Array(scribbles)
     return scribbles
 
       .find((item) => item._id == id)
@@ -199,8 +193,6 @@ export default function PerScribblePage() {
   };
 
   const updateContent = () => {
-    // const scribbleContentToBeUpdated = data["scribbles"].filter(
-    // const scribbleContentToBeUpdated = Array(scribbles).filter(
     const scribbleContentToBeUpdated = scribbles.filter(
       (item) => item._id == id
     );
@@ -212,7 +204,6 @@ export default function PerScribblePage() {
       rootDrawerId: scribbleContentToBeUpdated[0]["rootDrawerId"],
       userId: 1,
       drawerId: scribbleContentToBeUpdated[0]["drawerId"],
-      //_id: id,
       title: scribbleContentToBeUpdated[0]["title"],
       type: "scribble",
       content: newContent,
@@ -220,7 +211,6 @@ export default function PerScribblePage() {
       level: scribbleContentToBeUpdated[0]["level"],
       files: scribbleContentToBeUpdated[0]["files"],
     };
-    // fetch(`http://localhost:3000/scribbles/${id}`, {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
       mode: "cors",
@@ -229,9 +219,7 @@ export default function PerScribblePage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
-      //.then((response) => console.log("newName", newName))
-
+      .then((response) => response.json())
       .catch((error) => console.error(error.message));
   };
 
@@ -294,10 +282,7 @@ export default function PerScribblePage() {
 
   //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
-    // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
-    // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
     const selectedScribble = scribbles.filter((item) => item._id == id);
-
     setSecreenshots(selectedScribble[0].content);
     return () => setSecreenshots([]);
   }, []);

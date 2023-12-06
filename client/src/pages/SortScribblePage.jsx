@@ -16,11 +16,9 @@ export default function SortScribblePage() {
   const [displayMessage, setDisplayMessage] = useState(
     "Or choose from existing drawer"
   );
-
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
-
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [selectedScribbleId, setSelectedScribbleId] =

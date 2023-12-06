@@ -62,12 +62,11 @@ export default function ScribblePage({
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json)=>setScribbles((prevItems)=>[...prevItems, json.data]))
+      // .then((json)=>setScribbles((prevItems)=>[...prevItems, json.data]))
       .catch((error) => console.error(error.message));
   };
 
   const handleScribbleChange = (e) => {
-    //console.log(e.target.value);
     setScribbleContent(e.target.value);
   };
 

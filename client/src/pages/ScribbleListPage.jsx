@@ -23,15 +23,15 @@ export default function ScribbleListPage({ files }) {
       },
     })
       .then((response) => response.json())
-      .then(() => {
-        const updatedScribbles = scribbles.filter((item) => item._id != id);
-        setScribbles(updatedScribbles);
-      })
+      // .then(() => {
+      //   const updatedScribbles = scribbles.filter((item) => item._id != id);
+      //   setScribbles(updatedScribbles);
+      // })
       .catch((error) => console.error(error.message));
   };
 
   const handleDelete = (id) => {
-    alert(`Are you sure to delete? -ID:${id}`);
+    confirm(`Are you sure to delete? -ID:${id}`);
     deleteScribble(id);
   };
 

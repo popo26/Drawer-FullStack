@@ -56,7 +56,7 @@ export default function SortScribblePreviewPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json) => (prevItems) => [...prevItems, json.data])
+      // .then((json) => (prevItems) => [...prevItems, json.data])
       .catch((error) => console.error(error.message));
   };
 
@@ -89,25 +89,22 @@ export default function SortScribblePreviewPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json) => {
-        setScribbles((prevItems) => [...prevItems, json.data]);
-      })
+      // .then((json) => {
+      //   setScribbles((prevItems) => [...prevItems, json.data]);
+      // })
       .catch((error) => console.error(error.message));
   };
 
   const createNewSubDrawer = () => {
-    
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
     const item = selectedDrawerObject[0]["rootId"]
-    console.log("item", item.match(/[a-z]/i))
-    //const condition = item.match(/[a-z]/i) == null ? selectedDrawerObject[0]['_id']:item
-    
+    console.log("item match exists?", item.match(/[a-z]/i))
     console.log("parent folder RootID", selectedDrawerObject[0]["rootId"]);
+
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
-      //rootId:{condition},
       userId: 1,
       name: newSubDrawerName.toUpperCase(),
       type: "drawer",
@@ -126,8 +123,8 @@ export default function SortScribblePreviewPage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
-        console.log("JSON ID", json.data._id);
+        // setDrawers((prevItems) => [...prevItems, json.data]);
+        // console.log("JSON ID", json.data._id);
         addScribbleToNewSubDrawer(
           json.data._id,
           selectedDrawerObject[0]["level"] + 1

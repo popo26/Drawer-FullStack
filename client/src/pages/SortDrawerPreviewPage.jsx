@@ -71,7 +71,7 @@ export default function SortDrawerPreviewPage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
       .catch((error) => console.error(error.message));
   };
 
@@ -230,18 +230,6 @@ export default function SortDrawerPreviewPage() {
 
     return renderedChildren;
   };
-
-  //console.log(
-  //   "drawer session moved",
-  //   sessionStorage.getItem("drawerToBeMoved")
-  // );
-  // console.log(
-  //   "drawer session selected",
-  //   sessionStorage.getItem("selectedDrawerId")
-  // );
-
-  // console.log("LOOK1", drawerToBeMovedObj[0]["name"]);
-  // console.log("LOOK2", destinationObj[0]["name"]);
 
   return (
     <div className="sort-drawer-preview-div">

@@ -41,12 +41,12 @@ export default function DrawerListPage({ expandedIndex }) {
         },
       })
         .then((response) => response.json())
-        .then(() => {
-          const updatedScribbles = scribbles.filter(
-            (item) => item._id != t._id
-          );
-          setScribbles(updatedScribbles);
-        })
+        // .then(() => {
+        //   const updatedScribbles = scribbles.filter(
+        //     (item) => item._id != t._id
+        //   );
+        //   setScribbles(updatedScribbles);
+        // })
         .catch((error) => console.error(error.message));
     }
   };
@@ -61,15 +61,13 @@ export default function DrawerListPage({ expandedIndex }) {
       },
     })
       .then((response) => response.json())
-      .then(() => {
-        const updatedDrawers = drawers.filter((item) => item._id != id);
-        setDrawers(updatedDrawers);
-      })
+      // .then(() => {
+      //   const updatedDrawers = drawers.filter((item) => item._id != id);
+      //   setDrawers(updatedDrawers);
+      // })
       .catch((error) => console.error(error.message))
       .then(deleteSubDrawers(id));
   };
-
- 
 
   const deleteSubDrawers = (id) => {
     for (let x of drawers) {
@@ -85,12 +83,12 @@ export default function DrawerListPage({ expandedIndex }) {
             },
           })
             .then((response) => response.json())
-            .then(() => {
-              const updatedSubDrawers = drawers.filter(
-                (item) => item._id != y._id
-              );
-              setDrawers(updatedSubDrawers);
-            })
+            // .then(() => {
+            //   const updatedSubDrawers = drawers.filter(
+            //     (item) => item._id != y._id
+            //   );
+            //   setDrawers(updatedSubDrawers);
+            // })
             .catch((error) => console.error(error.message));
           deleteScribbles(y._id);
         }
@@ -106,12 +104,12 @@ export default function DrawerListPage({ expandedIndex }) {
             },
           })
             .then((response) => response.json())
-            .then(() => {
-              const updatedSubDrawers = drawers.filter(
-                (item) => item._id != y._id
-              );
-              setDrawers(updatedSubDrawers);
-            })
+            // .then(() => {
+            //   const updatedSubDrawers = drawers.filter(
+            //     (item) => item._id != y._id
+            //   );
+            //   setDrawers(updatedSubDrawers);
+            // })
             .catch((error) => console.error(error.message));
           deleteScribbles(y._id);
         }
@@ -120,7 +118,9 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const handleDelete = (id) => {
-    alert(`Are you sure to delete this drawer and all the content? -ID:${id}`);
+    confirm(
+      `Are you sure to delete this drawer and all the content? -ID:${id}`
+    );
     deleteSelectedDrawer(id);
     navigate("/");
   };

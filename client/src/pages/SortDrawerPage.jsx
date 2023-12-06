@@ -33,10 +33,7 @@ export default function SortDrawerPage() {
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
     setDrawerToBeMoved(drawerToBeMovedSession);
-    //setDrawerToBeMoved(state.drawerToBeMoved);
-    // setSelectedDrawerId("");
     handleSelectedDrawerId("");
-
     return () => {
       console.log("cleanup");
     };
@@ -87,7 +84,7 @@ export default function SortDrawerPage() {
           },
           body: JSON.stringify(dataPost),
         })
-          .then((response) => console.log(response.json()))
+          .then((response) => response.json())
           .catch((error) => console.error(error.message));
       }
     }
@@ -115,7 +112,7 @@ export default function SortDrawerPage() {
           },
           body: JSON.stringify(dataPost),
         })
-          .then((response) => console.log(response.json()))
+          .then((response) => response.json())
           .catch((error) => console.error(error.message));
       }
     }
@@ -126,7 +123,6 @@ export default function SortDrawerPage() {
   const moveDrawerToNewDrawer = (passedId) => {
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == drawerToBeMoved
-      // (item) => item.id == sessionStorage.getItem("DrawerToBeMoved")
     );
     let dataPost = {
       rootId: passedId,
@@ -146,7 +142,7 @@ export default function SortDrawerPage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
       .catch((error) => console.error(error.message));
   };
 

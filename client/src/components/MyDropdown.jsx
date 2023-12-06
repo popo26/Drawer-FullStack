@@ -4,12 +4,14 @@ import { Icon } from "@iconify/react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
+import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 
 export default function MyDropdown() {
   const [open, setOpen] = useState(false);
   const [currentDropdown, setCurrentDropDown] = useState("Existing Drawers");
-  const { drawers, scribbles, setDrawers } = useDataContext();
+  const { drawers } = useDataContext();
   const { handleSelectedDrawerId } = useSelectedDrawerContext();
+  const [drawerToBeMoved] = useDrawerToBeMovedContext();
 
   //++++++++++NOt sure if I need this++++++++++++++++++++
   const handleOpen = () => {
@@ -60,17 +62,27 @@ export default function MyDropdown() {
 
     return newArray.map((item) => {
       return (
-        <p
-          className={"sub-drawer indent-" + item.level}
-          key={item._id}
-          onClick={() => {
-            setCurrentDropDown(item.name);
-            // setSelectedDrawerId(item.id);
-            handleSelectedDrawerId(item._id);
-          }}
-        >
-          {item.name}
-        </p>
+        <div key={item._id}>
+          {item._id == drawerToBeMoved ? (
+            <p
+              className={"sub-drawer indent-" + item.level}
+              style={{ color: "red" }}
+            >
+              {item.name}
+              <Icon icon="healthicons:stop" color="red" width="18" />
+            </p>
+          ) : (
+            <p
+              className={"sub-drawer indent-" + item.level}
+              onClick={() => {
+                setCurrentDropDown(item.name);
+                handleSelectedDrawerId(item._id);
+              }}
+            >
+              {item.name}
+            </p>
+          )}
+        </div>
       );
     });
   };
@@ -79,16 +91,24 @@ export default function MyDropdown() {
     if (item.root === true) {
       return (
         <>
-          <div
-            key={item._id}
-            onClick={() => {
-              setCurrentDropDown(item.name);
-              // setSelectedDrawerId(item.id);
-              handleSelectedDrawerId(item._id);
-            }}
-          >
-            <p className="top-drawer">{item.name}</p>
-          </div>
+          {item._id == drawerToBeMoved ? (
+            <div key={item._id} style={{ color: "red" }}>
+              <p className="top-drawer">
+                {item.name}
+                <Icon icon="healthicons:stop" color="red" width="18" />
+              </p>
+            </div>
+          ) : (
+            <div
+              key={item._id}
+              onClick={() => {
+                setCurrentDropDown(item.name);
+                handleSelectedDrawerId(item._id);
+              }}
+            >
+              <p className="top-drawer">{item.name}</p>
+            </div>
+          )}
           <div>
             {item["subDrawer"] === true ? (
               <>{findSubDrawers(item._id)} </>
