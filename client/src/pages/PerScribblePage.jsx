@@ -96,12 +96,12 @@ export default function PerScribblePage() {
       filesInfo.push(perFile);
     }
     let dataPost = {
-      userId: 1,
-      title: selectedScribble[0].title,
-      type: "scribble",
-      content: selectedScribble[0].content,
-      stray: selectedScribble[0].stray,
-      level: selectedScribble[0].level,
+      // userId: 1,
+      // title: selectedScribble[0].title,
+      // type: "scribble",
+      // content: selectedScribble[0].content,
+      // stray: selectedScribble[0].stray,
+      // level: selectedScribble[0].level,
       attachment:
         filesInfo.length === 0 ? false : selectedScribble[0].attachment,
       files: filesInfo,
@@ -201,15 +201,15 @@ export default function PerScribblePage() {
     setSecreenshots(newContent);
 
     let dataPost = {
-      rootDrawerId: scribbleContentToBeUpdated[0]["rootDrawerId"],
-      userId: 1,
-      drawerId: scribbleContentToBeUpdated[0]["drawerId"],
-      title: scribbleContentToBeUpdated[0]["title"],
-      type: "scribble",
+      // rootDrawerId: scribbleContentToBeUpdated[0]["rootDrawerId"],
+      // userId: 1,
+      // drawerId: scribbleContentToBeUpdated[0]["drawerId"],
+      // title: scribbleContentToBeUpdated[0]["title"],
+      // type: "scribble",
       content: newContent,
-      stray: scribbleContentToBeUpdated[0]["stray"],
-      level: scribbleContentToBeUpdated[0]["level"],
-      files: scribbleContentToBeUpdated[0]["files"],
+      // stray: scribbleContentToBeUpdated[0]["stray"],
+      // level: scribbleContentToBeUpdated[0]["level"],
+      // files: scribbleContentToBeUpdated[0]["files"],
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",

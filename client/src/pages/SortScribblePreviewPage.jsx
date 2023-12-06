@@ -26,21 +26,21 @@ export default function SortScribblePreviewPage() {
     //Something wrong with here
     if (x[0]["drawerId"]) {
       dataPost = {
-        rootId: x[0]["rootId"],
-        drawerId: x[0]["drawerId"],
-        userId: 1,
-        name: x[0]["name"],
-        type: "drawer",
+        // rootId: x[0]["rootId"],
+        // drawerId: x[0]["drawerId"],
+        // userId: 1,
+        // name: x[0]["name"],
+        // type: "drawer",
         ["subDrawer"]: true,
-        level: x[0]["level"],
-        root: x[0]["root"],
+        // level: x[0]["level"],
+        // root: x[0]["root"],
       };
     } else {
       dataPost = {
-        rootId: parentDrawerId,
-        userId: 1,
-        name: x[0]["name"],
-        type: "drawer",
+        // rootId: parentDrawerId,
+        // userId: 1,
+        // name: x[0]["name"],
+        // type: "drawer",
         ["subDrawer"]: true,
         level: 1,
         root: true,
@@ -61,9 +61,9 @@ export default function SortScribblePreviewPage() {
   };
 
   const addScribbleToNewSubDrawer = (passedId, selectedDrawerLevel) => {
-    const scribbleObject = scribbles.filter(
-      (item) => item._id == selectedScribbleId
-    );
+    // const scribbleObject = scribbles.filter(
+    //   (item) => item._id == selectedScribbleId
+    // );
 
     const newlyCreatedDrawerObj = drawers.filter(
       (item) => item._id == state.selectedDrawerId
@@ -71,14 +71,14 @@ export default function SortScribblePreviewPage() {
     let dataPost = {
       rootDrawerId: newlyCreatedDrawerObj[0]["rootId"],
       drawerId: passedId,
-      userId: 1,
-      title: scribbleObject[0]["title"],
-      content: scribbleObject[0]["content"],
-      type: "scribble",
+      // userId: 1,
+      // title: scribbleObject[0]["title"],
+      // content: scribbleObject[0]["content"],
+      // type: "scribble",
       stray: false,
       level: selectedDrawerLevel,
-      attachment: scribbleObject[0]["attachment"],
-      files: scribbleObject[0]["files"],
+      // attachment: scribbleObject[0]["attachment"],
+      // files: scribbleObject[0]["files"],
     };
     fetch(`http://localhost:8080/api/scribbles/${state.selectedScribbleId}`, {
       method: "PUT",
@@ -89,9 +89,6 @@ export default function SortScribblePreviewPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      // .then((json) => {
-      //   setScribbles((prevItems) => [...prevItems, json.data]);
-      // })
       .catch((error) => console.error(error.message));
   };
 
@@ -99,8 +96,8 @@ export default function SortScribblePreviewPage() {
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
-    const item = selectedDrawerObject[0]["rootId"]
-    console.log("item match exists?", item.match(/[a-z]/i))
+    const item = selectedDrawerObject[0]["rootId"];
+    console.log("item match exists?", item.match(/[a-z]/i));
     console.log("parent folder RootID", selectedDrawerObject[0]["rootId"]);
 
     let dataPost = {

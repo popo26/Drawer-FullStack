@@ -18,7 +18,7 @@ export default function LoginPage() {
     <div className="LoginPage">
       <form>
         <InputField
-          htmlFor="username"
+          htmlFor="username"targetDrawer
           type="text"
           name="username"
           placeholder="username"

@@ -41,12 +41,6 @@ export default function DrawerListPage({ expandedIndex }) {
         },
       })
         .then((response) => response.json())
-        // .then(() => {
-        //   const updatedScribbles = scribbles.filter(
-        //     (item) => item._id != t._id
-        //   );
-        //   setScribbles(updatedScribbles);
-        // })
         .catch((error) => console.error(error.message));
     }
   };
@@ -61,10 +55,6 @@ export default function DrawerListPage({ expandedIndex }) {
       },
     })
       .then((response) => response.json())
-      // .then(() => {
-      //   const updatedDrawers = drawers.filter((item) => item._id != id);
-      //   setDrawers(updatedDrawers);
-      // })
       .catch((error) => console.error(error.message))
       .then(deleteSubDrawers(id));
   };
@@ -83,12 +73,6 @@ export default function DrawerListPage({ expandedIndex }) {
             },
           })
             .then((response) => response.json())
-            // .then(() => {
-            //   const updatedSubDrawers = drawers.filter(
-            //     (item) => item._id != y._id
-            //   );
-            //   setDrawers(updatedSubDrawers);
-            // })
             .catch((error) => console.error(error.message));
           deleteScribbles(y._id);
         }
@@ -104,12 +88,6 @@ export default function DrawerListPage({ expandedIndex }) {
             },
           })
             .then((response) => response.json())
-            // .then(() => {
-            //   const updatedSubDrawers = drawers.filter(
-            //     (item) => item._id != y._id
-            //   );
-            //   setDrawers(updatedSubDrawers);
-            // })
             .catch((error) => console.error(error.message));
           deleteScribbles(y._id);
         }
@@ -183,7 +161,6 @@ export default function DrawerListPage({ expandedIndex }) {
     setUpdateIconIndex(clickedId);
     test(clickedId);
     const drawerName = drawers.filter((item) => item._id == clickedId);
-
     setDrawerNameToEdit(drawerName[0]["name"]);
     setDrawerIdToEdit(drawerName[0]["idd"]);
     text.current = document.getElementById(
@@ -328,31 +305,21 @@ export default function DrawerListPage({ expandedIndex }) {
 
   ///////++++++++Update Drawer Name in DB+++++++++++++
   const updateDrawerName = (id) => {
-    // const drawerToBeUpdated = data["drawers"].filter((item) => item.id == id);
-    // const drawerToBeUpdated = Array(drawers).filter((item) => item.id == id);
     const drawerToBeUpdated = drawers.filter((item) => item._id == id);
-
-    //setDrawerIdToEdit(id)
     const newName = text.current.innerText;
-    // const newName = drawerNameToEdit;
-    console.log("newName", newName);
+    console.log("newName", newName)
     setDrawerNameToEdit(text.current.innerText);
-    console.log("You are here");
-    let dataPost = {
-      rootId: drawerToBeUpdated[0]["rootId"],
-      userId: 1,
-      drawerId: drawerToBeUpdated[0]["drawerId"],
-      //_id: id,
-      name: drawerNameToEdit,
 
-      // name: newName,
-      //name:[text.current.innerText],
-      type: "drawer",
-      ["subDrawer"]: drawerToBeUpdated[0]["subDrawer"],
-      root: drawerToBeUpdated[0]["root"],
-      level: drawerToBeUpdated[0]["level"],
+    let dataPost = {
+      // rootId: drawerToBeUpdated[0]["rootId"],
+      // userId: 1,
+      // drawerId: drawerToBeUpdated[0]["drawerId"],
+      name: drawerNameToEdit,
+      // type: "drawer",
+      // ["subDrawer"]: drawerToBeUpdated[0]["subDrawer"],
+      // root: drawerToBeUpdated[0]["root"],
+      // level: drawerToBeUpdated[0]["level"],
     };
-    // fetch(`http://localhost:3000/drawers/${id}`, {
     fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "PUT",
       mode: "cors",
@@ -361,14 +328,10 @@ export default function DrawerListPage({ expandedIndex }) {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
-      //.then((response) => console.log("newName", newName))
-
+      .then((response) => response.json())
       .catch((error) => console.error(error.message));
   };
 
-  // const renderedList = data["drawers"].map((item) => {
-  // const renderedList = Array(drawers).map((item) => {
   const renderedList = drawers.map((item) => {
     if (id == item._id) {
       return (

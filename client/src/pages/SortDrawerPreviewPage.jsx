@@ -39,24 +39,24 @@ export default function SortDrawerPreviewPage() {
     const parentDrawerObj = drawers.filter(
       (item) => item._id == parentDrawerId
     );
-    //Something wrong with here
+    //Later remove if statement
     if (parentDrawerObj[0]["drawerId"]) {
       dataPost = {
-        rootId: parentDrawerObj[0]["rootId"],
-        drawerId: parentDrawerObj[0]["drawerId"],
-        userId: 1,
-        name: parentDrawerObj[0]["name"],
-        type: "drawer",
+        // rootId: parentDrawerObj[0]["rootId"],
+        // drawerId: parentDrawerObj[0]["drawerId"],
+        // userId: 1,
+        // name: parentDrawerObj[0]["name"],
+        // type: "drawer",
         ["subDrawer"]: true,
-        level: parentDrawerObj[0]["level"],
-        root: parentDrawerObj[0]["root"],
+        // level: parentDrawerObj[0]["level"],
+        // root: parentDrawerObj[0]["root"],
       };
     } else {
       dataPost = {
-        rootId: parentDrawerObj[0]["rootId"],
-        userId: 1,
-        name: parentDrawerObj[0]["name"],
-        type: "drawer",
+        // rootId: parentDrawerObj[0]["rootId"],
+        // userId: 1,
+        // name: parentDrawerObj[0]["name"],
+        // type: "drawer",
         ["subDrawer"]: true,
         level: 1,
         root: true,
@@ -97,10 +97,10 @@ export default function SortDrawerPreviewPage() {
         let dataPost = {
           rootId: newTopLevelDrawerId,
           userId: 1,
-          drawerId: drawers[x].drawerId,
-          name: drawers[x].name,
-          type: "drawer",
-          subDrawer: drawers[x]["subDrawer"],
+          // drawerId: drawers[x].drawerId,
+          // name: drawers[x].name,
+          // type: "drawer",
+          // subDrawer: drawers[x]["subDrawer"],
           root: false,
           level:
             newTopLevelDrawerObject[0]["level"] +
@@ -126,10 +126,10 @@ export default function SortDrawerPreviewPage() {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           userId: 1,
-          drawerId: scribbles[x].drawerId,
-          title: scribbles[x].title,
-          content: scribbles[x].content,
-          type: "scribble",
+          // drawerId: scribbles[x].drawerId,
+          // title: scribbles[x].title,
+          // content: scribbles[x].content,
+          // type: "scribble",
           stray: false,
           level: newTopLevelDrawerObject[0]["level"] + scribbles[x].level,
         };
@@ -148,17 +148,17 @@ export default function SortDrawerPreviewPage() {
   };
 
   const moveDrawerToNewDrawer = (passedId) => {
-    const drawerToBeMovedObject = drawers.filter(
-      (item) => item._id == drawerToBeMoved
-    );
+    // const drawerToBeMovedObject = drawers.filter(
+    //   (item) => item._id == drawerToBeMoved
+    // );
     const parentDrawerObject = drawers.filter((item) => item._id == passedId);
     let dataPost = {
       rootId: parentDrawerObject[0]["rootId"],
       userId: 1,
       drawerId: parentDrawerObject[0]["_id"],
-      name: drawerToBeMovedObject[0]["name"],
-      type: "drawer",
-      ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
+      // name: drawerToBeMovedObject[0]["name"],
+      // type: "drawer",
+      // ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
       root: false,
       level: parentDrawerObject[0]["level"] + 1,
     };
