@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 const SelectedDrawerContext = createContext("");
 
@@ -7,6 +7,17 @@ export const SelectedDrawerProvider = (props) => {
   const handleSelectedDrawerId = (id) => {
     setSelectedDrawerId(id);
   };
+
+  useEffect(() => {
+    const selectedDrawer = sessionStorage.getItem("selectedDrawer");
+    if (selectedDrawer) {
+      setSelectedDrawerId(selectedDrawer);
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("selectedDrawer", selectedDrawerId);
+  }, [selectedDrawerId]);
 
   return (
     <SelectedDrawerContext.Provider

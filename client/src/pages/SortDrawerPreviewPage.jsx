@@ -18,7 +18,15 @@ export default function SortDrawerPreviewPage() {
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
 
-  console.log("State", state);
+  //console.log("State", state);
+
+  //To persist those 2 values incase of browser refresh -- moved to context?
+  const drawerToBeMovedObj = drawers.filter(
+    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+  );
+  const destinationObj = drawers.filter(
+    (item) => item._id == sessionStorage.getItem("selectedDrawerId")
+  );
 
   //To persist those 2 values incase of browser refresh
   useEffect(() => {
@@ -68,7 +76,6 @@ export default function SortDrawerPreviewPage() {
   };
 
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
- 
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
     );
@@ -86,7 +93,7 @@ export default function SortDrawerPreviewPage() {
           drawers[x].level > drawerToBeMovedObject[0]["level"])
       ) {
         subDrawersToBeMoved.push(drawers[x]);
-        console.log("index", subDrawersToBeMoved.indexOf(x));
+        //console.log("index", subDrawersToBeMoved.indexOf(x));
         let dataPost = {
           rootId: newTopLevelDrawerId,
           userId: 1,
@@ -174,7 +181,6 @@ export default function SortDrawerPreviewPage() {
   };
 
   const renderedList = drawers
-
     .filter((item) => item._id == state.selectedDrawerId)
     .map((item) => (
       <h4 className="sort-preview-drawer" key={item._id}>
@@ -198,7 +204,6 @@ export default function SortDrawerPreviewPage() {
 
   const subDrawers = (x) => {
     return drawers
-
       .filter((sub) => sub.drawerId == x[0]._id)
       .map((sub) => (
         <p
@@ -226,26 +231,17 @@ export default function SortDrawerPreviewPage() {
     return renderedChildren;
   };
 
-  console.log(
-    "drawer session moved",
-    sessionStorage.getItem("drawerToBeMoved")
-  );
-  console.log(
-    "drawer session selected",
-    sessionStorage.getItem("selectedDrawerId")
-  );
+  //console.log(
+  //   "drawer session moved",
+  //   sessionStorage.getItem("drawerToBeMoved")
+  // );
+  // console.log(
+  //   "drawer session selected",
+  //   sessionStorage.getItem("selectedDrawerId")
+  // );
 
-  //To persist those 2 values incase of browser refresh
-  const drawerToBeMovedObj = drawers.filter(
-    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-  );
-
-  const destinationObj = drawers.filter(
-    (item) => item._id == sessionStorage.getItem("selectedDrawerId")
-  );
-
-  console.log("LOOK1", drawerToBeMovedObj[0]["name"]);
-  console.log("LOOK2", destinationObj[0]["name"]);
+  // console.log("LOOK1", drawerToBeMovedObj[0]["name"]);
+  // console.log("LOOK2", destinationObj[0]["name"]);
 
   return (
     <div className="sort-drawer-preview-div">

@@ -119,7 +119,7 @@ export const DataProvider = (props) => {
   useEffect(() => {
     const scribblesData = JSON.parse(sessionStorage.getItem("scribblesData"));
     if (scribblesData) {
-      setDrawers(scribblesData);
+      setScribbles(scribblesData);
     }
   }, []);
 

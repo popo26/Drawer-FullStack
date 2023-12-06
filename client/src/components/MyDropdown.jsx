@@ -11,7 +11,7 @@ export default function MyDropdown() {
   const { drawers, scribbles, setDrawers } = useDataContext();
   const { handleSelectedDrawerId } = useSelectedDrawerContext();
 
-  //++++++++++NOt sure if I ened this++++++++++++++++++++
+  //++++++++++NOt sure if I need this++++++++++++++++++++
   const handleOpen = () => {
     setOpen(!open);
   };

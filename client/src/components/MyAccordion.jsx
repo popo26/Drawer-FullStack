@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
-//import { getDrawers, getScribbles } from "../utils/getData";
 
 export default function MyAccordion({
   expandedIndex,
@@ -15,8 +14,6 @@ export default function MyAccordion({
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
-  //console.log("drawers in MyAccordion", drawers);
-  //console.log("Scribbles in MyAccordion", scribbles);
 
   // useEffect(() => {
   //   setDrawers(drawers);
