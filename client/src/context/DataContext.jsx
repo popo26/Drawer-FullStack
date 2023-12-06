@@ -71,16 +71,10 @@ import usePersistState from "../hooks/usePersistState";
 const DataContext = createContext("");
 
 export const DataProvider = (props) => {
-  // let drawersArray = [];
-  // let scribblesArray = [];
-  // let usersArray = [];
+
   const [drawers, setDrawers] = useState([]);
   const [scribbles, setScribbles] = useState([]);
   const [users, setUsers] = useState([]);
-
-  //console.log("DRAWERS in CONTEXT", drawers);
-  // console.log("SCRIBBLES in CONTEXT", scribbles);
-  //console.log("USERS in CONTEXT", users);
 
   // Local Storage: setting & getting data
   const updateRootId = (drawerId) => {
@@ -102,6 +96,7 @@ export const DataProvider = (props) => {
       .catch((error) => console.error(error.message));
   };
 
+  //Original rootId gets updated to match id for root drawers
   useEffect(() => {
     for (let x in drawers) {
       if (
@@ -143,7 +138,7 @@ export const DataProvider = (props) => {
     })
       .then((response) => response.json())
       .then((json) => setScribbles(json.data));
-  }, []);
+  }, [scribbles]);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/drawers", {
@@ -152,7 +147,7 @@ export const DataProvider = (props) => {
     })
       .then((response) => response.json())
       .then((json) => setDrawers(json.data));
-  }, []);
+  }, [drawers]);
 
   return (
     // <DataContext.Provider value={{ drawers, scribbles, users }}>

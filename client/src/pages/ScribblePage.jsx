@@ -16,20 +16,17 @@ export default function ScribblePage({
   setFiles,
 }) {
   const navigate = useNavigate();
-  // const data = useDataContext();
   const {drawers, scribbles, setScribbles} = useDataContext();
-
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
-  const [content, setContent] = useState("Enter");
+  const [content, setContent] = useState("_");
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] = useSelectedScribbleContext();
 
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
     setContent(body.current);
-    //console.log("scribble length: ", Object.values(data["scribbles"]).length);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
     console.log("You are inside the Fetch function");
@@ -47,15 +44,9 @@ export default function ScribblePage({
     }
     let dataPost = {
       userId: 1,
-      // id: Object.values(data["scribbles"]).length + 1,
-      //_id: selectedScribbleId,
       title: scribbleTitle ? scribbleTitle : "Untitled",
       type: "scribble",
-      // content: scribbleContent,
-      // content: content,
       content: body.current,
-
-      // content:imageDataURL,
       stray: true,
       level: 1,
       attachment: attachmentBool,
@@ -72,7 +63,6 @@ export default function ScribblePage({
     })
       .then((response) => response.json())
       .then((json)=>setScribbles((prevItems)=>[...prevItems, json.data]))
-
       .catch((error) => console.error(error.message));
   };
 
@@ -83,11 +73,7 @@ export default function ScribblePage({
 
   const handleTitleChange = (value) => {
     setScribbleTitle(value);
-    // setSelectedScribbleId(Object.values(data["scribbles"]).length + 1);
-    // setSelectedScribbleId(Object.values(scribbles).length + 1);
     setSelectedScribbleId(scribbles.length + 1);
-
-
   };
 
   const handleSubmitScribble = () => {

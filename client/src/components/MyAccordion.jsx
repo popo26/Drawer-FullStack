@@ -48,13 +48,11 @@ export default function MyAccordion({
   const findSubDrawers = (id) => {
     let newArray = [];
     for (let x in drawers) {
-      //console.log(drawers[x]);
       if (drawers[x].drawerId && drawers[x].rootId == id) {
         newArray.push(drawers[x]);
       }
     }
 
-    //console.log("newArray", newArray)
     newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
 
     return newArray.map((item) => {
@@ -77,7 +75,6 @@ export default function MyAccordion({
   };
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
-  // const renderedList = data["drawers"].map((item) => {
   const renderedList = drawers.map((item) => {
     if (!item.drawerId) {
       const isExpanded = item._id == expandedIndex;
@@ -101,10 +98,6 @@ export default function MyAccordion({
       );
     }
   });
-
-
-
-  
 
   return <div className="Accordion">{renderedList}</div>;
 }

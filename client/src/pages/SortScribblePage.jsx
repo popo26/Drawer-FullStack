@@ -45,14 +45,14 @@ export default function SortScribblePage() {
     let dataPost = {
       rootDrawerId: passedId,
       drawerId: passedId,
-      userId: 1,
-      title: scribbleObject[0]["title"],
-      content: scribbleObject[0]["content"],
-      type: "scribble",
+      // userId: 1,
+      // title: scribbleObject[0]["title"],
+      // content: scribbleObject[0]["content"],
+      // type: "scribble",
       stray: false,
       level: 1,
-      attachment: scribbleObject[0]["attachment"],
-      files: [scribbleObject[0]["files"]],
+      // attachment: scribbleObject[0]["attachment"],
+      // files: [scribbleObject[0]["files"]],
     };
     fetch(`http://localhost:8080/api/scribbles/${selectedScribbleId}`, {
       method: "PUT",
@@ -63,10 +63,9 @@ export default function SortScribblePage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json) => {
-        setScribbles((prevItems) => [...prevItems, json.data]);
-        // setDrawers(drawers)
-      })
+      // .then((json) => {
+      //   setScribbles((prevItems) => [...prevItems, json.data]);
+      // })
       .catch((error) => console.error(error.message));
   };
 
@@ -90,7 +89,7 @@ export default function SortScribblePage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
+        //setDrawers((prevItems) => [...prevItems, json.data]);
         addScribbleToNewSubDrawer(json.data._id);
       })
       .catch((error) => console.error(error.message));
@@ -108,8 +107,6 @@ export default function SortScribblePage() {
     setDrawerName("");
     navigate("/");
   };
-
-  //console.log("NewDrawerNameFieldSelected", newDrawerNameFieldSelected);
 
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);

@@ -23,12 +23,10 @@ export default function SortDrawerPreviewPage() {
   //To persist those 2 values incase of browser refresh
   useEffect(() => {
     setDrawerToBeMoved(sessionStorage.getItem("drawerToBeMoved"));
-    // setSelectedDrawerId(sessionStorage.getItem("selectedDrawerId"));
     handleSelectedDrawerId(sessionStorage.getItem("selectedDrawerId"));
   }, []);
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
-    console.log("PUT2");
     let dataPost;
     const parentDrawerObj = drawers.filter(
       (item) => item._id == parentDrawerId
@@ -70,42 +68,40 @@ export default function SortDrawerPreviewPage() {
   };
 
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
-    const allDrawers = drawers;
-    const allScribbles = scribbles;
-
-    const drawerToBeMovedObject = allDrawers.filter(
+ 
+    const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
     );
 
-    const newTopLevelDrawerObject = allDrawers.filter(
+    const newTopLevelDrawerObject = drawers.filter(
       (item) => item._id == newTopLevelDrawerId
     );
 
     let subDrawersToBeMoved = [];
 
-    for (let x of allDrawers) {
+    for (let x in drawers) {
       if (
-        x.drawerId == parentDrawerId ||
-        (x.rootId == drawerToBeMovedObject[0]["rootId"] &&
-          x.level > drawerToBeMovedObject[0]["level"])
+        drawers[x].drawerId == parentDrawerId ||
+        (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
+          drawers[x].level > drawerToBeMovedObject[0]["level"])
       ) {
-        subDrawersToBeMoved.push(x);
+        subDrawersToBeMoved.push(drawers[x]);
         console.log("index", subDrawersToBeMoved.indexOf(x));
         let dataPost = {
           rootId: newTopLevelDrawerId,
           userId: 1,
-          drawerId: x.drawerId,
-          name: x.name,
+          drawerId: drawers[x].drawerId,
+          name: drawers[x].name,
           type: "drawer",
-          ["subDrawer"]: x["subDrawer"],
+          subDrawer: drawers[x]["subDrawer"],
           root: false,
           level:
             newTopLevelDrawerObject[0]["level"] +
-            subDrawersToBeMoved.indexOf(x) +
+            subDrawersToBeMoved.indexOf(drawers[x]) +
             2,
         };
 
-        fetch(`http://localhost:8080/api/drawers/${x._id}`, {
+        fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
           method: "PUT",
           mode: "cors",
           headers: {
@@ -113,24 +109,24 @@ export default function SortDrawerPreviewPage() {
           },
           body: JSON.stringify(dataPost),
         })
-          .then((response) => console.log(response.json()))
+          .then((response) => response.json())
           .catch((error) => console.error(error.message));
       }
     }
 
-    for (let x of allScribbles) {
-      if (x.rootDrawerId == parentDrawerId) {
+    for (let x in scribbles) {
+      if (scribbles[x].rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           userId: 1,
-          drawerId: x.drawerId,
-          title: x.title,
-          content: x.content,
+          drawerId: scribbles[x].drawerId,
+          title: scribbles[x].title,
+          content: scribbles[x].content,
           type: "scribble",
           stray: false,
-          level: newTopLevelDrawerObject[0]["level"] + x.level,
+          level: newTopLevelDrawerObject[0]["level"] + scribbles[x].level,
         };
-        fetch(`http://localhost:8080/api/scribbles/${x._id}`, {
+        fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
           method: "PUT",
           mode: "cors",
           headers: {
@@ -138,7 +134,7 @@ export default function SortDrawerPreviewPage() {
           },
           body: JSON.stringify(dataPost),
         })
-          .then((response) => console.log(response.json()))
+          .then((response) => response.json())
           .catch((error) => console.error(error.message));
       }
     }
@@ -167,7 +163,7 @@ export default function SortDrawerPreviewPage() {
       },
       body: JSON.stringify(dataPost),
     })
-      .then((response) => console.log(response.json()))
+      .then((response) => response.json())
       .catch((error) => console.error(error.message));
   };
 
@@ -188,7 +184,6 @@ export default function SortDrawerPreviewPage() {
 
   const scribblies = (x) => {
     return scribbles
-
       .filter((scrb) => scrb.drawerId == x[0]._id)
       .map((scrb) => (
         <p
@@ -249,8 +244,8 @@ export default function SortDrawerPreviewPage() {
     (item) => item._id == sessionStorage.getItem("selectedDrawerId")
   );
 
-  console.log("LOOK", drawerToBeMovedObj[0]["name"]);
-  console.log("LOOK", destinationObj[0]["name"]);
+  console.log("LOOK1", drawerToBeMovedObj[0]["name"]);
+  console.log("LOOK2", destinationObj[0]["name"]);
 
   return (
     <div className="sort-drawer-preview-div">
@@ -259,11 +254,8 @@ export default function SortDrawerPreviewPage() {
         {drawerToBeMoved}
       </h3>
       <h3>To: {selectedDrawerId}</h3>
-
       <div>{renderedList}</div>
-      {/* <div>{findSubDrawers()}</div> */}
       <FindSubDrawers />
-
       <div>
         <Button onClick={handleMoveHere} variant="success" className="move-btn">
           Move Here
