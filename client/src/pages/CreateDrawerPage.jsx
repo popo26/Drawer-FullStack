@@ -31,9 +31,10 @@ export default function CreateDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      // .then((json) => {
-      //   setDrawers((prevItems) => [...prevItems, json.data]);
-      // })
+      .then((json) => {
+        setDrawers((prevItems) => [...prevItems, json.data]);
+        // sessionStorage.setItem("newDrawerId", json.data._id)
+      })
       .catch((error) => console.error(error.message));
   };
 
@@ -47,6 +48,8 @@ export default function CreateDrawerPage() {
     createNewDrawer();
     setDrawerName("");
     navigate("/");
+    // sessionStorage.setItem("newDrawerId", drawerName)
+
   };
 
   // useEffect(()=>{

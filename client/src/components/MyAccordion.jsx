@@ -1,8 +1,8 @@
 import AccordionItem from "./AccordionItem";
 import "../css/Accordion.css";
 import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
-import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useHistory, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
@@ -15,10 +15,15 @@ export default function MyAccordion({
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
 
-  // useEffect(() => {
-  //   setDrawers(drawers);
-  //   setScribbles(scribbles);
-  // }, []);
+  // const [, updateState] = useState();
+  // const forceUpdate = useCallback(() => updateState({}), []);
+
+//   useEffect(() => {
+//  const newDrawerId = sessionStorage.getItem("newDrawerId");
+//  const newDrawerObj = drawers.find((item)=>item._id == newDrawerId)
+//  console.log("newDrawerObj", newDrawerObj)
+//  setDrawers((prevValues)=>[...prevValues, newDrawerObj])
+//   }, []);
 
 
 

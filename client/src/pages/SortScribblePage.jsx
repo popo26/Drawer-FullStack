@@ -64,6 +64,7 @@ export default function SortScribblePage() {
       // .then((json) => {
       //   setScribbles((prevItems) => [...prevItems, json.data]);
       // })
+      
       .catch((error) => console.error(error.message));
   };
 
@@ -87,7 +88,7 @@ export default function SortScribblePage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        //setDrawers((prevItems) => [...prevItems, json.data]);
+        setDrawers((prevItems) => [...prevItems, json.data]);
         addScribbleToNewSubDrawer(json.data._id);
       })
       .catch((error) => console.error(error.message));
@@ -104,6 +105,7 @@ export default function SortScribblePage() {
     createNewDrawer();
     setDrawerName("");
     navigate("/");
+    navigate(0);
   };
 
   const handleDisplay = () => {

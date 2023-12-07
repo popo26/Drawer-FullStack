@@ -124,10 +124,14 @@ export const DataProvider = (props) => {
 
   useEffect(() => {
     sessionStorage.setItem("drawersData", JSON.stringify(drawers));
+    //experiment
+    //setDrawers(drawers)
   }, [drawers]);
 
   useEffect(() => {
     sessionStorage.setItem("scribblesData", JSON.stringify(scribbles));
+    //experiment
+    //setScribbles(scribbles)
   }, [scribbles]);
 
   useEffect(() => {
@@ -137,7 +141,9 @@ export const DataProvider = (props) => {
     })
       .then((response) => response.json())
       .then((json) => setScribbles(json.data));
-  }, [scribbles]);
+    // }, [scribbles]);
+    // }, [setScribbles]);
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/drawers", {
@@ -146,7 +152,9 @@ export const DataProvider = (props) => {
     })
       .then((response) => response.json())
       .then((json) => setDrawers(json.data));
-  }, [drawers]);
+    // }, [drawers]);
+    // }, [setDrawers]);
+  }, []);
 
   return (
     <DataContext.Provider

@@ -144,6 +144,7 @@ export default function SortScribblePreviewPage() {
       selectedDrawerObject[0]["level"]
     );
     navigate("/");
+    navigate(0);
   };
 
   const handleChange = (value) => {
@@ -153,6 +154,7 @@ export default function SortScribblePreviewPage() {
   const handleCreate = (value) => {
     createNewSubDrawer();
     navigate("/");
+    navigate(0);
   };
 
   const renderedList = drawers

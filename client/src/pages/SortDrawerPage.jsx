@@ -27,10 +27,12 @@ export default function SortDrawerPage() {
 
   console.log("State", state);
   console.log("DrawerToBeMoved", drawerToBeMoved);
-  console.log("sessionStorage", sessionStorage.getItem("drawerToBeMoved"));
+  console.log("sessionStorage-drawerToBeMoved not in context", sessionStorage.getItem("drawerToBeMoved"));
 
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
+    // let drawerToBeMovedSession = sessionStorage.getItem("toBeMovedDrawer");
+
     setDrawerToBeMoved(drawerToBeMovedSession);
     handleSelectedDrawerId("");
     return () => {
@@ -148,6 +150,7 @@ export default function SortDrawerPage() {
           body: JSON.stringify(dataPost),
         })
           .then((response) => response.json())
+          // .then((json) => setScribbles((prevItems) => [...prevItems, json.data]))
           .catch((error) => console.error(error.message));
       }
     }
@@ -206,6 +209,7 @@ export default function SortDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+      // .then((json) => setDrawers((prevItems) => [...prevItems, json.data]))
       .catch((error) => console.error(error.message));
   };
 
@@ -244,6 +248,9 @@ export default function SortDrawerPage() {
   const handleCreate = (value) => {
     createNewDrawer();
     setDrawerName("");
+    navigate("/");
+    navigate(0);
+
   };
 
   const handleDisplay = () => {
@@ -256,15 +263,23 @@ export default function SortDrawerPage() {
   };
 
   //Using ID of drawerToBeMoved stored in sessionStorage to avoid error in case of page refresh
+  // const temp = JSON.parse(sessionStorage.getItem("drawersData"))
+  // console.log("temp", temp)
+  // const drawerToBeMovedObj = temp.find((item)=>item._id == sessionStorage.getItem("drawerToBeMoved"))
+  
   const drawerToBeMovedObj = drawers.filter(
     (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
   );
   console.log("LOOK", drawerToBeMoved);
+  console.log("MILA", drawerToBeMovedObj['name']);
+
 
   return (
     <div id="page">
       <h4 className="sort-drawer-title">
         Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID
+        {/* Drawer to be moved : {drawerToBeMovedObj['name']}---ID */}
+
         {drawerToBeMoved}
       </h4>
       <h4>Selected drawer Id : {selectedDrawerId}</h4>

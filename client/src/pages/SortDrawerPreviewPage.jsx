@@ -178,6 +178,8 @@ export default function SortDrawerPreviewPage() {
     moveDrawerToNewDrawer(selectedDrawerId);
     moveAllChildrenToNewDrawer(drawerToBeMoved, selectedDrawerId);
     updateParentDrawerBoolean(selectedDrawerId);
+    navigate("/");
+    navigate(0);
   };
 
   const renderedList = drawers
