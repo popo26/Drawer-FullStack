@@ -17,6 +17,7 @@ export default function App() {
   const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
+
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
       if (currentExpandedIndex === passedIndex) {
@@ -36,7 +37,7 @@ export default function App() {
           <SelectedScribbleProvider>
             <DrawerToBeMovedContextProvider>
               <DrawerNameProvider>
-                <MyNavbar />
+                <MyNavbar/>
                 <AppRoutes
                   expandedIndex={expandedIndex}
                   handleExpand={handleClickExpand}
