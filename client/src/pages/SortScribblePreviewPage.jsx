@@ -167,37 +167,46 @@ export default function SortScribblePreviewPage() {
     ));
 
   const scribblies = (x) => {
-    return scribbles
-      .filter((scrb) => scrb.drawerId == x[0]._id)
-      .map((scrb) => (
-        <p
-          key={scrb._id}
-          className={"sort-preview-scribbles scrb-indent" + scrb.level}
-        >
-          ID:{scrb._id}:{scrb.title}
-          <span>-- [scribble]</span>
-        </p>
-      ));
+    return (
+      scribbles
+        // .filter((scrb) => scrb.drawerId == x[0]._id)
+        .filter((scrb) => scrb.drawerId == x._id)
+
+        .map((scrb) => (
+          <p
+            key={scrb._id}
+            className={"sort-preview-scribbles scrb-indent" + scrb.level}
+          >
+            ID:{scrb._id}:{scrb.title}
+            <span>-- [scribble]</span>
+          </p>
+        ))
+    );
   };
 
   const subDrawers = (x) => {
-    return drawers
-      .filter((sub) => sub.drawerId == x[0]._id)
-      .map((sub) => (
-        <p
-          key={sub._id}
-          className={"sort-preview-subDrawers indent-" + sub.level}
-        >
-          ID:{sub._id}:{sub.name}
-          <span>-- [Sub-Drawer]</span>
-        </p>
-      ));
+    return (
+      drawers
+        // .filter((sub) => sub.drawerId == x[0]._id)
+        .filter((sub) => sub.drawerId == x._id)
+
+        .map((sub) => (
+          <p
+            key={sub._id}
+            className={"sort-preview-subDrawers indent-" + sub.level}
+          >
+            ID:{sub._id}:{sub.name}
+            <span>-- [Sub-Drawer]</span>
+          </p>
+        ))
+    );
   };
 
   const FindSubDrawers = () => {
     const x = drawers?.filter((item) => item._id == state.selectedDrawerId);
     const renderedChildren =
-      x[0]["subDrawer"] === true ? (
+      // x[0]["subDrawer"] === true ? (
+      x["subDrawer"] === true ? (
         <>
           {scribblies(x)}
           {subDrawers(x)}

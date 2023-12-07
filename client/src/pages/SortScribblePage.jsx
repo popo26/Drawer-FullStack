@@ -64,7 +64,7 @@ export default function SortScribblePage() {
       // .then((json) => {
       //   setScribbles((prevItems) => [...prevItems, json.data]);
       // })
-      
+
       .catch((error) => console.error(error.message));
   };
 
@@ -161,7 +161,11 @@ export default function SortScribblePage() {
               e.preventDefault();
               let passingData = { selectedScribbleId, selectedDrawerId };
               console.log("PassingData", passingData);
-              navigate("/sort-preview", { state: passingData });
+              {
+                !selectedDrawerId
+                  ? alert("Please select destination drawer")
+                  : navigate("/sort-preview", { state: passingData });
+              }
             }}
           >
             Next

@@ -19,6 +19,7 @@ export default function SortDrawerPreviewPage() {
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
 
   //console.log("State", state);
+  console.log("drawerToBeMoved", sessionStorage.getItem("drawerToBeMoved"));
 
   //To persist those 2 values incase of browser refresh -- moved to context?
   const drawerToBeMovedObj = drawers.filter(
@@ -183,7 +184,9 @@ export default function SortDrawerPreviewPage() {
   };
 
   const renderedList = drawers
-    .filter((item) => item._id == state.selectedDrawerId)
+    // .filter((item) => item._id == state.selectedDrawerId)
+    .filter((item) => item._id == sessionStorage.getItem("selectedDrawerId"))
+
     .map((item) => (
       <h4 className="sort-preview-drawer" key={item._id}>
         {item.name}
@@ -191,17 +194,21 @@ export default function SortDrawerPreviewPage() {
     ));
 
   const scribblies = (x) => {
-    return scribbles
-      .filter((scrb) => scrb.drawerId == x[0]._id)
-      .map((scrb) => (
-        <p
-          key={scrb._id}
-          className={"sort-preview-scribbles scrb-indent" + scrb.level}
-        >
-          ID:{scrb._id}:{scrb.title}
-          <span>-- [scribble]</span>
-        </p>
-      ));
+    return (
+      scribbles
+        // .filter((scrb) => scrb.drawerId == x[0]._id)
+        .filter((scrb) => scrb.drawerId == x._id)
+
+        .map((scrb) => (
+          <p
+            key={scrb._id}
+            className={"sort-preview-scribbles scrb-indent" + scrb.level}
+          >
+            ID:{scrb._id}:{scrb.title}
+            <span>-- [scribble]</span>
+          </p>
+        ))
+    );
   };
 
   const subDrawers = (x) => {
@@ -219,9 +226,15 @@ export default function SortDrawerPreviewPage() {
   };
 
   const FindSubDrawers = () => {
-    const x = drawers.filter((item) => item._id == state.selectedDrawerId);
+    // const x = drawers.filter((item) => item._id == state.selectedDrawerId);
+    const x = drawers.filter(
+      (item) => item._id == sessionStorage.getItem("selectedDrawerId")
+    );
+    console.log("X", x);
+
     const renderedChildren =
-      x[0]["subDrawer"] === true ? (
+      x["subDrawer"] === true ? (
+        // x[0]["subDrawer"] === true ? (
         <>
           {scribblies(x)}
           {subDrawers(x)}
@@ -236,8 +249,7 @@ export default function SortDrawerPreviewPage() {
   return (
     <div className="sort-drawer-preview-div">
       <h3>
-        Drawer to be moved: {drawerToBeMovedObj[0]["name"]}---ID{" "}
-        {drawerToBeMoved}
+        Drawer to be moved: {drawerToBeMovedObj["name"]}---ID {drawerToBeMoved}
       </h3>
       <h3>To: {selectedDrawerId}</h3>
       <div>{renderedList}</div>

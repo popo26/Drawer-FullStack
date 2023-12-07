@@ -27,7 +27,10 @@ export default function SortDrawerPage() {
 
   console.log("State", state);
   console.log("DrawerToBeMoved", drawerToBeMoved);
-  console.log("sessionStorage-drawerToBeMoved not in context", sessionStorage.getItem("drawerToBeMoved"));
+  console.log(
+    "sessionStorage-drawerToBeMoved not in context",
+    sessionStorage.getItem("drawerToBeMoved")
+  );
 
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
@@ -84,8 +87,6 @@ export default function SortDrawerPage() {
       }
     }
 
-
-
     // for (let x of drawers) {
     //   if (
     //     x.drawerId == parentDrawerId ||
@@ -124,7 +125,6 @@ export default function SortDrawerPage() {
     //       .catch((error) => console.error(error.message));
     //   }
     // }
-
 
     for (let x in scribbles) {
       if (scribbles[x].rootDrawerId == parentDrawerId) {
@@ -185,7 +185,6 @@ export default function SortDrawerPage() {
   //   }
   // };
 
-
   const moveDrawerToNewDrawer = (passedId) => {
     // const drawerToBeMovedObject = drawers.filter(
     //   (item) => item._id == drawerToBeMoved
@@ -230,12 +229,13 @@ export default function SortDrawerPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataPost),
-    }).then((response) => response.json())
-    .then((json) => {
-      moveDrawerToNewDrawer(json.data._id);
-      moveAllChildrenToNewDrawer(drawerToBeMoved, json.data._id)
     })
-    .catch((error)=>console.error(error.message));
+      .then((response) => response.json())
+      .then((json) => {
+        moveDrawerToNewDrawer(json.data._id);
+        moveAllChildrenToNewDrawer(drawerToBeMoved, json.data._id);
+      })
+      .catch((error) => console.error(error.message));
 
     // moveDrawerToNewDrawer(dataPost._id);
     // moveAllChildrenToNewDrawer(drawerToBeMoved, dataPost._id);
@@ -250,7 +250,6 @@ export default function SortDrawerPage() {
     setDrawerName("");
     navigate("/");
     navigate(0);
-
   };
 
   const handleDisplay = () => {
@@ -266,20 +265,18 @@ export default function SortDrawerPage() {
   // const temp = JSON.parse(sessionStorage.getItem("drawersData"))
   // console.log("temp", temp)
   // const drawerToBeMovedObj = temp.find((item)=>item._id == sessionStorage.getItem("drawerToBeMoved"))
-  
+
   const drawerToBeMovedObj = drawers.filter(
     (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
   );
   console.log("LOOK", drawerToBeMoved);
-  console.log("MILA", drawerToBeMovedObj['name']);
-
+  console.log("MILA", drawerToBeMovedObj["name"]);
 
   return (
     <div id="page">
       <h4 className="sort-drawer-title">
-        Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID
-        {/* Drawer to be moved : {drawerToBeMovedObj['name']}---ID */}
-
+        {/* Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID */}
+        Drawer to be moved : {drawerToBeMovedObj['name']}---ID
         {drawerToBeMoved}
       </h4>
       <h4>Selected drawer Id : {selectedDrawerId}</h4>
@@ -320,8 +317,12 @@ export default function SortDrawerPage() {
               e.preventDefault();
               let passingData = { selectedDrawerId, drawerToBeMoved };
               console.log("PassingData", passingData);
-              navigate("/sort-drawer-preview", { state: passingData });
-              sessionStorage.setItem("selectedDrawerId", selectedDrawerId);
+              {
+                !selectedDrawerId
+                  ? alert("Please select destination drawer")
+                  : navigate("/sort-drawer-preview", { state: passingData });
+                sessionStorage.setItem("selectedDrawerId", selectedDrawerId);
+              }
             }}
           >
             Next
