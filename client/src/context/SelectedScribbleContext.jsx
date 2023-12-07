@@ -1,10 +1,20 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 const SelectedScribbleContext = createContext("");
 
 export const SelectedScribbleProvider = (props) => {
     const [selectedScribbleId, setSelectedScribbleId] = useState("");
 
+    useEffect(() => {
+      const selectedScribble = sessionStorage.getItem("selectedScribble");
+      if (selectedScribble) {
+        setSelectedScribbleId(selectedScribble);
+      }
+    }, []);
+  
+    useEffect(() => {
+      sessionStorage.setItem("selectedScribble", selectedScribbleId);
+    }, [selectedScribbleId]);
 
   return (
     <SelectedScribbleContext.Provider

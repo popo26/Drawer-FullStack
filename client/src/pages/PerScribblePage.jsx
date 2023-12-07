@@ -5,6 +5,7 @@ import Dropzone from "react-dropzone";
 import { useEffect, useState, useRef } from "react";
 import FileDrop from "../components/FileDrop";
 import { useDataContext } from "../context/DataContext";
+import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 
 const thumbsContainer = {
   display: "flex",
@@ -44,8 +45,13 @@ export default function PerScribblePage() {
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const { drawers, scribbles, setScribbles } = useDataContext();
-
+  const [selectedScribbleId, setSelectedScribbleId] =
+    useSelectedScribbleContext();
   const body = useRef(screenshots);
+
+  useEffect(() => {
+    setSelectedScribbleId(sessionStorage.getItem("selectedScribble"));
+  }, []);
 
   let scribbleData;
 
@@ -54,6 +60,10 @@ export default function PerScribblePage() {
       scribbleData = x;
     }
   }
+
+  console.log("selectedScribbleId", selectedScribbleId);
+  console.log("ID", id);
+  console.log("scribbleData", scribbleData);
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -265,11 +275,12 @@ export default function PerScribblePage() {
   //+++++++++Experiment Screenshot===========================================================================
 
   // html string
-  // const selectedScribble = data["scribbles"].filter((item) => item.id == id);
-  // const selectedScribble = Array(scribbles).filter((item) => item.id == id);
-  const selectedScribble = scribbles.filter((item) => item._id == id);
+  const selectedScribble = scribbles.find(
+    (item) => item._id == sessionStorage.getItem("selectedScribble")
+  );
 
-  const htmlStr = selectedScribble[0].content;
+  // const htmlStr = selectedScribble[0].content;
+  const htmlStr = selectedScribble.content;
 
   function decodeHtml(html) {
     if (document.getElementById("content")) {
@@ -282,8 +293,14 @@ export default function PerScribblePage() {
 
   //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
-    const selectedScribble = scribbles.filter((item) => item._id == id);
-    setSecreenshots(selectedScribble[0].content);
+    // const selectedScribble = scribbles.filter((item) => item._id == id);
+    const selectedScribble = scribbles.find(
+      (item) => item._id == sessionStorage.getItem("selectedScribble")
+    );
+
+    // setSecreenshots(selectedScribble[0].content);
+    setSecreenshots(selectedScribble.content);
+
     return () => setSecreenshots([]);
   }, []);
 

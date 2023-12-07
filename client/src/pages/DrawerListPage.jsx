@@ -165,7 +165,9 @@ export default function DrawerListPage({ expandedIndex }) {
     // setDrawerNameToEdit(drawerName[0]["name"]);
     // setDrawerIdToEdit(drawerName[0]["idd"]);
     setDrawerNameToEdit(drawerName["name"]);
-    setDrawerIdToEdit(drawerName["_id"]);
+    // setDrawerIdToEdit(drawerName["_id"]);
+    setDrawerIdToEdit(clickedId);
+
     text.current = document.getElementById(
       `targetDrawerId${clickedId}`
     ).innerText;
@@ -174,6 +176,7 @@ export default function DrawerListPage({ expandedIndex }) {
   const update = () => {
     updateDrawerName(drawerIdToEdit);
     setUpdateIconIndex(-1);
+    navigate(0)
   };
 
   // const save = (id) => {

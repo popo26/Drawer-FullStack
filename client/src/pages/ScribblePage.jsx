@@ -34,14 +34,28 @@ export default function ScribblePage({
 
     let filesInfo = [];
     for (let x of files) {
+      console.log("X", x["file"])
       const perFile = {};
-      perFile["path"] = x.path;
-      perFile["name"] = x.name;
+      perFile["path"] = x["file"].path;
+      perFile["name"] = x["file"].name;
       perFile["preview"] = x.preview;
-      perFile["size"] = x.size;
-      perFile["type"] = x.type;
+      perFile["size"] = x["file"].size;
+      perFile["format"] = x["file"].type;
       filesInfo.push(perFile);
     }
+
+    // let filesInfo = [];
+    // for (let x of files) {
+    //   const perFile = {};
+    //   perFile["path"] = x.path;
+    //   perFile["name"] = x.name;
+    //   perFile["preview"] = x.preview;
+    //   perFile["size"] = x.size;
+    //   perFile["type"] = x.type;
+    //   filesInfo.push(perFile);
+    // }
+
+
     let dataPost = {
       userId: 1,
       title: scribbleTitle ? scribbleTitle : "Untitled",

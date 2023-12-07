@@ -9,7 +9,6 @@ export default function ScribbleListPage({ files }) {
   // const data = useDataContext();
   const {drawers, scribbles, setDrawers, setScribbles} = useDataContext();
 
-    const strayScribbles = scribbles;
 
 
 
@@ -37,7 +36,7 @@ export default function ScribbleListPage({ files }) {
 
   //console.log("files length", files.length);
 
-  const renderedList = strayScribbles.map(
+  const renderedList = scribbles.map(
     (item) =>
       item.stray === true && (
         <p key={item._id}>
