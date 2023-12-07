@@ -160,9 +160,12 @@ export default function DrawerListPage({ expandedIndex }) {
     console.log("update icon index", updateIconIndex);
     setUpdateIconIndex(clickedId);
     test(clickedId);
+    console.log("clickedId", clickedId)
     const drawerName = drawers.filter((item) => item._id == clickedId);
-    setDrawerNameToEdit(drawerName[0]["name"]);
-    setDrawerIdToEdit(drawerName[0]["idd"]);
+    // setDrawerNameToEdit(drawerName[0]["name"]);
+    // setDrawerIdToEdit(drawerName[0]["idd"]);
+    setDrawerNameToEdit(drawerName["name"]);
+    setDrawerIdToEdit(drawerName["_id"]);
     text.current = document.getElementById(
       `targetDrawerId${clickedId}`
     ).innerText;
