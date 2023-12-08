@@ -3,18 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../css/ScribbleListPage.css";
 import { useDataContext } from "../context/DataContext";
+import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 
 export default function ScribbleListPage({ files }) {
   const navigate = useNavigate();
-  // const data = useDataContext();
-  const {drawers, scribbles, setDrawers, setScribbles} = useDataContext();
-
-
-
+  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const [selectedScribbleId, setSelectedScribbleId] =
+    useSelectedScribbleContext();
 
   const deleteScribble = (id) => {
-      fetch(`http://localhost:8080/api/scribbles/${id}`, {
-
+    fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -40,13 +38,19 @@ export default function ScribbleListPage({ files }) {
     (item) =>
       item.stray === true && (
         <p key={item._id}>
-          <Link to={`/scribble/${item._id}`}>
+          <Link
+            to={`/scribble/${item._id}`}
+            onClick={() => {
+              setSelectedScribbleId(item._id);
+              sessionStorage.setItem("selectedScribble", item._id);
+            }}
+          >
             {item.attachment && (
               <Icon icon="ic:outline-attachment" color="lightpink" width="36" />
             )}
             ID:{item._id}, {item.title}
           </Link>{" "}
-          <a onClick={() => handleDelete(item._id)}>
+          <a onClick={() => {handleDelete(item._id); navigate(0)}}>
             <Icon icon="ion:trash-outline" color="black" width="20" />
           </a>
           <Icon
@@ -54,6 +58,8 @@ export default function ScribbleListPage({ files }) {
             color="black"
             width="22"
             onClick={() => {
+              setSelectedScribbleId(item._id);
+              sessionStorage.setItem("selectedScribble", item._id);
               navigate("/sort", { state: { id: item._id } });
             }}
           />

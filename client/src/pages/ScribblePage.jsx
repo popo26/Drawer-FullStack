@@ -20,12 +20,13 @@ export default function ScribblePage({
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
-  const [content, setContent] = useState("_");
+  const [content, setContent] = useState("Enter");
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] = useSelectedScribbleContext();
 
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
+    console.log("Current body", body.current)
     setContent(body.current);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
@@ -212,6 +213,7 @@ export default function ScribblePage({
         className="screenshot"
         ref={body}
         suppressContentEditableWarning={true}
+        onClick={()=>setContent("")}
       >
         {content}
       </div>

@@ -49,21 +49,37 @@ export default function PerScribblePage() {
     useSelectedScribbleContext();
   const body = useRef(screenshots);
 
+  //console.log("state", id)
+  const selectedScribble = scribbles.filter(
+    (item) => item._id == sessionStorage.getItem("selectedScribble")
+  );
+
+  //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
-    setSelectedScribbleId(sessionStorage.getItem("selectedScribble"));
+    setSelectedScribbleId(id);
+    setScribbles(JSON.parse(sessionStorage.getItem("scribblesData")));
+    setSecreenshots(selectedScribble[0].content);
+    return () => setSecreenshots([]);
   }, []);
 
+  //console.log("scribbles", JSON.parse(sessionStorage.getItem("scribblesData")))
+
+  const test = JSON.parse(sessionStorage.getItem("scribblesData"));
   let scribbleData;
 
-  for (let x of scribbles) {
-    if (x._id == id) {
-      scribbleData = x;
+  //console.log("test", test)
+
+  for (let x in test) {
+    //console.log("test[x]._d", test[x]['_id'])
+    if (test[x]._id == id) {
+      //console.log("result", test[x])
+      scribbleData = test[x];
     }
   }
 
-  console.log("selectedScribbleId", selectedScribbleId);
-  console.log("ID", id);
-  console.log("scribbleData", scribbleData);
+  // console.log("selectedScribbleId", selectedScribbleId);
+  // console.log("ID", id);
+  // console.log("scribbleData", scribbleData);
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -86,6 +102,7 @@ export default function PerScribblePage() {
     deleteScribble(id);
     const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
     scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+    navigate(0);
   };
 
   const deleteAttachment = (id, blob) => {
@@ -207,19 +224,17 @@ export default function PerScribblePage() {
       (item) => item._id == id
     );
 
+    //setSecreenshots(body.current.innerHTML);
+    console.log("CURRENT in update fx", body.current.innerHTML);
+
     const newContent = body.current.innerHTML;
+    console.log("newContent", newContent);
     setSecreenshots(newContent);
+    console.log("CURRENT newCOntent", newContent);
 
     let dataPost = {
-      // rootDrawerId: scribbleContentToBeUpdated[0]["rootDrawerId"],
-      // userId: 1,
-      // drawerId: scribbleContentToBeUpdated[0]["drawerId"],
-      // title: scribbleContentToBeUpdated[0]["title"],
-      // type: "scribble",
       content: newContent,
-      // stray: scribbleContentToBeUpdated[0]["stray"],
-      // level: scribbleContentToBeUpdated[0]["level"],
-      // files: scribbleContentToBeUpdated[0]["files"],
+      files: selectedScribble[0].files,
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
@@ -236,6 +251,9 @@ export default function PerScribblePage() {
   const update = () => {
     updateContent();
     setIsEditable(false);
+    //workaround to update state
+    navigate("/stray");
+    navigate(0);
   };
 
   //console.log("fffilesPerScribble", files)
@@ -272,15 +290,24 @@ export default function PerScribblePage() {
   //   console.log(img)
   //   c.replace(img)
   // }
-  //+++++++++Experiment Screenshot===========================================================================
 
-  // html string
-  const selectedScribble = scribbles.find(
-    (item) => item._id == sessionStorage.getItem("selectedScribble")
-  );
+  //+++++++++Experiment Screenshot ORIGINAL===========================================================================
+  //   //html string
+  // const selectedScribble = scribbles.filter(
+  //   (item) => item._id == sessionStorage.getItem("selectedScribble")
+  // );
 
-  // const htmlStr = selectedScribble[0].content;
-  const htmlStr = selectedScribble.content;
+  console.log("ref body", body.current.innerHTML);
+  const htmlStr = selectedScribble[0].content;
+
+  // function decodeHtml(html) {
+  //   if (document.getElementById("content")) {
+  //     body.current = document.getElementById("content");
+  //     body.current.innerHTML = html;
+  //     console.log("current value", body.current.innerHTML);
+  //     return body.current.value;
+  //   }
+  // }
 
   function decodeHtml(html) {
     if (document.getElementById("content")) {
@@ -289,20 +316,15 @@ export default function PerScribblePage() {
       return txt.value;
     }
   }
+
   const decodedHTML = decodeHtml(htmlStr);
+  console.log("attachment", selectedScribble[0].attachment);
 
-  //Need to have scribble content onload so that decodeHtml function can be used
-  useEffect(() => {
-    // const selectedScribble = scribbles.filter((item) => item._id == id);
-    const selectedScribble = scribbles.find(
-      (item) => item._id == sessionStorage.getItem("selectedScribble")
-    );
-
-    // setSecreenshots(selectedScribble[0].content);
-    setSecreenshots(selectedScribble.content);
-
-    return () => setSecreenshots([]);
-  }, []);
+  // //Need to have scribble content onload so that decodeHtml function can be used
+  // useEffect(() => {
+  //   setSecreenshots(selectedScribble[0].content);
+  //   return () => setSecreenshots([]);
+  // }, []);
 
   return (
     <div>
@@ -310,7 +332,7 @@ export default function PerScribblePage() {
 
       <div>
         <h2>
-          {scribbleData._id}, {scribbleData.title}
+          {selectedScribble._id}, {selectedScribble.title}
         </h2>
 
         {/* <section id="content">{decodedHTML}</section> */}
@@ -324,7 +346,7 @@ export default function PerScribblePage() {
         </section>
 
         {/* <aside>{renderedAttachments}</aside> */}
-        {scribbleData.attachment && (
+        {selectedScribble[0].attachment && (
           <aside style={thumbsContainer}>{thumbs()}</aside>
         )}
       </div>
