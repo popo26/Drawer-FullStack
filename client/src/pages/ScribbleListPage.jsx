@@ -7,18 +7,14 @@ import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 
 // export default function ScribbleListPage({ files }) {
-  export default function ScribbleListPage() {
-
+export default function ScribbleListPage() {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-    const [files] = useFileContext();
+  const [files] = useFileContext();
 
-
-    console.log("SCRIBBLES", scribbles)
-
-
+  console.log("SCRIBBLES", scribbles);
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -37,8 +33,10 @@ import { useFileContext } from "../context/FileContext";
   };
 
   const handleDelete = (id) => {
-    confirm(`Are you sure to delete? -ID:${id}`);
-    deleteScribble(id);
+    const response = confirm(`Are you sure to delete? -ID:${id}`);
+    if (response == true) {
+      deleteScribble(id);
+    }
   };
 
   //console.log("files length", files.length);
@@ -56,7 +54,7 @@ import { useFileContext } from "../context/FileContext";
             }}
           > */}
           <Link
-            to={`/scribble/${item._id}` }
+            to={`/scribble/${item._id}`}
             onClick={() => {
               setSelectedScribbleId(item._id);
               sessionStorage.setItem("selectedScribble", item._id);
@@ -68,7 +66,12 @@ import { useFileContext } from "../context/FileContext";
             ID:{item._id}, {item.title}
           </Link>{" "}
           {/* </a>{" "} */}
-          <a onClick={() => {handleDelete(item._id); navigate(0)}}>
+          <a
+            onClick={() => {
+              handleDelete(item._id);
+              navigate(0);
+            }}
+          >
             <Icon icon="ion:trash-outline" color="black" width="20" />
           </a>
           <Icon

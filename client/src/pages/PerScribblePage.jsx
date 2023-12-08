@@ -54,7 +54,7 @@ export default function PerScribblePage() {
 
   //why i need this line to persist scribbles
   console.log("SCRIBBLES", scribbles);
-  console.log("selectedScribble", sessionStorage.getItem("selectedScribble"))
+  console.log("selectedScribble", sessionStorage.getItem("selectedScribble"));
   const target = scribbles.find((item) => item._id == id);
   console.log("WHAT", target);
 
@@ -63,7 +63,7 @@ export default function PerScribblePage() {
     setSecreenshots(target.content);
     const newFiles = JSON.parse(sessionStorage.getItem("files"));
     setFiles(newFiles);
-    //return () => setSecreenshots([]);
+    return () => setSecreenshots([]);
   }, []);
 
   const deleteScribble = (id) => {
@@ -79,11 +79,19 @@ export default function PerScribblePage() {
   };
 
   const handleDelete = (id) => {
-    confirm(`Are you sure to delete this scribble? -ID:${id}`);
-    deleteScribble(id);
-    const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-    scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
-    navigate(0);
+    const response = confirm(`Are you sure to delete this scribble? -ID:${id}`);
+    if (response==true){
+      confirm(`Are you sure to delete this scribble? -ID:${id}`);
+      deleteScribble(id);
+      const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
+      scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+      navigate(0);
+    }
+    // confirm(`Are you sure to delete this scribble? -ID:${id}`);
+    // deleteScribble(id);
+    // const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
+    // scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+    // navigate(0);
   };
 
   const deleteAttachment = (id, blob) => {
@@ -331,6 +339,7 @@ export default function PerScribblePage() {
           color="black"
           width="30"
           onClick={() => handleDelete(target._id)}
+
         />
 
         <Icon
@@ -346,8 +355,7 @@ export default function PerScribblePage() {
   );
 }
 
-
-
+/////////////////THIS ONE PERSIST BUT WRONG????????????????????????????????????????????????????????????????????????????????????????
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

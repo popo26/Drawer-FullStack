@@ -26,9 +26,7 @@ export default function DrawerListPage({ expandedIndex }) {
   // console.log("Clicked drawer name", drawerNameToEdit);
   // console.log("Clicked drawer Id", drawerIdToEdit);
 
-
-  console.log("SCRIBBLES", scribbles)
-
+  console.log("SCRIBBLES", scribbles);
 
   // ++++++++Delete Drawer and its sub-drawers and scribbles
 
@@ -99,11 +97,14 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const handleDelete = (id) => {
-    confirm(
+    const response = confirm(
       `Are you sure to delete this drawer and all the content? -ID:${id}`
     );
-    deleteSelectedDrawer(id);
-    navigate("/");
+    if (response == true) {
+      deleteSelectedDrawer(id);
+      navigate("/");
+      navigate(0);
+    }
   };
 
   //+++++++++++++++++++Get feedback from Anthony++++++++++++++++++++++++++++++++
@@ -163,7 +164,7 @@ export default function DrawerListPage({ expandedIndex }) {
     console.log("update icon index", updateIconIndex);
     setUpdateIconIndex(clickedId);
     test(clickedId);
-    console.log("clickedId", clickedId)
+    console.log("clickedId", clickedId);
     const drawerName = drawers.filter((item) => item._id == clickedId);
     // setDrawerNameToEdit(drawerName[0]["name"]);
     // setDrawerIdToEdit(drawerName[0]["idd"]);
@@ -179,7 +180,7 @@ export default function DrawerListPage({ expandedIndex }) {
   const update = () => {
     updateDrawerName(drawerIdToEdit);
     setUpdateIconIndex(-1);
-    navigate(0)
+    navigate(0);
   };
 
   // const save = (id) => {
@@ -316,7 +317,7 @@ export default function DrawerListPage({ expandedIndex }) {
   const updateDrawerName = (id) => {
     const drawerToBeUpdated = drawers.filter((item) => item._id == id);
     const newName = text.current.innerText;
-    console.log("newName", newName)
+    console.log("newName", newName);
     setDrawerNameToEdit(text.current.innerText);
 
     let dataPost = {
