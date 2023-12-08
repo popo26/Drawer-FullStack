@@ -10,11 +10,11 @@ import { SelectedScribbleProvider } from "./context/SelectedScribbleContext";
 import { DrawerToBeMovedContextProvider } from "./context/DrawerToBeMovedContext";
 import { DrawerNameProvider } from "./context/DrawerNameContext";
 import { useDataContext } from "./context/DataContext";
-import { getUsers, getDrawers, getScribbles } from "./utils/getData";
+import { FileProvider } from "./context/FileContext";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
 
@@ -37,16 +37,18 @@ export default function App() {
           <SelectedScribbleProvider>
             <DrawerToBeMovedContextProvider>
               <DrawerNameProvider>
+                <FileProvider>
                 <MyNavbar/>
                 <AppRoutes
                   expandedIndex={expandedIndex}
                   handleExpand={handleClickExpand}
-                  files={files}
-                  setFiles={setFiles}
+                  // files={files}
+                  // setFiles={setFiles}
                 />
                 <Link to="/scribble">
                   <ScribbleBtn />
                 </Link>
+                </FileProvider>
               </DrawerNameProvider>
             </DrawerToBeMovedContextProvider>
           </SelectedScribbleProvider>

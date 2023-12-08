@@ -9,24 +9,27 @@ import { useDropzone } from "react-dropzone";
 import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
+import { useFileContext } from "../context/FileContext";
 
-
-export default function ScribblePage({
-  files,
-  setFiles,
-}) {
+export default function ScribblePage() {
+  // export default function ScribblePage({
+  //   files,
+  //   setFiles,
+  // })
   const navigate = useNavigate();
-  const {drawers, scribbles, setScribbles} = useDataContext();
+  const { drawers, scribbles, setScribbles } = useDataContext();
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
   const [content, setContent] = useState("Enter");
   const body = useRef(content);
-  const [selectedScribbleId, setSelectedScribbleId] = useSelectedScribbleContext();
+  const [selectedScribbleId, setSelectedScribbleId] =
+    useSelectedScribbleContext();
+    const [files, setFiles] = useFileContext();
 
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
-    console.log("Current body", body.current)
+    console.log("Current body", body.current);
     setContent(body.current);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
@@ -35,7 +38,7 @@ export default function ScribblePage({
 
     let filesInfo = [];
     for (let x of files) {
-      console.log("X", x["file"])
+      console.log("X", x["file"]);
       const perFile = {};
       perFile["path"] = x["file"].path;
       perFile["name"] = x["file"].name;
@@ -56,7 +59,6 @@ export default function ScribblePage({
     //   filesInfo.push(perFile);
     // }
 
-
     let dataPost = {
       userId: 1,
       title: scribbleTitle ? scribbleTitle : "Untitled",
@@ -67,8 +69,7 @@ export default function ScribblePage({
       attachment: attachmentBool,
       files: filesInfo,
     };
-      fetch("http://localhost:8080/api/scribbles/create", {
-
+    fetch("http://localhost:8080/api/scribbles/create", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -77,7 +78,7 @@ export default function ScribblePage({
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then((json)=>setScribbles((prevItems)=>[...prevItems, json.data]))
+      .then((json) => setScribbles((prevItems) => [...prevItems, json.data]))
       .catch((error) => console.error(error.message));
   };
 
@@ -93,10 +94,10 @@ export default function ScribblePage({
   const handleSubmitScribble = () => {
     createNewScribble();
     setTempFiles([]);
-    setScribbleTitle("")
-    setContent("")
+    setScribbleTitle("");
+    setContent("");
     body.current = "";
-    navigate("/stray")
+    navigate("/stray");
   };
 
   // const deleteAttachment = (blob) => {
@@ -213,7 +214,7 @@ export default function ScribblePage({
         className="screenshot"
         ref={body}
         suppressContentEditableWarning={true}
-        onClick={()=>setContent("")}
+        onClick={() => setContent("")}
       >
         {content}
       </div>

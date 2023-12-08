@@ -39,16 +39,22 @@ export default function AppRoutes({
         <Route path="/search" element={<SearchPage />}></Route>
         <Route
           path="/scribble"
-          element={<ScribblePage files={files} setFiles={setFiles} />}
+          // element={<ScribblePage files={files} setFiles={setFiles} />}
+          element={<ScribblePage />}
+
         ></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
         <Route
           path="/stray"
-          element={<ScribbleListPage files={files} />}
+          // element={<ScribbleListPage files={files} />}
+          element={<ScribbleListPage />}
+
         ></Route>
         <Route
           path="/scribble/:id"
-          element={<PerScribblePage files={files} setFiles={setFiles} />}
+          // element={<PerScribblePage files={files} setFiles={setFiles} />}
+          element={<PerScribblePage />}
+
         ></Route>
         <Route
           path="/sort"
@@ -95,7 +101,9 @@ export default function AppRoutes({
         ></Route>
         <Route
           path="/test"
-          element={<TestPage files={files} setFiles={setFiles} />}
+          // element={<TestPage files={files} setFiles={setFiles} />}
+          element={<TestPage />}
+
         ></Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

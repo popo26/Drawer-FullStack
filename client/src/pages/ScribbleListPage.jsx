@@ -4,12 +4,16 @@ import { useState, useEffect } from "react";
 import "../css/ScribbleListPage.css";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
+import { useFileContext } from "../context/FileContext";
 
-export default function ScribbleListPage({ files }) {
+// export default function ScribbleListPage({ files }) {
+  export default function ScribbleListPage() {
+
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
+    const [files] = useFileContext();
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {

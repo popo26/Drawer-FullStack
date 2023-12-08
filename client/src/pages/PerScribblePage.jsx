@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import FileDrop from "../components/FileDrop";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
+import { useFileContext } from "../context/FileContext";
 
 const thumbsContainer = {
   display: "flex",
@@ -48,17 +49,32 @@ export default function PerScribblePage() {
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const body = useRef(screenshots);
+  const [files, setFiles] = useFileContext();
+  const [currentScribbles, setCurrentScribbles] = useState(scribbles);
 
-  //console.log("state", id)
-  const selectedScribble = scribbles.filter(
-    (item) => item._id == sessionStorage.getItem("selectedScribble")
-  );
+  console.log("state", JSON.parse(sessionStorage.getItem("scribblesData"))[0]);
+  // for (let x of JSON.parse(sessionStorage.getItem("scribblesData")) ){
+  //   console.log("C", x)
+  // }
+
+  // const selectedScribble = JSON.parse(
+  //   sessionStorage.getItem("scribblesData")
+  // ).find((item) => item._id == id);
+
+  console.log("currentScribbles", currentScribbles);
+  const selectedScribble = currentScribbles.find((item) => item._id == id);
+  console.log("HERE", selectedScribble)
 
   //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
     setSelectedScribbleId(id);
-    setScribbles(JSON.parse(sessionStorage.getItem("scribblesData")));
-    setSecreenshots(selectedScribble[0].content);
+    const newScribbles = JSON.parse(sessionStorage.getItem("scribblesData"));
+    //setScribbles(newScribbles);
+    setCurrentScribbles(newScribbles);
+    // setSecreenshots(selectedScribble[0].content);
+    setSecreenshots(selectedScribble.content);
+    const newFiles = JSON.parse(sessionStorage.getItem("files"));
+    setFiles(newFiles);
     return () => setSecreenshots([]);
   }, []);
 
@@ -107,7 +123,8 @@ export default function PerScribblePage() {
 
   const deleteAttachment = (id, blob) => {
     const selectedScribble = scribbles.filter((item) => item._id == id);
-    const newAttachments = selectedScribble[0].files.filter(
+    // const newAttachments = selectedScribble[0].files.filter(
+    const newAttachments = selectedScribble.files.filter(
       (item) => item.preview != blob
     );
     // setFiles(newAttachments)
@@ -130,7 +147,9 @@ export default function PerScribblePage() {
       // stray: selectedScribble[0].stray,
       // level: selectedScribble[0].level,
       attachment:
-        filesInfo.length === 0 ? false : selectedScribble[0].attachment,
+        // filesInfo.length === 0 ? false : selectedScribble[0].attachment,
+        filesInfo.length === 0 ? false : selectedScribble.attachment,
+
       files: filesInfo,
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -234,7 +253,8 @@ export default function PerScribblePage() {
 
     let dataPost = {
       content: newContent,
-      files: selectedScribble[0].files,
+      // files: selectedScribble[0].files,
+      files: selectedScribble.files,
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
@@ -297,17 +317,12 @@ export default function PerScribblePage() {
   //   (item) => item._id == sessionStorage.getItem("selectedScribble")
   // );
 
+  console.log("State ID", id);
+  console.log("selectedScribble", selectedScribble);
   console.log("ref body", body.current.innerHTML);
-  const htmlStr = selectedScribble[0].content;
-
-  // function decodeHtml(html) {
-  //   if (document.getElementById("content")) {
-  //     body.current = document.getElementById("content");
-  //     body.current.innerHTML = html;
-  //     console.log("current value", body.current.innerHTML);
-  //     return body.current.value;
-  //   }
-  // }
+  console.log("asdf");
+  // const htmlStr = selectedScribble[0].content;
+  const htmlStr = selectedScribble.content;
 
   function decodeHtml(html) {
     if (document.getElementById("content")) {
@@ -318,7 +333,8 @@ export default function PerScribblePage() {
   }
 
   const decodedHTML = decodeHtml(htmlStr);
-  console.log("attachment", selectedScribble[0].attachment);
+  // console.log("attachment", selectedScribble[0].attachment);
+  console.log("attachment", selectedScribble.attachment);
 
   // //Need to have scribble content onload so that decodeHtml function can be used
   // useEffect(() => {
@@ -346,7 +362,7 @@ export default function PerScribblePage() {
         </section>
 
         {/* <aside>{renderedAttachments}</aside> */}
-        {selectedScribble[0].attachment && (
+        {selectedScribble.attachment && (
           <aside style={thumbsContainer}>{thumbs()}</aside>
         )}
       </div>
