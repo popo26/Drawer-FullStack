@@ -26,6 +26,10 @@ export default function DrawerListPage({ expandedIndex }) {
   // console.log("Clicked drawer name", drawerNameToEdit);
   // console.log("Clicked drawer Id", drawerIdToEdit);
 
+
+  console.log("SCRIBBLES", scribbles)
+
+
   // ++++++++Delete Drawer and its sub-drawers and scribbles
 
   const deleteScribbles = (drawerId) => {
@@ -46,7 +50,6 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const deleteSelectedDrawer = (id) => {
-    console.log("delete ID", id);
     fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "DELETE",
       mode: "cors",

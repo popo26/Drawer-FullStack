@@ -26,7 +26,6 @@ export default function MyAccordion({
 //   }, []);
 
 
-
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
 
   const findScribbles = (id) => {
