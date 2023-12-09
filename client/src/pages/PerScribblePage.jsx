@@ -64,6 +64,8 @@ export default function PerScribblePage() {
  //console.log("Data context", DataProvider);
 
   //Need to have scribble content onload so that decodeHtml function can be used
+
+
   useEffect(() => {
     if(!loading){
       setSecreenshots(target.content);
