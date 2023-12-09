@@ -12,11 +12,17 @@ export default function ScribbleListPage() {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-  const [files] = useFileContext();
+  // const [files] = useFileContext();
+  const {files} = useFileContext();
+
 
 
 
   console.log("SCRIBBLES", scribbles);
+
+  for (let x in scribbles){
+    console.log(scribbles[x]['files'])
+  }
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {

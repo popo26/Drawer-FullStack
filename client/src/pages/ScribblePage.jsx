@@ -25,7 +25,9 @@ export default function ScribblePage() {
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-    const [files, setFiles] = useFileContext();
+    // const [files, setFiles] = useFileContext();
+    const {files, setFiles, loadingFiles, setLoadingFiles} = useFileContext();
+
 
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
@@ -48,16 +50,6 @@ export default function ScribblePage() {
       filesInfo.push(perFile);
     }
 
-    // let filesInfo = [];
-    // for (let x of files) {
-    //   const perFile = {};
-    //   perFile["path"] = x.path;
-    //   perFile["name"] = x.name;
-    //   perFile["preview"] = x.preview;
-    //   perFile["size"] = x.size;
-    //   perFile["type"] = x.type;
-    //   filesInfo.push(perFile);
-    // }
 
     let dataPost = {
       userId: 1,
@@ -78,7 +70,7 @@ export default function ScribblePage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      //.then((json) => setScribbles((prevItems) => [...prevItems, json.data]))
+      //.then((json) => setFiles((prevItems) => [...prevItems, json.data['files']]))
       .catch((error) => console.error(error.message));
   };
 

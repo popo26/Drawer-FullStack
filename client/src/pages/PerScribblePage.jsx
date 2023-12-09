@@ -50,7 +50,9 @@ export default function PerScribblePage() {
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const body = useRef(screenshots);
-  const [files, setFiles] = useFileContext();
+  // const [files, setFiles] = useFileContext();
+  const {files, setFiles, loadingFiles, setLoadingFiles} = useFileContext();
+
   //const [currentScribbles, setCurrentScribbles] = useState(scribbles);
   // const [loading, setLoading] = useState(true);
 
@@ -69,9 +71,12 @@ export default function PerScribblePage() {
   useEffect(() => {
     if(!loading){
       setSecreenshots(target.content);
-      const newFiles = JSON.parse(sessionStorage.getItem("files"));
-      console.log("newFiles", newFiles);
-      setFiles(newFiles);
+      if(!loadingFiles){
+        const newFiles = JSON.parse(sessionStorage.getItem("files"));
+        console.log("newFiles", newFiles);
+        setFiles(newFiles);
+      }
+ 
   
       return () => setSecreenshots([]);
     }
