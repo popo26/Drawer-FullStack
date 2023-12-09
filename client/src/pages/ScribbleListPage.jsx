@@ -14,6 +14,8 @@ export default function ScribbleListPage() {
     useSelectedScribbleContext();
   const [files] = useFileContext();
 
+
+
   console.log("SCRIBBLES", scribbles);
 
   const deleteScribble = (id) => {

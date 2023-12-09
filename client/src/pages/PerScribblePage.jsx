@@ -7,6 +7,7 @@ import FileDrop from "../components/FileDrop";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
+import { DataProvider } from "../context/DataContext";
 
 const thumbsContainer = {
   display: "flex",
@@ -45,25 +46,34 @@ export default function PerScribblePage() {
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-  const { drawers, scribbles, setScribbles } = useDataContext();
+  const { drawers, scribbles, setScribbles, loading, setLoading } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const body = useRef(screenshots);
   const [files, setFiles] = useFileContext();
   //const [currentScribbles, setCurrentScribbles] = useState(scribbles);
+  // const [loading, setLoading] = useState(true);
+
+
 
   //why i need this line to persist scribbles
   console.log("SCRIBBLES", scribbles);
-  console.log("selectedScribble", sessionStorage.getItem("selectedScribble"));
-  const target = scribbles.find((item) => item._id == id);
-  console.log("WHAT", target);
+  //console.log("selectedScribble", sessionStorage.getItem("selectedScribble"));
+  let target = scribbles.find((item) => item._id == id);
+  console.log("Target", target);
+ //console.log("Data context", DataProvider);
 
   //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
-    setSecreenshots(target.content);
-    const newFiles = JSON.parse(sessionStorage.getItem("files"));
-    setFiles(newFiles);
-    return () => setSecreenshots([]);
+    if(!loading){
+      setSecreenshots(target.content);
+      const newFiles = JSON.parse(sessionStorage.getItem("files"));
+      console.log("newFiles", newFiles);
+      setFiles(newFiles);
+  
+      return () => setSecreenshots([]);
+    }
+ 
   }, []);
 
   const deleteScribble = (id) => {
@@ -80,7 +90,7 @@ export default function PerScribblePage() {
 
   const handleDelete = (id) => {
     const response = confirm(`Are you sure to delete this scribble? -ID:${id}`);
-    if (response==true){
+    if (response == true) {
       confirm(`Are you sure to delete this scribble? -ID:${id}`);
       deleteScribble(id);
       const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
@@ -226,7 +236,7 @@ export default function PerScribblePage() {
     setIsEditable(false);
     //workaround to update state
     // navigate("/stray");
-    // navigate(0);
+    navigate(0);
   };
 
   //console.log("fffilesPerScribble", files)
@@ -273,7 +283,9 @@ export default function PerScribblePage() {
   console.log("State ID", id);
   console.log("ref body", body.current.innerHTML);
   // const htmlStr = selectedScribble[0].content;
-  const htmlStr = target.content;
+  // const htmlStr = target.content;
+  const htmlStr = target?.content || "";
+
   // const htmlStr = Object.values(p)[2];
 
   // function decodeHtml(html) {
@@ -294,13 +306,18 @@ export default function PerScribblePage() {
 
   const decodedHTML = decodeHtml(htmlStr);
 
+
+
+  if (loading) {
+    return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
+  }
   return (
     <div>
       <div>Per Scribble Page - ID {id}</div>
 
       <div>
         <h2>
-          {target._id}, {target.title}
+          {target?._id || id}, {target.title}
         </h2>
 
         {/* <section id="content">{decodedHTML}</section> */}
@@ -339,7 +356,6 @@ export default function PerScribblePage() {
           color="black"
           width="30"
           onClick={() => handleDelete(target._id)}
-
         />
 
         <Icon
