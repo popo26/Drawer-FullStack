@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import MyButton from "../components/MyButton";
 import "../css/ScribblePage.css";
 import { Icon } from "@iconify/react";
@@ -17,7 +17,7 @@ export default function ScribblePage() {
   //   setFiles,
   // })
   const navigate = useNavigate();
-  const { drawers, scribbles, setScribbles } = useDataContext();
+  const { drawers, scribbles, setScribbles, loading } = useDataContext();
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
@@ -25,9 +25,23 @@ export default function ScribblePage() {
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-    // const [files, setFiles] = useFileContext();
-    const {files, setFiles, loadingFiles, setLoadingFiles} = useFileContext();
+  // const [files, setFiles] = useFileContext();
+  const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
 
+  console.log("FILES", files);
+
+  //experiment 10Dec
+  useEffect(() => {
+    if (!loading) {
+      let fileArray = [];
+      for (let x in scribbles) {
+        if (scribbles[x]["files"]) {
+          fileArray.push(scribbles[x]["files"]);
+        }
+      }
+      setFiles(fileArray)
+    }
+  }, []);
 
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
@@ -50,7 +64,6 @@ export default function ScribblePage() {
       filesInfo.push(perFile);
     }
 
-
     let dataPost = {
       userId: 1,
       title: scribbleTitle ? scribbleTitle : "Untitled",
@@ -70,7 +83,10 @@ export default function ScribblePage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      //.then((json) => setFiles((prevItems) => [...prevItems, json.data['files']]))
+      .then((json) => {
+        setFiles((prevItems) => [...prevItems, json.data['files']])
+        sessionStorage.setItem("files", JSON.stringify(files))
+      })
       .catch((error) => console.error(error.message));
   };
 
