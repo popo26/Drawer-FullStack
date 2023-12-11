@@ -219,7 +219,6 @@ export default function ScribblePage() {
     setContent("");
     body.current = "";
     navigate("/stray");
-    navigate(0)
   };
 
   // const deleteAttachment = (blob) => {

@@ -354,11 +354,7 @@ export default function PerScribblePage() {
         {/* <aside>{renderedAttachments}</aside> */}
         {target.attachment && <aside style={thumbsContainer}>{thumbs()}</aside>}
         {/* {target.attachment && <aside>{JSON.parse(sessionStorage.getItem("files"))}</aside>} */}
-        {sessionStorage.getItem("image1") && <img src={JSON.parse(sessionStorage.getItem("image1"))} width="100px"/>}
-        {sessionStorage.getItem("image2") && <img src={JSON.parse(sessionStorage.getItem("image2"))} width="100px"/>}
-
-        {sessionStorage.getItem("image3") && <img src={JSON.parse(sessionStorage.getItem("image3"))} width="100px"/>}
-
+        {target.attachment && <><img src={target.files[0].preview}/><div>{target.name}</div></>}
 
 
         <br/>
