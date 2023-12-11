@@ -12,6 +12,7 @@ import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 
 export default function ScribblePage() {
+  // export default function ScribblePage({baseImage, setBaseImage}) {
   // export default function ScribblePage({
   //   files,
   //   setFiles,
@@ -28,41 +29,141 @@ export default function ScribblePage() {
   // const [files, setFiles] = useFileContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
 
-  console.log("FILES", files);
+  const [baseImage, setBaseImage] = useState("");
+
+  //const [image64, setImage64] = useState([])
+
+  //console.log("FILES", files);
 
   //experiment 10Dec
-  useEffect(() => {
-    if (!loading) {
-      let fileArray = [];
-      for (let x in scribbles) {
-        if (scribbles[x]["files"]) {
-          fileArray.push(scribbles[x]["files"]);
-        }
-      }
-      setFiles(fileArray)
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!loading) {
+  //     let fileArray = [];
+  //     for (let x in scribbles) {
+  //       if (scribbles[x]["files"]) {
+  //         fileArray.push(scribbles[x]["files"]);
+  //       }
+  //     }
+  //     setFiles(fileArray);
+  //   }
+  // }, []);
 
-  const createNewScribble = () => {
+  //experiment11Dec
+  // const convertFileToBase64 = (file) =>
+  //    new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file.preview);
+
+  //     reader.onload = () =>
+  //       resolve({
+  //         fileName: file["file"].name,
+  //         base64: reader.result,
+  //       });
+  //     reader.onerror = reject;
+  //     console.log(result_base64)
+
+  //   }
+  //   );
+
+  const convertFileToBase64 = (file) => {
+    const blob = new Blob([JSON.stringify(file, null, 2)], {
+      type: "application/json",
+    });
+
+    console.log("blob", blob);
+
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+      var base64data = reader.result;
+      console.log(base64data);
+      return base64data;
+    };
+    // return new Promise((resolve, reject) => {
+    //   const fileReader = new FileReader();
+    //   if (file){
+    //     fileReader.readAsDataURL(file);
+    //     fileReader.onload = () => {
+    //       resolve(fileReader.result);
+    //     };
+    //   }
+
+    //   fileReader.onerror = (error) => {
+    //     reject(error);
+    //   };
+    // });
+  };
+
+  // async function convertFileToBase64(file) {
+  //   let result_base64 = await new Promise((resolve) => {
+  //     let fileReader = new FileReader();
+  //     fileReader.onload = () =>
+  //       // resolve({
+  //       //   fileName: file["file"].name,
+  //       //   base64: fileReader.result,
+  //       // });
+  //       // fileReader.readAsDataURL(file.preview);
+  //       (fileReader.onload = () => resolve(fileReader.result));
+  //     fileReader.readAsDataURL(file);
+  //   });
+
+  //   console.log("RESLT is..", result_base64); // aGV5IHRoZXJl...
+  //   return result_base64;
+  // }
+
+  // async function convertFileToBase64(file) {
+  //   let result_base64 = await new Promise((resolve) => {
+  //     let fileReader = new FileReader();
+  //     fileReader.onload = () => resolve(fileReader.result);
+  //     fileReader.readAsDataURL(file);
+  //   });
+
+  //   console.log(result_base64); // aGV5IHRoZXJl...
+  //   return result_base64;
+  // }
+
+  const createNewScribble = (e) => {
     body.current = document.querySelector(".screenshot").innerHTML;
-    console.log("Current body", body.current);
+    //console.log("Current body", body.current);
     setContent(body.current);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
-    console.log("You are inside the Fetch function");
+    //console.log("You are inside the Fetch function");
     console.log("files", files);
 
     let filesInfo = [];
-    for (let x of files) {
-      console.log("X", x["file"]);
+    //console.log("FILES ...", files[0].preview);
+    //console.log("Funciton", convertFileToBase64(files[0].preview));
+    // const r = convertFileToBase64(files[0].preview);
+    for (let x in files) {
+      //console.log("Function", convertFileToBase64(files[x]));
+      const r = convertFileToBase64(files[x].preview);
+      console.log("R", r);
       const perFile = {};
-      perFile["path"] = x["file"].path;
-      perFile["name"] = x["file"].name;
-      perFile["preview"] = x.preview;
-      perFile["size"] = x["file"].size;
-      perFile["format"] = x["file"].type;
+      perFile["path"] = files[x]["file"].path;
+      perFile["name"] = files[x]["file"].name;
+      // perFile["preview"] = convertFileToBase64(files[x].preview);
+      perFile["preview"] = files[x].preview;
+
+      perFile["size"] = files[x]["file"].size;
+      perFile["format"] = files[x]["file"].type;
+      //perFile['test'] = sessionStorage.getItem("image");
       filesInfo.push(perFile);
     }
+
+    // console.log("FILES ...", files)
+    // for (let x of files) {
+    //   console.log("X", x["file"]);
+    //   const perFile = {};
+    //   perFile["path"] = x["file"].path;
+    //   perFile["name"] = x["file"].name;
+    //   // perFile["preview"] = x.preview;
+    //   perFile["preview"] = convertFileToBase64(x.preview);
+
+    //   perFile["size"] = x["file"].size;
+    //   perFile["format"] = x["file"].type;
+    //   filesInfo.push(perFile);
+    // }
 
     let dataPost = {
       userId: 1,
@@ -84,8 +185,8 @@ export default function ScribblePage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        setFiles((prevItems) => [...prevItems, json.data['files']])
-        sessionStorage.setItem("files", JSON.stringify(files))
+        //setFiles((prevItems) => [...prevItems, json.data["files"]]);
+        //sessionStorage.setItem("files", JSON.stringify(files))
       })
       .catch((error) => console.error(error.message));
   };
@@ -99,8 +200,8 @@ export default function ScribblePage() {
     setSelectedScribbleId(scribbles.length + 1);
   };
 
-  const handleSubmitScribble = () => {
-    createNewScribble();
+  const handleSubmitScribble = (e) => {
+    createNewScribble(e);
     setTempFiles([]);
     setScribbleTitle("");
     setContent("");
@@ -152,7 +253,7 @@ export default function ScribblePage() {
 
   detectContent();
 
-  console.log("BOdy", body);
+  //console.log("BOdy", body);
 
   // //Experiment Screenshot+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   // const [imageDataURL, setImageDataURL] = useState(null);
@@ -233,10 +334,12 @@ export default function ScribblePage() {
         setFiles={setFiles}
         tempFiles={tempFiles}
         setTempFiles={setTempFiles}
+        baseImage={baseImage}
+        setBaseImage={setBaseImage}
       />
 
       <br />
-      <Button onClick={handleSubmitScribble} variant="dark">
+      <Button onClick={(e) => handleSubmitScribble(e)} variant="dark">
         Just Save
       </Button>
       {/* <button

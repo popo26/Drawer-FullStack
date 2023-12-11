@@ -18,11 +18,11 @@ export default function ScribbleListPage() {
 
 
 
-  console.log("SCRIBBLES", scribbles);
+  // console.log("SCRIBBLES", scribbles);
 
-  for (let x in scribbles){
-    console.log(scribbles[x]['files'])
-  }
+  // for (let x in scribbles){
+  //   console.log(scribbles[x]['files'])
+  // }
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {

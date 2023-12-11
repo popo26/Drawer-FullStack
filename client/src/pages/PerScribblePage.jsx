@@ -59,16 +59,20 @@ export default function PerScribblePage() {
 
 
   //why i need this line to persist scribbles
-  console.log("SCRIBBLES", scribbles);
+  //console.log("SCRIBBLES", scribbles);
   //console.log("selectedScribble", sessionStorage.getItem("selectedScribble"));
   let target = scribbles.find((item) => item._id == id);
-  console.log("Target", target);
+  //console.log("Target", target);
  //console.log("Data context", DataProvider);
 
   //Need to have scribble content onload so that decodeHtml function can be used
 
 
+
   useEffect(() => {
+
+
+
     if(!loading){
       setSecreenshots(target.content);
       if(!loadingFiles){
@@ -76,8 +80,16 @@ export default function PerScribblePage() {
         console.log("newFiles", newFiles);
         setFiles(newFiles);
       }
- 
-  
+    //   if (!loadingFiles) {
+    //     let fileArray = [];
+    //     for (let x in scribbles) {
+    //       if (scribbles[x]["files"]) {
+    //         fileArray.push(scribbles[x]["files"]);
+    //       }
+    //     }
+    //     setFiles(fileArray)
+    //   }
+
       return () => setSecreenshots([]);
     }
  
@@ -201,6 +213,7 @@ export default function PerScribblePage() {
               // onLoad={() => {
               //   URL.revokeObjectURL(file.preview);
               // }}
+            
             />
           </div>
           <div className="remove-div">
@@ -225,6 +238,7 @@ export default function PerScribblePage() {
     let dataPost = {
       content: newContent,
       files: target.files,
+
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
@@ -339,6 +353,8 @@ export default function PerScribblePage() {
 
         {/* <aside>{renderedAttachments}</aside> */}
         {target.attachment && <aside style={thumbsContainer}>{thumbs()}</aside>}
+        <br/>
+        {target.attachment && <img src={JSON.parse(sessionStorage.getItem("image"))} width="200px"/>}
       </div>
       <div>
         <Icon

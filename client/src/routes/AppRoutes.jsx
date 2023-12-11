@@ -23,6 +23,8 @@ export default function AppRoutes({
   handleExpand,
   files,
   setFiles,
+  // baseImage,
+  // setBaseImage
 }) {
   return (
     <div>
@@ -46,14 +48,14 @@ export default function AppRoutes({
         <Route path="/profile" element={<ProfilePage />}></Route>
         <Route
           path="/stray"
-          // element={<ScribbleListPage files={files} />}
-          element={<ScribbleListPage />}
+          element={<ScribbleListPage files={files} />}
+          // element={<ScribbleListPage baseImage={baseImage} setBaseImage={setBaseImage}/>}
 
         ></Route>
         <Route
           path="/scribble/:id"
-          // element={<PerScribblePage files={files} setFiles={setFiles} />}
-          element={<PerScribblePage />}
+          element={<PerScribblePage files={files} setFiles={setFiles} />}
+          // element={<PerScribblePage baseImage={baseImage} setBaseImage={setBaseImage}/>}
 
         ></Route>
         <Route

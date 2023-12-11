@@ -16,6 +16,7 @@ export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
   // const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  // const [baseImage, setBaseImage] = useState("")
 
 
   const handleClickExpand = (passedIndex) => {
@@ -44,6 +45,8 @@ export default function App() {
                   handleExpand={handleClickExpand}
                   // files={files}
                   // setFiles={setFiles}
+                  // baseImage={baseImage}
+                  // setBaseImage={setBaseImage}
                 />
                 <Link to="/scribble">
                   <ScribbleBtn />

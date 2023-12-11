@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+//import blobSchema from "./blob";
 
 const scribbleSchema = new Schema({
   rootDrawerId: { type: String },
@@ -13,8 +14,21 @@ const scribbleSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   userId: { type: String, required: true }, //Forein key
-  files:[{path:String, name:String, preview:String,size:Number, format:String}],
-  attachment:{ type: Boolean, required: true },
+  files: [
+    {
+      path: String,
+      name: String,
+      preview: String,
+      // preview: { base64: String },
+
+      size: Number,
+      format: String,
+      test:String,
+    },
+  ],
+  // files:[{path:String, name:String, preview:[blobSchema],size:Number, format:String}],
+
+  attachment: { type: Boolean, required: true },
 });
 
 module.exports = mongoose.model("scribble", scribbleSchema);
