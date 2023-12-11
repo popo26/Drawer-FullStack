@@ -18,7 +18,14 @@ export default function SortScribblePage() {
   );
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const {
+    drawers,
+    scribbles,
+    setDrawers,
+    setScribbles,
+    loadingDrawers,
+    setLoadingDrawers,
+  } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [selectedScribbleId, setSelectedScribbleId] =
@@ -33,7 +40,7 @@ export default function SortScribblePage() {
     handleSelectedDrawerId(""); //this is still bit in quesion
   }, []);
 
-  //console.log("Sccribleid is", selectedScribbleId);
+  console.log("Sccribleid is", selectedScribbleId);
 
   const addScribbleToNewSubDrawer = (passedId) => {
     const scribbleObject = scribbles.filter(

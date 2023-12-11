@@ -29,10 +29,10 @@ export default function ScribblePage() {
   // const [files, setFiles] = useFileContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
 
-  // const [baseImage, setBaseImage] = useState("");
-  const [baseImage1, setBaseImage1] = useState("");
-  const [baseImage2, setBaseImage2] = useState("");
-  const [baseImage3, setBaseImage3] = useState("");
+  const [baseImage, setBaseImage] = useState("");
+  // const [baseImage1, setBaseImage1] = useState("");
+  // const [baseImage2, setBaseImage2] = useState("");
+  // const [baseImage3, setBaseImage3] = useState("");
 
 
   //const [image64, setImage64] = useState([])
@@ -163,19 +163,7 @@ export default function ScribblePage() {
       filesInfo.push(perFile);
     }
 
-    // console.log("FILES ...", files)
-    // for (let x of files) {
-    //   console.log("X", x["file"]);
-    //   const perFile = {};
-    //   perFile["path"] = x["file"].path;
-    //   perFile["name"] = x["file"].name;
-    //   // perFile["preview"] = x.preview;
-    //   perFile["preview"] = convertFileToBase64(x.preview);
-
-    //   perFile["size"] = x["file"].size;
-    //   perFile["format"] = x["file"].type;
-    //   filesInfo.push(perFile);
-    // }
+ 
 
     let dataPost = {
       userId: 1,
@@ -347,14 +335,9 @@ export default function ScribblePage() {
         setFiles={setFiles}
         tempFiles={tempFiles}
         setTempFiles={setTempFiles}
-        // baseImage={baseImage}
-        // setBaseImage={setBaseImage}
-        baseImage1={baseImage1}
-        setBaseImage1={setBaseImage1}
-        baseImage2={baseImage2}
-        setBaseImage2={setBaseImage2}
-        baseImage3={baseImage3}
-        setBaseImage3={setBaseImage3}
+        baseImage={baseImage}
+        setBaseImage={setBaseImage}
+
       />
 
       <br />
@@ -381,6 +364,7 @@ export default function ScribblePage() {
         onClick={() => {
           createNewScribble();
           navigate("/sort", { state: { id: selectedScribbleId } });
+          navigate(0)
         }}
       />
       {/* </div> */}

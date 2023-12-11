@@ -46,7 +46,7 @@ export default function PerScribblePage() {
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-  const { drawers, scribbles, setScribbles, loading, setLoading } = useDataContext();
+  const { drawers, scribbles, setScribbles, loadingScribbles, setLoadingScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const body = useRef(screenshots);
@@ -73,7 +73,7 @@ export default function PerScribblePage() {
 
 
 
-    if(!loading){
+    if(!loadingScribbles){
       setSecreenshots(target.content);
       if(!loadingFiles){
         const newFiles = JSON.parse(sessionStorage.getItem("files"));
@@ -110,7 +110,6 @@ export default function PerScribblePage() {
   const handleDelete = (id) => {
     const response = confirm(`Are you sure to delete this scribble? -ID:${id}`);
     if (response == true) {
-      confirm(`Are you sure to delete this scribble? -ID:${id}`);
       deleteScribble(id);
       const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
       scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
@@ -329,7 +328,7 @@ export default function PerScribblePage() {
 
 
 
-  if (loading) {
+  if (loadingScribbles) {
     return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
   }
   return (
@@ -354,15 +353,11 @@ export default function PerScribblePage() {
         {/* <aside>{renderedAttachments}</aside> */}
         {target.attachment && <aside style={thumbsContainer}>{thumbs()}</aside>}
         {/* {target.attachment && <aside>{JSON.parse(sessionStorage.getItem("files"))}</aside>} */}
-        {sessionStorage.getItem("image1") && <img src={JSON.parse(sessionStorage.getItem("image1"))} width="100px"/>}
-        {sessionStorage.getItem("image2") && <img src={JSON.parse(sessionStorage.getItem("image2"))} width="100px"/>}
-
-        {sessionStorage.getItem("image3") && <img src={JSON.parse(sessionStorage.getItem("image3"))} width="100px"/>}
-
+        {/* {target.attachment && <><img src={target.files[0].preview}/><div>{target.name}</div></>} */}
 
 
         <br/>
-        {target.attachment && <img src={JSON.parse(sessionStorage.getItem("image"))} width="200px"/>}
+        <div style={{margin:"20px "}}>{target.attachment && <img src={JSON.parse(sessionStorage.getItem("image"))} width="100px"/>}</div>
       </div>
       <div>
         <Icon

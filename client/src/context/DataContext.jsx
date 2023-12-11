@@ -1,4 +1,3 @@
-
 import {
   createContext,
   useState,
@@ -71,14 +70,26 @@ import usePersistState from "../hooks/usePersistState";
 
 const DataContext = createContext("");
 
-
 export const DataProvider = (props) => {
   const [drawers, setDrawers] = useState([]);
   const [scribbles, setScribbles] = useState([]);
   const [users, setUsers] = useState([]);
+  const [loadingScribbles, setLoadingScribbles] = useState(true);
+  const [loadingDrawers, setLoadingDrawers] = useState(true);
 
-  const [loading, setLoading] = useState(true);
 
+  // //Original rootId gets updated to match id for root drawers
+  // useEffect(() => {
+  //   for (let x in drawers) {
+  //     if (
+  //       drawers[x]["root"] == true &&
+  //       drawers[x]["rootId"] != drawers[x]["_id"]
+  //     ) {
+  //       console.log("Mismatch", drawers[x]);
+  //       updateRootId(drawers[x]["_id"]);
+  //     }
+  //   }
+  // }, [scribbles, drawers]);
 
   //retrieve data from sessionStorage on mount or refresh
   useEffect(() => {
@@ -95,16 +106,19 @@ export const DataProvider = (props) => {
     }
   }, []);
 
-//Fetch data from the server
+  //Fetch data from the server
 
-useEffect(() => {
-  fetch("http://localhost:8080/api/scribbles", {
-    method: "GET",
-    mode: "cors",
-  })
-    .then((response) => response.json())
-    .then((json) => {setLoading(false);setScribbles(json.data)});
-}, []);
+  useEffect(() => {
+    fetch("http://localhost:8080/api/scribbles", {
+      method: "GET",
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        setLoadingScribbles(false);
+        setScribbles(json.data);
+      });
+  }, []);
   // useEffect(() => {
   //   fetch("http://localhost:8080/api/scribbles", {
   //     method: "GET",
@@ -120,7 +134,11 @@ useEffect(() => {
       mode: "cors",
     })
       .then((response) => response.json())
-      .then((json) => setDrawers(json.data));
+      .then((json) => {
+        // //Experiment one line down
+        // setLoadingDrawers(false);
+        setDrawers(json.data)
+      });
     // }, [drawers]);
     // }, [setDrawers]);
   }, []);
@@ -142,6 +160,8 @@ useEffect(() => {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+      // //experiment
+      // .then((json)=>{setLoadingDrawers(false); })
       .catch((error) => console.error(error.message));
   };
 
@@ -156,9 +176,7 @@ useEffect(() => {
         updateRootId(drawers[x]["_id"]);
       }
     }
-  }, [scribbles, drawers]);
-
-
+  }, [drawers, scribbles]);
 
   useEffect(() => {
     sessionStorage.setItem("drawersData", JSON.stringify(drawers));
@@ -176,7 +194,18 @@ useEffect(() => {
 
   return (
     <DataContext.Provider
-      value={{ drawers, scribbles, users, setDrawers, setScribbles, setUsers, loading, setLoading }}
+      value={{
+        drawers,
+        scribbles,
+        users,
+        setDrawers,
+        setScribbles,
+        setUsers,
+        loadingScribbles,
+        setLoadingScribbles,
+        loadingDrawers,
+        setLoadingDrawers
+      }}
     >
       {props.children}
     </DataContext.Provider>
@@ -186,8 +215,6 @@ useEffect(() => {
 export const useDataContext = () => {
   return useContext(DataContext);
 };
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////

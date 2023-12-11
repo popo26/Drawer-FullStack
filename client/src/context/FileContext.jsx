@@ -3,7 +3,6 @@ import { createContext, useState, useContext, useEffect } from "react";
 const FileContext = createContext("");
 
 export const FileProvider = (props) => {
-  // const [files, setFiles] = useState([]);
   const [files, setFiles] = useState([]);
   const [loadingFiles, setLoadingFiles] = useState(true);
 

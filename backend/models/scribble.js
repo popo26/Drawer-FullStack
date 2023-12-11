@@ -20,13 +20,11 @@ const scribbleSchema = new Schema({
       name: String,
       preview: String,
       // preview: { base64: String },
-
       size: Number,
       format: String,
-      test:String,
+      // test:String,
     },
   ],
-  // files:[{path:String, name:String, preview:[blobSchema],size:Number, format:String}],
 
   attachment: { type: Boolean, required: true },
 });

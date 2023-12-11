@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { useDropzone } from "react-dropzone";
 import Dropzone from "react-dropzone";
 import { useEffect, useState, useRef } from "react";
-import FileDrop from "../components/FileDrop";
+import FileDrop from "../components/FileDrop2";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
@@ -46,53 +46,46 @@ export default function PerScribblePage() {
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-  const { drawers, scribbles, setScribbles, loading, setLoading } = useDataContext();
+  const { drawers, scribbles, setScribbles, loading, setLoading } =
+    useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const body = useRef(screenshots);
   // const [files, setFiles] = useFileContext();
-  const {files, setFiles, loadingFiles, setLoadingFiles} = useFileContext();
+  const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
 
   //const [currentScribbles, setCurrentScribbles] = useState(scribbles);
   // const [loading, setLoading] = useState(true);
-
-
 
   //why i need this line to persist scribbles
   //console.log("SCRIBBLES", scribbles);
   //console.log("selectedScribble", sessionStorage.getItem("selectedScribble"));
   let target = scribbles.find((item) => item._id == id);
   //console.log("Target", target);
- //console.log("Data context", DataProvider);
+  //console.log("Data context", DataProvider);
 
   //Need to have scribble content onload so that decodeHtml function can be used
 
-
-
   useEffect(() => {
-
-
-
-    if(!loading){
+    if (!loading) {
       setSecreenshots(target.content);
-      if(!loadingFiles){
+      if (!loadingFiles) {
         const newFiles = JSON.parse(sessionStorage.getItem("files"));
         console.log("newFiles", newFiles);
         setFiles(newFiles);
       }
-    //   if (!loadingFiles) {
-    //     let fileArray = [];
-    //     for (let x in scribbles) {
-    //       if (scribbles[x]["files"]) {
-    //         fileArray.push(scribbles[x]["files"]);
-    //       }
-    //     }
-    //     setFiles(fileArray)
-    //   }
+      //   if (!loadingFiles) {
+      //     let fileArray = [];
+      //     for (let x in scribbles) {
+      //       if (scribbles[x]["files"]) {
+      //         fileArray.push(scribbles[x]["files"]);
+      //       }
+      //     }
+      //     setFiles(fileArray)
+      //   }
 
       return () => setSecreenshots([]);
     }
- 
   }, []);
 
   const deleteScribble = (id) => {
@@ -213,7 +206,6 @@ export default function PerScribblePage() {
               // onLoad={() => {
               //   URL.revokeObjectURL(file.preview);
               // }}
-            
             />
           </div>
           <div className="remove-div">
@@ -238,7 +230,6 @@ export default function PerScribblePage() {
     let dataPost = {
       content: newContent,
       files: target.files,
-
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
@@ -327,8 +318,6 @@ export default function PerScribblePage() {
 
   const decodedHTML = decodeHtml(htmlStr);
 
-
-
   if (loading) {
     return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
   }
@@ -354,11 +343,33 @@ export default function PerScribblePage() {
         {/* <aside>{renderedAttachments}</aside> */}
         {target.attachment && <aside style={thumbsContainer}>{thumbs()}</aside>}
         {/* {target.attachment && <aside>{JSON.parse(sessionStorage.getItem("files"))}</aside>} */}
-        {target.attachment && <><img src={target.files[0].preview}/><div>{target.name}</div></>}
+        {sessionStorage.getItem("image1") && (
+          <img
+            src={JSON.parse(sessionStorage.getItem("image1"))}
+            width="100px"
+          />
+        )}
+        {sessionStorage.getItem("image2") && (
+          <img
+            src={JSON.parse(sessionStorage.getItem("image2"))}
+            width="100px"
+          />
+        )}
 
+        {sessionStorage.getItem("image3") && (
+          <img
+            src={JSON.parse(sessionStorage.getItem("image3"))}
+            width="100px"
+          />
+        )}
 
-        <br/>
-        {target.attachment && <img src={JSON.parse(sessionStorage.getItem("image"))} width="200px"/>}
+        <br />
+        {target.attachment && (
+          <img
+            src={JSON.parse(sessionStorage.getItem("image"))}
+            width="200px"
+          />
+        )}
       </div>
       <div>
         <Icon

@@ -4,7 +4,7 @@ import "../css/ScribblePage.css";
 import { Icon } from "@iconify/react";
 import { useNavigate, Link } from "react-router-dom";
 import InputField from "../components/InputField";
-import FileDrop from "../components/FileDrop";
+import FileDrop from "../components/FileDrop2";
 import { useDropzone } from "react-dropzone";
 import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
@@ -33,7 +33,6 @@ export default function ScribblePage() {
   const [baseImage1, setBaseImage1] = useState("");
   const [baseImage2, setBaseImage2] = useState("");
   const [baseImage3, setBaseImage3] = useState("");
-
 
   //const [image64, setImage64] = useState([])
 
@@ -68,7 +67,6 @@ export default function ScribblePage() {
 
   //   }
   //   );
-
 
   const convertFileToBase64 = (file) => {
     const blob = new Blob([JSON.stringify(file, null, 2)], {
@@ -130,7 +128,6 @@ export default function ScribblePage() {
   //   return result_base64;
   // }
 
-
   const createNewScribble = (e) => {
     body.current = document.querySelector(".screenshot").innerHTML;
     //console.log("Current body", body.current);
@@ -147,7 +144,7 @@ export default function ScribblePage() {
       console.log("Function", files[x].preview);
       // const r =  convertFileToBase64(files[x].preview);
       // console.log("R", r);
-      convertFileToBase64(files[x].preview)
+      convertFileToBase64(files[x].preview);
 
       const perFile = {};
       perFile["path"] = files[x]["file"].path;
@@ -155,7 +152,6 @@ export default function ScribblePage() {
       // perFile["preview"] = convertFileToBase64(files[x].preview);
       // perFile["preview"] = files[x].preview;
       perFile["preview"] = files[x].preview;
-
 
       perFile["size"] = files[x]["file"].size;
       perFile["format"] = files[x]["file"].type;
@@ -219,6 +215,7 @@ export default function ScribblePage() {
     setContent("");
     body.current = "";
     navigate("/stray");
+    navigate(0);
   };
 
   // const deleteAttachment = (blob) => {
