@@ -58,6 +58,14 @@ export default function MyDropdown() {
         newArray.push(drawers[x]);
       }
     }
+
+    // for (let y in newArray){
+    //   console.log("NewArray",newArray[y])
+    //   if (newArray[y]['drawerId']){
+    //     newArray.sort((a,b)=> )
+    //   }
+    // }
+
     newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
 
     return newArray.map((item) => {
