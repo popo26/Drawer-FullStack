@@ -118,6 +118,7 @@ export default function DrawerListPage({ expandedIndex }) {
     if (isEditing) {
       return (
         <Icon
+          className="icon10"
           icon="material-symbols:update"
           color="red"
           width="26"
@@ -251,54 +252,62 @@ export default function DrawerListPage({ expandedIndex }) {
 
       return (
         <div key={item._id} className="sub-drawer-header">
-          <h3
-            id={`targetDrawerId${item._id}`}
-            style={{ display: "inline-block" }}
-            className={"sub-drawer indent-" + item.level}
-            onClick={() => {
-              handleSelectedDrawer(item._id);
-            }}
-            contentEditable="true"
-            // contentEditable={isContentEditable}
-            suppressContentEditableWarning={true}
-            //onChange={() => handleChange3(item.id)}
-            ref={text}
-          >
-            {item.name}
+          {/* ADDED */}
+          <div className="sub-drawer-header-div">
+            <h3
+              id={`targetDrawerId${item._id}`}
+              style={{ display: "inline-block" }}
+              className={"sub-drawer indent-" + item.level}
+              onClick={() => {
+                handleSelectedDrawer(item._id);
+              }}
+              contentEditable="true"
+              // contentEditable={isContentEditable}
+              suppressContentEditableWarning={true}
+              //onChange={() => handleChange3(item.id)}
+              ref={text}
+            >
+              {item.name}
 
-            {/* <ContentEditable
+              {/* <ContentEditable
                 onChange={onContentChange}
                 // onChange={handleChange2}
                 // html={drawerNameToEdit}
                 html={item.name}
                 // value={drawerNameToEdit}
               /> */}
-          </h3>
+            </h3>
 
-          <Icon
-            onClick={() => handleDelete(item._id)}
-            icon="ion:trash-outline"
-            color="black"
-            width="18"
-          />
-          <Icon
-            icon="mingcute:drawer-line"
-            color="black"
-            width="18"
-            onClick={() => {
-              // drawerToBeMoved = item.id;
-              // setDrawerToBeMoved(drawerToBeMoved);
-              setDrawerToBeMoved(item.idd);
-              let passingData = { selectedDrawerId, drawerToBeMoved };
-              console.log("PassingData", passingData);
-              navigate("/sort-drawer", { state: passingData });
-              // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
-              sessionStorage.setItem("drawerToBeMoved", item._id);
-            }}
-          />
-          {showUpdateIcon(item._id)}
+            <Icon
+              onClick={() => handleDelete(item._id)}
+              icon="ion:trash-outline"
+              color="black"
+              width="18"
+              className="icon10"
+            />
+            <Icon
+              className="icon10"
+              icon="mingcute:drawer-line"
+              color="black"
+              width="18"
+              onClick={() => {
+                // drawerToBeMoved = item.id;
+                // setDrawerToBeMoved(drawerToBeMoved);
+                setDrawerToBeMoved(item.idd);
+                let passingData = { selectedDrawerId, drawerToBeMoved };
+                console.log("PassingData", passingData);
+                navigate("/sort-drawer", { state: passingData });
+                // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
+                sessionStorage.setItem("drawerToBeMoved", item._id);
+              }}
+            />
+            {showUpdateIcon(item._id)}
+            {/* added */}
+          </div>
           {scribbleList.length === 0 ? (
-            <h6 className="no-scribble">No Scribbles</h6>
+            <h6 className={"no-scribble scrb-indent" + item.level}>
+              No Scribbles
+            </h6>
           ) : (
             <div
               className={"sub-drawer-scribble-list scrb-indent" + item.level}
@@ -381,8 +390,10 @@ export default function DrawerListPage({ expandedIndex }) {
               icon="ion:trash-outline"
               color="black"
               width="18"
+              className="icon10"
             />
             <Icon
+              className="icon10"
               icon="mingcute:drawer-line"
               color="black"
               width="18"

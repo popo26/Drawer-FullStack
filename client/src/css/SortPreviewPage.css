@@ -18,6 +18,12 @@
   color: darkcyan;
 }
 
+.empty-drawer{
+  text-align: left;
+  text-indent: 30px;
+  color:blueviolet;
+}
+
 /* .indent-2 {
   text-indent: 40px;
 }

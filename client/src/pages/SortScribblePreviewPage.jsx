@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import InputField from "../components/InputField";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/SortPreviewPage.css";
 import MyButton from "../components/MyButton";
 import { Button } from "react-bootstrap";
@@ -18,6 +18,10 @@ export default function SortScribblePreviewPage() {
   const [selectedScribbleId] = useSelectedScribbleContext();
 
   console.log("State", state.selectedDrawerId);
+
+  // useEffect(() => {
+  //   setDrawers(JSON.parse(sessionStorage.getItem("drawersData")));
+  // }, []);
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;
@@ -166,54 +170,77 @@ export default function SortScribblePreviewPage() {
       </h4>
     ));
 
-  const scribblies = (x) => {
-    return (
-      scribbles
-        // .filter((scrb) => scrb.drawerId == x[0]._id)
-        .filter((scrb) => scrb.drawerId == x._id)
-
-        .map((scrb) => (
-          <p
-            key={scrb._id}
-            className={"sort-preview-scribbles scrb-indent" + scrb.level}
-          >
-            ID:{scrb._id}:{scrb.title}
-            <span>-- [scribble]</span>
-          </p>
-        ))
+  //Not working for sub sub
+  const scribblies = () => {
+    console.log("Obj ID", sessionStorage.getItem("selectedDrawer"));
+    let scribbleArray = [];
+    for (let x of scribbles) {
+      console.log("scribbles[x]", x._id);
+      if (
+        x["drawerId"] &&
+        x.stray === false &&
+        x["drawerId"] == sessionStorage.getItem("selectedDrawer")
+      ) {
+        scribbleArray.push(x);
+        console.log("scribbleArray", scribbleArray);
+      }
+    }
+    const result = scribbleArray.map((scrb) => (
+      <p key={scrb._id} className={"sort-preview-scribbles scrb-indent" + 1}>
+        ID:{scrb._id}:{scrb.title}
+        <span>-- [scribble]</span>
+      </p>
+    ));
+    return result.length > 0 ? (
+      result
+    ) : (
+      <p className="empty-drawer">No scribble exists.</p>
     );
   };
 
-  const subDrawers = (x) => {
-    return (
-      drawers
-        // .filter((sub) => sub.drawerId == x[0]._id)
-        .filter((sub) => sub.drawerId == x._id)
-
-        .map((sub) => (
-          <p
-            key={sub._id}
-            className={"sort-preview-subDrawers indent-" + sub.level}
-          >
-            ID:{sub._id}:{sub.name}
-            <span>-- [Sub-Drawer]</span>
-          </p>
-        ))
-    );
+  const subDrawers = () => {
+    let subDrawersArray = [];
+    for (let x in drawers) {
+      if (
+        drawers[x]["drawerId"] &&
+        drawers[x]["drawerId"] == sessionStorage.getItem("selectedDrawer")
+      ) {
+        subDrawersArray.push(drawers[x]);
+      }
+    }
+    return subDrawersArray.map((sub) => (
+      <p key={sub._id} className={"sort-preview-sub-drawers indent-" + 1}>
+        ID:{sub._id}:{sub.name}
+        <span>-- [Sub-Drawer]</span>
+      </p>
+    ));
   };
 
   const FindSubDrawers = () => {
-    const x = drawers?.filter((item) => item._id == state.selectedDrawerId);
-    const renderedChildren =
-      // x[0]["subDrawer"] === true ? (
-      x["subDrawer"] === true ? (
-        <>
-          {scribblies(x)}
-          {subDrawers(x)}
-        </>
-      ) : (
-        <>{scribblies(x)}</>
-      );
+    // const selectedDrawerObj = drawers?.filter(
+    //   (item) => item._id == state.selectedDrawerId
+    // );
+    const selectedDrawerObj = drawers?.filter(
+      (item) => item._id == sessionStorage.getItem("selectedDrawer")
+    );
+
+    console.log("Scribblies's X", selectedDrawerObj);
+    const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
+      <>
+        {scribblies()}
+        {subDrawers()}
+      </>
+    ) : (
+      <>{scribblies()}</>
+    );
+
+    //   <>
+    //     {scribblies(selectedDrawerObj)}
+    //     {subDrawers(selectedDrawerObj)}
+    //   </>
+    // ) : (
+    //   <>{scribblies(selectedDrawerObj)}</>
+    // );
 
     return renderedChildren;
   };

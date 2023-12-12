@@ -137,7 +137,7 @@
 
 .no-scribble {
   color: blueviolet;
-  text-indent: 100px;
+  /* text-indent: 100px; */
   display: block;
 }
 

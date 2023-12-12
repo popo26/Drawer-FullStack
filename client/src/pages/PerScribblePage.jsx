@@ -46,53 +46,51 @@ export default function PerScribblePage() {
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-  const { drawers, scribbles, setScribbles, loadingScribbles, setLoadingScribbles } = useDataContext();
+  const {
+    drawers,
+    scribbles,
+    setScribbles,
+    loadingScribbles,
+    setLoadingScribbles,
+  } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const body = useRef(screenshots);
   // const [files, setFiles] = useFileContext();
-  const {files, setFiles, loadingFiles, setLoadingFiles} = useFileContext();
+  const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
 
   //const [currentScribbles, setCurrentScribbles] = useState(scribbles);
   // const [loading, setLoading] = useState(true);
-
-
 
   //why i need this line to persist scribbles
   //console.log("SCRIBBLES", scribbles);
   //console.log("selectedScribble", sessionStorage.getItem("selectedScribble"));
   let target = scribbles.find((item) => item._id == id);
   //console.log("Target", target);
- //console.log("Data context", DataProvider);
+  //console.log("Data context", DataProvider);
 
   //Need to have scribble content onload so that decodeHtml function can be used
 
-
-
   useEffect(() => {
-
-
-
-    if(!loadingScribbles){
+    if (!loadingScribbles) {
       setSecreenshots(target.content);
-      if(!loadingFiles){
+      if (!loadingFiles) {
         const newFiles = JSON.parse(sessionStorage.getItem("files"));
         console.log("newFiles", newFiles);
         setFiles(newFiles);
       }
-    //   if (!loadingFiles) {
-    //     let fileArray = [];
-    //     for (let x in scribbles) {
-    //       if (scribbles[x]["files"]) {
-    //         fileArray.push(scribbles[x]["files"]);
-    //       }
-    //     }
-    //     setFiles(fileArray)
-    //   }
+      //   if (!loadingFiles) {
+      //     let fileArray = [];
+      //     for (let x in scribbles) {
+      //       if (scribbles[x]["files"]) {
+      //         fileArray.push(scribbles[x]["files"]);
+      //       }
+      //     }
+      //     setFiles(fileArray)
+      //   }
 
       return () => setSecreenshots([]);
     }
- 
   }, []);
 
   const deleteScribble = (id) => {
@@ -212,7 +210,6 @@ export default function PerScribblePage() {
               // onLoad={() => {
               //   URL.revokeObjectURL(file.preview);
               // }}
-            
             />
           </div>
           <div className="remove-div">
@@ -237,7 +234,6 @@ export default function PerScribblePage() {
     let dataPost = {
       content: newContent,
       files: target.files,
-
     };
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "PUT",
@@ -326,8 +322,6 @@ export default function PerScribblePage() {
 
   const decodedHTML = decodeHtml(htmlStr);
 
-
-
   if (loadingScribbles) {
     return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
   }
@@ -355,21 +349,35 @@ export default function PerScribblePage() {
         {/* {target.attachment && <aside>{JSON.parse(sessionStorage.getItem("files"))}</aside>} */}
         {/* {target.attachment && <><img src={target.files[0].preview}/><div>{target.name}</div></>} */}
 
-
-        <br/>
-        <div style={{margin:"20px "}}>{target.attachment && <img src={JSON.parse(sessionStorage.getItem("image"))} width="100px"/>}</div>
+        <br />
+        <div style={{ margin: "20px " }}>
+          {target.attachment && (
+            <img
+              src={JSON.parse(sessionStorage.getItem("image"))}
+              width="100px"
+            />
+          )}
+        </div>
       </div>
       <div>
         <Icon
+          className="icon5"
           icon="icon-park-outline:back"
           color="black"
           width="30"
           onClick={() => navigate(-1)}
         />
         {!isEditable ? (
-          <Icon icon="uiw:edit" color="black" width="30" onClick={handleEdit} />
+          <Icon
+            icon="uiw:edit"
+            className="icon5"
+            color="black"
+            width="30"
+            onClick={handleEdit}
+          />
         ) : (
           <Icon
+            className="icon5"
             icon="material-symbols:update"
             color="red"
             width="30"
@@ -378,6 +386,7 @@ export default function PerScribblePage() {
         )}
 
         <Icon
+          className="icon5"
           icon="ion:trash-outline"
           color="black"
           width="30"
@@ -385,6 +394,7 @@ export default function PerScribblePage() {
         />
 
         <Icon
+          className="icon5"
           icon="mingcute:drawer-line"
           color="black"
           width="30"

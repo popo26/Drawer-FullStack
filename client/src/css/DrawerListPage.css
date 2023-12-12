@@ -30,8 +30,24 @@
   font-size: 8px;
 }
 
+.sub-drawer-header-div {
+  border-top: 2px dotted #808080;
+  background-color:oldlace
+}
+
+.icon10{
+  margin-left:10px;
+  cursor:pointer;
+}
+
+.icon5{
+  margin:5px;
+  cursor:pointer;
+}
+
 .no-scribble {
-  font-size: 8px;
+  font-size: 10px;
+  padding:5px;
 }
 
 .individual-scribble {

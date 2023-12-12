@@ -13,10 +13,7 @@ export default function ScribbleListPage() {
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   // const [files] = useFileContext();
-  const {files} = useFileContext();
-
-
-
+  const { files } = useFileContext();
 
   // console.log("SCRIBBLES", scribbles);
 
@@ -69,7 +66,12 @@ export default function ScribbleListPage() {
             }}
           >
             {item.attachment && (
-              <Icon icon="ic:outline-attachment" color="lightpink" width="36" />
+              <Icon
+                className="icon5"
+                icon="ic:outline-attachment"
+                color="lightpink"
+                width="36"
+              />
             )}
             ID:{item._id}, {item.title}
           </Link>{" "}
@@ -80,9 +82,15 @@ export default function ScribbleListPage() {
               navigate(0);
             }}
           >
-            <Icon icon="ion:trash-outline" color="black" width="20" />
+            <Icon
+              className="icon10"
+              icon="ion:trash-outline"
+              color="black"
+              width="20"
+            />
           </a>
           <Icon
+            className="icon10"
             icon="mingcute:drawer-line"
             color="black"
             width="22"

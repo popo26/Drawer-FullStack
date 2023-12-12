@@ -36,7 +36,7 @@ export default function SortScribblePage() {
 
   //To persist selected Scribble ID so browser refresh won't wipe it
   useEffect(() => {
-    setSelectedScribbleId(state.id);
+    //setSelectedScribbleId(state.id);
     handleSelectedDrawerId(""); //this is still bit in quesion
   }, []);
 

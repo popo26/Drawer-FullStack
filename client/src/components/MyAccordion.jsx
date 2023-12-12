@@ -38,8 +38,10 @@ export default function MyAccordion({
     return scribbleArray.map((item) => (
       <Link key={item._id} to={`/scribble/${item._id}`}>
         <p className={"individual-scribble scrb-indent" + item.level}>
+
           {item.title}{" "}
         </p>
+
       </Link>
     ));
   };
@@ -65,7 +67,7 @@ export default function MyAccordion({
           </h3>
           <div>
             {scribbleList.length == 0 ? (
-              <h6 className="no-scribble">No Scribbles</h6>
+              <h6 className={"no-scribble scrb-indent" + item.level}>No Scribbles</h6>
             ) : (
               <div className="sub-drawer-scribble-list">{scribbleList}</div>
             )}

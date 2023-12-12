@@ -187,6 +187,8 @@ export default function ScribblePage() {
       .then((json) => {
         //setFiles((prevItems) => [...prevItems, json.data["files"]]);
         //sessionStorage.setItem("files", JSON.stringify(files))
+        setSelectedScribbleId(json.data._id);
+
       })
       .catch((error) => console.error(error.message));
   };
@@ -197,11 +199,12 @@ export default function ScribblePage() {
 
   const handleTitleChange = (value) => {
     setScribbleTitle(value);
-    setSelectedScribbleId(scribbles.length + 1);
+    // setSelectedScribbleId(scribbles.length + 1);
   };
 
   const handleSubmitScribble = (e) => {
     createNewScribble(e);
+
     setTempFiles([]);
     setScribbleTitle("");
     setContent("");
@@ -363,6 +366,7 @@ export default function ScribblePage() {
         height="30"
         onClick={() => {
           createNewScribble();
+
           navigate("/sort", { state: { id: selectedScribbleId } });
           navigate(0)
         }}
