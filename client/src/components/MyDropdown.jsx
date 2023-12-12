@@ -59,16 +59,57 @@ export default function MyDropdown() {
       }
     }
 
-    // for (let y in newArray){
-    //   console.log("NewArray",newArray[y])
-    //   if (newArray[y]['drawerId']){
-    //     newArray.sort((a,b)=> )
-    //   }
-    // }
+    let newArray2 = [];
+    let newArray3 = [];
 
-    newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+    for (let y in newArray) {
+      let i = newArray[y]["_id"];
+      //console.log("NewArray",i)
+      for (let z of newArray) {
+        if (z["drawerId"] == i) {
+          //console.log("Z",z['drawerId'])
+          newArray2.push(z);
+          // newArray2.push({[`${z.drawerId}`]: z});
+        } else {
+          //console.log(`No drawerId for ${i}`)
+        }
+      }
+    }
 
-    return newArray.map((item) => {
+    for (let p of newArray) {
+      //console.log("newArray P", p._id)
+      let sameGroup = [];
+      for (let h of newArray2) {
+        //console.log("newArray2[h]", h.drawerId)
+        if (p._id == h.drawerId) {
+          //console.log("match", p);
+          //console.log("index", newArray.indexOf(p));
+          sameGroup.push(h);
+          //newArray.splice(newArray.indexOf(p), h)
+          // newArray3.push(p);
+          // newArray3.push(h);
+          // newArray3 = removeDup(newArray3);
+        }
+      }
+      console.log("sameGroup", sameGroup);
+      sameGroup.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+      newArray3.push(...sameGroup);
+    }
+
+    function removeDup(data) {
+      return [...new Set(data)];
+    }
+
+    //newArray3 = removeDup(newArray3)
+
+    // console.log("drawers length", drawers.length);
+    // console.log("newArray2", newArray2);
+    // console.log("newArray", newArray);
+    console.log("newArray3", newArray3);
+
+    //newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+
+    return newArray3.map((item) => {
       return (
         <div key={item._id}>
           {item._id == drawerToBeMoved ? (
@@ -94,6 +135,62 @@ export default function MyDropdown() {
       );
     });
   };
+
+  // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
+  // const findSubDrawers = (id) => {
+  //   let newArray = [];
+
+  //   for (let x in drawers) {
+  //     if (drawers[x].drawerId && drawers[x].rootId == id) {
+  //       newArray.push(drawers[x]);
+  //     }
+  //   }
+
+  //   let newArray2=[]
+
+  //   for (let y in newArray){
+  //     let i = newArray[y]['_id']
+  //     //console.log("NewArray",i)
+  //     for (let z of newArray){
+  //       if (z['drawerId'] == i){
+  //         //console.log("Z",z['drawerId'])
+  //         newArray2.push(z)
+  //       } else{
+  //         //console.log(`No drawerId for ${i}`)
+  //       }
+  //     }
+  //   }
+
+  //   console.log("newArray2", newArray2)
+
+  //   newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+
+  //   return newArray.map((item) => {
+  //     return (
+  //       <div key={item._id}>
+  //         {item._id == drawerToBeMoved ? (
+  //           <p
+  //             className={"sub-drawer indent-" + item.level}
+  //             style={{ color: "red" }}
+  //           >
+  //             {item.name}
+  //             <Icon icon="healthicons:stop" color="red" width="18" />
+  //           </p>
+  //         ) : (
+  //           <p
+  //             className={"sub-drawer indent-" + item.level}
+  //             onClick={() => {
+  //               setCurrentDropDown(item.name);
+  //               handleSelectedDrawerId(item._id);
+  //             }}
+  //           >
+  //             {item.name}
+  //           </p>
+  //         )}
+  //       </div>
+  //     );
+  //   });
+  // };
 
   const existingDrawersList = drawers.map((item) => {
     if (item.root === true) {
