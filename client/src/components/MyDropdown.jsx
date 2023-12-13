@@ -67,7 +67,7 @@ export default function MyDropdown() {
       }
     }
 
-    return newArray3.map((item) => {
+    return newArray.map((item) => {
       return (
         <div key={item._id}>
           {item._id == drawerToBeMoved ? (

@@ -275,7 +275,7 @@ export default function DrawerListPage({ expandedIndex }) {
       }
     }
 
-    return newArray3.map((item) => {
+    return newArray.map((item) => {
       const scribbleList = findScribbles(item._id);
 
       return (

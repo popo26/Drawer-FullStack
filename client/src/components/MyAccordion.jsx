@@ -91,7 +91,7 @@ export default function MyAccordion({
       }
     }
 
-    return newArray3.map((item) => {
+    return newArray.map((item) => {
       const scribbleList = findScribbles(item._id);
       return (
         <div key={item._id} className="sub-drawer-div">
@@ -112,42 +112,6 @@ export default function MyAccordion({
     });
   };
 
-  /////////////ORIGINAL////////////////////////////
-  ///////////////////////////////////////////
-  ///////////////////////////////////////////
-  // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
-
-  // const findSubDrawers = (id) => {
-  //   let newArray = [];
-  //   for (let x in drawers) {
-  //     if (drawers[x].drawerId && drawers[x].rootId == id) {
-  //       newArray.push(drawers[x]);
-  //     }
-  //   }
-
-  //   newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
-
-  //   return newArray.map((item) => {
-  //     const scribbleList = findScribbles(item._id);
-  //     return (
-  //       <div key={item._id} className="sub-drawer-div">
-  //         <h3 className={"sub-drawer-name indent-" + item.level}>
-  //           {item.name}
-  //         </h3>
-  //         <div>
-  //           {scribbleList.length == 0 ? (
-  //             <h6 className={"no-scribble scrb-indent" + item.level}>No Scribbles</h6>
-  //           ) : (
-  //             <div className="sub-drawer-scribble-list">{scribbleList}</div>
-  //           )}
-  //         </div>
-  //       </div>
-  //     );
-  //   });
-  // };
-  ///////////////////////////////////////////
-  /////////////////////////////////////////////
-  ///////////////////////////////////////////
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
