@@ -18,37 +18,6 @@ export default function MyDropdown() {
     setOpen(!open);
   };
 
-  // const existingDrawersList = data["drawers"].map((item) => {
-  //   return item["drawerId"] ? (
-  //     <li
-  //       key={item.id}
-  //       onClick={() => {
-  //         setCurrentDropDown(item.name);
-  //         setSelectedDrawerId(item.id);
-  //         console.log("SelectedId", item.id);
-  //       }}
-  //       className={"indent-" + item.level}
-  //     >
-  //       <a className="dropdown-item" href="#">
-  //         {item.name}
-  //       </a>
-  //     </li>
-  //   ) : (
-  //     <li
-  //       key={item.id}
-  //       onClick={() => {
-  //         setCurrentDropDown(item.name);
-  //         setSelectedDrawerId(item.id);
-  //         console.log("SelectedId", item.id);
-  //       }}
-  //     >
-  //       <a className="dropdown-item" href="#">
-  //         {item.name}
-  //       </a>
-  //     </li>
-  //   );
-  // });
-
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   const findSubDrawers = (id) => {
     let newArray = [];
@@ -69,22 +38,15 @@ export default function MyDropdown() {
         if (z.drawerId == id) {
           let obj = { [`${id}`]: z };
           newArray2.push(obj);
-          //console.log(obj)
         }
       }
     }
 
-    //console.log("NEWARRAY@@@@@@@@@@2", newArray2)
-
     //Remove drawers that are collected in the above forloop
     for (let p of newArray2) {
-      //console.log("P", Object.values(p)[0].drawerId);
       for (let i of newArray) {
         if (i._id == Object.values(p)[0]._id) {
-          //console.log("IIII", newArray.indexOf(i))
-          //delete newArray[newArray.indexOf(i)]
-          const newA = newArray.splice(newArray.indexOf(i), 1);
-          //console.log("newA", newA)
+          newArray.splice(newArray.indexOf(i), 1);
         }
       }
     }
@@ -93,8 +55,6 @@ export default function MyDropdown() {
     for (let k of newArray2) {
       for (let j of newArray) {
         if (Object.values(k)[0].drawerId == j._id) {
-          console.log("KKKK", Object.values(k)[0]);
-          console.log("index", newArray.indexOf(j));
           const index = newArray.indexOf(j);
           const obj = Object.values(k)[0];
           newArray3 = [
@@ -106,8 +66,6 @@ export default function MyDropdown() {
         }
       }
     }
-
-    //console.log("newArray", newArray3);
 
     return newArray3.map((item) => {
       return (
@@ -136,63 +94,7 @@ export default function MyDropdown() {
     });
   };
 
-
-  // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
-  // const findSubDrawers = (id) => {
-  //   let newArray = [];
-
-  //   for (let x in drawers) {
-  //     if (drawers[x].drawerId && drawers[x].rootId == id) {
-  //       newArray.push(drawers[x]);
-  //     }
-  //   }
-
-  //   let newArray2=[]
-
-  //   for (let y in newArray){
-  //     let i = newArray[y]['_id']
-  //     //console.log("NewArray",i)
-  //     for (let z of newArray){
-  //       if (z['drawerId'] == i){
-  //         //console.log("Z",z['drawerId'])
-  //         newArray2.push(z)
-  //       } else{
-  //         //console.log(`No drawerId for ${i}`)
-  //       }
-  //     }
-  //   }
-
-  //   console.log("newArray2", newArray2)
-
-  //   newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
-
-  //   return newArray.map((item) => {
-  //     return (
-  //       <div key={item._id}>
-  //         {item._id == drawerToBeMoved ? (
-  //           <p
-  //             className={"sub-drawer indent-" + item.level}
-  //             style={{ color: "red" }}
-  //           >
-  //             {item.name}
-  //             <Icon icon="healthicons:stop" color="red" width="18" />
-  //           </p>
-  //         ) : (
-  //           <p
-  //             className={"sub-drawer indent-" + item.level}
-  //             onClick={() => {
-  //               setCurrentDropDown(item.name);
-  //               handleSelectedDrawerId(item._id);
-  //             }}
-  //           >
-  //             {item.name}
-  //           </p>
-  //         )}
-  //       </div>
-  //     );
-  //   });
-  // };
-
+  // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
     if (item.root === true) {
       return (

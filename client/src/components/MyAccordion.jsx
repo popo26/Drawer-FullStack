@@ -14,17 +14,15 @@ export default function MyAccordion({
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
-
   // const [, updateState] = useState();
   // const forceUpdate = useCallback(() => updateState({}), []);
 
-//   useEffect(() => {
-//  const newDrawerId = sessionStorage.getItem("newDrawerId");
-//  const newDrawerObj = drawers.find((item)=>item._id == newDrawerId)
-//  console.log("newDrawerObj", newDrawerObj)
-//  setDrawers((prevValues)=>[...prevValues, newDrawerObj])
-//   }, []);
-
+  //   useEffect(() => {
+  //  const newDrawerId = sessionStorage.getItem("newDrawerId");
+  //  const newDrawerObj = drawers.find((item)=>item._id == newDrawerId)
+  //  console.log("newDrawerObj", newDrawerObj)
+  //  setDrawers((prevValues)=>[...prevValues, newDrawerObj])
+  //   }, []);
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
 
@@ -38,75 +36,62 @@ export default function MyAccordion({
     return scribbleArray.map((item) => (
       <Link key={item._id} to={`/scribble/${item._id}`}>
         <p className={"individual-scribble scrb-indent" + item.level}>
-
           {item.title}{" "}
         </p>
-
       </Link>
     ));
   };
 
+  // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
+  const findSubDrawers = (id) => {
+    let newArray = [];
+    let newArray2 = [];
+    let newArray3 = [];
 
-// ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
-const findSubDrawers = (id) => {
-  let newArray = [];
-  let newArray2 = [];
-  let newArray3 = [];
-
-  //Collect all sub-drawers
-  for (let x in drawers) {
-    if (drawers[x].drawerId && drawers[x].rootId == id) {
-      newArray.push(drawers[x]);
-    }
-  }
-
-  // Collect subdrawers that are subdrawers that have parent in this array
-  for (let y of newArray) {
-    const id = y._id;
-    for (let z of newArray) {
-      if (z.drawerId == id) {
-        let obj = { [`${id}`]: z };
-        newArray2.push(obj);
-        //console.log(obj)
+    //Collect all sub-drawers
+    for (let x in drawers) {
+      if (drawers[x].drawerId && drawers[x].rootId == id) {
+        newArray.push(drawers[x]);
       }
     }
-  }
 
-  //console.log("NEWARRAY@@@@@@@@@@2", newArray2)
-
-  //Remove drawers that are collected in the above forloop
-  for (let p of newArray2) {
-    //console.log("P", Object.values(p)[0].drawerId);
-    for (let i of newArray) {
-      if (i._id == Object.values(p)[0]._id) {
-        //console.log("IIII", newArray.indexOf(i))
-        //delete newArray[newArray.indexOf(i)]
-        const newA = newArray.splice(newArray.indexOf(i), 1);
-        //console.log("newA", newA)
+    // Collect subdrawers that are subdrawers that have parent in this array
+    for (let y of newArray) {
+      const id = y._id;
+      for (let z of newArray) {
+        if (z.drawerId == id) {
+          let obj = { [`${id}`]: z };
+          newArray2.push(obj);
+        }
       }
     }
-  }
 
-  //Insert collected subdrawers to the right location
-  for (let k of newArray2) {
-    for (let j of newArray) {
-      if (Object.values(k)[0].drawerId == j._id) {
-        console.log("KKKK", Object.values(k)[0]);
-        console.log("index", newArray.indexOf(j));
-        const index = newArray.indexOf(j);
-        const obj = Object.values(k)[0];
-        newArray3 = [
-          ...newArray.slice(0, index + 1),
-          obj,
-          ...newArray.slice(index + 1),
-        ];
-        newArray = newArray3;
+    //Remove drawers that are collected in the above forloop
+    for (let p of newArray2) {
+      for (let i of newArray) {
+        if (i._id == Object.values(p)[0]._id) {
+          newArray.splice(newArray.indexOf(i), 1);
+        }
       }
     }
-  }
 
+    //Insert collected subdrawers to the right location
+    for (let k of newArray2) {
+      for (let j of newArray) {
+        if (Object.values(k)[0].drawerId == j._id) {
+          const index = newArray.indexOf(j);
+          const obj = Object.values(k)[0];
+          newArray3 = [
+            ...newArray.slice(0, index + 1),
+            obj,
+            ...newArray.slice(index + 1),
+          ];
+          newArray = newArray3;
+        }
+      }
+    }
 
-   return newArray3.map((item) => {
+    return newArray3.map((item) => {
       const scribbleList = findScribbles(item._id);
       return (
         <div key={item._id} className="sub-drawer-div">
@@ -115,7 +100,9 @@ const findSubDrawers = (id) => {
           </h3>
           <div>
             {scribbleList.length == 0 ? (
-              <h6 className={"no-scribble scrb-indent" + item.level}>No Scribbles</h6>
+              <h6 className={"no-scribble scrb-indent" + item.level}>
+                No Scribbles
+              </h6>
             ) : (
               <div className="sub-drawer-scribble-list">{scribbleList}</div>
             )}
@@ -123,8 +110,7 @@ const findSubDrawers = (id) => {
         </div>
       );
     });
-};
-
+  };
 
   /////////////ORIGINAL////////////////////////////
   ///////////////////////////////////////////
@@ -159,9 +145,9 @@ const findSubDrawers = (id) => {
   //     );
   //   });
   // };
-///////////////////////////////////////////
-/////////////////////////////////////////////
-///////////////////////////////////////////
+  ///////////////////////////////////////////
+  /////////////////////////////////////////////
+  ///////////////////////////////////////////
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
