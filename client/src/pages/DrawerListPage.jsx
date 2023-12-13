@@ -232,22 +232,70 @@ export default function DrawerListPage({ expandedIndex }) {
       </Link>
     ));
   };
+///////////////////////////////////////////////////
 
-  // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
 
-  const findSubDrawers = (id) => {
-    console.log("ID", id);
-    let newArray = [];
+// ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
+const findSubDrawers = (id) => {
+  let newArray = [];
+  let newArray2 = [];
+  let newArray3 = [];
 
-    for (let x in drawers) {
-      if (drawers[x].drawerId && drawers[x].rootId == id) {
-        newArray.push(drawers[x]);
+  //Collect all sub-drawers
+  for (let x in drawers) {
+    if (drawers[x].drawerId && drawers[x].rootId == id) {
+      newArray.push(drawers[x]);
+    }
+  }
+
+  // Collect subdrawers that are subdrawers that have parent in this array
+  for (let y of newArray) {
+    const id = y._id;
+    for (let z of newArray) {
+      if (z.drawerId == id) {
+        let obj = { [`${id}`]: z };
+        newArray2.push(obj);
+        //console.log(obj)
       }
     }
+  }
 
-    newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+  //console.log("NEWARRAY@@@@@@@@@@2", newArray2)
 
-    return newArray.map((item) => {
+  //Remove drawers that are collected in the above forloop
+  for (let p of newArray2) {
+    //console.log("P", Object.values(p)[0].drawerId);
+    for (let i of newArray) {
+      if (i._id == Object.values(p)[0]._id) {
+        //console.log("IIII", newArray.indexOf(i))
+        //delete newArray[newArray.indexOf(i)]
+        const newA = newArray.splice(newArray.indexOf(i), 1);
+        //console.log("newA", newA)
+      }
+    }
+  }
+
+  //Insert collected subdrawers to the right location
+  for (let k of newArray2) {
+    for (let j of newArray) {
+      if (Object.values(k)[0].drawerId == j._id) {
+        console.log("KKKK", Object.values(k)[0]);
+        console.log("index", newArray.indexOf(j));
+        const index = newArray.indexOf(j);
+        const obj = Object.values(k)[0];
+        newArray3 = [
+          ...newArray.slice(0, index + 1),
+          obj,
+          ...newArray.slice(index + 1),
+        ];
+        newArray = newArray3;
+      }
+    }
+  }
+
+  //console.log("newArray", newArray3);
+
+  return newArray3.map((item) => {
       const scribbleList = findScribbles(item._id);
 
       return (
@@ -318,7 +366,104 @@ export default function DrawerListPage({ expandedIndex }) {
         </div>
       );
     });
-  };
+};
+
+
+
+
+
+   ////////////ORIGINAL///////////////////////////////////
+  //////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
+  // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
+
+  // const findSubDrawers = (id) => {
+  //   console.log("ID", id);
+  //   let newArray = [];
+
+  //   for (let x in drawers) {
+  //     if (drawers[x].drawerId && drawers[x].rootId == id) {
+  //       newArray.push(drawers[x]);
+  //     }
+  //   }
+
+  //   newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+
+  //   return newArray.map((item) => {
+  //     const scribbleList = findScribbles(item._id);
+
+  //     return (
+  //       <div key={item._id} className="sub-drawer-header">
+  //         {/* ADDED */}
+  //         <div className="sub-drawer-header-div">
+  //           <h3
+  //             id={`targetDrawerId${item._id}`}
+  //             style={{ display: "inline-block" }}
+  //             className={"sub-drawer indent-" + item.level}
+  //             onClick={() => {
+  //               handleSelectedDrawer(item._id);
+  //             }}
+  //             contentEditable="true"
+  //             // contentEditable={isContentEditable}
+  //             suppressContentEditableWarning={true}
+  //             //onChange={() => handleChange3(item.id)}
+  //             ref={text}
+  //           >
+  //             {item.name}
+
+  //             {/* <ContentEditable
+  //               onChange={onContentChange}
+  //               // onChange={handleChange2}
+  //               // html={drawerNameToEdit}
+  //               html={item.name}
+  //               // value={drawerNameToEdit}
+  //             /> */}
+  //           </h3>
+
+  //           <Icon
+  //             onClick={() => handleDelete(item._id)}
+  //             icon="ion:trash-outline"
+  //             color="black"
+  //             width="18"
+  //             className="icon10"
+  //           />
+  //           <Icon
+  //             className="icon10"
+  //             icon="mingcute:drawer-line"
+  //             color="black"
+  //             width="18"
+  //             onClick={() => {
+  //               // drawerToBeMoved = item.id;
+  //               // setDrawerToBeMoved(drawerToBeMoved);
+  //               setDrawerToBeMoved(item.idd);
+  //               let passingData = { selectedDrawerId, drawerToBeMoved };
+  //               console.log("PassingData", passingData);
+  //               navigate("/sort-drawer", { state: passingData });
+  //               // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
+  //               sessionStorage.setItem("drawerToBeMoved", item._id);
+  //             }}
+  //           />
+  //           {showUpdateIcon(item._id)}
+  //           {/* added */}
+  //         </div>
+  //         {scribbleList.length === 0 ? (
+  //           <h6 className={"no-scribble scrb-indent" + item.level}>
+  //             No Scribbles
+  //           </h6>
+  //         ) : (
+  //           <div
+  //             className={"sub-drawer-scribble-list scrb-indent" + item.level}
+  //           >
+  //             {scribbleList}
+  //           </div>
+  //         )}
+  //       </div>
+  //     );
+  //   });
+  // };
+  /////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////
 
   console.log("Ref", text);
 

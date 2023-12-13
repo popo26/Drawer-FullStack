@@ -52,62 +52,62 @@ export default function MyDropdown() {
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   const findSubDrawers = (id) => {
     let newArray = [];
+    let newArray2 = [];
+    let newArray3 = [];
 
+    //Collect all sub-drawers
     for (let x in drawers) {
       if (drawers[x].drawerId && drawers[x].rootId == id) {
         newArray.push(drawers[x]);
       }
     }
 
-    let newArray2 = [];
-    let newArray3 = [];
-
-    for (let y in newArray) {
-      let i = newArray[y]["_id"];
-      //console.log("NewArray",i)
+    // Collect subdrawers that are subdrawers that have parent in this array
+    for (let y of newArray) {
+      const id = y._id;
       for (let z of newArray) {
-        if (z["drawerId"] == i) {
-          //console.log("Z",z['drawerId'])
-          newArray2.push(z);
-          // newArray2.push({[`${z.drawerId}`]: z});
-        } else {
-          //console.log(`No drawerId for ${i}`)
+        if (z.drawerId == id) {
+          let obj = { [`${id}`]: z };
+          newArray2.push(obj);
+          //console.log(obj)
         }
       }
     }
 
-    for (let p of newArray) {
-      //console.log("newArray P", p._id)
-      let sameGroup = [];
-      for (let h of newArray2) {
-        //console.log("newArray2[h]", h.drawerId)
-        if (p._id == h.drawerId) {
-          //console.log("match", p);
-          //console.log("index", newArray.indexOf(p));
-          sameGroup.push(h);
-          //newArray.splice(newArray.indexOf(p), h)
-          // newArray3.push(p);
-          // newArray3.push(h);
-          // newArray3 = removeDup(newArray3);
+    //console.log("NEWARRAY@@@@@@@@@@2", newArray2)
+
+    //Remove drawers that are collected in the above forloop
+    for (let p of newArray2) {
+      //console.log("P", Object.values(p)[0].drawerId);
+      for (let i of newArray) {
+        if (i._id == Object.values(p)[0]._id) {
+          //console.log("IIII", newArray.indexOf(i))
+          //delete newArray[newArray.indexOf(i)]
+          const newA = newArray.splice(newArray.indexOf(i), 1);
+          //console.log("newA", newA)
         }
       }
-      console.log("sameGroup", sameGroup);
-      sameGroup.sort((a, b) => parseInt(a.level) - parseInt(b.level));
-      newArray3.push(...sameGroup);
     }
 
-    function removeDup(data) {
-      return [...new Set(data)];
+    //Insert collected subdrawers to the right location
+    for (let k of newArray2) {
+      for (let j of newArray) {
+        if (Object.values(k)[0].drawerId == j._id) {
+          console.log("KKKK", Object.values(k)[0]);
+          console.log("index", newArray.indexOf(j));
+          const index = newArray.indexOf(j);
+          const obj = Object.values(k)[0];
+          newArray3 = [
+            ...newArray.slice(0, index + 1),
+            obj,
+            ...newArray.slice(index + 1),
+          ];
+          newArray = newArray3;
+        }
+      }
     }
 
-    //newArray3 = removeDup(newArray3)
-
-    // console.log("drawers length", drawers.length);
-    // console.log("newArray2", newArray2);
-    // console.log("newArray", newArray);
-    console.log("newArray3", newArray3);
-
-    //newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+    //console.log("newArray", newArray3);
 
     return newArray3.map((item) => {
       return (
@@ -135,6 +135,7 @@ export default function MyDropdown() {
       );
     });
   };
+
 
   // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   // const findSubDrawers = (id) => {
@@ -217,7 +218,9 @@ export default function MyDropdown() {
           <div>
             {item["subDrawer"] === true ? (
               <>{findSubDrawers(item._id)} </>
-            ) : null}
+            ) : // <>{findSubDrawers2(item._id, drawers)} </>
+
+            null}
           </div>
         </>
       );

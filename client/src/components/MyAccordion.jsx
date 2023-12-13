@@ -46,19 +46,67 @@ export default function MyAccordion({
     ));
   };
 
-  // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
 
-  const findSubDrawers = (id) => {
-    let newArray = [];
-    for (let x in drawers) {
-      if (drawers[x].drawerId && drawers[x].rootId == id) {
-        newArray.push(drawers[x]);
+// ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
+const findSubDrawers = (id) => {
+  let newArray = [];
+  let newArray2 = [];
+  let newArray3 = [];
+
+  //Collect all sub-drawers
+  for (let x in drawers) {
+    if (drawers[x].drawerId && drawers[x].rootId == id) {
+      newArray.push(drawers[x]);
+    }
+  }
+
+  // Collect subdrawers that are subdrawers that have parent in this array
+  for (let y of newArray) {
+    const id = y._id;
+    for (let z of newArray) {
+      if (z.drawerId == id) {
+        let obj = { [`${id}`]: z };
+        newArray2.push(obj);
+        //console.log(obj)
       }
     }
+  }
 
-    newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+  //console.log("NEWARRAY@@@@@@@@@@2", newArray2)
 
-    return newArray.map((item) => {
+  //Remove drawers that are collected in the above forloop
+  for (let p of newArray2) {
+    //console.log("P", Object.values(p)[0].drawerId);
+    for (let i of newArray) {
+      if (i._id == Object.values(p)[0]._id) {
+        //console.log("IIII", newArray.indexOf(i))
+        //delete newArray[newArray.indexOf(i)]
+        const newA = newArray.splice(newArray.indexOf(i), 1);
+        //console.log("newA", newA)
+      }
+    }
+  }
+
+  //Insert collected subdrawers to the right location
+  for (let k of newArray2) {
+    for (let j of newArray) {
+      if (Object.values(k)[0].drawerId == j._id) {
+        console.log("KKKK", Object.values(k)[0]);
+        console.log("index", newArray.indexOf(j));
+        const index = newArray.indexOf(j);
+        const obj = Object.values(k)[0];
+        newArray3 = [
+          ...newArray.slice(0, index + 1),
+          obj,
+          ...newArray.slice(index + 1),
+        ];
+        newArray = newArray3;
+      }
+    }
+  }
+
+
+   return newArray3.map((item) => {
       const scribbleList = findScribbles(item._id);
       return (
         <div key={item._id} className="sub-drawer-div">
@@ -75,7 +123,45 @@ export default function MyAccordion({
         </div>
       );
     });
-  };
+};
+
+
+  /////////////ORIGINAL////////////////////////////
+  ///////////////////////////////////////////
+  ///////////////////////////////////////////
+  // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
+
+  // const findSubDrawers = (id) => {
+  //   let newArray = [];
+  //   for (let x in drawers) {
+  //     if (drawers[x].drawerId && drawers[x].rootId == id) {
+  //       newArray.push(drawers[x]);
+  //     }
+  //   }
+
+  //   newArray.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+
+  //   return newArray.map((item) => {
+  //     const scribbleList = findScribbles(item._id);
+  //     return (
+  //       <div key={item._id} className="sub-drawer-div">
+  //         <h3 className={"sub-drawer-name indent-" + item.level}>
+  //           {item.name}
+  //         </h3>
+  //         <div>
+  //           {scribbleList.length == 0 ? (
+  //             <h6 className={"no-scribble scrb-indent" + item.level}>No Scribbles</h6>
+  //           ) : (
+  //             <div className="sub-drawer-scribble-list">{scribbleList}</div>
+  //           )}
+  //         </div>
+  //       </div>
+  //     );
+  //   });
+  // };
+///////////////////////////////////////////
+/////////////////////////////////////////////
+///////////////////////////////////////////
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
