@@ -69,8 +69,8 @@ export default function ScribbleListPage() {
               <Icon
                 className="icon5"
                 icon="ic:outline-attachment"
-                color="lightpink"
-                width="36"
+                color="orange"
+                width="18"
               />
             )}
             ID:{item._id}, {item.title}
