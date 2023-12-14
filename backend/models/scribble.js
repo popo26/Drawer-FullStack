@@ -13,7 +13,7 @@ const scribbleSchema = new Schema({
   level: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  userId: { type: String, required: true }, //Forein key
+  // userId: { type: String, required: true }, //Forein key
   files: [
     {
       path: String,

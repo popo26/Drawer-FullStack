@@ -1,26 +1,43 @@
 const express = require("express");
-var cors = require('cors');
+const cors = require('cors');
+// const bodyParser = require('body-parser')
+
 let dbConnect = require("./dbConnect");
 
 const app = express();
 require("dotenv").config();
 // parse requests of content-type - application / json;
-app.use(express.json());
-app.use(cors());
+// app.use(express.json());
+app.use(express.json({
+  type:['application/json', "text/plain"]
+}));
 
-// var corsOptions = {
-//   origin: '*',
-//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-//   'Access-Control-Allow-Origin':'*'
-// }
+app.use(cors());
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
+
+
+
+
+
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to my MongoDB application." });
 });
 
-// app.get("/", cors(corsOptions), (req, res) => {
-//   res.json({ message: "Welcome to my MongoDB application." });
-// });
+// const User = require('./models/user');
+
+// const userInput = {
+//   username:"aie@gmail.com",
+//   password: "123456",
+//   role:"admin"
+// }
+
+// const userNew = new User(userInput);
+// userNew.save()
+
+
 
 let userRoutes = require("./routes/userRoutes");
 let drawerRoutes = require("./routes/drawerRoutes");
@@ -29,7 +46,6 @@ let scribbleRoutes = require("./routes/scribbleRoutes");
 app.use("/api/users", userRoutes);
 app.use("/api/drawers", drawerRoutes);
 app.use("/api/scribbles", scribbleRoutes);
-// app.use("/api/scribbles", cors(corsOptions), scribbleRoutes);
 
 
 
