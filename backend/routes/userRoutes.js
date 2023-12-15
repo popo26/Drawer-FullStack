@@ -6,40 +6,48 @@ const passportConfig = require("../passport");
 const JWT = require("jsonwebtoken"); //To sign JWT toekn
 const User = require("../models/user");
 
-router.post('/register', async (req, res) => {
+const signToken = (userId) => {
+  return JWT.sign(
+    {
+      iss: "Drawer",
+      sub: userId,
+    },
+    "secret-key",
+    { expiresIn: "1h" }
+  );
+};
+
+router.post("/register", async (req, res) => {
   try {
-   //Step 1: validae the user input and if there is an error, send 400 res and error message
-   console.log('My user post body req::', req.body);
+    //Step 1: validae the user input and if there is an error, send 400 res and error message
+    console.log("My user post body req::", req.body);
 
-   //step 2: check if user already exists, if yes send res 400
-   let user = await User.findOne({ email: req.body.email });
-   if (user) {
-     return res.status(400).send('User already exists');
-   }
- 
-   //Step 3: enter new user into the database
-   user = new User({
-             username: req.body.username,
-             email: req.body.email,
-             password: req.body.password,
-             role:"user"
-   });
-   await user.save();
- 
- 
-   //step 4: return the newly added user
-   return res.status(200).send(user);
-  } catch(error) {
-     // Report error internally
-     return res.status(500).send(error.message);
-  } 
- });
+    //step 2: check if user already exists, if yes send res 400
+    let user = await User.findOne({ email: req.body.email });
+    if (user) {
+      return res.status(400).send("User already exists");
+    }
 
+    //Step 3: enter new user into the database
+    user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      role: req.body.role,
+    });
+    await user.save();
+
+    //step 4: return the newly added user
+    return res.status(200).send(user);
+  } catch (error) {
+    // Report error internally
+    return res.status(500).send(error.message);
+  }
+});
 
 // router.post("/register", (req, res) => {
 //     //Step 1: validate the user input and if there is an error, send 400 res and error message
 //     console.log("My user post body req::", req.body);
-   
 
 //   //const {username, password, role}= req.body;
 
@@ -86,6 +94,86 @@ router.post('/register', async (req, res) => {
 //     }
 //   })
 // })
+
+router.post(
+  "/login",
+  passport.authenticate("local", { session: false }),
+  (req, res) => {
+    console.log("req.body", req.body);
+    if (req.isAuthenticated()) {
+      const { _id, username, email, role } = req.user;
+      const token = signToken(_id);
+      res.cookie("access_token", token, { httpOnly: true, sameSite: true });
+      res
+        .status(200)
+        .json({ isAuthenticated: true, user: { username, email, role } });
+    }
+    // else {
+    //   res.status(500).json({isAuthenticated:false, message:error.message})
+    // }
+
+    // try {
+    //  //Step 1: validae the user input and if there is an error, send 400 res and error message
+    //  console.log('My user post body req::', req.body);
+
+    //  //step 2: check if user already exists, if yes send res 400
+    //  let user = await User.findOne({ email: req.body.email });
+    //  if (user) {
+    //    return res.status(400).send('User already exists');
+    //  }
+
+    //  //Step 3: enter new user into the database
+    //  user = new User({
+    //            username: req.body.username,
+    //            email: req.body.email,
+    //            password: req.body.password,
+    //            role:"user"
+    //  });
+    //  await user.save();
+
+    //  //step 4: return the newly added user
+    //  return res.status(200).send(user);
+    // } catch(error) {
+    //    // Report error internally
+    //    return res.status(500).send(error.message);
+    // }
+  }
+);
+
+router.get(
+  "/logout",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log("HERE");
+    res.clearCookie("access_token");
+    res.json({ user: { username: "", email: "", role: "" }, success: true });
+  }
+);
+
+router.get(
+  "/admin",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    if (req.user.role === "admin") {
+      res
+        .status(200)
+        .json({ message: { msgBody: "You are an admin", msgError: false } });
+    } else {
+      res
+        .status(403)
+        .json({ message: { msgBody: "You are not an admin", msgError: true } });
+    }
+  }
+);
+
+router.get(
+  "/authenticated",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { username, email, role } = req.user;
+    res.status(200).json({ isAuthenticated: true, user: { username, email, role } });
+  }
+);
 
 // router.get("/", (req, res) => {
 //   Controllers.userController.getUsers(res);

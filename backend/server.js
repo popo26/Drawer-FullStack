@@ -1,6 +1,10 @@
 const express = require("express");
 const cors = require('cors');
 // const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
+
+
+const passport = require("passport");
 
 let dbConnect = require("./dbConnect");
 
@@ -8,18 +12,22 @@ const app = express();
 require("dotenv").config();
 // parse requests of content-type - application / json;
 // app.use(express.json());
+
 app.use(express.json({
   type:['application/json', "text/plain"]
 }));
+
+// app.use(express.json({
+//   type:['application/json']
+// }));
 
 app.use(cors());
 // app.use(bodyParser.urlencoded({
 //   extended: true
 // }));
 
-
-
-
+//Need this to logout and clear access_token
+app.use(cookieParser());
 
 
 app.get("/", (req, res) => {

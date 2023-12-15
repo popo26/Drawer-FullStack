@@ -18,6 +18,7 @@ import { PageNotFound } from "../pages/PageNotFound";
 import SortScribblePage from "../pages/SortScribblePage";
 import SortScribblePreviewPage from "../pages/SortScribblePreviewPage";
 
+
 export default function AppRoutes({
   expandedIndex,
   handleExpand,

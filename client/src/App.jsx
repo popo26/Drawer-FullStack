@@ -11,13 +11,11 @@ import { DrawerToBeMovedContextProvider } from "./context/DrawerToBeMovedContext
 import { DrawerNameProvider } from "./context/DrawerNameContext";
 import { useDataContext } from "./context/DataContext";
 import { FileProvider } from "./context/FileContext";
+// import { AuthContextProvider } from "./context/AuthContext";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  // const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
-  // const [baseImage, setBaseImage] = useState("")
-
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -29,34 +27,34 @@ export default function App() {
     });
   };
 
-
-
   return (
     <>
-      <DataProvider>
-        <SelectedDrawerProvider>
-          <SelectedScribbleProvider>
-            <DrawerToBeMovedContextProvider>
-              <DrawerNameProvider>
-                <FileProvider>
-                <MyNavbar/>
-                <AppRoutes
-                  expandedIndex={expandedIndex}
-                  handleExpand={handleClickExpand}
-                  // files={files}
-                  // setFiles={setFiles}
-                  // baseImage={baseImage}
-                  // setBaseImage={setBaseImage}
-                />
-                <Link to="/scribble">
-                  <ScribbleBtn />
-                </Link>
-                </FileProvider>
-              </DrawerNameProvider>
-            </DrawerToBeMovedContextProvider>
-          </SelectedScribbleProvider>
-        </SelectedDrawerProvider>
-      </DataProvider>
+      {/* <AuthContextProvider> */}
+        <DataProvider>
+          <SelectedDrawerProvider>
+            <SelectedScribbleProvider>
+              <DrawerToBeMovedContextProvider>
+                <DrawerNameProvider>
+                  <FileProvider>
+                    <MyNavbar />
+                    <AppRoutes
+                      expandedIndex={expandedIndex}
+                      handleExpand={handleClickExpand}
+                      // files={files}
+                      // setFiles={setFiles}
+                      // baseImage={baseImage}
+                      // setBaseImage={setBaseImage}
+                    />
+                    <Link to="/scribble">
+                      <ScribbleBtn />
+                    </Link>
+                  </FileProvider>
+                </DrawerNameProvider>
+              </DrawerToBeMovedContextProvider>
+            </SelectedScribbleProvider>
+          </SelectedDrawerProvider>
+        </DataProvider>
+      {/* </AuthContextProvider> */}
     </>
   );
 }

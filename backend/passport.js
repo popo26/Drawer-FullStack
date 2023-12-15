@@ -14,25 +14,27 @@ const cookieExtractor = (req) => {
 // Authorization - To protect endpoints
 
 passport.use(
-    new JwtStrategy(
-      {
-        jwtFromRequest: cookieExtractor,
-        secretOrKey: "secret-key",
-      },
-      (payload, done) => {
-        User.findById({ _id: payload.sub })
-        .then((user)=>{
-            if (user){
-                return done(null, user)
-            } else {
-                return done(null, false)
-            }
+  new JwtStrategy(
+    {
+      jwtFromRequest: cookieExtractor,
+      secretOrKey: "secret-key",
+    },
+    (payload, done) => {
+      User.findById({ _id: payload.sub })
+        .then((user) => {
+          if (user) {
+            return done(null, user);
+          } 
+          else {
+            return done(null, false);
+          }
         })
-        .catch((error)=>{
-            return done(error, false)
-        })
-    }));
-
+        .catch((error) => {
+          return done(error, false);
+        });
+    }
+  )
+);
 
 // passport.use(
 //   new JwtStrategy(
@@ -52,24 +54,20 @@ passport.use(
 
 //Authenticated local strategy using username and password - Used when we login
 passport.use(
-
-    new LocalStrategy((username, password, done) => {
-        User.findOne({ username })
-        .then((user)=> {
-            if(!user) return done(null, false);
-        })
-        .then((user)=>{
-            user.comparePassword(password, done)
-        })
-        .catch((error)=>{
-            return done(error)
-        })
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username })
+      .then((user) => {
+        if (!user) return done(null, false);
+        return user.comparePassword(password, done);
       })
+      .catch((error) => {
+        return done(error);
+      });
+  })
+);
 
-
-
-//   new LocalStrategy((username, password, done) => {
-//     User.findOne({ username }, (error, user) => {
+//   new LocalStrategy((username, email, password, done) => {
+//     User.findOne({ email }, (error, user) => {
 //       //Something went wrong with database
 //       if (error) return done(error);
 //       //If no user exist
@@ -78,4 +76,4 @@ passport.use(
 //       user.comparePassword(password, done);
 //     });
 //   })
-);
+// );
