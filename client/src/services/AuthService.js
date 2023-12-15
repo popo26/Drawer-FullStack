@@ -1,6 +1,32 @@
 export default {
-  login: (user) => {
-    return fetch("/api/users/login", {
+
+//   login: async (user) => {
+//     try {
+//       const response = await fetch("http://127.0.0.1:8080/api/users/login", {
+//         method: "post",
+//         body: JSON.stringify(user),
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || "Bad Request");
+//       }
+
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       console.error(error.message);
+//       throw error;
+//     }
+//   },
+//   // other methods...
+// };
+
+  login: async (user) => {
+    return await fetch("http://127.0.0.1:8080/api/users/login", {
       method: "post",
       body: JSON.stringify(user),
       headers: {
@@ -8,11 +34,12 @@ export default {
       },
     })
       .then((res) => res.json())
-      .then((data) => data);
+      .then((data) => data)
+      .catch((error)=>console.error(error.message))
   },
 
-  register: (user) => {
-    return fetch("/api/users/register", {
+  register: async (user) => {
+    return fetch("http://127.0.0.1:8080/api/users/register", {
       method: "post",
       body: JSON.stringify(user),
       headers: {
@@ -20,13 +47,15 @@ export default {
       },
     })
       .then((res) => res.json())
-      .then((data) => data);
+      .then((data) => data)
+      .catch((error) => console.error(error.message));
   },
 
-  logout: () => {
-    return fetch("/api/users/logout")
+  logout: async () => {
+    return fetch("http://127.0.0.1:8080/api/users/logout")
       .then((res) => res.json())
-      .then((data) => data);
+      .then((data) => data)
+      .catch((error) => console.error(error.message));
   },
 
   isAuthenticated: async () => {

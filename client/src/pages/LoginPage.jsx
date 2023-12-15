@@ -20,6 +20,22 @@ export default function LoginPage(props) {
     //console.log(user);
   };
 
+  // const handleSubmitLogin = (e) => {
+  //   e.preventDefault();
+  //   AuthService.login(user).then((data) => {
+  //     console.log("data", data)
+  //     // const { isAuthenticated, user, message } = data;
+  //     if (data.isAuthenticated) {
+  //       authContext.setUser(data.user);
+  //       authContext.setIsAuthenticated(data.isAuthenticated);
+  //       //Check this
+  //       props.history.push("/home");
+  //     } else {
+  //       setMessage(message);
+  //     }
+  //   });
+  // };
+
   const handleSubmitLogin = (e) => {
     e.preventDefault();
     AuthService.login(user).then((data) => {
