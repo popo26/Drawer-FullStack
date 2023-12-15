@@ -1,4 +1,4 @@
-//////////////////ORIGINAL//////////////////////////////////////////////////////////
+//////////////////WITH AUTHENTICATION//////////////////////////////////////////////////////////
 import "../css/Navbar.css";
 import { Icon } from "@iconify/react";
 import { NavLink } from "react-router-dom";
@@ -6,10 +6,144 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AuthService from "../services/AuthService";
+import { AuthContext } from "../context/AuthContext";
+import { Button } from "react-bootstrap";
 
 export default function MyNavbar() {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const { isAuthenticated, user, setIsAuthenticated, setUser } =
+    useContext(AuthContext);
+
+  const handleLogout = () => {
+    AuthService.logout().then((data) => {
+      if (data.success) {
+        setUser(data.user);
+        setIsAuthenticated(false);
+      }
+    });
+  };
+
+  const unauthenticatedNavBar = () => {
+    return (
+      <>
+        <Container>
+          <Navbar.Brand href="#home">
+            <NavLink className="navbar-brand" to="/">
+              <Icon icon="mingcute:drawer-line" color="black" width="50" />
+            </NavLink>
+            {/* <span className="navbar-text greeting">Hi TomTom!</span> */}
+          </Navbar.Brand>
+          <Navbar.Toggle
+            aria-controls="responsive-navbar-nav"
+            onClick={() => setIsExpanded(!isExpanded)}
+          />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto"></Nav>
+            <Nav>
+              <Nav.Link>
+                <NavLink
+                  className="nav-link"
+                  to="/login"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  Login
+                </NavLink>
+              </Nav.Link>
+              <Nav.Link>
+                <NavLink
+                  className="nav-link"
+                  to="/register"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  Register
+                </NavLink>
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </>
+    );
+  };
+
+  const authenticatedNavBar = () => {
+    return (
+      <>
+        <Container>
+          <Navbar.Brand href="#home">
+            <NavLink className="navbar-brand" to="/home">
+              <Icon icon="mingcute:drawer-line" color="black" width="50" />
+            </NavLink>
+            <span className="navbar-text greeting">Hi TomTom!</span>
+          </Navbar.Brand>
+
+          <Button variant="dark" onClick={handleLogout}>
+            Logout
+          </Button>
+
+          <Navbar.Toggle
+            aria-controls="responsive-navbar-nav"
+            onClick={() => setIsExpanded(!isExpanded)}
+          />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto"></Nav>
+            <Nav>
+              <Nav.Link>
+                <NavLink
+                  className="nav-link"
+                  to="/search"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  <Icon icon="bi:search" color="black" width="30" height="30" />
+                </NavLink>
+              </Nav.Link>
+              <Nav.Link>
+                <NavLink
+                  className="nav-link"
+                  to="/profile"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  <Icon
+                    icon="healthicons:ui-user-profile"
+                    color="black"
+                    width="30"
+                    height="30"
+                  />
+                </NavLink>
+              </Nav.Link>
+              <Nav.Link eventKey={2}>
+                <NavLink
+                  className="nav-link"
+                  to="/stray"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  <Icon
+                    icon="game-icons:files"
+                    color="black"
+                    width="30"
+                    height="30"
+                  />
+                </NavLink>
+              </Nav.Link>
+              {user.role === "admin" ? (
+                <Nav.Link>
+                  <NavLink
+                    className="nav-link"
+                    to="/admin"
+                    onClick={() => setIsExpanded(false)}
+                  >
+                    Admin
+                  </NavLink>
+                </Nav.Link>
+              ) : null}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </>
+    );
+  };
 
   return (
     <Navbar
@@ -18,7 +152,9 @@ export default function MyNavbar() {
       className="bg-body-tertiary Navbar"
       expanded={isExpanded}
     >
-      <Container>
+      {!isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
+
+      {/* <Container>
         <Navbar.Brand href="#home">
           <NavLink className="navbar-brand" to="/">
             <Icon icon="mingcute:drawer-line" color="black" width="50" />
@@ -71,10 +207,90 @@ export default function MyNavbar() {
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
-      </Container>
+      </Container> */}
     </Navbar>
   );
 }
+
+// //////////////////ORIGINAL//////////////////////////////////////////////////////////
+// import "../css/Navbar.css";
+// import { Icon } from "@iconify/react";
+// import { NavLink } from "react-router-dom";
+// import Container from "react-bootstrap/Container";
+// import Nav from "react-bootstrap/Nav";
+// import Navbar from "react-bootstrap/Navbar";
+// import NavDropdown from "react-bootstrap/NavDropdown";
+// import { useState, useContext } from "react";
+// import AuthService from "../services/AuthService";
+// import { AuthContext } from "../context/AuthContext";
+
+// export default function MyNavbar() {
+//   const [isExpanded, setIsExpanded] = useState(false);
+
+//   return (
+//     <Navbar
+//       collapseOnSelect
+//       expand="lg"
+//       className="bg-body-tertiary Navbar"
+//       expanded={isExpanded}
+//     >
+//       <Container>
+//         <Navbar.Brand href="#home">
+//           <NavLink className="navbar-brand" to="/">
+//             <Icon icon="mingcute:drawer-line" color="black" width="50" />
+//           </NavLink>
+//           <span className="navbar-text greeting">Hi TomTom!</span>
+//         </Navbar.Brand>
+//         <Navbar.Toggle
+//           aria-controls="responsive-navbar-nav"
+//           onClick={() => setIsExpanded(!isExpanded)}
+//         />
+//         <Navbar.Collapse id="responsive-navbar-nav">
+//           <Nav className="me-auto"></Nav>
+//           <Nav>
+//             <Nav.Link>
+//               <NavLink
+//                 className="nav-link"
+//                 to="/search"
+//                 onClick={() => setIsExpanded(false)}
+//               >
+//                 <Icon icon="bi:search" color="black" width="30" height="30" />
+//               </NavLink>
+//             </Nav.Link>
+//             <Nav.Link>
+//               <NavLink
+//                 className="nav-link"
+//                 to="/profile"
+//                 onClick={() => setIsExpanded(false)}
+//               >
+//                 <Icon
+//                   icon="healthicons:ui-user-profile"
+//                   color="black"
+//                   width="30"
+//                   height="30"
+//                 />
+//               </NavLink>
+//             </Nav.Link>
+//             <Nav.Link eventKey={2}>
+//               <NavLink
+//                 className="nav-link"
+//                 to="/stray"
+//                 onClick={() => setIsExpanded(false)}
+//               >
+//                 <Icon
+//                   icon="game-icons:files"
+//                   color="black"
+//                   width="30"
+//                   height="30"
+//                 />
+//               </NavLink>
+//             </Nav.Link>
+//           </Nav>
+//         </Navbar.Collapse>
+//       </Container>
+//     </Navbar>
+//   );
+// }
 
 /////////////////////////Original - Without React-Bootstrap////////////////////
 // import "../css/Navbar.css";

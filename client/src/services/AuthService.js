@@ -4,7 +4,7 @@ export default {
       method: "post",
       body: JSON.stringify(user),
       headers: {
-        "Content-Type": "applicatio/json",
+        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
@@ -16,7 +16,7 @@ export default {
       method: "post",
       body: JSON.stringify(user),
       headers: {
-        "Content-Type": "applicatio/json",
+        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())

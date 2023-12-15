@@ -1,43 +1,112 @@
-import { useState } from "react";
-import InputField from "../components/InputField";
+import { useState, useContext } from "react";
+// import InputField from "../components/InputField";
 import "../css/LoginPage.css";
 import { Button } from "react-bootstrap";
+import AuthService from "../services/AuthService";
+import Message from "../components/Message"
+import { AuthContext } from "../context/AuthContext";
 
-export default function LoginPage() {
-  const [loginDetails, setLoginDetails] = useState({
-    username: "",
-    password:""
+
+export default function LoginPage(props) {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
   });
+  const [message, setMessage] = useState(null);
+  const authContext = useContext(AuthContext);
 
-  const handleClick = (e) => {
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    //console.log(user);
+  };
+
+  const handleSubmitLogin = (e) => {
     e.preventDefault();
-    console.log("LoginBtn clicked");
+    AuthService.login(user).then((data) => {
+      const { isAuthenticated, user, message } = data;
+      if (isAuthenticated) {
+        authContext.setUser(user);
+        authContext.setIsAuthenticated(isAuthenticated);
+        //Check this
+        props.history.push("/home");
+      } else {
+        setMessage(message);
+      }
+    });
   };
 
   return (
     <div className="LoginPage">
+      {message? <Message message={message}/>: null}
       <form>
-        <InputField
-          htmlFor="username"targetDrawer
-          type="text"
-          name="username"
-          placeholder="username"
-          id="username"
-          value={loginDetails.username}
-        /><br/>
-        <InputField
-          htmlFor="password"
+        <input
+          // htmlFor="email"
+          type="email"
+          name="email"
+          placeholder="email"
+          id="email"
+          value={user.email}
+          onChange={handleChange}
+        />
+        <br />
+        <input
+          // htmlFor="password"
           type="password"
           name="password"
           placeholder="password"
           id="password"
-          value={loginDetails.password}
+          value={user.password}
+          onChange={handleChange}
         />
-        <Button variant="outline-dark" onClick={handleClick}>Login</Button>
+        <Button variant="outline-dark" onClick={handleSubmitLogin}>
+          Login
+        </Button>
       </form>
       <a href="#">Don't remember?</a>
-      <br/>
-      <a><Button variant="dark">Sign Up</Button></a>
+      <br />
+      <a>
+        <Button variant="dark">Register</Button>
+      </a>
     </div>
   );
 }
+
+/////ORIGINAL////////////////////////////////////////////////////
+// export default function LoginPage() {
+//   const [loginDetails, setLoginDetails] = useState({
+//     username: "",
+//     password:""
+//   });
+
+//   const handleClick = (e) => {
+//     e.preventDefault();
+//     console.log("LoginBtn clicked");
+//   };
+
+//   return (
+//     <div className="LoginPage">
+//       <form>
+//         <InputField
+//           htmlFor="username"targetDrawer
+//           type="text"
+//           name="username"
+//           placeholder="username"
+//           id="username"
+//           value={loginDetails.username}
+//         /><br/>
+//         <InputField
+//           htmlFor="password"
+//           type="password"
+//           name="password"
+//           placeholder="password"
+//           id="password"
+//           value={loginDetails.password}
+//         />
+//         <Button variant="outline-dark" onClick={handleClick}>Login</Button>
+//       </form>
+//       <a href="#">Don't remember?</a>
+//       <br/>
+//       <a><Button variant="dark">Sign Up</Button></a>
+//     </div>
+//   );
+// }
