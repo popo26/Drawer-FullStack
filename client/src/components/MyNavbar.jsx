@@ -87,7 +87,7 @@ export default function MyNavbar() {
             <NavLink className="navbar-brand" to="/home">
               <Icon icon="mingcute:drawer-line" color="black" width="50" />
             </NavLink>
-            <span className="navbar-text greeting">Hi TomTom!</span>
+            <span className="navbar-text greeting">Hi {user.username}!</span>
           </Navbar.Brand>
 
           <Button variant="dark" onClick={handleLogout}>

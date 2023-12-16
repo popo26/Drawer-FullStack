@@ -3,30 +3,28 @@ import { useDropzone } from "react-dropzone";
 
 export default function TestPage() {
   const [files, setFiles] = useState([]);
-    const onDrop = useCallback(
-      (acceptedFiles) => {
-        setFiles(
-          acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          )
-        );
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
 
-        const form = new FormData();
+      const form = new FormData();
 
-        form.append("fileUpload", acceptedFiles[0]);
+      form.append("fileUpload", acceptedFiles[0]);
 
-
-        fetch("http://localhost:3000/upload", {
-          method: "POST",
-          body: form,
-        });
-        console.log("files", acceptedFiles[0])
-
-      },
-      [setFiles]
-    );
+      fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: form,
+      });
+      console.log("files", acceptedFiles[0]);
+    },
+    [setFiles]
+  );
 
   useEffect(
     () => () => {
@@ -37,7 +35,7 @@ export default function TestPage() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: "image/*",
-    onDrop
+    onDrop,
   });
 
   return (

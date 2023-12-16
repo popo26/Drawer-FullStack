@@ -38,16 +38,15 @@ export default function RegisterPage(props) {
   const handleSubmitRegister = (e) => {
     e.preventDefault();
     AuthService.register(user).then((data) => {
-      console.log("data",data)
+      console.log("data", data);
 
       const { message } = data;
-      console.log("message", message)
+      console.log("message", message);
       setMessage(message);
       resetForm();
       if (!message.msgError) {
         timerID = setTimeout(() => {
-          // props.history.push("/login");
-          navigate("/login")
+          navigate("/login");
         }, 2000);
       }
     });
@@ -56,7 +55,7 @@ export default function RegisterPage(props) {
   return (
     <div className="RegisterPage">
       {message ? <Message message={message} /> : null}
-      <form >
+      <form>
         <input
           type="text"
           name="username"
@@ -82,7 +81,9 @@ export default function RegisterPage(props) {
           value={user.password}
           onChange={handleChange}
         />
-        <Button variant="outline-dark" onClick={handleSubmitRegister}>Register</Button>
+        <Button variant="outline-dark" onClick={handleSubmitRegister}>
+          Register
+        </Button>
       </form>
     </div>
   );

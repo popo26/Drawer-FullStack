@@ -179,7 +179,7 @@ export default function SortDrawerPreviewPage() {
     moveDrawerToNewDrawer(selectedDrawerId);
     moveAllChildrenToNewDrawer(drawerToBeMoved, selectedDrawerId);
     updateParentDrawerBoolean(selectedDrawerId);
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 

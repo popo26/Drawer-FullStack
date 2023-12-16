@@ -49,7 +49,7 @@ export default function CreateDrawerPage() {
     //console.log("Create btn clicked", value);
     createNewDrawer();
     setDrawerName("");
-    navigate("/");
+    navigate("/home");
     // sessionStorage.setItem("newDrawerId", drawerName)
 
   };

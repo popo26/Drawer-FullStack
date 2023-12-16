@@ -111,7 +111,7 @@ export default function SortScribblePage() {
     console.log("Create btn clicked", value);
     createNewDrawer();
     setDrawerName("");
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 

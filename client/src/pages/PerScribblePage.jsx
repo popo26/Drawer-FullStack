@@ -110,13 +110,13 @@ export default function PerScribblePage() {
     if (response == true) {
       deleteScribble(id);
       const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-      scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+      scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/home");
       navigate(0);
     }
     // confirm(`Are you sure to delete this scribble? -ID:${id}`);
     // deleteScribble(id);
     // const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-    // scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+    // scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/home");
     // navigate(0);
   };
 
@@ -505,7 +505,7 @@ export default function PerScribblePage() {
 //     confirm(`Are you sure to delete this scribble? -ID:${id}`);
 //     deleteScribble(id);
 //     const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-//     scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+//     scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/home");
 //     navigate(0);
 //   };
 

@@ -94,7 +94,7 @@ export default function DrawerListPage({ expandedIndex }) {
     );
     if (response == true) {
       deleteSelectedDrawer(id);
-      navigate("/");
+      navigate("/home");
       navigate(0);
     }
   };

@@ -248,7 +248,7 @@ export default function SortDrawerPage() {
   const handleCreate = (value) => {
     createNewDrawer();
     setDrawerName("");
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 

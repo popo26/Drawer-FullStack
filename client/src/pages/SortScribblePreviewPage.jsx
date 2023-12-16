@@ -147,7 +147,7 @@ export default function SortScribblePreviewPage() {
       state.selectedDrawerId,
       selectedDrawerObject[0]["level"]
     );
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 
@@ -157,7 +157,7 @@ export default function SortScribblePreviewPage() {
 
   const handleCreate = (value) => {
     createNewSubDrawer();
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 
