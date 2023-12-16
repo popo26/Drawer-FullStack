@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new Schema({
   username: {
@@ -26,6 +27,12 @@ const userSchema = new Schema({
     required: true,
   },
 });
+
+//In order to auhenticate email as username for passport
+userSchema.plugin(passportLocalMongoose,
+  {
+      usernameField: 'email'
+  });
 
 userSchema.pre("save", function (next) {
   if (!this.isModified("password")) return next();

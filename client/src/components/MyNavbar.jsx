@@ -1,7 +1,7 @@
 //////////////////WITH AUTHENTICATION//////////////////////////////////////////////////////////
 import "../css/Navbar.css";
 import { Icon } from "@iconify/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -16,15 +16,26 @@ export default function MyNavbar() {
 
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
     useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     AuthService.logout().then((data) => {
       if (data.success) {
         setUser(data.user);
         setIsAuthenticated(false);
+        navigate("/")
       }
-    });
+    })
   };
+
+  // const handleLogout = () => {
+  //   AuthService.logout().then((data) => {
+  //     if (data.success) {
+  //       setUser(data.user);
+  //       setIsAuthenticated(false);
+  //     }
+  //   });
+  // };
 
   const unauthenticatedNavBar = () => {
     return (

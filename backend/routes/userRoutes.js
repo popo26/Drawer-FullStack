@@ -12,7 +12,7 @@ const signToken = (userId) => {
       iss: "Drawer",
       sub: userId,
     },
-    "secret-key",
+    process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 };
@@ -25,7 +25,9 @@ router.post("/register", async (req, res) => {
     //step 2: check if user already exists, if yes send res 400
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(400).send("User already exists");
+      return res.status(400)
+      // .send("User already exists");
+      .json({message: { msgBody: "Username is already taken", msgError: true }})
     }
 
     //Step 3: enter new user into the database
@@ -38,10 +40,15 @@ router.post("/register", async (req, res) => {
     await user.save();
 
     //step 4: return the newly added user
-    return res.status(200).send(user);
+    // return res.status(200).send(user);
+    return res.status(200)
+    .json({ message: { newUser:user, msgError: false } })
+
   } catch (error) {
     // Report error internally
-    return res.status(500).send(error.message);
+    return res.status(500)
+    // .send(error.message);
+    .json({ message: { msgBody: error.message, msgError: true } })
   }
 });
 
@@ -108,9 +115,9 @@ router.post(
         .status(200)
         .json({ isAuthenticated: true, user: { username, email, role } });
     }
-    // else {
-    //   res.status(500).json({isAuthenticated:false, message:error.message})
-    // }
+    else {
+      res.status(500).json({isAuthenticated:false, message:error.message, msgError:true})
+    }
 
     // try {
     //  //Step 1: validae the user input and if there is an error, send 400 res and error message
@@ -144,7 +151,7 @@ router.get(
   "/logout",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log("HERE");
+    console.log("LOGOUT");
     res.clearCookie("access_token");
     res.json({ user: { username: "", email: "", role: "" }, success: true });
   }

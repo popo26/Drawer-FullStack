@@ -5,9 +5,12 @@ import { Button } from "react-bootstrap";
 import AuthService from "../services/AuthService";
 import Message from "../components/Message"
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function LoginPage(props) {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -44,7 +47,8 @@ export default function LoginPage(props) {
         authContext.setUser(user);
         authContext.setIsAuthenticated(isAuthenticated);
         //Check this
-        props.history.push("/home");
+        // props.history.push("/home");
+        navigate("/home")
       } else {
         setMessage(message);
       }
@@ -56,8 +60,8 @@ export default function LoginPage(props) {
       {message? <Message message={message}/>: null}
       <form>
         <input
-          // htmlFor="email"
           type="email"
+          // type="text"
           name="email"
           placeholder="email"
           id="email"
@@ -66,7 +70,6 @@ export default function LoginPage(props) {
         />
         <br />
         <input
-          // htmlFor="password"
           type="password"
           name="password"
           placeholder="password"
