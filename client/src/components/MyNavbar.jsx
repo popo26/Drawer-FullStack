@@ -20,22 +20,16 @@ export default function MyNavbar() {
 
   const handleLogout = () => {
     AuthService.logout().then((data) => {
+      console.log("data",data)
       if (data.success) {
         setUser(data.user);
         setIsAuthenticated(false);
-        navigate("/")
-      }
-    })
+      } 
+    }).then(()=>navigate("/")
+    )
   };
 
-  // const handleLogout = () => {
-  //   AuthService.logout().then((data) => {
-  //     if (data.success) {
-  //       setUser(data.user);
-  //       setIsAuthenticated(false);
-  //     }
-  //   });
-  // };
+
 
   const unauthenticatedNavBar = () => {
     return (

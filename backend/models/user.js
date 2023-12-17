@@ -26,6 +26,10 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     required: true,
   },
+  //added - experiement
+  drawers:[{type: mongoose.Schema.Types.ObjectId, ref: "drawer"}],
+  scribbles:[{type: mongoose.Schema.Types.ObjectId, ref: "scribble"}]
+
 });
 
 //In order to auhenticate email as username for passport

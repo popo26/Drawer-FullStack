@@ -74,30 +74,29 @@ export default {
   //     .catch((error) => console.error(error.message));
   // },
 
-  // logout: async () => {
-  //   return fetch("http://127.0.0.1:8080/api/users/logout")
-  //     .then((res) => res.json())
-  //     .then((data) => data)
-  //     .catch((error) => console.error(error.message));
-  // },
+  logout: () => {
+    return fetch("http://localhost:8080/api/users/logout")
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((error) => console.error(error.message));
+  },
   
 
-  // NOT working
-  logout: async () => {
-    return await fetch("http://127.0.0.1:8080/api/users/logout").then(
-      (res) => {
-        if (res.status !== 401) {
-          return res.json().then((data) => data);
-        } 
-        else {
-          return {
-            isAuthenticated: false,
-            user: { username: "", email: "", role: "" },
-          };
-        }
-      }
-    );
-  },
+  // logout: async () => {
+  //   return fetch("http://127.0.0.1:8080/api/users/logout").then(
+  //     (res) => {
+  //       if (res.status !== 401) {
+  //         return res.json().then((data) => data);
+  //       } 
+  //       else {
+  //         return {
+  //           success:false
+  //         };
+  //       }
+  //     }
+  //   );
+  // },
+
 
 
   isAuthenticated: async () => {

@@ -110,6 +110,7 @@ router.post(
     if (req.isAuthenticated()) {
       const { _id, username, email, role } = req.user;
       const token = signToken(_id);
+      console.log("LOGIN token", token)
       res.cookie("access_token", token, { httpOnly: true, sameSite: true });
       res
         .status(200)
@@ -147,9 +148,45 @@ router.post(
   }
 );
 
+// router.get('/logout', (req, res) => {
+//   console.log("cookie", req.cookies['access_token'])
+//   if (req.cookies['access_token']) {
+//       res
+//       .clearCookie('access_token')
+//       .status(200)
+//       // .json({
+//       //     message: 'You have logged out'
+//       // })
+//       .json({ user: { username: "", email: "", role: "" }, success: true });
+//   } else {
+//       res.status(401).json({
+//           error: 'Invalid jwt'
+//       })
+//   }
+// })
+
+
+// /////////////////////////
+// router.get(
+//   "/logout",
+//   passport.authenticate("jwt", { session: false }
+//   ),
+//   (req, res) => {
+//     console.log("cookie", req.cookies['access_token'])
+//     if (req.cookies['access_token']){
+//       console.log("LOGOUT");
+//       res.clearCookie("access_token").json({ user: { username: "", email: "", role: "" }, success: true });
+//     } else {
+//       res.status(401).json({error:"Invalid JWT"})}
+    
+//   }
+// );
+
+//ORIGINAL that logs better///////////////
 router.get(
   "/logout",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }
+  ),
   (req, res) => {
     console.log("LOGOUT");
     res.clearCookie("access_token");
