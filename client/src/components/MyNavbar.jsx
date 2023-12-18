@@ -20,12 +20,15 @@ export default function MyNavbar() {
 
   const handleLogout = () => {
     AuthService.logout().then((data) => {
-      console.log("data",data)
+      console.log("token",sessionStorage.getItem("token"))
+      //Not falling into this IF.
       if (data.success) {
+        console.log("HERE")
+        console.log("data", data)
         setUser(data.user);
         setIsAuthenticated(false);
       } 
-    }).then(()=>navigate("/")
+    }).then(()=>{setIsAuthenticated(false);navigate("/")}
     )
   };
 

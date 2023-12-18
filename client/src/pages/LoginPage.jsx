@@ -42,12 +42,15 @@ export default function LoginPage(props) {
   const handleSubmitLogin = (e) => {
     e.preventDefault();
     AuthService.login(user).then((data) => {
-      const { isAuthenticated, user, message } = data;
+      // const { isAuthenticated, user, message } = data;
+      const { isAuthenticated, user, message, token } = data;
+
       if (isAuthenticated) {
         authContext.setUser(user);
         authContext.setIsAuthenticated(isAuthenticated);
         //Check this
         // props.history.push("/home");
+        sessionStorage.setItem('token', token)
         navigate("/home")
       } else {
         setMessage(message);

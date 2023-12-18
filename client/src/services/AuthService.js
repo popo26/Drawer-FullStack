@@ -7,6 +7,7 @@ export default {
     headers: {
       "Content-Type": "application/json",
     },
+  
   }).then(
       (res) => {
         if (res.status !== 401) {
@@ -75,8 +76,19 @@ export default {
   // },
 
   logout: () => {
-    return fetch("http://localhost:8080/api/users/logout")
-      .then((res) => res.json())
+    
+    return fetch("http://localhost:8080/api/users/logout"
+    // ,
+    // {
+    //   method:"GET",
+    //   credentials:"include",
+    //   headers: {
+    //     Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    //   },
+    //   'Content-Type':"application/json",
+    // }
+    )
+      // .then((res) => res.json())
       .then((data) => data)
       .catch((error) => console.error(error.message));
   },
