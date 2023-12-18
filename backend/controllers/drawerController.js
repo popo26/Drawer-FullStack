@@ -10,12 +10,13 @@ const getDrawers = (res) => {
       res.send({ result: 500, error: err.message });
     });
 };
-const createDrawer = (data, res) => {
+const createDrawer = (data, res, req) => {
   //creates a new user using JSON data POSTed in request body
   console.log(data);
   new Models.Drawer(data)
     .save()
-    .then((data) => res.send({ result: 200, data: data }))
+    .then((data) => res.send({ result: 200, data: data }) )
+    // .then((data) => {res.send({ result: 200, data: data }) ; req.user.drawers.push(data._id)})
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });

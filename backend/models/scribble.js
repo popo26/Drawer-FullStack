@@ -13,7 +13,6 @@ const scribbleSchema = new Schema({
   level: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  // userId: { type: String, required: true }, //Forein key
   files: [
     {
       path: String,
@@ -27,6 +26,11 @@ const scribbleSchema = new Schema({
   ],
 
   attachment: { type: Boolean, required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userSchema",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("scribble", scribbleSchema);

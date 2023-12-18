@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "../css/Dropdown.css";
 import { Icon } from "@iconify/react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function MyDropdown() {
   const [open, setOpen] = useState(false);
@@ -12,6 +14,7 @@ export default function MyDropdown() {
   const { drawers } = useDataContext();
   const { handleSelectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved] = useDrawerToBeMovedContext();
+  const {user, isAuthenticated} = useContext(AuthContext);
 
   //++++++++++NOt sure if I need this++++++++++++++++++++
   const handleOpen = () => {
@@ -96,7 +99,9 @@ export default function MyDropdown() {
 
   // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
-    if (item.root === true) {
+    // if (item.root === true) {
+      if (item.root === true && item.userId === user._id) {
+
       return (
         <>
           {item._id == drawerToBeMoved ? (

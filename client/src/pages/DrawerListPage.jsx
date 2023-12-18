@@ -1,12 +1,14 @@
 import "../css/DrawerListPage.css";
 import { Icon } from "@iconify/react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useContext } from "react";
 // import sanitizeHtml from "sanitize-html";
 import ContentEditable from "react-contenteditable";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function DrawerListPage({ expandedIndex }) {
   const { id } = useParams();
@@ -20,6 +22,7 @@ export default function DrawerListPage({ expandedIndex }) {
   const { selectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const text = useRef(drawerNameToEdit);
+  const {user, isAuthenticated} = useContext(AuthContext);
 
   // ++++++++Delete Drawer and its sub-drawers and scribbles
   const deleteScribbles = (drawerId) => {
@@ -380,7 +383,9 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const renderedList = drawers.map((item) => {
-    if (id == item._id) {
+    // if (id == item._id) {
+      if (id == item._id && item.userId === user._id) {
+console.log("UserId", user._id)
       return (
         <div key={item._id}>
           <div className="rendered-drawers">

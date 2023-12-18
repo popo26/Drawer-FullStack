@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useContext } from "react";
 import MyButton from "../components/MyButton";
 import "../css/ScribblePage.css";
 import { Icon } from "@iconify/react";
@@ -10,6 +10,8 @@ import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function ScribblePage() {
   // export default function ScribblePage({baseImage, setBaseImage}) {
@@ -33,6 +35,7 @@ export default function ScribblePage() {
   // const [baseImage1, setBaseImage1] = useState("");
   // const [baseImage2, setBaseImage2] = useState("");
   // const [baseImage3, setBaseImage3] = useState("");
+  const {user, isAuthenticated} = useContext(AuthContext);
 
 
   //const [image64, setImage64] = useState([])
@@ -130,6 +133,7 @@ export default function ScribblePage() {
   //   return result_base64;
   // }
 
+  console.log("User", user._id)
 
   const createNewScribble = (e) => {
     body.current = document.querySelector(".screenshot").innerHTML;
@@ -166,7 +170,7 @@ export default function ScribblePage() {
  
 
     let dataPost = {
-      userId: 1,
+      //userId: 1,
       title: scribbleTitle ? scribbleTitle : "Untitled",
       type: "scribble",
       content: body.current,
@@ -174,6 +178,7 @@ export default function ScribblePage() {
       level: 1,
       attachment: attachmentBool,
       files: filesInfo,
+      userId:user._id
     };
     fetch("http://localhost:8080/api/scribbles/create", {
       method: "POST",
@@ -204,7 +209,6 @@ export default function ScribblePage() {
 
   const handleSubmitScribble = (e) => {
     createNewScribble(e);
-
     setTempFiles([]);
     setScribbleTitle("");
     setContent("");

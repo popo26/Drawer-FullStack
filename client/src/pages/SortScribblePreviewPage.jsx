@@ -106,7 +106,7 @@ export default function SortScribblePreviewPage() {
 
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
-      userId: 1,
+      //userId: 1,
       name: newSubDrawerName.toUpperCase(),
       type: "drawer",
       subDrawer: "false",

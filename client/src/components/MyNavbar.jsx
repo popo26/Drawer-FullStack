@@ -28,7 +28,7 @@ export default function MyNavbar() {
         setUser(data.user);
         setIsAuthenticated(false);
       } 
-    }).then(()=>{setIsAuthenticated(false);navigate("/")}
+    }).then(()=>{setIsAuthenticated(false); sessionStorage.setItem("token", null); navigate("/")}
     )
   };
 

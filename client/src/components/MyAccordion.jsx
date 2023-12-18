@@ -1,11 +1,13 @@
 import AccordionItem from "./AccordionItem";
 import "../css/Accordion.css";
 import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
-import { useState, useEffect, useHistory, useCallback } from "react";
+import { useState, useEffect, useHistory, useCallback, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function MyAccordion({
   expandedIndex,
@@ -13,6 +15,8 @@ export default function MyAccordion({
   handleExpand,
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const {user, isAuthenticated} = useContext(AuthContext);
+
 
   // const [, updateState] = useState();
   // const forceUpdate = useCallback(() => updateState({}), []);
@@ -115,7 +119,9 @@ export default function MyAccordion({
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
-    if (!item.drawerId) {
+    // if (!item.drawerId ) {
+      if (!item.drawerId && item.userId === user._id) {
+
       const isExpanded = item._id == expandedIndex;
       const triangle = (
         <div className="triangle">

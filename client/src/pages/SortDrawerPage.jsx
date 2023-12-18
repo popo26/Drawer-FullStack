@@ -215,7 +215,7 @@ export default function SortDrawerPage() {
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      //userId: 1,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: true,

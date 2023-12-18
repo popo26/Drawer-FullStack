@@ -1,28 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import "../css/CreateDrawerPage.css";
 import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function CreateDrawerPage() {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
+  const {user, isAuthenticated} = useContext(AuthContext);
 
+  console.log("User", user._id)
 
 
   //working! POST
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      // userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,
       root: true,
       level: 1,
+      userId:user._id
+
     };
     fetch("http://localhost:8080/api/drawers/create", {
       method: "POST",
@@ -36,6 +42,7 @@ export default function CreateDrawerPage() {
       .then((json) => {
         setDrawers((prevItems) => [...prevItems, json.data]);
         // sessionStorage.setItem("newDrawerId", json.data._id)
+        
       })
       .catch((error) => console.error(error.message));
   };

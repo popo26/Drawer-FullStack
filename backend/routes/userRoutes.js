@@ -115,7 +115,7 @@ router.post(
       res
         .status(200)
         // .json({ isAuthenticated: true, user: { username, email, role } });
-        .json({ isAuthenticated: true, user: { username, email, role }, token:token});
+        .json({ isAuthenticated: true, user: { username, email, role, _id }, token:token});
 
     }
     else {
@@ -184,7 +184,7 @@ router.post(
 //   }
 // );
 
-//ORIGINAL that logs better///////////////
+//////ORIGINAL that logs better///////////////
 router.get(
   "/logout",
   passport.authenticate("jwt", { session: false }
@@ -195,6 +195,13 @@ router.get(
     res.json({ user: { username: "", email: "", role: "" }, success: true });
   }
 );
+
+
+///VERY ORIGINAL
+// router.get('/logout', passport.authenticate('jwt', {session:false}), (req,res)=>{
+//  res.clearCookie("access_token");
+//  res.json({user:{user:"", role:"", email:""}, success:true})
+// })
 
 router.get(
   "/admin",

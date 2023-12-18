@@ -78,7 +78,7 @@ export default function SortScribblePage() {
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      //userId: 1,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,

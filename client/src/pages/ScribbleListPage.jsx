@@ -1,10 +1,12 @@
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "../css/ScribbleListPage.css";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 // export default function ScribbleListPage({ files }) {
 export default function ScribbleListPage() {
@@ -14,6 +16,8 @@ export default function ScribbleListPage() {
     useSelectedScribbleContext();
   // const [files] = useFileContext();
   const { files } = useFileContext();
+  const {user, isAuthenticated} = useContext(AuthContext);
+
 
   // console.log("SCRIBBLES", scribbles);
 
@@ -48,7 +52,7 @@ export default function ScribbleListPage() {
 
   const renderedList = scribbles.map(
     (item) =>
-      item.stray === true && (
+      (item.stray === true && item.userId ===user._id) && (
         <p key={item._id}>
           {/* <a
             

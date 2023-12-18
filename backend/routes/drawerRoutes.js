@@ -41,6 +41,8 @@ router.get("/", (req, res) => {
 
 router.post("/create", (req, res) => {
   Controllers.drawerController.createDrawer(req.body, res);
+
+  // Controllers.drawerController.createDrawer(req.body, res, req);
 });
 
 router.put("/:id", (req, res) => {

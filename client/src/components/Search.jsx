@@ -1,31 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function Search() {
   const [searchItem, setSearchItem] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { drawers, scribbles } = useDataContext();
+  const {user, isAuthenticated} = useContext(AuthContext);
+
 
   //Testing out search results with userId1
 
   const searchKeywordInDb = () => {
     let searchResultArray = [];
+    
     for (let x in scribbles) {
       if (
-        (scribbles[x]["userId"] == 1 &&
+        (scribbles[x]["userId"] == user._id &&
           // scribbles[x]["type"] == "scribble" &&
           scribbles[x]["title"]
             .toLowerCase()
             .includes(searchItem.toLowerCase())) ||
         scribbles[x]["content"].toLowerCase().includes(searchItem.toLowerCase())
-      ) {
+      ) 
+      {
         searchResultArray.push(scribbles[x]);
       }
     }
     return searchResultArray;
   };
+
+  // const searchKeywordInDb = () => {
+  //   let searchResultArray = [];
+  //   for (let x in scribbles) {
+  //     if (
+  //       (scribbles[x]["userId"] == 1 &&
+  //         // scribbles[x]["type"] == "scribble" &&
+  //         scribbles[x]["title"]
+  //           .toLowerCase()
+  //           .includes(searchItem.toLowerCase())) ||
+  //       scribbles[x]["content"].toLowerCase().includes(searchItem.toLowerCase())
+  //     ) 
+  //     {
+  //       searchResultArray.push(scribbles[x]);
+  //     }
+  //   }
+  //   return searchResultArray;
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
