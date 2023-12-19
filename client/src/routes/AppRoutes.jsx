@@ -17,6 +17,9 @@ import TestPage from "../pages/TestPage";
 import { PageNotFound } from "../pages/PageNotFound";
 import SortScribblePage from "../pages/SortScribblePage";
 import SortScribblePreviewPage from "../pages/SortScribblePreviewPage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import LandingPage from "../pages/LandingPage";
 
 export default function AppRoutes({
   expandedIndex,
@@ -29,8 +32,38 @@ export default function AppRoutes({
   return (
     <div>
       <Routes>
-        <Route
+      <Route
+          path="/login"
+          element={
+            <LoginPage
+  
+            />
+          }
+        ></Route>
+         <Route
+          path="/register"
+          element={
+            <RegisterPage
+   
+            />
+          }
+        ></Route>
+         <Route
           index
+          element={
+            <LandingPage
+         
+            />
+          }
+        ></Route>
+
+
+
+
+
+
+        <Route
+          path="/home"
           element={
             <HomePage
               expandedIndex={expandedIndex}
