@@ -1,4 +1,6 @@
 const express = require("express");
+// var expressSession = require('express-session');
+// var MongoStore = require('connect-mongo')(expressSession);
 const cors = require('cors');
 // const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser');
@@ -17,6 +19,24 @@ const app = express();
 require("dotenv").config();
 // parse requests of content-type - application / json;
 // app.use(express.json());
+
+// ///Experiment
+// app.use(expressSession({
+//   secret: process.env.SESSION_SECRET || 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: false,
+//   store: new MongoStore({ mongooseConnection: mongoose.connection })
+// }));
+
+
+// app.use('/', function (req, res, next) {
+//   if (req.isAuthenticated()) {
+//       // returns true if a user already logged in.
+      
+//   }
+//   next();
+// });
+
 
 app.use(express.json({
   type:['application/json', "text/plain"]

@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 
-export default function SortScribblePreviewPage() {
+export default function SortScribblePreviewPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [newSubDrawerName, setNewSubDrawerName] = useState("");

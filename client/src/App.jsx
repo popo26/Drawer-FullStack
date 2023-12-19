@@ -11,11 +11,12 @@ import { DrawerToBeMovedContextProvider } from "./context/DrawerToBeMovedContext
 import { DrawerNameProvider } from "./context/DrawerNameContext";
 import { useDataContext } from "./context/DataContext";
 import { FileProvider } from "./context/FileContext";
-// import { AuthContextProvider } from "./context/AuthContext";
+import { AuthContextProvider } from "./context/AuthContext";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -29,14 +30,15 @@ export default function App() {
 
   return (
     <>
-      {/* <AuthContextProvider> */}
+      <AuthContextProvider>
+
         <DataProvider>
           <SelectedDrawerProvider>
             <SelectedScribbleProvider>
               <DrawerToBeMovedContextProvider>
                 <DrawerNameProvider>
                   <FileProvider>
-                    <MyNavbar />
+                    <MyNavbar isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}/>
                     <AppRoutes
                       expandedIndex={expandedIndex}
                       handleExpand={handleClickExpand}
@@ -44,6 +46,7 @@ export default function App() {
                       // setFiles={setFiles}
                       // baseImage={baseImage}
                       // setBaseImage={setBaseImage}
+                      isUserLoggedIn={isUserLoggedIn} setIsUserLoggedIn={setIsUserLoggedIn}
                     />
                     <Link to="/scribble">
                       <ScribbleBtn />
@@ -54,7 +57,7 @@ export default function App() {
             </SelectedScribbleProvider>
           </SelectedDrawerProvider>
         </DataProvider>
-      {/* </AuthContextProvider> */}
+      </AuthContextProvider>
     </>
   );
 }

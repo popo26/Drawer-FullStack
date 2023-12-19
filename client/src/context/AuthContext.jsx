@@ -10,9 +10,11 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     AuthService.isAuthenticated().then((data) => {
+
       setUser(data.user);
       setIsAuthenticated(data.isAuthenticated);
       setIsLoaded(true);
+   
     });
   }, []);
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../css/PageNotFound.css";
 
-export function PageNotFound() {
+export function PageNotFound({isUserLoggedIn, setIsUserLoggedIn}) {
   return (
     <div className="PageNotFound">
       <h1 className="PageNotFound-msg">Page Not Found</h1>

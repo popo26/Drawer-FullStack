@@ -77,7 +77,6 @@ export const DataProvider = (props) => {
   const [loadingScribbles, setLoadingScribbles] = useState(true);
   const [loadingDrawers, setLoadingDrawers] = useState(true);
 
-
   // //Original rootId gets updated to match id for root drawers
   // useEffect(() => {
   //   for (let x in drawers) {
@@ -137,7 +136,7 @@ export const DataProvider = (props) => {
       .then((json) => {
         // //Experiment one line down
         // setLoadingDrawers(false);
-        setDrawers(json.data)
+        setDrawers(json.data);
       });
     // }, [drawers]);
     // }, [setDrawers]);
@@ -190,8 +189,6 @@ export const DataProvider = (props) => {
     //setScribbles(scribbles)
   }, [scribbles]);
 
-
-
   return (
     <DataContext.Provider
       value={{
@@ -204,7 +201,7 @@ export const DataProvider = (props) => {
         loadingScribbles,
         setLoadingScribbles,
         loadingDrawers,
-        setLoadingDrawers
+        setLoadingDrawers,
       }}
     >
       {props.children}

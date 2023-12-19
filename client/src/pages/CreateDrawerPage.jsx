@@ -8,7 +8,7 @@ import { useDrawerNameContext } from "../context/DrawerNameContext";
 import { AuthContext } from "../context/AuthContext";
 
 
-export default function CreateDrawerPage() {
+export default function CreateDrawerPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();

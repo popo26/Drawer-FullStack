@@ -10,7 +10,7 @@ import MyButton from "../components/MyButton";
 import { Icon } from "@iconify/react";
 import { Button } from "react-bootstrap";
 
-export default function ProfilePage() {
+export default function ProfilePage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
 
   return (

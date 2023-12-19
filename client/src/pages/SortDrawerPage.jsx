@@ -11,7 +11,7 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 
-export default function SortDrawerPage() {
+export default function SortDrawerPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();

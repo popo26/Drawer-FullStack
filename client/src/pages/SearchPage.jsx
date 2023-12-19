@@ -3,7 +3,7 @@ import Search from "../components/Search";
 import "../css/SearchPage.css";
 import { Icon } from "@iconify/react";
 
-export default function SearchPage() {
+export default function SearchPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
 
   return (

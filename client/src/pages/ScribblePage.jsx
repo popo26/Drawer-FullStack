@@ -11,9 +11,10 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { AuthContext } from "../context/AuthContext";
+import useSetUser from "../hooks/useSetUser";
 
 
-export default function ScribblePage() {
+export default function ScribblePage({isUserLoggedIn, setIsUserLoggedIn}) {
   // export default function ScribblePage({baseImage, setBaseImage}) {
   // export default function ScribblePage({
   //   files,
@@ -214,7 +215,9 @@ export default function ScribblePage() {
     setContent("");
     body.current = "";
     navigate("/stray");
-    navigate(0)
+ 
+    navigate(0);
+ 
   };
 
   // const deleteAttachment = (blob) => {

@@ -17,7 +17,7 @@ export default function MyAccordion({
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const {user, isAuthenticated} = useContext(AuthContext);
 
-
+ 
   // const [, updateState] = useState();
   // const forceUpdate = useCallback(() => updateState({}), []);
 

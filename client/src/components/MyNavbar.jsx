@@ -11,7 +11,7 @@ import AuthService from "../services/AuthService";
 import { AuthContext } from "../context/AuthContext";
 import { Button } from "react-bootstrap";
 
-export default function MyNavbar() {
+export default function MyNavbar({ isUserLoggedIn, setIsUserLoggedIn }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
@@ -19,20 +19,27 @@ export default function MyNavbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    AuthService.logout().then((data) => {
-      console.log("token",sessionStorage.getItem("token"))
-      //Not falling into this IF.
-      if (data.success) {
-        console.log("HERE")
-        console.log("data", data)
-        setUser(data.user);
+    AuthService.logout()
+      .then((data) => {
+        console.log("token", sessionStorage.getItem("token"));
+        //Not falling into this IF.
+        if (data.success) {
+          console.log("HERE");
+          console.log("data", data);
+          setUser(data.user);
+          setIsAuthenticated(false);
+          setIsUserLoggedIn(false);
+        }
+      })
+      .then(() => {
         setIsAuthenticated(false);
-      } 
-    }).then(()=>{setIsAuthenticated(false); sessionStorage.setItem("token", null); navigate("/")}
-    )
+        setIsUserLoggedIn(false);
+        console.log("isUserLoggedIn-Logout", isUserLoggedIn);
+        sessionStorage.setItem("token", null);
+        localStorage.setItem("user", null);
+        navigate("/");
+      });
   };
-
-
 
   const unauthenticatedNavBar = () => {
     return (
@@ -161,61 +168,7 @@ export default function MyNavbar() {
       expanded={isExpanded}
     >
       {!isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
-
-      {/* <Container>
-        <Navbar.Brand href="#home">
-          <NavLink className="navbar-brand" to="/">
-            <Icon icon="mingcute:drawer-line" color="black" width="50" />
-          </NavLink>
-          <span className="navbar-text greeting">Hi TomTom!</span>
-        </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="responsive-navbar-nav"
-          onClick={() => setIsExpanded(!isExpanded)}
-        />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto"></Nav>
-          <Nav>
-            <Nav.Link>
-              <NavLink
-                className="nav-link"
-                to="/search"
-                onClick={() => setIsExpanded(false)}
-              >
-                <Icon icon="bi:search" color="black" width="30" height="30" />
-              </NavLink>
-            </Nav.Link>
-            <Nav.Link>
-              <NavLink
-                className="nav-link"
-                to="/profile"
-                onClick={() => setIsExpanded(false)}
-              >
-                <Icon
-                  icon="healthicons:ui-user-profile"
-                  color="black"
-                  width="30"
-                  height="30"
-                />
-              </NavLink>
-            </Nav.Link>
-            <Nav.Link eventKey={2}>
-              <NavLink
-                className="nav-link"
-                to="/stray"
-                onClick={() => setIsExpanded(false)}
-              >
-                <Icon
-                  icon="game-icons:files"
-                  color="black"
-                  width="30"
-                  height="30"
-                />
-              </NavLink>
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container> */}
+      {/* {!isUserLoggedIn ? unauthenticatedNavBar() : authenticatedNavBar()} */}
     </Navbar>
   );
 }

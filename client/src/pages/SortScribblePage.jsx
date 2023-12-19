@@ -10,7 +10,7 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 
-export default function SortScribblePage() {
+export default function SortScribblePage({isUserLoggedIn, setIsUserLoggedIn}) {
   const [newDrawerNameFieldSelected, setNewDrawerNameFieldSelected] =
     useState(true);
   const [displayMessage, setDisplayMessage] = useState(

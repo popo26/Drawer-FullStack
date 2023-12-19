@@ -5,7 +5,7 @@ import AuthService from "../services/AuthService";
 import Message from "../components/Message";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterPage(props) {
+export default function RegisterPage(props, {isUserLoggedIn, setIsUserLoggedIn}) {
   const [user, setUser] = useState({
     email: "",
     password: "",

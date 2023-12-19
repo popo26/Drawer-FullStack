@@ -10,7 +10,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 
-export default function SortDrawerPreviewPage() {
+export default function SortDrawerPreviewPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles } = useDataContext();

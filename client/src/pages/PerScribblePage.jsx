@@ -2,12 +2,13 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useDropzone } from "react-dropzone";
 import Dropzone from "react-dropzone";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import FileDrop from "../components/FileDrop";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { DataProvider } from "../context/DataContext";
+import { AuthContext } from "../context/AuthContext";
 
 const thumbsContainer = {
   display: "flex",
@@ -41,7 +42,7 @@ const img = {
 };
 
 // export default function PerScribblePage({ data, files, setFiles }) {
-export default function PerScribblePage() {
+export default function PerScribblePage({isUserLoggedIn, setIsUserLoggedIn}) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
@@ -58,6 +59,7 @@ export default function PerScribblePage() {
   const body = useRef(screenshots);
   // const [files, setFiles] = useFileContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
+  const {user, isAuthenticated, setUser} = useContext(AuthContext);
 
   //const [currentScribbles, setCurrentScribbles] = useState(scribbles);
   // const [loading, setLoading] = useState(true);
@@ -88,6 +90,7 @@ export default function PerScribblePage() {
       //     }
       //     setFiles(fileArray)
       //   }
+
 
       return () => setSecreenshots([]);
     }

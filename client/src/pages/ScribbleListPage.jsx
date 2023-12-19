@@ -6,24 +6,25 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { AuthContext } from "../context/AuthContext";
+import useSetUser from "../hooks/useSetUser";
 
 
 // export default function ScribbleListPage({ files }) {
-export default function ScribbleListPage() {
+export default function ScribbleListPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   // const [files] = useFileContext();
   const { files } = useFileContext();
-  const {user, isAuthenticated} = useContext(AuthContext);
+  const {user, isAuthenticated, setUser} = useContext(AuthContext);
 
 
-  // console.log("SCRIBBLES", scribbles);
-
-  // for (let x in scribbles){
-  //   console.log(scribbles[x]['files'])
-  // }
+  useEffect(() => {
+    const userInStorage = JSON.parse(localStorage.getItem("user"));
+    setUser(userInStorage)
+    console.log("user", user);
+  }, []);
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {

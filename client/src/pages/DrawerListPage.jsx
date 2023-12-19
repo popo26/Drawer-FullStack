@@ -10,7 +10,7 @@ import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { AuthContext } from "../context/AuthContext";
 
 
-export default function DrawerListPage({ expandedIndex }) {
+export default function DrawerListPage({ expandedIndex, isUserLoggedIn, setIsUserLoggedIn }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [drawerNameToEdit, setDrawerNameToEdit] = useState("");

@@ -3,7 +3,7 @@ import { useState } from "react";
 import "../css/PasswordResetPage.css";
 import { Button } from "react-bootstrap";
 
-export default function PasswordResetPage() {
+export default function PasswordResetPage({isUserLoggedIn, setIsUserLoggedIn}) {
   const [email, setEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
 

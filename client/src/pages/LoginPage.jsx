@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function LoginPage(props) {
+export default function LoginPage(props, {isUserLoggedIn, setIsUserLoggedIn}) {
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -51,6 +51,10 @@ export default function LoginPage(props) {
         //Check this
         // props.history.push("/home");
         sessionStorage.setItem('token', token)
+        setIsUserLoggedIn(true)
+        console.log("isUserLoggedIn", isUserLoggedIn)
+        // localStorage.setItem("user", JSON.stringify(user));
+
         navigate("/home")
       } else {
         setMessage(message);
