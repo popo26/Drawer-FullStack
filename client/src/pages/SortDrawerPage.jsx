@@ -11,7 +11,7 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 
-export default function SortDrawerPage() {
+export default function SortDrawerPage({user, setUser}) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
@@ -215,7 +215,7 @@ export default function SortDrawerPage() {
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: true,
@@ -248,7 +248,7 @@ export default function SortDrawerPage() {
   const handleCreate = (value) => {
     createNewDrawer();
     setDrawerName("");
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 
@@ -308,7 +308,7 @@ export default function SortDrawerPage() {
       {!newDrawerNameFieldSelected && (
         <>
           <div>
-            <MyDropdown />
+            <MyDropdown user={user}/>
           </div>
           <Button
             variant="success"

@@ -6,18 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 
-export default function CreateDrawerPage() {
+export default function CreateDrawerPage({user, setUser}) {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
 
-
+console.log("user ID", user._id)
 
   //working! POST
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,
@@ -49,7 +49,7 @@ export default function CreateDrawerPage() {
     //console.log("Create btn clicked", value);
     createNewDrawer();
     setDrawerName("");
-    navigate("/");
+    navigate("/home");
     // sessionStorage.setItem("newDrawerId", drawerName)
 
   };

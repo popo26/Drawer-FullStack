@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 
-export default function Search() {
+export default function Search({user}) {
   const [searchItem, setSearchItem] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { drawers, scribbles } = useDataContext();
@@ -14,7 +14,7 @@ export default function Search() {
     let searchResultArray = [];
     for (let x in scribbles) {
       if (
-        (scribbles[x]["userId"] == 1 &&
+        (scribbles[x]["userId"] == user._id &&
           // scribbles[x]["type"] == "scribble" &&
           scribbles[x]["title"]
             .toLowerCase()

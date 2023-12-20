@@ -11,7 +11,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 
-export default function ScribblePage() {
+export default function ScribblePage({user, setUser}) {
   // export default function ScribblePage({baseImage, setBaseImage}) {
   // export default function ScribblePage({
   //   files,
@@ -166,7 +166,7 @@ export default function ScribblePage() {
  
 
     let dataPost = {
-      userId: 1,
+      userId: user._id,
       title: scribbleTitle ? scribbleTitle : "Untitled",
       type: "scribble",
       content: body.current,

@@ -28,39 +28,21 @@ export default function AppRoutes({
   setFiles,
   // baseImage,
   // setBaseImage
+  user,
+  setUser,
 }) {
   return (
     <div>
       <Routes>
-      <Route
+        <Route
           path="/login"
-          element={
-            <LoginPage
-  
-            />
-          }
+          element={<LoginPage user={user} setUser={setUser} />}
         ></Route>
-         <Route
+        <Route
           path="/register"
-          element={
-            <RegisterPage
-   
-            />
-          }
+          element={<RegisterPage user={user} setUser={setUser} />}
         ></Route>
-         <Route
-          index
-          element={
-            <LandingPage
-         
-            />
-          }
-        ></Route>
-
-
-
-
-
+        <Route index element={<LandingPage />}></Route>
 
         <Route
           path="/home"
@@ -68,69 +50,76 @@ export default function AppRoutes({
             <HomePage
               expandedIndex={expandedIndex}
               handleExpand={handleExpand}
+              user={user}
+              setUser={setUser}
             />
           }
         ></Route>
-        <Route path="/search" element={<SearchPage />}></Route>
+        <Route
+          path="/search"
+          element={<SearchPage user={user} setUser={setUser} />}
+        ></Route>
         <Route
           path="/scribble"
           // element={<ScribblePage files={files} setFiles={setFiles} />}
-          element={<ScribblePage />}
-
+          element={<ScribblePage user={user} setUser={setUser} />}
         ></Route>
-        <Route path="/profile" element={<ProfilePage />}></Route>
+        <Route
+          path="/profile"
+          element={<ProfilePage user={user} setUser={setUser} />}
+        ></Route>
         <Route
           path="/stray"
-          element={<ScribbleListPage files={files} />}
+          element={
+            <ScribbleListPage files={files} user={user} setUser={setUser} />
+          }
           // element={<ScribbleListPage baseImage={baseImage} setBaseImage={setBaseImage}/>}
-
         ></Route>
         <Route
           path="/scribble/:id"
-          element={<PerScribblePage files={files} setFiles={setFiles} />}
+          element={
+            <PerScribblePage
+              files={files}
+              setFiles={setFiles}
+              user={user}
+              setUser={setUser}
+            />
+          }
           // element={<PerScribblePage baseImage={baseImage} setBaseImage={setBaseImage}/>}
-
         ></Route>
         <Route
           path="/sort"
-          element={
-            <SortScribblePage
-            />
-          }
+          element={<SortScribblePage user={user} setUser={setUser} />}
         ></Route>
         <Route
           path="/sort-preview"
-          element={<SortScribblePreviewPage />}
+          element={<SortScribblePreviewPage user={user} setUser={setUser} />}
         ></Route>
 
         <Route
           path="/sort-drawer"
-          element={
-            <SortDrawerPage
-            />
-          }
+          element={<SortDrawerPage user={user} setUser={setUser} />}
         ></Route>
         <Route
           path="/sort-drawer-preview"
-          element={
-            <SortDrawerPreviewPage
-            />
-          }
+          element={<SortDrawerPreviewPage user={user} setUser={setUser} />}
         ></Route>
 
-        <Route path="/password-reset" element={<PasswordResetPage />}></Route>
+        <Route
+          path="/password-reset"
+          element={<PasswordResetPage user={user} setUser={setUser} />}
+        ></Route>
         <Route
           path="/create"
-          element={
-            <CreateDrawerPage
-            />
-          }
+          element={<CreateDrawerPage user={user} setUser={setUser} />}
         ></Route>
         <Route
           path="/drawer-list/:id"
           element={
             <DrawerListPage
               expandedIndex={expandedIndex}
+              user={user}
+              setUser={setUser}
             />
           }
         ></Route>
@@ -138,7 +127,6 @@ export default function AppRoutes({
           path="/test"
           // element={<TestPage files={files} setFiles={setFiles} />}
           element={<TestPage />}
-
         ></Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

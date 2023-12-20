@@ -10,7 +10,7 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 
-export default function SortScribblePage() {
+export default function SortScribblePage({user, setUser}) {
   const [newDrawerNameFieldSelected, setNewDrawerNameFieldSelected] =
     useState(true);
   const [displayMessage, setDisplayMessage] = useState(
@@ -50,7 +50,7 @@ export default function SortScribblePage() {
     let dataPost = {
       rootDrawerId: passedId,
       drawerId: passedId,
-      // userId: 1,
+      userId: user._id,
       // title: scribbleObject[0]["title"],
       // content: scribbleObject[0]["content"],
       // type: "scribble",
@@ -78,7 +78,7 @@ export default function SortScribblePage() {
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,
@@ -111,7 +111,7 @@ export default function SortScribblePage() {
     console.log("Create btn clicked", value);
     createNewDrawer();
     setDrawerName("");
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 
@@ -160,6 +160,7 @@ export default function SortScribblePage() {
           // data={data}
           // selectedDrawerId={selectedDrawerId}
           // setSelectedDrawerId={setSelectedDrawerId}
+          user={user}
           />
           <Button
             variant="success"

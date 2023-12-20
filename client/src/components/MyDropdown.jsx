@@ -6,7 +6,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 
-export default function MyDropdown() {
+export default function MyDropdown({user}) {
   const [open, setOpen] = useState(false);
   const [currentDropdown, setCurrentDropDown] = useState("Existing Drawers");
   const { drawers } = useDataContext();
@@ -96,7 +96,9 @@ export default function MyDropdown() {
 
   // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
-    if (item.root === true) {
+    // if (item.root === true) {
+      if (item.root === true && item.userId === user._id) {
+
       return (
         <>
           {item._id == drawerToBeMoved ? (

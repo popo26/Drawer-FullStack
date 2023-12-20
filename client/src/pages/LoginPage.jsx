@@ -6,12 +6,12 @@ import { Button } from "react-bootstrap";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-export default function LoginPage() {
-  const [user, setUser] = useState({
-    email: "",
-    password:"",
-    isLoggedIn:false,
-  });
+export default function LoginPage({user, setUser}) {
+  // const [user, setUser] = useState({
+  //   email: "",
+  //   password:"",
+  //   isLoggedIn:false,
+  // });
 
   const navigate = useNavigate();
 

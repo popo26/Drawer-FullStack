@@ -3,12 +3,12 @@ import Search from "../components/Search";
 import "../css/SearchPage.css";
 import { Icon } from "@iconify/react";
 
-export default function SearchPage() {
+export default function SearchPage({user, setUser}) {
   const navigate = useNavigate();
 
   return (
     <div className="SearchPage">
-      <Search />
+      <Search user={user} />
 
       <div className="back-btn">
         <Icon

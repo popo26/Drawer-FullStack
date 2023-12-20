@@ -11,6 +11,7 @@ export default function MyAccordion({
   expandedIndex,
   setExpandedIndex,
   handleExpand,
+  user
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
 
@@ -115,7 +116,9 @@ export default function MyAccordion({
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
-    if (!item.drawerId) {
+    // if (!item.drawerId) {
+      if (!item.drawerId && (item.userId === user._id)) {
+
       const isExpanded = item._id == expandedIndex;
       const triangle = (
         <div className="triangle">

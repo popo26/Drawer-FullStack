@@ -7,7 +7,7 @@ import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 
 // export default function ScribbleListPage({ files }) {
-export default function ScribbleListPage() {
+export default function ScribbleListPage({user, setUser}) {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
@@ -15,6 +15,12 @@ export default function ScribbleListPage() {
   // const [files] = useFileContext();
   const { files } = useFileContext();
 
+
+  useEffect(()=>{
+    const userInBrowser = JSON.parse(localStorage.getItem('user'))
+    console.log("user in browser", userInBrowser)
+    setUser(userInBrowser)
+  }, [])
   // console.log("SCRIBBLES", scribbles);
 
   // for (let x in scribbles){
@@ -48,7 +54,9 @@ export default function ScribbleListPage() {
 
   const renderedList = scribbles.map(
     (item) =>
-      item.stray === true && (
+      // item.stray === true && (
+        (item.stray === true && item.userId ===user._id) && (
+
         <p key={item._id}>
           {/* <a
             

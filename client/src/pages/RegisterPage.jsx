@@ -5,8 +5,8 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
-export default function RegisterPage(props) {
-  const [user, setUser] = useState({
+export default function RegisterPage(props, {user, setUser}) {
+  const [userForm, setUserForm] = useState({
     email: "",
     password: "",
     username: "",
@@ -24,12 +24,13 @@ export default function RegisterPage(props) {
   }, []);
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-    //console.log(user);
+    //console.log(e.target.value)
+    setUserForm({ ...userForm, [e.target.name]: e.target.value });
+    console.log(userForm);
   };
 
   const resetForm = () => {
-    setUser({
+    setUserForm({
       username: "",
       password: "",
       email: "",
@@ -38,14 +39,14 @@ export default function RegisterPage(props) {
 
   const handleSubmitRegister = (e) => {
     console.log('sign-up handleSubmit, username: ')
-    console.log(user.username)
+    console.log(userForm.username)
     e.preventDefault()
 
     //request to server to add a new username/password
     axios.post('http://127.0.0.1:8080/api/users/register', {
-        username: user.username,
-        email: user.email,
-        password:user.password,
+        username: userForm.username,
+        email: userForm.email,
+        password:userForm.password,
         role: "user",
         isLoggedIn:false,
 
@@ -54,9 +55,10 @@ export default function RegisterPage(props) {
             console.log(response)
             if (!response.data.errmsg) {
                 console.log('successful signup')
-                // this.setState({ //redirect to login page
-                //     redirectTo: '/login'
-                // })
+                resetForm();
+                timerID = setTimeout(() => {
+                  navigate("/login");
+                }, 2000);
             } else {
                 console.log('username already taken')
             }
@@ -76,7 +78,7 @@ export default function RegisterPage(props) {
           name="username"
           placeholder="username"
           id="username"
-          value={user.username}
+          value={userForm.username}
           onChange={handleChange}
         />
         <input
@@ -84,7 +86,7 @@ export default function RegisterPage(props) {
           name="email"
           placeholder="email"
           id="email"
-          value={user.email}
+          value={userForm.email}
           onChange={handleChange}
         />
         <br />
@@ -93,7 +95,7 @@ export default function RegisterPage(props) {
           name="password"
           placeholder="password"
           id="password"
-          value={user.password}
+          value={userForm.password}
           onChange={handleChange}
         />
         <Button variant="outline-dark" onClick={handleSubmitRegister}>

@@ -18,7 +18,13 @@ export default function App() {
   // const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   // const [baseImage, setBaseImage] = useState("")
-
+  const [user, setUser] = useState({
+    _id: "",
+    username: "",
+    email: "",
+    password: "",
+    isLoggedIn: false,
+  });
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -30,29 +36,29 @@ export default function App() {
     });
   };
 
-
-
   return (
     <>
-    {/* <UserContextProvider> */}
+      {/* <UserContextProvider> */}
       <DataProvider>
         <SelectedDrawerProvider>
           <SelectedScribbleProvider>
             <DrawerToBeMovedContextProvider>
               <DrawerNameProvider>
                 <FileProvider>
-                <MyNavbar/>
-                <AppRoutes
-                  expandedIndex={expandedIndex}
-                  handleExpand={handleClickExpand}
-                  // files={files}
-                  // setFiles={setFiles}
-                  // baseImage={baseImage}
-                  // setBaseImage={setBaseImage}
-                />
-                <Link to="/scribble">
-                  <ScribbleBtn />
-                </Link>
+                  <MyNavbar user={user} setUser={setUser} />
+                  <AppRoutes
+                    expandedIndex={expandedIndex}
+                    handleExpand={handleClickExpand}
+                    // files={files}
+                    // setFiles={setFiles}
+                    // baseImage={baseImage}
+                    // setBaseImage={setBaseImage}
+                    user={user}
+                    setUser={setUser}
+                  />
+                  <Link to="/scribble">
+                    <ScribbleBtn />
+                  </Link>
                 </FileProvider>
               </DrawerNameProvider>
             </DrawerToBeMovedContextProvider>

@@ -10,7 +10,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 
-export default function SortDrawerPreviewPage() {
+export default function SortDrawerPreviewPage({user, setUser}) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles } = useDataContext();
@@ -97,7 +97,7 @@ export default function SortDrawerPreviewPage() {
         //console.log("index", subDrawersToBeMoved.indexOf(x));
         let dataPost = {
           rootId: newTopLevelDrawerId,
-          userId: 1,
+          //userId: 1,
           // drawerId: drawers[x].drawerId,
           // name: drawers[x].name,
           // type: "drawer",
@@ -126,7 +126,7 @@ export default function SortDrawerPreviewPage() {
       if (scribbles[x].rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
-          userId: 1,
+          //userId: 1,
           // drawerId: scribbles[x].drawerId,
           // title: scribbles[x].title,
           // content: scribbles[x].content,
@@ -155,7 +155,7 @@ export default function SortDrawerPreviewPage() {
     const parentDrawerObject = drawers.filter((item) => item._id == passedId);
     let dataPost = {
       rootId: parentDrawerObject[0]["rootId"],
-      userId: 1,
+      //userId: 1,
       drawerId: parentDrawerObject[0]["_id"],
       // name: drawerToBeMovedObject[0]["name"],
       // type: "drawer",
@@ -179,7 +179,7 @@ export default function SortDrawerPreviewPage() {
     moveDrawerToNewDrawer(selectedDrawerId);
     moveAllChildrenToNewDrawer(drawerToBeMoved, selectedDrawerId);
     updateParentDrawerBoolean(selectedDrawerId);
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 

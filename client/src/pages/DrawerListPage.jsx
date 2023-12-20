@@ -8,7 +8,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 
-export default function DrawerListPage({ expandedIndex }) {
+export default function DrawerListPage({ expandedIndex, user, setUser }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [drawerNameToEdit, setDrawerNameToEdit] = useState("");
@@ -94,7 +94,7 @@ export default function DrawerListPage({ expandedIndex }) {
     );
     if (response == true) {
       deleteSelectedDrawer(id);
-      navigate("/");
+      navigate("/home");
       navigate(0);
     }
   };
@@ -380,7 +380,9 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const renderedList = drawers.map((item) => {
-    if (id == item._id) {
+    // if (id == item._id) {
+      if (id == item._id && item.userId === user._id) {
+
       return (
         <div key={item._id}>
           <div className="rendered-drawers">

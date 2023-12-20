@@ -41,7 +41,7 @@ const img = {
 };
 
 // export default function PerScribblePage({ data, files, setFiles }) {
-export default function PerScribblePage() {
+export default function PerScribblePage({user, setUser}) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
@@ -110,7 +110,7 @@ export default function PerScribblePage() {
     if (response == true) {
       deleteScribble(id);
       const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-      scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/");
+      scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/home");
       navigate(0);
     }
     // confirm(`Are you sure to delete this scribble? -ID:${id}`);

@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 
-export default function SortScribblePreviewPage() {
+export default function SortScribblePreviewPage({user, setUser}) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [newSubDrawerName, setNewSubDrawerName] = useState("");
@@ -106,7 +106,7 @@ export default function SortScribblePreviewPage() {
 
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
-      userId: 1,
+      userId: user._id,
       name: newSubDrawerName.toUpperCase(),
       type: "drawer",
       subDrawer: "false",
@@ -147,7 +147,7 @@ export default function SortScribblePreviewPage() {
       state.selectedDrawerId,
       selectedDrawerObject[0]["level"]
     );
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 
@@ -157,7 +157,7 @@ export default function SortScribblePreviewPage() {
 
   const handleCreate = (value) => {
     createNewSubDrawer();
-    navigate("/");
+    navigate("/home");
     navigate(0);
   };
 
