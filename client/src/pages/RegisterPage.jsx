@@ -11,6 +11,7 @@ export default function RegisterPage(props) {
     password: "",
     username: "",
     role: "user",
+    isLoggedIn:false,
   });
   //const [message, setMessage] = useState(null);
   let timerID = useRef(null);
@@ -42,16 +43,20 @@ export default function RegisterPage(props) {
 
     //request to server to add a new username/password
     axios.post('http://127.0.0.1:8080/api/users/register', {
-        username: this.state.username,
-        password: this.state.password
+        username: user.username,
+        email: user.email,
+        password:user.password,
+        role: "user",
+        isLoggedIn:false,
+
     })
         .then(response => {
             console.log(response)
             if (!response.data.errmsg) {
                 console.log('successful signup')
-                this.setState({ //redirect to login page
-                    redirectTo: '/login'
-                })
+                // this.setState({ //redirect to login page
+                //     redirectTo: '/login'
+                // })
             } else {
                 console.log('username already taken')
             }

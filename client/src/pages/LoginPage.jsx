@@ -3,13 +3,17 @@ import { useState } from "react";
 //import InputField from "../components/InputField";
 import "../css/LoginPage.css";
 import { Button } from "react-bootstrap";
-import axios from 'axios'
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [user, setUser] = useState({
     email: "",
-    password:""
+    password:"",
+    isLoggedIn:false,
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -22,20 +26,27 @@ export default function LoginPage() {
 
     axios.post('http://127.0.0.1:8080/api/users/login', {
 			email: user.email,
-			password: user.password
+			password: user.password,
+      //isLoggedIn: user.isLoggedIn,
 		})
 			.then(response => {
 				console.log(response)
 				if (!response.data.errmsg) {
+          //setUser({...user, isLoggedIn:true})
+          localStorage.setItem("user", JSON.stringify(response.data))
+
 					console.log('successful signup')
-					this.setState({ //redirect to login page
-						redirectTo: '/login'
-					})
+          navigate("/home")
+					// this.setState({ //redirect to login page
+					// 	redirectTo: '/login'
+					// })
 				} else {
-					console.log('username already taken')
+					console.log('email already taken')
+          setUser({...user, isLoggedIn:false})
+
 				}
 			}).catch(error => {
-				console.log('signup error: ')
+				console.log('login error: ')
 				console.log(error)
 
 			})

@@ -2,37 +2,71 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const passport = require('../passport')
+// const bodyParser = require('body-parser').json();
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
     console.log('user register');
 
-    const { username, password } = req.body
+    //const { username, password, email, role } = req.body
     // ADD VALIDATION
-    User.findOne({ username: username }, (err, user) => {
-        if (err) {
-            console.log('User.js post error: ', err)
-        } else if (user) {
-            res.json({
-                error: `Sorry, already a user with the username: ${username}`
-            })
-        }
-        else {
-            const newUser = new User({
-                username: username,
-                password: password
-            })
-            newUser.save((err, savedUser) => {
-                if (err) return res.json(err)
-                res.json(savedUser)
-            })
-        }
-    })
+    try {
+      //Step 1: validae the user input and if there is an error, send 400 res and error message
+      console.log("My user post body req::", req.body);
+  
+      //step 2: check if user already exists, if yes send res 400
+      let user = await User.findOne({ email: req.body.email });
+      if (user) {
+        return res.status(400)
+        // .send("User already exists");
+        .json({message: { msgBody: "Email is already taken", msgError: true }})
+      }
+  
+      //Step 3: enter new user into the database
+      user = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
+        isLoggedIn: req.body.isLoggedIn
+      });
+      await user.save();
+  
+      //step 4: return the newly added user
+      // return res.status(200).send(user);
+      return res.status(200)
+      .json({ message: { newUser:user, msgError: false } })
+  
+    } catch (error) {
+      // Report error internally
+      return res.status(500)
+      // .send(error.message);
+      .json({ message: { msgBody: error.message, msgError: true } })
+    }
+    // User.findOne({ username: username }, (err, user) => {
+    //     if (err) {
+    //         console.log('UserControllers.js post error: ', err)
+    //     } else if (user) {
+    //         res.json({
+    //             error: `Sorry, already a user with the username: ${username}`
+    //         })
+    //     }
+    //     else {
+    //         const newUser = new User({
+    //             username: username,
+    //             password: password
+    //         })
+    //         newUser.save((err, savedUser) => {
+    //             if (err) return res.json(err)
+    //             res.json(savedUser)
+    //         })
+    //     }
+    // })
 })
 
 router.post(
     '/login',
     function (req, res, next) {
-        console.log('routes/user.js, login, req.body: ');
+        console.log('userRoutes.js login, req.body: ');
         console.log(req.body)
         next()
     },
@@ -40,9 +74,10 @@ router.post(
     (req, res) => {
         console.log('logged in', req.user);
         var userInfo = {
-            //username: req.user.username
-            email: req.user.email
-
+            username: req.user.username,
+            email: req.user.email,
+            _id: req.user._id,
+            isLoggedIn: true,
         };
         res.send(userInfo);
     }
@@ -62,12 +97,26 @@ router.get('/', (req, res, next) => {
 
 router.post('/logout', (req, res) => {
     if (req.user) {
+        req.user.isLoggedIn === false
         req.logout()
         res.send({ msg: 'logging out' })
     } else {
         res.send({ msg: 'no user to log out' })
     }
 })
+
+
+router.get(
+    "/authenticated",
+   
+    (req, res) => {
+      //const { username, email, role, isLoggedIn } = req.user;
+      res.status(200).json({ isAuthenticated: true, user:  req.user });
+
+    //   res.status(200).json({ isAuthenticated: true, user: { username, email, role, isLoggedIn } });
+    }
+  );
+
 
 module.exports = router
 

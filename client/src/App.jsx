@@ -11,6 +11,7 @@ import { DrawerToBeMovedContextProvider } from "./context/DrawerToBeMovedContext
 import { DrawerNameProvider } from "./context/DrawerNameContext";
 import { useDataContext } from "./context/DataContext";
 import { FileProvider } from "./context/FileContext";
+import { UserContextProvider } from "./context/UserContext";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
@@ -33,6 +34,7 @@ export default function App() {
 
   return (
     <>
+    {/* <UserContextProvider> */}
       <DataProvider>
         <SelectedDrawerProvider>
           <SelectedScribbleProvider>
@@ -57,6 +59,7 @@ export default function App() {
           </SelectedScribbleProvider>
         </SelectedDrawerProvider>
       </DataProvider>
+      {/* </UserContextProvider> */}
     </>
   );
 }

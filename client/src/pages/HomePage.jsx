@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 //import { useDataContext } from "../context/DataContext";
 import { useEffect, useHistory } from "react";
 import { useFileContext } from "../context/FileContext";
+import { useUserContext } from "../context/UserContext";
 
 export default function HomePage({ expandedIndex, handleExpand }) {
 
+  const {user} = useUserContext();
+  console.log("user in context", user)
 
 
   return (

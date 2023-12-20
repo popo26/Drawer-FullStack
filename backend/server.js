@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require('body-parser')
-//const morgan = require('morgan')
+const morgan = require('morgan')
 const session = require('express-session')
 const passport = require('./passport');
 // const MongoStore = require('connect-mongo')(session)
@@ -16,6 +16,14 @@ require("dotenv").config();
 app.use(express.json());
 app.use(cors());
 
+//Middleware
+app.use(morgan('dev'))
+app.use(
+	bodyParser.urlencoded({
+		extended: false
+	})
+)
+app.use(bodyParser.json())
 
 //sessions
 app.use(
