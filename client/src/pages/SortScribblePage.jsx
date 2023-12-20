@@ -43,9 +43,9 @@ export default function SortScribblePage({user, setUser}) {
   console.log("Sccribleid is", selectedScribbleId);
 
   const addScribbleToNewSubDrawer = (passedId) => {
-    const scribbleObject = scribbles.filter(
-      (item) => item._id == selectedScribbleId
-    );
+    // const scribbleObject = scribbles.filter(
+    //   (item) => item._id == selectedScribbleId
+    // );
 
     let dataPost = {
       rootDrawerId: passedId,
@@ -71,6 +71,7 @@ export default function SortScribblePage({user, setUser}) {
       // .then((json) => {
       //   setScribbles((prevItems) => [...prevItems, json.data]);
       // })
+      .then(()=>navigate(0))
 
       .catch((error) => console.error(error.message));
   };
@@ -95,8 +96,7 @@ export default function SortScribblePage({user, setUser}) {
     })
       .then((response) => response.json())
       .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
-        addScribbleToNewSubDrawer(json.data._id);
+          addScribbleToNewSubDrawer(json.data._id);
       })
       .catch((error) => console.error(error.message));
   };
@@ -112,7 +112,7 @@ export default function SortScribblePage({user, setUser}) {
     createNewDrawer();
     setDrawerName("");
     navigate("/home");
-    navigate(0);
+    //navigate(0);
   };
 
   const handleDisplay = () => {
