@@ -93,6 +93,7 @@ export default function SortScribblePreviewPage({user, setUser}) {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+      .then(()=>navigate(0))
       .catch((error) => console.error(error.message));
   };
 
@@ -158,7 +159,7 @@ export default function SortScribblePreviewPage({user, setUser}) {
   const handleCreate = (value) => {
     createNewSubDrawer();
     navigate("/home");
-    navigate(0);
+    //navigate(0);
   };
 
   const renderedList = drawers
@@ -245,8 +246,8 @@ export default function SortScribblePreviewPage({user, setUser}) {
     return renderedChildren;
   };
 
-  console.log("saveHereSelected", saveHereSelected);
-  console.log("displayMessage", displayMessage);
+  // console.log("saveHereSelected", saveHereSelected);
+  // console.log("displayMessage", displayMessage);
 
   const handleDisplay = () => {
     setSaveHereSelected(!saveHereSelected);

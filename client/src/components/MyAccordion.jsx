@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
+import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
+
 
 export default function MyAccordion({
   expandedIndex,
@@ -14,6 +16,8 @@ export default function MyAccordion({
   user
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const [selectedScribbleId, setSelectedScribbleId] =
+    useSelectedScribbleContext();
 
   // const [, updateState] = useState();
   // const forceUpdate = useCallback(() => updateState({}), []);
@@ -35,7 +39,7 @@ export default function MyAccordion({
       }
     }
     return scribbleArray.map((item) => (
-      <Link key={item._id} to={`/scribble/${item._id}`}>
+      <Link key={item._id} to={`/scribble/${item._id}`} onClick={()=>setSelectedScribbleId(item._id)}>
         <p className={"individual-scribble scrb-indent" + item.level}>
           {item.title}{" "}
         </p>

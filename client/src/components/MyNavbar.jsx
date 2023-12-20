@@ -29,6 +29,12 @@ export default function MyNavbar({  user, setUser }) {
       .then(() => {
         setUser({...user, _id:"", username:"", email:"", password:"", role:"", isLoggedIn:false})
         localStorage.setItem("user", null);
+        sessionStorage.setItem("scribblesData", null);
+        sessionStorage.setItem("drawersData", null)
+        sessionStorage.setItem("selectedDrawer", null)
+        sessionStorage.setItem("selectedScribble", null)
+        sessionStorage.setItem("toBeMovedDrawer", null);
+        sessionStorage.setItem("drawerToBeMoved", null);
         navigate("/");
       })
       .catch((error)=>console.error(error.message))

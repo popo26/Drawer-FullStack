@@ -11,6 +11,12 @@ export default function CreateDrawerPage({user, setUser}) {
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
 
+  useEffect(()=>{
+    const userInBrowser = JSON.parse(localStorage.getItem('user'))
+    console.log("user in browser", userInBrowser)
+    setUser(userInBrowser)
+  }, [])
+
 console.log("user ID", user._id)
 
   //working! POST

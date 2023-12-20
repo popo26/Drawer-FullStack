@@ -32,13 +32,22 @@ export default function SortScribblePage({user, setUser}) {
     useSelectedScribbleContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
 
-  //console.log("State", state);
+  //console.log("State", state.id);
+  console.log("user id", user)
 
-  //To persist selected Scribble ID so browser refresh won't wipe it
-  useEffect(() => {
-    //setSelectedScribbleId(state.id);
+  // //To persist selected Scribble ID so browser refresh won't wipe it
+  // useEffect(() => {
+  //   //setSelectedScribbleId(state.id);
+  //   handleSelectedDrawerId(""); //this is still bit in quesion
+  // }, []);
+
+    //To persist selected Scribble ID so browser refresh won't wipe it
+  useEffect(()=>{
+    const userInBrowser = JSON.parse(localStorage.getItem('user'))
+    console.log("user in browser", userInBrowser)
+    setUser(userInBrowser)
     handleSelectedDrawerId(""); //this is still bit in quesion
-  }, []);
+  }, [])
 
   console.log("Sccribleid is", selectedScribbleId);
 
@@ -60,6 +69,8 @@ export default function SortScribblePage({user, setUser}) {
       // files: [scribbleObject[0]["files"]],
     };
     fetch(`http://localhost:8080/api/scribbles/${selectedScribbleId}`, {
+      // fetch(`http://localhost:8080/api/scribbles/${state.id}`, {
+
       method: "PUT",
       mode: "cors",
       headers: {

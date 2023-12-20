@@ -188,7 +188,6 @@ export default function ScribblePage({user, setUser}) {
         //setFiles((prevItems) => [...prevItems, json.data["files"]]);
         //sessionStorage.setItem("files", JSON.stringify(files))
         setSelectedScribbleId(json.data._id);
-
       })
       .catch((error) => console.error(error.message));
   };
@@ -366,9 +365,10 @@ export default function ScribblePage({user, setUser}) {
         height="30"
         onClick={() => {
           createNewScribble();
-
+        
           navigate("/sort", { state: { id: selectedScribbleId } });
-          navigate(0)
+          //if refresh selectedScribble doesnt get updated in SessionStorage
+          //navigate(0)
         }}
       />
       {/* </div> */}
