@@ -6,21 +6,28 @@ import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 //import { session } from "../../../backend/passport";
 
-export default function HomePage({ expandedIndex, handleExpand, user, setUser }) {
-
+export default function HomePage({
+  expandedIndex,
+  handleExpand,
+  user,
+  setUser,
+}) {
   // const {user} = useUserContext();
-  // console.log("user in context", user)
+  console.log("user Home", user);
 
-
-  useEffect(()=>{
-    const userInBrowser = JSON.parse(localStorage.getItem('user'))
-    console.log("user in browser", userInBrowser)
-    setUser(userInBrowser)
-  }, [])
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in browser", userInBrowser);
+    setUser(userInBrowser);
+  }, []);
 
   return (
     <div>
-      <MyAccordion expandedIndex={expandedIndex} handleExpand={handleExpand} user={user}/>
+      <MyAccordion
+        expandedIndex={expandedIndex}
+        handleExpand={handleExpand}
+        user={user}
+      />
 
       <Link to="/create" className="btn btn-dark btn-lg">
         Create New Drawer

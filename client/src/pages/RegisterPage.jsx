@@ -3,19 +3,27 @@ import "../css/LoginPage.css";
 import { Button } from "react-bootstrap";
 //import Message from "../components/Message";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
-export default function RegisterPage(props, {user, setUser}) {
+// export default function RegisterPage(props, {user, setUser}) {
+export default function RegisterPage({ user, setUser }) {
   const [userForm, setUserForm] = useState({
     email: "",
     password: "",
     username: "",
     role: "user",
-    isLoggedIn:false,
+    isLoggedIn: false,
   });
   //const [message, setMessage] = useState(null);
   let timerID = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -38,35 +46,35 @@ export default function RegisterPage(props, {user, setUser}) {
   };
 
   const handleSubmitRegister = (e) => {
-    console.log('sign-up handleSubmit, username: ')
-    console.log(userForm.username)
-    e.preventDefault()
+    console.log("sign-up handleSubmit, username: ");
+    console.log(userForm.username);
+    e.preventDefault();
 
     //request to server to add a new username/password
-    axios.post('http://127.0.0.1:8080/api/users/register', {
+    axios
+      .post("http://127.0.0.1:8080/api/users/register", {
         username: userForm.username,
         email: userForm.email,
-        password:userForm.password,
+        password: userForm.password,
         role: "user",
-        isLoggedIn:false,
-
-    })
-        .then(response => {
-            console.log(response)
-            if (!response.data.errmsg) {
-                console.log('successful signup')
-                resetForm();
-                timerID = setTimeout(() => {
-                  navigate("/login");
-                }, 2000);
-            } else {
-                console.log('username already taken')
-            }
-        }).catch(error => {
-            console.log('signup error: ')
-            console.log(error)
-
-        })
+        isLoggedIn: false,
+      })
+      .then((response) => {
+        console.log(response);
+        if (!response.data.errmsg) {
+          console.log("successful signup");
+          resetForm();
+          timerID = setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+        } else {
+          console.log("username already taken");
+        }
+      })
+      .catch((error) => {
+        console.log("signup error: ");
+        console.log(error);
+      });
   };
 
   return (

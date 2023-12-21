@@ -26,6 +26,11 @@ export default function App() {
     isLoggedIn: false,
   });
 
+  // useEffect(()=>{
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   setUser(userInBrowser)
+  // }, [])
+
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
       if (currentExpandedIndex === passedIndex) {
@@ -57,7 +62,7 @@ export default function App() {
                     setUser={setUser}
                   />
                   <Link to="/scribble">
-                    <ScribbleBtn />
+                    {user.isLoggedIn && <ScribbleBtn />}
                   </Link>
                 </FileProvider>
               </DrawerNameProvider>

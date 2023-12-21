@@ -1,12 +1,11 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //import InputField from "../components/InputField";
 import "../css/LoginPage.css";
 import { Button } from "react-bootstrap";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginPage({user, setUser}) {
+export default function LoginPage({ user, setUser }) {
   // const [user, setUser] = useState({
   //   email: "",
   //   password:"",
@@ -14,6 +13,15 @@ export default function LoginPage({user, setUser}) {
   // });
 
   const navigate = useNavigate();
+
+  //console.log("user in Login", user)
+
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+  }, []);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -24,32 +32,33 @@ export default function LoginPage({user, setUser}) {
     e.preventDefault();
     console.log("LoginBtn clicked");
 
-    axios.post('http://127.0.0.1:8080/api/users/login', {
-			email: user.email,
-			password: user.password,
-      //isLoggedIn: user.isLoggedIn,
-		})
-			.then(response => {
-				console.log(response)
-				if (!response.data.errmsg) {
-          //setUser({...user, isLoggedIn:true})
-          localStorage.setItem("user", JSON.stringify(response.data))
+    axios
+      .post("http://127.0.0.1:8080/api/users/login", {
+        email: user.email,
+        password: user.password,
+        //isLoggedIn: user.isLoggedIn,
+      })
+      .then((response) => {
+        console.log(response);
+        if (!response.data.errmsg) {
+          //set isLoggedIn for frontend
+          setUser({ ...user, isLoggedIn: true });
+          localStorage.setItem("user", JSON.stringify(response.data));
 
-					console.log('successful signup')
-          navigate("/home")
-					// this.setState({ //redirect to login page
-					// 	redirectTo: '/login'
-					// })
-				} else {
-					console.log('email already taken')
-          setUser({...user, isLoggedIn:false})
-
-				}
-			}).catch(error => {
-				console.log('login error: ')
-				console.log(error)
-
-			})
+          console.log("successful signup");
+          navigate("/home");
+          // this.setState({ //redirect to login page
+          // 	redirectTo: '/login'
+          // })
+        } else {
+          console.log("email already taken");
+          setUser({ ...user, isLoggedIn: false });
+        }
+      })
+      .catch((error) => {
+        console.log("login error: ");
+        console.log(error);
+      });
   };
 
   return (
@@ -62,7 +71,8 @@ export default function LoginPage({user, setUser}) {
           id="email"
           value={user.email}
           onChange={handleChange}
-        /><br/>
+        />
+        <br />
         <input
           type="password"
           name="password"
@@ -71,15 +81,18 @@ export default function LoginPage({user, setUser}) {
           value={user.password}
           onChange={handleChange}
         />
-        <Button variant="outline-dark" onClick={handleClick}>Login</Button>
+        <Button variant="outline-dark" onClick={handleClick}>
+          Login
+        </Button>
       </form>
       <a href="#">Don't remember?</a>
-      <br/>
-      <a><Button variant="dark">Sign Up</Button></a>
+      <br />
+      <a>
+        <Button variant="dark">Sign Up</Button>
+      </a>
     </div>
   );
 }
-
 
 ////////ORIGINAL////////////////////////////////////////////
 // import { useState } from "react";
