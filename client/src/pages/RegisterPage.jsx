@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/LoginPage.css";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 //import Message from "../components/Message";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import logo from "../assets/logo_d.png";
 
 // export default function RegisterPage(props, {user, setUser}) {
 export default function RegisterPage({ user, setUser }) {
@@ -80,36 +81,91 @@ export default function RegisterPage({ user, setUser }) {
   return (
     <div className="RegisterPage">
       {/* {message ? <Message message={message} /> : null} */}
-      <form>
-        <input
-          type="text"
-          name="username"
-          placeholder="username"
-          id="username"
-          value={userForm.username}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          id="email"
-          value={userForm.email}
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          id="password"
-          value={userForm.password}
-          onChange={handleChange}
-        />
-        <Button variant="outline-dark" onClick={handleSubmitRegister}>
-          Register
-        </Button>
-      </form>
+      <div className="LoginPage">
+        <div>
+          <img src={logo} width="100rem" />
+        </div>
+        <Form>
+          <Form.Group className="mb-3" controlId="formBasicUsername">
+            <Form.Label hidden>Username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Username"
+              value={userForm.username}
+              name="username"
+              onChange={handleChange}
+            />
+     
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label hidden>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Email"
+              value={userForm.email}
+              name="email"
+              onChange={handleChange}
+            />
+            {/* <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text> */}
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label hidden>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={userForm.password}
+              name="password"
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            {/* <a href="#">Don't remember?</a> */}
+          </Form.Group>
+          <Button variant="dark" type="submit" onClick={handleSubmitRegister}>
+            Register
+          </Button>
+        </Form>
+      </div>
     </div>
   );
+
+  // return (
+  //   <div className="RegisterPage">
+  //     {/* {message ? <Message message={message} /> : null} */}
+  //     <form>
+  //       <input
+  //         type="text"
+  //         name="username"
+  //         placeholder="username"
+  //         id="username"
+  //         value={userForm.username}
+  //         onChange={handleChange}
+  //       />
+  //       <input
+  //         type="email"
+  //         name="email"
+  //         placeholder="email"
+  //         id="email"
+  //         value={userForm.email}
+  //         onChange={handleChange}
+  //       />
+  //       <br />
+  //       <input
+  //         type="password"
+  //         name="password"
+  //         placeholder="password"
+  //         id="password"
+  //         value={userForm.password}
+  //         onChange={handleChange}
+  //       />
+  //       <Button variant="outline-dark" onClick={handleSubmitRegister}>
+  //         Register
+  //       </Button>
+  //     </form>
+  //   </div>
+  // );
 }

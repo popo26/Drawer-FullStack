@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 //import InputField from "../components/InputField";
 import "../css/LoginPage.css";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo_d.png";
 
 export default function LoginPage({ user, setUser }) {
   // const [user, setUser] = useState({
@@ -63,35 +64,75 @@ export default function LoginPage({ user, setUser }) {
 
   return (
     <div className="LoginPage">
-      <form>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          id="email"
-          value={user.email}
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          id="password"
-          value={user.password}
-          onChange={handleChange}
-        />
-        <Button variant="outline-dark" onClick={handleClick}>
+      <div>
+        <img src={logo} width="100rem" />
+      </div>
+      <Form>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label hidden>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={user.email}
+            name="email"
+            onChange={handleChange}
+          />
+          {/* <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label hidden>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={user.password}
+            name="password"
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <a href="#">Don't remember?</a>
+        </Form.Group>
+        <Button variant="dark" type="submit" onClick={handleClick}>
           Login
         </Button>
-      </form>
-      <a href="#">Don't remember?</a>
-      <br />
-      <a>
-        <Button variant="dark">Sign Up</Button>
-      </a>
+      </Form>
     </div>
   );
+
+  // return (
+  //   <div className="LoginPage">
+  //     <form>
+  //       <input
+  //         type="email"
+  //         name="email"
+  //         placeholder="Email"
+  //         id="email"
+  //         value={user.email}
+  //         onChange={handleChange}
+  //       />
+  //       <br />
+  //       <input
+  //         type="password"
+  //         name="password"
+  //         placeholder="Password"
+  //         id="password"
+  //         value={user.password}
+  //         onChange={handleChange}
+  //       />
+  //       <Button variant="outline-dark" onClick={handleClick}>
+  //         Login
+  //       </Button>
+  //     </form>
+  //     <a href="#">Don't remember?</a>
+  //     <br />
+  //     <a>
+  //       <Button variant="dark">Sign Up</Button>
+  //     </a>
+  //   </div>
+  // );
 }
 
 ////////ORIGINAL////////////////////////////////////////////
