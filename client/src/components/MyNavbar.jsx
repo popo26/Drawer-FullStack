@@ -56,14 +56,14 @@ export default function MyNavbar({  user, setUser }) {
           />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
-            <Nav>
+            <Nav style={{display:"flex", flexDirection:"row", justifyContent:"right", gap:"10px"}}>
               <Nav.Link>
                 <NavLink
                   className="nav-link"
                   to="/login"
                   onClick={() => setIsExpanded(false)}
                 >
-                  Login
+                 <Icon icon="ri:logout-box-r-fill" color="black" width="30"/>
                 </NavLink>
               </Nav.Link>
               <Nav.Link>
@@ -72,7 +72,7 @@ export default function MyNavbar({  user, setUser }) {
                   to="/register"
                   onClick={() => setIsExpanded(false)}
                 >
-                  Register
+                  <Icon icon="mdi:register" color="black" width="30"/>
                 </NavLink>
               </Nav.Link>
             </Nav>
@@ -81,6 +81,7 @@ export default function MyNavbar({  user, setUser }) {
       </>
     );
   };
+
 
   const authenticatedNavBar = () => {
     return (
@@ -93,9 +94,9 @@ export default function MyNavbar({  user, setUser }) {
             <span className="navbar-text greeting">Hi {user.username}!</span>
           </Navbar.Brand>
 
-          <Button variant="dark" onClick={handleLogout}>
+          {/* <Button variant="dark" onClick={handleLogout}>
             Logout
-          </Button>
+          </Button> */}
 
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
@@ -103,7 +104,7 @@ export default function MyNavbar({  user, setUser }) {
           />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto"></Nav>
-            <Nav>
+            <Nav style={{display:"flex", flexDirection:"row", justifyContent:"right", gap:"10px"}}>
               <Nav.Link>
                 <NavLink
                   className="nav-link"
@@ -141,6 +142,16 @@ export default function MyNavbar({  user, setUser }) {
                   />
                 </NavLink>
               </Nav.Link>
+              <Nav.Link>
+                <NavLink
+                  className="nav-link"
+                  color="black"
+                  onClick={handleLogout}
+                  
+                >
+               <Icon icon="ri:logout-box-r-fill" to="/logout" width="30"/>
+                </NavLink>
+              </Nav.Link>
               {user.role === "admin" ? (
                 <Nav.Link>
                   <NavLink
@@ -158,6 +169,92 @@ export default function MyNavbar({  user, setUser }) {
       </>
     );
   };
+  // const authenticatedNavBar = () => {
+  //   return (
+  //     <>
+  //       <Container>
+  //         <Navbar.Brand href="#home">
+  //           <NavLink className="navbar-brand" to="/home">
+  //             <Icon icon="mingcute:drawer-line" color="black" width="50" />
+  //           </NavLink>
+  //           <span className="navbar-text greeting">Hi {user.username}!</span>
+  //         </Navbar.Brand>
+
+  //         <Button variant="dark" onClick={handleLogout}>
+  //           Logout
+  //         </Button>
+
+  //         <Navbar.Toggle
+  //           aria-controls="responsive-navbar-nav"
+  //           onClick={() => setIsExpanded(!isExpanded)}
+  //         />
+  //         <Navbar.Collapse id="responsive-navbar-nav">
+  //           <Nav className="me-auto"></Nav>
+  //           <Nav>
+  //             <Nav.Link>
+  //               <NavLink
+  //                 className="nav-link"
+  //                 to="/search"
+  //                 onClick={() => setIsExpanded(false)}
+  //               >
+  //                 <Icon icon="bi:search" color="black" width="30" height="30" />
+  //               </NavLink>
+  //             </Nav.Link>
+  //             <Nav.Link>
+  //               <NavLink
+  //                 className="nav-link"
+  //                 to="/profile"
+  //                 onClick={() => setIsExpanded(false)}
+  //               >
+  //                 <Icon
+  //                   icon="healthicons:ui-user-profile"
+  //                   color="black"
+  //                   width="30"
+  //                   height="30"
+  //                 />
+  //               </NavLink>
+  //             </Nav.Link>
+  //             <Nav.Link eventKey={2}>
+  //               <NavLink
+  //                 className="nav-link"
+  //                 to="/stray"
+  //                 onClick={() => setIsExpanded(false)}
+  //               >
+  //                 <Icon
+  //                   icon="game-icons:files"
+  //                   color="black"
+  //                   width="30"
+  //                   height="30"
+  //                 />
+  //               </NavLink>
+  //             </Nav.Link>
+  //             <Nav.Link>
+  //               <NavLink
+  //                 className="nav-link"
+  //                 color="black"
+  //                 onClick={handleLogout}
+                  
+  //               >
+  //              <Icon icon="ri:logout-box-r-fill" to="/logout" width="30"/>
+  //               </NavLink>
+  //             </Nav.Link>
+  //             {user.role === "admin" ? (
+  //               <Nav.Link>
+  //                 <NavLink
+  //                   className="nav-link"
+  //                   to="/admin"
+  //                   onClick={() => setIsExpanded(false)}
+  //                 >
+  //                   Admin
+  //                 </NavLink>
+  //               </Nav.Link>
+  //             ) : null}
+  //           </Nav>
+  //         </Navbar.Collapse>
+  //       </Container>
+  //     </>
+  //   );
+  // };
 
   return (
     <Navbar
