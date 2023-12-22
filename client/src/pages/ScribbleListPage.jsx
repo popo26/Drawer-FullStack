@@ -7,7 +7,7 @@ import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 
 // export default function ScribbleListPage({ files }) {
-export default function ScribbleListPage({user, setUser}) {
+export default function ScribbleListPage({ user, setUser }) {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
@@ -15,17 +15,13 @@ export default function ScribbleListPage({user, setUser}) {
   // const [files] = useFileContext();
   const { files } = useFileContext();
 
-
-  useEffect(()=>{
-    const userInBrowser = JSON.parse(localStorage.getItem('user'))
-    console.log("user in browser", userInBrowser)
-    setUser(userInBrowser)
-  }, [])
-  // console.log("SCRIBBLES", scribbles);
-
-  // for (let x in scribbles){
-  //   console.log(scribbles[x]['files'])
-  // }
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in Scribble List", userInBrowser);
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+  }, []);
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -55,8 +51,8 @@ export default function ScribbleListPage({user, setUser}) {
   const renderedList = scribbles.map(
     (item) =>
       // item.stray === true && (
-        (item.stray === true && item.userId ===user._id) && (
-
+      item.stray === true &&
+      item.userId === user._id && (
         <p key={item._id}>
           {/* <a
             

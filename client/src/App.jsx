@@ -31,6 +31,8 @@ export default function App() {
   //   setUser(userInBrowser)
   // }, [])
 
+  console.log("User in APP", user)
+
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
       if (currentExpandedIndex === passedIndex) {

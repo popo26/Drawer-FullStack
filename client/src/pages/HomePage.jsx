@@ -17,8 +17,10 @@ export default function HomePage({
 
   useEffect(() => {
     const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in browser", userInBrowser);
-    setUser(userInBrowser);
+    if (userInBrowser) {
+      console.log("user in browser", userInBrowser);
+      setUser(userInBrowser);
+    }
   }, []);
 
   return (
