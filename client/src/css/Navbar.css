@@ -1,10 +1,9 @@
 .Navbar {
-    /* border: 2px solid black; */
-        border-bottom: 2px solid black;
-
+  /* border: 2px solid black; */
+  border-bottom: 2px solid black;
 }
 
-.greeting{
-  font-family: 'Pacifico', cursive;
+.greeting {
+  font-family: "Pacifico", cursive;
   font-size: 1rem;
 }

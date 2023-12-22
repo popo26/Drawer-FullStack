@@ -9,7 +9,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { useState, useContext } from "react";
 // import AuthService from "../services/AuthService";
 // import { AuthContext } from "../context/AuthContext";
-import { Button } from "react-bootstrap";
+import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
 import logo from "../assets/logo_d1.png";
 
 export default function MyNavbar({ user, setUser }) {
@@ -50,6 +50,20 @@ export default function MyNavbar({ user, setUser }) {
 
   ////Without Hamburger
   const unauthenticatedNavBar = () => {
+    const tooltipLogin = (
+      <Tooltip id="tooltip">
+        {/* <strong>Logout</strong> */}
+        Login
+      </Tooltip>
+    );
+
+    const tooltipRegister = (
+      <Tooltip id="tooltip">
+        {/* <strong>Logout</strong> */}
+        Register
+      </Tooltip>
+    );
+
     return (
       <>
         <Container>
@@ -58,33 +72,31 @@ export default function MyNavbar({ user, setUser }) {
               <Icon icon="mingcute:drawer-line" color="black" width="50" />
             </NavLink>
           </Navbar.Brand>
-     
-            <Nav className="me-auto"></Nav>
-            <Nav
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "right",
-                gap: "10px",
-              }}
-            >
-              <Nav.Link>
-                <NavLink
-                  className="nav-link"
-                  to="/login"
-                >
-                  <Icon icon="ri:logout-box-r-fill" color="black" width="30" />
-                </NavLink>
-              </Nav.Link>
-              <Nav.Link>
-                <NavLink
-                  className="nav-link"
-                  to="/register"
-                >
+
+          <Nav className="me-auto"></Nav>
+          <Nav
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "right",
+              gap: "10px",
+            }}
+          >
+            <Nav.Link>
+              <NavLink className="nav-link" to="/login">
+                <OverlayTrigger placement="bottom" overlay={tooltipLogin}>
+                  <Icon icon="clarity:login-solid" color="black" width="30" />
+                </OverlayTrigger>
+              </NavLink>
+            </Nav.Link>
+            <Nav.Link>
+              <NavLink className="nav-link" to="/register">
+                <OverlayTrigger placement="bottom" overlay={tooltipRegister}>
                   <Icon icon="mdi:register" color="black" width="30" />
-                </NavLink>
-              </Nav.Link>
-            </Nav>
+                </OverlayTrigger>
+              </NavLink>
+            </Nav.Link>
+          </Nav>
         </Container>
       </>
     );
@@ -140,6 +152,11 @@ export default function MyNavbar({ user, setUser }) {
   // };
 
   const authenticatedNavBar = () => {
+    const tooltipSearch = <Tooltip id="tooltip">Search</Tooltip>;
+    const tooltipProfile = <Tooltip id="tooltip">Profile</Tooltip>;
+    const tooltipScribbles = <Tooltip id="tooltip">Stray Scribbles</Tooltip>;
+    const tooltipLogout = <Tooltip id="tooltip">Logout</Tooltip>;
+
     return (
       <>
         <Container>
@@ -171,7 +188,14 @@ export default function MyNavbar({ user, setUser }) {
                   to="/search"
                   onClick={() => setIsExpanded(false)}
                 >
-                  <Icon icon="bi:search" color="black" width="30" height="30" />
+                  <OverlayTrigger placement="bottom" overlay={tooltipSearch}>
+                    <Icon
+                      icon="bi:search"
+                      color="black"
+                      width="30"
+                      height="30"
+                    />
+                  </OverlayTrigger>
                 </NavLink>
               </Nav.Link>
               <Nav.Link>
@@ -180,12 +204,14 @@ export default function MyNavbar({ user, setUser }) {
                   to="/profile"
                   onClick={() => setIsExpanded(false)}
                 >
-                  <Icon
-                    icon="healthicons:ui-user-profile"
-                    color="black"
-                    width="30"
-                    height="30"
-                  />
+                  <OverlayTrigger placement="bottom" overlay={tooltipProfile}>
+                    <Icon
+                      icon="healthicons:ui-user-profile"
+                      color="black"
+                      width="30"
+                      height="30"
+                    />
+                  </OverlayTrigger>
                 </NavLink>
               </Nav.Link>
               <Nav.Link eventKey={2}>
@@ -194,12 +220,14 @@ export default function MyNavbar({ user, setUser }) {
                   to="/stray"
                   onClick={() => setIsExpanded(false)}
                 >
-                  <Icon
-                    icon="game-icons:files"
-                    color="black"
-                    width="30"
-                    height="30"
-                  />
+                  <OverlayTrigger placement="bottom" overlay={tooltipScribbles}>
+                    <Icon
+                      icon="game-icons:files"
+                      color="black"
+                      width="30"
+                      height="30"
+                    />
+                  </OverlayTrigger>
                 </NavLink>
               </Nav.Link>
               <Nav.Link>
@@ -208,7 +236,13 @@ export default function MyNavbar({ user, setUser }) {
                   color="black"
                   onClick={handleLogout}
                 >
-                  <Icon icon="ri:logout-box-r-fill" to="/logout" width="30" />
+                  <OverlayTrigger placement="bottom" overlay={tooltipLogout}>
+                    <Icon
+                      icon="clarity:logout-solid"
+                      color="black"
+                      width="30"
+                    />
+                  </OverlayTrigger>
                 </NavLink>
               </Nav.Link>
               {user.role === "admin" ? (
