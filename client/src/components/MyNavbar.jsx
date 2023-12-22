@@ -48,6 +48,7 @@ export default function MyNavbar({ user, setUser }) {
       .catch((error) => console.error(error.message));
   };
 
+  ////Without Hamburger
   const unauthenticatedNavBar = () => {
     return (
       <>
@@ -56,13 +57,8 @@ export default function MyNavbar({ user, setUser }) {
             <NavLink className="navbar-brand" to="/">
               <Icon icon="mingcute:drawer-line" color="black" width="50" />
             </NavLink>
-            {/* <span className="navbar-text greeting">Hi TomTom!</span> */}
           </Navbar.Brand>
-          <Navbar.Toggle
-            aria-controls="responsive-navbar-nav"
-            onClick={() => setIsExpanded(!isExpanded)}
-          />
-          <Navbar.Collapse id="responsive-navbar-nav">
+     
             <Nav className="me-auto"></Nav>
             <Nav
               style={{
@@ -76,7 +72,6 @@ export default function MyNavbar({ user, setUser }) {
                 <NavLink
                   className="nav-link"
                   to="/login"
-                  onClick={() => setIsExpanded(false)}
                 >
                   <Icon icon="ri:logout-box-r-fill" color="black" width="30" />
                 </NavLink>
@@ -85,17 +80,64 @@ export default function MyNavbar({ user, setUser }) {
                 <NavLink
                   className="nav-link"
                   to="/register"
-                  onClick={() => setIsExpanded(false)}
                 >
                   <Icon icon="mdi:register" color="black" width="30" />
                 </NavLink>
               </Nav.Link>
             </Nav>
-          </Navbar.Collapse>
         </Container>
       </>
     );
   };
+
+  //With Hamburger
+  // const unauthenticatedNavBar = () => {
+  //   return (
+  //     <>
+  //       <Container>
+  //         <Navbar.Brand href="#home">
+  //           <NavLink className="navbar-brand" to="/">
+  //             <Icon icon="mingcute:drawer-line" color="black" width="50" />
+  //           </NavLink>
+  //         </Navbar.Brand>
+  //         <Navbar.Toggle
+  //           aria-controls="responsive-navbar-nav"
+  //           onClick={() => setIsExpanded(!isExpanded)}
+  //         />
+  //         <Navbar.Collapse id="responsive-navbar-nav">
+  //           <Nav className="me-auto"></Nav>
+  //           <Nav
+  //             style={{
+  //               display: "flex",
+  //               flexDirection: "row",
+  //               justifyContent: "right",
+  //               gap: "10px",
+  //             }}
+  //           >
+  //             <Nav.Link>
+  //               <NavLink
+  //                 className="nav-link"
+  //                 to="/login"
+  //                 onClick={() => setIsExpanded(false)}
+  //               >
+  //                 <Icon icon="ri:logout-box-r-fill" color="black" width="30" />
+  //               </NavLink>
+  //             </Nav.Link>
+  //             <Nav.Link>
+  //               <NavLink
+  //                 className="nav-link"
+  //                 to="/register"
+  //                 onClick={() => setIsExpanded(false)}
+  //               >
+  //                 <Icon icon="mdi:register" color="black" width="30" />
+  //               </NavLink>
+  //             </Nav.Link>
+  //           </Nav>
+  //         </Navbar.Collapse>
+  //       </Container>
+  //     </>
+  //   );
+  // };
 
   const authenticatedNavBar = () => {
     return (
