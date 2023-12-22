@@ -6,17 +6,15 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 // import AuthService from "../services/AuthService";
 // import { AuthContext } from "../context/AuthContext";
-import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Button, Tooltip, OverlayTrigger, Badge } from "react-bootstrap";
 import logo from "../assets/logo_d1.png";
 
 export default function MyNavbar({ user, setUser }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  //const { isAuthenticated, user, setIsAuthenticated, setUser } =
-  // useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -162,8 +160,13 @@ export default function MyNavbar({ user, setUser }) {
         <Container>
           <Navbar.Brand href="#home">
             <NavLink className="navbar-brand" to="/home">
-              {/* <Icon icon="mingcute:drawer-line" color="black" width="50" /> */}
-              <img src={logo} alt="logo" width="36rem" />
+              <img
+                src={logo}
+                alt="logo"
+                width="36rem"
+                onClick={() => setIsExpanded(false)}
+              />
+              {/* <img src={logo} alt="logo" width="36rem"/> */}
             </NavLink>
             <span className="navbar-text greeting">Hi {user.username}!</span>
           </Navbar.Brand>
@@ -221,12 +224,15 @@ export default function MyNavbar({ user, setUser }) {
                   onClick={() => setIsExpanded(false)}
                 >
                   <OverlayTrigger placement="bottom" overlay={tooltipScribbles}>
-                    <Icon
-                      icon="game-icons:files"
-                      color="black"
-                      width="30"
-                      height="30"
-                    />
+                    <a>
+                      <Icon
+                        icon="game-icons:files"
+                        color="black"
+                        width="30"
+                        height="30"
+                      />
+                      <Badge bg="danger">6</Badge>
+                    </a>
                   </OverlayTrigger>
                 </NavLink>
               </Nav.Link>
