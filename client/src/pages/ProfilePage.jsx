@@ -20,6 +20,7 @@ export default function ProfilePage({ user, setUser }) {
     if (userInBrowser) {
       setUser(userInBrowser);
     }
+    // return ()=> localStorage.setItem("user", JSON.stringify(user));
   }, []);
 
   const handleChange = (e) => {
@@ -43,10 +44,10 @@ export default function ProfilePage({ user, setUser }) {
         console.log(response);
         if (!response.data.errmsg) {
           //set isLoggedIn for frontend
-          console.log("Update response", response.data)
-          //localStorage.setItem("user", JSON.stringify(response.data.data));
-          setUser({ ...user, isLoggedIn: true });
-          console.log("successful UPDATED");
+          console.log("Update response", response.data);
+          //setUser({ ...user, isLoggedIn: true });
+          console.log("successful UPDATED", user);
+          localStorage.setItem("user", JSON.stringify(user));
           //navigate("/login");
           // this.setState({ //redirect to login page
           // 	redirectTo: '/login'
