@@ -7,15 +7,32 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useState, useContext, useEffect } from "react";
-// import AuthService from "../services/AuthService";
-// import { AuthContext } from "../context/AuthContext";
+
 import { Button, Tooltip, OverlayTrigger, Badge } from "react-bootstrap";
 import logo from "../assets/logo_d1.png";
+import { useDataContext } from "../context/DataContext";
 
-export default function MyNavbar({ user, setUser }) {
+// export default function MyNavbar({ user, setUser, currentStrayScribblesNum, setCurrentStrayScribblesNum }) {
+  export default function MyNavbar({ user, setUser }) {
+
   const [isExpanded, setIsExpanded] = useState(false);
+  const {scribbles} = useDataContext();
 
   const navigate = useNavigate();
+
+
+
+  const [currentStrayScribblesNum, setCurrentStrayScribblesNum] = useState(0)
+  useEffect(()=>{
+    const currentUser = localStorage.getItem("user");
+    if (currentUser){
+      console.log('scribble nums', scribbles.length)
+      console.log("user ID", user._id)
+      const scribblesObjs = scribbles.filter(item=> item.userId === user._id && item.stray === true)
+      console.log("scribbles Objs", scribblesObjs.length);
+      setCurrentStrayScribblesNum(scribblesObjs.length)
+    }
+  }, [scribbles])
 
   const handleLogout = () => {
     fetch("http://127.0.0.1:8080/api/users/logout", {
@@ -231,7 +248,7 @@ export default function MyNavbar({ user, setUser }) {
                         width="30"
                         height="30"
                       />
-                      <Badge bg="danger">6</Badge>
+                      {currentStrayScribblesNum > 0 && <Badge bg="danger">{currentStrayScribblesNum}</Badge>}
                     </a>
                   </OverlayTrigger>
                 </NavLink>

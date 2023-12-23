@@ -26,6 +26,9 @@ export default function App() {
     isLoggedIn: false,
   });
 
+  //const [currentStrayScribblesNum, setCurrentStrayScribblesNum] = useState(0)
+
+
   // useEffect(()=>{
   //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
   //   setUser(userInBrowser)
@@ -52,7 +55,9 @@ export default function App() {
             <DrawerToBeMovedContextProvider>
               <DrawerNameProvider>
                 <FileProvider>
+                  {/* <MyNavbar user={user} setUser={setUser} currentStrayScribblesNum={currentStrayScribblesNum} setCurrentStrayScribblesNum={setCurrentStrayScribblesNum}/> */}
                   <MyNavbar user={user} setUser={setUser} />
+
                   <AppRoutes
                     expandedIndex={expandedIndex}
                     handleExpand={handleClickExpand}
