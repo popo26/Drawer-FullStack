@@ -67,6 +67,9 @@ const updateScribble = (req, res) => {
       res.send({ result: 500, error: err.message });
     });
 };
+
+
+
 const deleteScribble = (req, res) => {
   //deletes the user matching the ID from the param
   Models.Scribble.findByIdAndDelete(req.params.id, {
