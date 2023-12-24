@@ -21,9 +21,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  isLoggedIn:{
-    type:Boolean,
-    required:true,
+  isLoggedIn: {
+    type: Boolean,
+    required: true,
   },
   role: {
     type: String,

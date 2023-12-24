@@ -139,26 +139,61 @@ router.get("/authenticated", (req, res) => {
 //     }
 // )
 
+//working for username and email
 router.put("/update/:id", async function (req, res) {
   console.log("req body UPDATE", req.body);
 
-  var name = req.body.name;
-  var username = req.body.username;
-  let password = req.body.password;
-  let _id = req.body._id;
+  // var name = req.body.name;
+  // var username = req.body.username;
+  // let password = req.body.password;
+  // let _id = req.body._id;
 
   //let user = await User.findOne({ _id: req.body._id });
 
-  User.findByIdAndUpdate(req.params.id, req.body, {
-    useFindAndModify: false,
-  })
-
+  User.findByIdAndUpdate(req.params.id, req.body)
     .then((data) => res.send({ result: 200, data: data }))
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });
     });
 });
+
+//experiment
+// router.post("/changepassword", function (req, res) {
+router.put("/changepassword/:id", async function (req, res) {
+  console.log("req body Password", req.body);
+  let user = await User.findOne({ _id: req.body._id });
+  console.log("found user", user);
+  user.password = req.body.password;
+  console.log("after password set", user);
+  user.save();
+  console.log("after saving user", user);
+});
+
+// router.put("/update/:id", function (req, res) {
+//   let user = User.findOne(req.body._id);
+//   if (user) {
+//     User.findByUsername(req.body._id)
+//       .then((data) => {
+//         user = new User({
+//           username: req.body.username,
+//           email: req.body.email,
+//           password: req.body.password,
+//           // role: "user",
+//           // isLoggedIn: true,
+//         });
+//         user.save();
+//         console.log("password user", user)
+
+//         if (err) {
+//           res.send(err);
+//         } else {
+//           res.send("successfully change password");
+//         }
+//       })
+//       .catch((error) => res.send(error));
+//   }
+// });
 
 module.exports = router;
 
