@@ -13,26 +13,26 @@ import logo from "../assets/logo_d1.png";
 import { useDataContext } from "../context/DataContext";
 
 // export default function MyNavbar({ user, setUser, currentStrayScribblesNum, setCurrentStrayScribblesNum }) {
-  export default function MyNavbar({ user, setUser }) {
-
+export default function MyNavbar({ user, setUser }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const {scribbles} = useDataContext();
+  const { scribbles } = useDataContext();
 
   const navigate = useNavigate();
 
+  const [currentStrayScribblesNum, setCurrentStrayScribblesNum] = useState(0);
 
-
-  const [currentStrayScribblesNum, setCurrentStrayScribblesNum] = useState(0)
-  useEffect(()=>{
+  useEffect(() => {
     const currentUser = localStorage.getItem("user");
-    if (currentUser){
-      console.log('scribble nums', scribbles.length)
-      console.log("user ID", user._id)
-      const scribblesObjs = scribbles.filter(item=> item.userId === user._id && item.stray === true)
+    if (currentUser) {
+      console.log("scribble nums", scribbles.length);
+      console.log("user ID", user._id);
+      const scribblesObjs = scribbles.filter(
+        (item) => item.userId === user._id && item.stray === true
+      );
       console.log("scribbles Objs", scribblesObjs.length);
-      setCurrentStrayScribblesNum(scribblesObjs.length)
+      setCurrentStrayScribblesNum(scribblesObjs.length);
     }
-  }, [scribbles])
+  }, [scribbles]);
 
   const handleLogout = () => {
     fetch("http://127.0.0.1:8080/api/users/logout", {
@@ -59,6 +59,7 @@ import { useDataContext } from "../context/DataContext";
         sessionStorage.setItem("toBeMovedDrawer", null);
         sessionStorage.setItem("drawerToBeMoved", null);
         navigate("/");
+        setIsExpanded(false);
       })
       .catch((error) => console.error(error.message));
   };
@@ -248,7 +249,9 @@ import { useDataContext } from "../context/DataContext";
                         width="30"
                         height="30"
                       />
-                      {currentStrayScribblesNum > 0 && <Badge bg="danger">{currentStrayScribblesNum}</Badge>}
+                      {currentStrayScribblesNum > 0 && (
+                        <Badge bg="danger">{currentStrayScribblesNum}</Badge>
+                      )}
                     </a>
                   </OverlayTrigger>
                 </NavLink>

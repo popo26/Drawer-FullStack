@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 //import InputField from "../components/InputField";
 import "../css/LoginPage.css";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo_d.png";
@@ -15,6 +15,8 @@ export default function LoginPage({ user, setUser }) {
 
   const navigate = useNavigate();
 
+  const [message, setMessage] = useState("");
+
   //console.log("user in Login", user)
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function LoginPage({ user, setUser }) {
   }, []);
 
   const handleChange = (e) => {
+    setMessage("")
     setUser({ ...user, [e.target.name]: e.target.value });
     //console.log(user);
   };
@@ -48,9 +51,6 @@ export default function LoginPage({ user, setUser }) {
 
           console.log("successful signup");
           navigate("/home");
-          // this.setState({ //redirect to login page
-          // 	redirectTo: '/login'
-          // })
         } else {
           console.log("email already taken");
           setUser({ ...user, isLoggedIn: false });
@@ -59,6 +59,7 @@ export default function LoginPage({ user, setUser }) {
       .catch((error) => {
         console.log("login error: ");
         console.log(error);
+        setMessage("Invalid email or password")
       });
   };
 
@@ -77,9 +78,6 @@ export default function LoginPage({ user, setUser }) {
             name="email"
             onChange={handleChange}
           />
-          {/* <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text> */}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -93,8 +91,11 @@ export default function LoginPage({ user, setUser }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <a href="#">Don't remember?</a>
+          {/* <a href="#">Don't remember?</a> */}
         </Form.Group>
+        {/* <Form.Text className="text-muted" >{message}</Form.Text><br/> */}
+        {message && <Alert variant="danger" >{message}</Alert>}
+
         <Button variant="dark" type="submit" onClick={handleClick}>
           Login
         </Button>

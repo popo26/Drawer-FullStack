@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/LoginPage.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 //import Message from "../components/Message";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -18,6 +18,7 @@ export default function RegisterPage({ user, setUser }) {
   //const [message, setMessage] = useState(null);
   let timerID = useRef(null);
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const userInBrowser = JSON.parse(localStorage.getItem("user"));
@@ -33,6 +34,7 @@ export default function RegisterPage({ user, setUser }) {
   }, []);
 
   const handleChange = (e) => {
+    setMessage("")
     //console.log(e.target.value)
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
     console.log(userForm);
@@ -70,11 +72,14 @@ export default function RegisterPage({ user, setUser }) {
           }, 1000);
         } else {
           console.log("username already taken");
+          setMessage("That email address is taken.")
+
         }
       })
       .catch((error) => {
         console.log("signup error: ");
         console.log(error);
+        setMessage("Signup Error.")
       });
   };
 
@@ -125,6 +130,7 @@ export default function RegisterPage({ user, setUser }) {
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             {/* <a href="#">Don't remember?</a> */}
           </Form.Group>
+          {message && <Alert variant="danger" >{message}</Alert>}
           <Button variant="dark" type="submit" onClick={handleSubmitRegister}>
             Register
           </Button>
