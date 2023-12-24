@@ -1,5 +1,5 @@
 import "../css/InputField.css";
-
+import { Form } from "react-bootstrap";
 
 export default function InputField({
   htmlFor,
@@ -19,7 +19,7 @@ export default function InputField({
 
   return (
     <div className="InputField-main-div">
-      <label className="form-label" htmlFor={htmlFor}>{placeholder}:</label>
+      {/* <label className="form-label" htmlFor={htmlFor}>{placeholder}:</label>
       <input
         type={type}
         name={name}
@@ -28,7 +28,21 @@ export default function InputField({
         value={value}
         onChange={handleChange}
         className="form-control"
-      />
+      /> */}
+
+      <Form.Group className="mb-3" controlId="formBasicInput">
+        <Form.Label hidden htmlFor={htmlFor}>
+          {placeholder}
+        </Form.Label>
+        <Form.Control
+          type={type}
+          name={name}
+          id={id}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+        />
+      </Form.Group>
     </div>
   );
 }

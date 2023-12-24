@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Icon } from "@iconify/react";
 import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import "../css/CreateDrawerPage.css";
@@ -6,18 +7,18 @@ import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 
-export default function CreateDrawerPage({user, setUser}) {
+export default function CreateDrawerPage({ user, setUser }) {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
 
-  useEffect(()=>{
-    const userInBrowser = JSON.parse(localStorage.getItem('user'))
-    console.log("user in browser", userInBrowser)
-    setUser(userInBrowser)
-  }, [])
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in browser", userInBrowser);
+    setUser(userInBrowser);
+  }, []);
 
-console.log("user ID", user._id)
+  console.log("user ID", user._id);
 
   //working! POST
   const createNewDrawer = () => {
@@ -57,16 +58,7 @@ console.log("user ID", user._id)
     setDrawerName("");
     navigate("/home");
     // sessionStorage.setItem("newDrawerId", drawerName)
-
   };
-
-  // useEffect(()=>{
-  //   setDrawers(drawers)
-  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
-  //   //setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
-  //   // sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
-
-  // }, [createNewDrawer])
 
   return (
     <div className="CreateDrawerPage">
@@ -84,18 +76,29 @@ console.log("user ID", user._id)
         <br />
         <MyButton
           href={null}
-          btnName="Create"
+          btnName={<Icon icon="typcn:plus" />}
           handleNewDrawerCreate={handleCreate}
           drawerName={drawerName}
         />
         <br />
       </form>
-      <button
+      {/* <button
         onClick={() => navigate(-1)}
         className="btn btn-outline-success cancel-btn"
       >
         Cancel
-      </button>
+      </button> */}
+
+      <div>
+        {" "}
+        <Icon
+          className="back-btn"
+          icon="icon-park-outline:back"
+          color="black"
+          width="50"
+          onClick={() => navigate(-1)}
+        />
+      </div>
     </div>
   );
 }

@@ -20,7 +20,8 @@ textarea {
 .screenshot {
     /* min-height: 300px;
     border: solid 1px #ccc; */
-    width: 100%;
+    width: 90%;
+    margin:auto;
     height: min-content;
     /* border:4px dotted pink; */
     background-color:rgb(240, 204, 224, 0.3);
@@ -36,4 +37,12 @@ textarea {
 
 .input{
     outline:pink
+}
+
+.or {
+    margin:10px
+}
+
+.buttons-div {
+    text-align: center;
 }

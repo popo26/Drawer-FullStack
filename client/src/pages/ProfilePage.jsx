@@ -11,6 +11,7 @@ import { Icon } from "@iconify/react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
 import axios from "axios";
+import "../css/ProfilePage.css";
 
 export default function ProfilePage({ user, setUser }) {
   const navigate = useNavigate();
@@ -63,16 +64,14 @@ export default function ProfilePage({ user, setUser }) {
       });
   };
 
-
   const handlePasswordChange = (e) => {
     e.preventDefault();
     console.log("Change Password clicked");
 
     axios
       // .post(`http://127.0.0.1:8080/api/users/changepassword`, {
-        .put(`http://127.0.0.1:8080/api/users/changepassword/${user._id}`, {
-
-        _id:user._id,
+      .put(`http://127.0.0.1:8080/api/users/changepassword/${user._id}`, {
+        _id: user._id,
         email: user.email,
         password: user.password,
         username: user.username,
@@ -100,11 +99,11 @@ export default function ProfilePage({ user, setUser }) {
   };
 
   return (
-    <div>
+    <div className="ProfilePage">
       <Form>
         <Form.Group
           as={Row}
-          className="mb-3"
+          className="mb-3 username-form"
           controlId="formHorizontalUsername"
         >
           <Form.Label column sm={2}>
@@ -126,7 +125,7 @@ export default function ProfilePage({ user, setUser }) {
           </Col>
         </Form.Group>
 
-        <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Group as={Row} className="mb-3 email-form" controlId="formHorizontalEmail">
           <Form.Label column sm={2}>
             Email
           </Form.Label>
@@ -148,7 +147,7 @@ export default function ProfilePage({ user, setUser }) {
 
         <Form.Group
           as={Row}
-          className="mb-3"
+          className="mb-3 password-form"
           controlId="formHorizontalPassword"
         >
           <Form.Label column sm={2}>
@@ -166,7 +165,6 @@ export default function ProfilePage({ user, setUser }) {
           <Col sm={2}>
             {/* <Button variant="dark" type="submit" onClick={handleClick}> */}
             <Button variant="dark" type="submit" onClick={handlePasswordChange}>
-
               Change
             </Button>
           </Col>

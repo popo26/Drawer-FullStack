@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
+import "../css/SearchPage.css";
 
 export default function Search({user}) {
   const [searchItem, setSearchItem] = useState("");
@@ -54,7 +55,7 @@ export default function Search({user}) {
           </Button>
         </form>
 
-        <div>
+        <div className="search-result-div">
           {searchResult.length != 0 ? (
             searchResult.map((item) => {
               return (

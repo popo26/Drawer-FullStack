@@ -41,7 +41,7 @@ const img = {
 };
 
 // export default function PerScribblePage({ data, files, setFiles }) {
-export default function PerScribblePage({user, setUser}) {
+export default function PerScribblePage({ user, setUser }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
@@ -69,11 +69,20 @@ export default function PerScribblePage({user, setUser}) {
   //console.log("Target", target);
   //console.log("Data context", DataProvider);
 
-  //Need to have scribble content onload so that decodeHtml function can be used
+  //If I add this content doesn't get displayed
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in Scribble List", userInBrowser);
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+  }, []);
 
+  //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {
     if (!loadingScribbles) {
       setSecreenshots(target.content);
+
       if (!loadingFiles) {
         const newFiles = JSON.parse(sessionStorage.getItem("files"));
         console.log("newFiles", newFiles);
@@ -110,7 +119,9 @@ export default function PerScribblePage({user, setUser}) {
     if (response == true) {
       deleteScribble(id);
       const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-      scribbleToBeDeleted[0].stray == true ? navigate("/stray") : navigate("/home");
+      scribbleToBeDeleted[0].stray == true
+        ? navigate("/stray")
+        : navigate("/home");
       navigate(0);
     }
     // confirm(`Are you sure to delete this scribble? -ID:${id}`);

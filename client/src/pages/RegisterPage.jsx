@@ -34,7 +34,7 @@ export default function RegisterPage({ user, setUser }) {
   }, []);
 
   const handleChange = (e) => {
-    setMessage("")
+    setMessage("");
     //console.log(e.target.value)
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
     console.log(userForm);
@@ -71,15 +71,14 @@ export default function RegisterPage({ user, setUser }) {
             navigate("/login");
           }, 1000);
         } else {
-          console.log("username already taken");
-          setMessage("That email address is taken.")
-
+          console.log("username already taken1");
+          setMessage("That email address is taken1.");
         }
       })
       .catch((error) => {
-        console.log("signup error: ");
+        console.log("That email address is taken2.");
         console.log(error);
-        setMessage("Signup Error.")
+        setMessage("That email address is taken2.");
       });
   };
 
@@ -100,7 +99,6 @@ export default function RegisterPage({ user, setUser }) {
               name="username"
               onChange={handleChange}
             />
-     
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -130,7 +128,7 @@ export default function RegisterPage({ user, setUser }) {
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             {/* <a href="#">Don't remember?</a> */}
           </Form.Group>
-          {message && <Alert variant="danger" >{message}</Alert>}
+          {message && <Alert variant="danger">{message}</Alert>}
           <Button variant="dark" type="submit" onClick={handleSubmitRegister}>
             Register
           </Button>

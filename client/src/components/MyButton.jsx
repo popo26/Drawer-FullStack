@@ -22,7 +22,7 @@ export default function MyButton({
         {/* <button onClick={handleClick} className="btn btn-success">
           {btnName}
         </button> */}
-        <Button variant="success" onClick={handleClick}>
+        <Button variant="dark" onClick={handleClick}>
           {" "}
           {btnName}
         </Button>{" "}

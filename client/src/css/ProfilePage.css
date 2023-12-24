@@ -1,0 +1,11 @@
+.ProfilePage {
+  padding-top: 40px;
+}
+
+.username-form,
+.email-form,
+.password-form {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+}

@@ -64,8 +64,6 @@ function FileDrop({ tempFiles, setTempFiles, baseImage, setBaseImage }) {
       //const newFiles = [...tempFiles];
       // setTempFiles([...newFiles, acceptedFiles]);
 
-    
-
       const newFiles = acceptedFiles.map((file) => {
         console.log("URL", URL.createObjectURL(file));
         return {
@@ -165,9 +163,9 @@ function FileDrop({ tempFiles, setTempFiles, baseImage, setBaseImage }) {
         <aside style={thumbsContainer}>{thumbs}</aside>
       </div>
 
-<div style={{marginTop:"20px"}}>
-      <input type="file" onChange={(e) => uploadImage(e)}></input>
-      <img src={baseImage} width="100px" />
+      <div style={{ marginTop: "30px" }}>
+        <input type="file" onChange={(e) => uploadImage(e)}></input>
+        <img src={baseImage} width="100px" />
       </div>
     </section>
   );

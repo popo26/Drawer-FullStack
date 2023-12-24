@@ -27,7 +27,7 @@ export default function LoginPage({ user, setUser }) {
   }, []);
 
   const handleChange = (e) => {
-    setMessage("")
+    setMessage("");
     setUser({ ...user, [e.target.name]: e.target.value });
     //console.log(user);
   };
@@ -59,7 +59,7 @@ export default function LoginPage({ user, setUser }) {
       .catch((error) => {
         console.log("login error: ");
         console.log(error);
-        setMessage("Invalid email or password")
+        setMessage("Invalid email or password");
       });
   };
 
@@ -94,7 +94,7 @@ export default function LoginPage({ user, setUser }) {
           {/* <a href="#">Don't remember?</a> */}
         </Form.Group>
         {/* <Form.Text className="text-muted" >{message}</Form.Text><br/> */}
-        {message && <Alert variant="danger" >{message}</Alert>}
+        {message && <Alert variant="danger">{message}</Alert>}
 
         <Button variant="dark" type="submit" onClick={handleClick}>
           Login

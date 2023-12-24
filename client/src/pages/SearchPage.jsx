@@ -2,9 +2,18 @@ import { useNavigate } from "react-router-dom";
 import Search from "../components/Search";
 import "../css/SearchPage.css";
 import { Icon } from "@iconify/react";
+import { useEffect } from "react";
 
 export default function SearchPage({user, setUser}) {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+    // return ()=> localStorage.setItem("user", JSON.stringify(user));
+  }, []);
 
   return (
     <div className="SearchPage">

@@ -5,6 +5,7 @@ import { useEffect, useHistory } from "react";
 import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 //import { session } from "../../../backend/passport";
+import { Icon } from "@iconify/react";
 
 export default function HomePage({
   expandedIndex,
@@ -32,7 +33,7 @@ export default function HomePage({
       />
 
       <Link to="/create" className="btn btn-dark btn-lg">
-        Create New Drawer
+      <Icon icon="typcn:plus" /><Icon icon="mingcute:drawer-line" color="white" width="30" />
       </Link>
     </div>
   );

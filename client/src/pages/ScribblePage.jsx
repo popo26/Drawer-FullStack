@@ -11,7 +11,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 
-export default function ScribblePage({user, setUser}) {
+export default function ScribblePage({ user, setUser }) {
   // export default function ScribblePage({baseImage, setBaseImage}) {
   // export default function ScribblePage({
   //   files,
@@ -22,7 +22,7 @@ export default function ScribblePage({user, setUser}) {
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
-  const [content, setContent] = useState("Enter");
+  const [content, setContent] = useState("Scribble & Screenshot here ..");
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
@@ -33,7 +33,6 @@ export default function ScribblePage({user, setUser}) {
   // const [baseImage1, setBaseImage1] = useState("");
   // const [baseImage2, setBaseImage2] = useState("");
   // const [baseImage3, setBaseImage3] = useState("");
-
 
   //const [image64, setImage64] = useState([])
 
@@ -69,6 +68,13 @@ export default function ScribblePage({user, setUser}) {
   //   }
   //   );
 
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in Scribble List", userInBrowser);
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+  }, []);
 
   const convertFileToBase64 = (file) => {
     const blob = new Blob([JSON.stringify(file, null, 2)], {
@@ -130,7 +136,6 @@ export default function ScribblePage({user, setUser}) {
   //   return result_base64;
   // }
 
-
   const createNewScribble = (e) => {
     body.current = document.querySelector(".screenshot").innerHTML;
     //console.log("Current body", body.current);
@@ -147,7 +152,7 @@ export default function ScribblePage({user, setUser}) {
       console.log("Function", files[x].preview);
       // const r =  convertFileToBase64(files[x].preview);
       // console.log("R", r);
-      convertFileToBase64(files[x].preview)
+      convertFileToBase64(files[x].preview);
 
       const perFile = {};
       perFile["path"] = files[x]["file"].path;
@@ -156,20 +161,21 @@ export default function ScribblePage({user, setUser}) {
       // perFile["preview"] = files[x].preview;
       perFile["preview"] = files[x].preview;
 
-
       perFile["size"] = files[x]["file"].size;
       perFile["format"] = files[x]["file"].type;
       //perFile['test'] = sessionStorage.getItem("image");
       filesInfo.push(perFile);
     }
 
- 
+    const contentDetails =
+      content != "Scribble & Screenshot here .." ? body.current : "No scribble";
 
     let dataPost = {
       userId: user._id,
       title: scribbleTitle ? scribbleTitle : "Untitled",
       type: "scribble",
-      content: body.current,
+      // content: body.current,
+      content: contentDetails,
       stray: true,
       level: 1,
       attachment: attachmentBool,
@@ -209,7 +215,7 @@ export default function ScribblePage({user, setUser}) {
     setContent("");
     body.current = "";
     navigate("/stray");
-    navigate(0)
+    navigate(0);
   };
 
   // const deleteAttachment = (blob) => {
@@ -339,40 +345,27 @@ export default function ScribblePage({user, setUser}) {
         setTempFiles={setTempFiles}
         baseImage={baseImage}
         setBaseImage={setBaseImage}
-
       />
 
       <br />
-      <Button onClick={(e) => handleSubmitScribble(e)} variant="dark">
-        Just Save
-      </Button>
-      {/* <button
-        onClick={() => {
-          // body.current = document.querySelector(".input").innerText;
-          // setContent(body.current);
-          // console.log("CURRENT HERE", body.current)
-          handleSubmitScribble();
-        }}
-      >
-        Just Save
-      </button> */}
-      {/* <div> */}
-      <span>or</span>
-      <Icon
-        icon="mingcute:drawer-line"
-        color="black"
-        width="30"
-        height="30"
-        onClick={() => {
-          createNewScribble();
-        
-          navigate("/sort", { state: { id: selectedScribbleId } });
-          //if refresh selectedScribble doesnt get updated in SessionStorage
-          //navigate(0)
-        }}
-      />
-      {/* </div> */}
 
+      <div className="buttons-div">
+        <Button onClick={(e) => handleSubmitScribble(e)} variant="dark">
+          Just Save
+        </Button>
+        <span className="or">or</span>
+        <Button variant="dark">
+          <Icon
+            icon="mingcute:drawer-line"
+            color="white"
+            width="24"
+            onClick={() => {
+              createNewScribble();
+              navigate("/sort", { state: { id: selectedScribbleId } });
+            }}
+          />
+        </Button>
+      </div>
       <div>
         {" "}
         <Icon
