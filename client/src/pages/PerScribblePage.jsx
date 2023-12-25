@@ -8,6 +8,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { DataProvider } from "../context/DataContext";
+import { useUserContext } from "../context/UserContext";
 
 const thumbsContainer = {
   display: "flex",
@@ -41,7 +42,8 @@ const img = {
 };
 
 // export default function PerScribblePage({ data, files, setFiles }) {
-export default function PerScribblePage({ user, setUser }) {
+// export default function PerScribblePage({ user, setUser }) {
+export default function PerScribblePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
@@ -58,6 +60,7 @@ export default function PerScribblePage({ user, setUser }) {
   const body = useRef(screenshots);
   // const [files, setFiles] = useFileContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
+  const { user, setUser } = useUserContext();
 
   //const [currentScribbles, setCurrentScribbles] = useState(scribbles);
   // const [loading, setLoading] = useState(true);
@@ -70,13 +73,13 @@ export default function PerScribblePage({ user, setUser }) {
   //console.log("Data context", DataProvider);
 
   //If I add this content doesn't get displayed
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in Scribble List", userInBrowser);
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in Scribble List", userInBrowser);
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   //Need to have scribble content onload so that decodeHtml function can be used
   useEffect(() => {

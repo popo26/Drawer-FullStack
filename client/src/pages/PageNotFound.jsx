@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
 import "../css/PageNotFound.css";
 import { useEffect } from "react";
+import { useUserContext } from "../context/UserContext";
 
-export function PageNotFound({ user, setUser }) {
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in Scribble List", userInBrowser);
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+// export function PageNotFound({ user, setUser }) {
+  export function PageNotFound() {
+
+    const {user, setUser} = useUserContext();
+
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in Scribble List", userInBrowser);
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   return (
     <div className="PageNotFound">

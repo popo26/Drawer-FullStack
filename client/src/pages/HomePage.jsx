@@ -11,10 +11,10 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 export default function HomePage({
   expandedIndex,
   handleExpand,
-  user,
-  setUser,
+  // user,
+  // setUser,
 }) {
-  // const {user} = useUserContext();
+  const { user, setUser } = useUserContext();
   console.log("user Home", user);
 
   useEffect(() => {

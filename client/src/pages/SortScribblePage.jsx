@@ -10,8 +10,10 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useUserContext } from "../context/UserContext";
 
-export default function SortScribblePage({ user, setUser }) {
+// export default function SortScribblePage({ user, setUser }) {
+export default function SortScribblePage() {
   const [newDrawerNameFieldSelected, setNewDrawerNameFieldSelected] =
     useState(true);
   const [displayMessage, setDisplayMessage] = useState(
@@ -33,6 +35,7 @@ export default function SortScribblePage({ user, setUser }) {
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
+  const { user, setUser } = useUserContext();
 
   //console.log("State", state.id);
   console.log("user id", user);
@@ -45,9 +48,9 @@ export default function SortScribblePage({ user, setUser }) {
 
   //To persist selected Scribble ID so browser refresh won't wipe it
   useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in browser", userInBrowser);
-    setUser(userInBrowser);
+    // const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    // console.log("user in browser", userInBrowser);
+    // setUser(userInBrowser);
     handleSelectedDrawerId(""); //this is still bit in quesion
   }, []);
 
@@ -139,23 +142,28 @@ export default function SortScribblePage({ user, setUser }) {
 
   // const tooltipCreate = <Tooltip id="tooltip">Create & Save</Tooltip>;
 
-  const scrb = scribbles.find((item) => item._id === selectedScribbleId);
-  //console.log('scrb', scrb.title)
+  const scrb = scribbles.filter((item) => item._id == selectedScribbleId);
+  console.log("scrb", scrb);
 
   const destinationDrawer = drawers.find(
     (item) => item._id === selectedDrawerId
   );
+
+  if (loadingScribbles) {
+    return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
+  }
 
   return (
     <div id="page">
       {/* <h4>Scribble ID: {selectedScribbleId}</h4>
       <h4>Selected Drawer Id: {selectedDrawerId}</h4> */}
       <h4>
-        {!loadingScribbles && scrb.title}
+        {/* {!loadingScribbles && scrb.title} */}
+        {!loadingScribbles && scrb[0].title}
         <Icon icon="tabler:scribble" color="red" />{" "}
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && destinationDrawer?.name}{" "}
-        <Icon icon="mingcute:drawer-line" color="red"  />
+        <Icon icon="mingcute:drawer-line" color="red" />
       </h4>
       <div className="scrb-createNewDrawer-div">
         {newDrawerNameFieldSelected && (

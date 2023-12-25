@@ -6,17 +6,21 @@ import "../css/CreateDrawerPage.css";
 import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function CreateDrawerPage({ user, setUser }) {
+// export default function CreateDrawerPage({ user, setUser }) {
+  export default function CreateDrawerPage() {
+
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
+  const {user, setUser} = useUserContext();
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in browser", userInBrowser);
-    setUser(userInBrowser);
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in browser", userInBrowser);
+  //   setUser(userInBrowser);
+  // }, []);
 
   console.log("user ID", user._id);
 

@@ -7,17 +7,19 @@ import { Icon } from "@iconify/react";
 import { Accordion } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
-
+import { useUserContext } from "../context/UserContext";
 
 export default function MyAccordion({
   expandedIndex,
   setExpandedIndex,
   handleExpand,
-  user
+  // user
 }) {
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
+
+  const { user } = useUserContext();
 
   // const [, updateState] = useState();
   // const forceUpdate = useCallback(() => updateState({}), []);
@@ -39,7 +41,11 @@ export default function MyAccordion({
       }
     }
     return scribbleArray.map((item) => (
-      <Link key={item._id} to={`/scribble/${item._id}`} onClick={()=>setSelectedScribbleId(item._id)}>
+      <Link
+        key={item._id}
+        to={`/scribble/${item._id}`}
+        onClick={() => setSelectedScribbleId(item._id)}
+      >
         <p className={"individual-scribble scrb-indent" + item.level}>
           {item.title}{" "}
         </p>
@@ -117,12 +123,10 @@ export default function MyAccordion({
     });
   };
 
-
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
     // if (!item.drawerId) {
-      if (!item.drawerId && (item.userId === user._id)) {
-
+    if (!item.drawerId && item.userId === user._id) {
       const isExpanded = item._id == expandedIndex;
       const triangle = (
         <div className="triangle">

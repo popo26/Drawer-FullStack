@@ -30,8 +30,8 @@ export default function AppRoutes({
   setFiles,
   // baseImage,
   // setBaseImage
-  user,
-  setUser,
+  // user,
+  // setUser,
 }) {
   return (
     <div>
@@ -39,9 +39,12 @@ export default function AppRoutes({
         <Route
           path="/login"
           element={
-            <UnPrivateRoute user={user}>
-              <LoginPage user={user} setUser={setUser} />
+            <UnPrivateRoute>
+              <LoginPage />
             </UnPrivateRoute>
+            // <UnPrivateRoute user={user}>
+            //   <LoginPage user={user} setUser={setUser} />
+            // </UnPrivateRoute>
           }
         ></Route>
 
@@ -53,8 +56,11 @@ export default function AppRoutes({
         <Route
           path="/register"
           element={
-            <UnPrivateRoute user={user}>
-              <RegisterPage user={user} setUser={setUser} />
+            // <UnPrivateRoute user={user}>
+            //   <RegisterPage user={user} setUser={setUser} />
+            // </UnPrivateRoute>
+            <UnPrivateRoute>
+              <RegisterPage />
             </UnPrivateRoute>
           }
         ></Route>
@@ -69,6 +75,17 @@ export default function AppRoutes({
         <Route
           path="/home"
           element={
+            <PrivateRoute>
+              <HomePage
+                expandedIndex={expandedIndex}
+                handleExpand={handleExpand}
+              />
+            </PrivateRoute>
+          }
+        ></Route>
+        {/* <Route
+          path="/home"
+          element={
             <PrivateRoute user={user}>
               <HomePage
                 expandedIndex={expandedIndex}
@@ -78,115 +95,151 @@ export default function AppRoutes({
               />
             </PrivateRoute>
           }
-        ></Route>
+        ></Route> */}
         <Route
           path="/search"
           element={
-            <PrivateRoute user={user}>
-              <SearchPage user={user} setUser={setUser} />
+            <PrivateRoute>
+              <SearchPage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <SearchPage user={user} setUser={setUser} />
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/scribble"
           // element={<ScribblePage files={files} setFiles={setFiles} />}
           element={
-            <PrivateRoute user={user}>
-              <ScribblePage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <ScribblePage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <ScribblePage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/profile"
           element={
-            <PrivateRoute user={user}>
-              <ProfilePage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <ProfilePage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <ProfilePage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/stray"
           element={
-            <PrivateRoute user={user}>
-              <ScribbleListPage files={files} user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <ScribbleListPage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <ScribbleListPage files={files} user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
           // element={<ScribbleListPage baseImage={baseImage} setBaseImage={setBaseImage}/>}
         ></Route>
         <Route
           path="/scribble/:id"
           element={
-            <PrivateRoute user={user}>
-              <PerScribblePage
-                files={files}
-                setFiles={setFiles}
-                user={user}
-                setUser={setUser}
-              />
+            <PrivateRoute>
+              <PerScribblePage files={files} setFiles={setFiles} />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <PerScribblePage
+            //     files={files}
+            //     setFiles={setFiles}
+            //     user={user}
+            //     setUser={setUser}
+            //   />
+            // </PrivateRoute>
           }
           // element={<PerScribblePage baseImage={baseImage} setBaseImage={setBaseImage}/>}
         ></Route>
         <Route
           path="/sort"
           element={
-            <PrivateRoute user={user}>
-              <SortScribblePage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <SortScribblePage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <SortScribblePage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/sort-preview"
           element={
-            <PrivateRoute user={user}>
-              <SortScribblePreviewPage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <SortScribblePreviewPage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <SortScribblePreviewPage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
 
         <Route
           path="/sort-drawer"
           element={
-            <PrivateRoute user={user}>
-              <SortDrawerPage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <SortDrawerPage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <SortDrawerPage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/sort-drawer-preview"
           element={
-            <PrivateRoute user={user}>
-              <SortDrawerPreviewPage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <SortDrawerPreviewPage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <SortDrawerPreviewPage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
 
         <Route
           path="/password-reset"
           element={
-            <PrivateRoute user={user}>
-              <PasswordResetPage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <PasswordResetPage />{" "}
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <PasswordResetPage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/create"
           element={
-            <PrivateRoute user={user}>
-              <CreateDrawerPage user={user} setUser={setUser} />{" "}
+            <PrivateRoute>
+              <CreateDrawerPage />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <CreateDrawerPage user={user} setUser={setUser} />{" "}
+            // </PrivateRoute>
           }
         ></Route>
         <Route
           path="/drawer-list/:id"
           element={
-            <PrivateRoute user={user}>
-              <DrawerListPage
-                expandedIndex={expandedIndex}
-                user={user}
-                setUser={setUser}
-              />
+            <PrivateRoute>
+              <DrawerListPage expandedIndex={expandedIndex} />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <DrawerListPage
+            //     expandedIndex={expandedIndex}
+            //     user={user}
+            //     setUser={setUser}
+            //   />
+            // </PrivateRoute>
           }
         ></Route>
         <Route
@@ -197,9 +250,12 @@ export default function AppRoutes({
         <Route
           path="*"
           element={
-            <PrivateRoute user={user}>
-              <PageNotFound />{" "}
+            <PrivateRoute>
+              <PageNotFound />
             </PrivateRoute>
+            // <PrivateRoute user={user}>
+            //   <PageNotFound />{" "}
+            // </PrivateRoute>
           }
         />
       </Routes>

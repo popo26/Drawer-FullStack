@@ -5,13 +5,17 @@ import { Alert, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo_d.png";
+import { useUserContext } from "../context/UserContext";
 
-export default function LoginPage({ user, setUser }) {
+// export default function LoginPage({ user, setUser }) {
+export default function LoginPage() {
   // const [user, setUser] = useState({
   //   email: "",
   //   password:"",
   //   isLoggedIn:false,
   // });
+
+  const { user, setUser } = useUserContext();
 
   const navigate = useNavigate();
 
@@ -19,12 +23,12 @@ export default function LoginPage({ user, setUser }) {
 
   //console.log("user in Login", user)
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   const handleChange = (e) => {
     setMessage("");
@@ -51,6 +55,7 @@ export default function LoginPage({ user, setUser }) {
 
           console.log("successful signup");
           navigate("/home");
+          //navigate(0);
         } else {
           console.log("email already taken");
           setUser({ ...user, isLoggedIn: false });

@@ -5,23 +5,26 @@ import "../css/ScribbleListPage.css";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
+import { useUserContext } from "../context/UserContext";
 
 // export default function ScribbleListPage({ files }) {
-export default function ScribbleListPage({ user, setUser }) {
+// export default function ScribbleListPage({ user, setUser }) {
+export default function ScribbleListPage() {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   // const [files] = useFileContext();
   const { files } = useFileContext();
+  const { user, setUser } = useUserContext();
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in Scribble List", userInBrowser);
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in Scribble List", userInBrowser);
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -79,7 +82,6 @@ export default function ScribbleListPage({ user, setUser }) {
             )}
             {/* ID:{item._id}, {item.title} */}
             {item.title}
-
           </Link>{" "}
           {/* </a>{" "} */}
           <a

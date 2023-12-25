@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { Icon } from "@iconify/react";
 import "../css/SearchPage.css";
+import { useUserContext } from "../context/UserContext";
 
-export default function Search({ user }) {
+// export default function Search({ user }) {
+export default function Search() {
   const [searchItem, setSearchItem] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { drawers, scribbles } = useDataContext();
+  const { user } = useUserContext();
 
   //Testing out search results with userId1
 

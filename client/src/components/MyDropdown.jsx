@@ -5,13 +5,16 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function MyDropdown({user}) {
+// export default function MyDropdown({user}) {
+export default function MyDropdown() {
   const [open, setOpen] = useState(false);
   const [currentDropdown, setCurrentDropDown] = useState("Existing Drawers");
   const { drawers } = useDataContext();
   const { handleSelectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved] = useDrawerToBeMovedContext();
+  const { user } = useUserContext();
 
   //++++++++++NOt sure if I need this++++++++++++++++++++
   const handleOpen = () => {
@@ -97,8 +100,7 @@ export default function MyDropdown({user}) {
   // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
     // if (item.root === true) {
-      if (item.root === true && item.userId === user._id) {
-
+    if (item.root === true && item.userId === user._id) {
       return (
         <>
           {item._id == drawerToBeMoved ? (

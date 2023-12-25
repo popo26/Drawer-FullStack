@@ -5,9 +5,11 @@ import { Button, Form, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo_d.png";
+import { useUserContext } from "../context/UserContext";
 
 // export default function RegisterPage(props, {user, setUser}) {
-export default function RegisterPage({ user, setUser }) {
+// export default function RegisterPage({ user, setUser }) {
+export default function RegisterPage() {
   const [userForm, setUserForm] = useState({
     email: "",
     password: "",
@@ -19,13 +21,14 @@ export default function RegisterPage({ user, setUser }) {
   let timerID = useRef(null);
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const { user, setUser } = useUserContext();
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   useEffect(() => {
     return () => {

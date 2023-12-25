@@ -30,7 +30,9 @@ export default function InputField({
         className="form-control"
       /> */}
 
-      <Form.Group className="mb-3" controlId="formBasicInput">
+      {/* <Form.Group className="mb-3" controlId="formBasicInput"> */}
+      <Form.Group className="mb-3" >
+
         <Form.Label hidden htmlFor={htmlFor}>
           {placeholder}
         </Form.Label>

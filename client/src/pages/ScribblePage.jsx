@@ -10,8 +10,10 @@ import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function ScribblePage({ user, setUser }) {
+// export default function ScribblePage({ user, setUser }) {
+export default function ScribblePage() {
   // export default function ScribblePage({baseImage, setBaseImage}) {
   // export default function ScribblePage({
   //   files,
@@ -28,11 +30,14 @@ export default function ScribblePage({ user, setUser }) {
     useSelectedScribbleContext();
   // const [files, setFiles] = useFileContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
+  const { user, setUser } = useUserContext();
 
   const [baseImage, setBaseImage] = useState("");
   // const [baseImage1, setBaseImage1] = useState("");
   // const [baseImage2, setBaseImage2] = useState("");
   // const [baseImage3, setBaseImage3] = useState("");
+
+  let timerID = useRef(null);
 
   //const [image64, setImage64] = useState([])
 
@@ -68,12 +73,18 @@ export default function ScribblePage({ user, setUser }) {
   //   }
   //   );
 
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in Scribble List", userInBrowser);
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in Scribble List", userInBrowser);
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
+    return () => {
+      clearTimeout(timerID);
+    };
   }, []);
 
   const convertFileToBase64 = (file) => {
@@ -136,7 +147,7 @@ export default function ScribblePage({ user, setUser }) {
   //   return result_base64;
   // }
 
-  const createNewScribble = (e) => {
+  const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
     //console.log("Current body", body.current);
     setContent(body.current);
@@ -194,6 +205,8 @@ export default function ScribblePage({ user, setUser }) {
         //setFiles((prevItems) => [...prevItems, json.data["files"]]);
         //sessionStorage.setItem("files", JSON.stringify(files))
         setSelectedScribbleId(json.data._id);
+        console.log("selected Scribble ID setting complete");
+        console.log("JSON", json);
       })
       .catch((error) => console.error(error.message));
   };
@@ -350,7 +363,7 @@ export default function ScribblePage({ user, setUser }) {
       <br />
 
       <div className="buttons-div">
-        <Button onClick={(e) => handleSubmitScribble(e)} variant="dark">
+        <Button onClick={() => handleSubmitScribble()} variant="dark">
           Just Save
         </Button>
         <span className="or">or</span>
@@ -361,7 +374,12 @@ export default function ScribblePage({ user, setUser }) {
             width="24"
             onClick={() => {
               createNewScribble();
-              navigate("/sort", { state: { id: selectedScribbleId } });
+              //navigate("/sort", { state: { id: selectedScribbleId } })
+              //Because of the async function above, selectedScribble ID doesn't get updated in time. This is still workaround as the error page still shows up in the halfway
+              timerID = setTimeout(() => {
+                navigate("/sort");
+                navigate(0);
+              }, 1000);
             }}
           />
         </Button>

@@ -10,8 +10,10 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function SortDrawerPage({user, setUser}) {
+// export default function SortDrawerPage({user, setUser}) {
+export default function SortDrawerPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
@@ -24,6 +26,7 @@ export default function SortDrawerPage({user, setUser}) {
   const [displayMessage, setDisplayMessage] = useState(
     "Or move it to existing drawer"
   );
+  const { user, setUser } = useUserContext();
 
   console.log("State", state);
   console.log("DrawerToBeMoved", drawerToBeMoved);
@@ -43,11 +46,11 @@ export default function SortDrawerPage({user, setUser}) {
     };
   }, []);
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in browser", userInBrowser);
-    setUser(userInBrowser);
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in browser", userInBrowser);
+  //   setUser(userInBrowser);
+  // }, []);
 
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     const drawerToBeMovedObject = drawers.filter(
@@ -282,7 +285,7 @@ export default function SortDrawerPage({user, setUser}) {
     <div id="page">
       <h4 className="sort-drawer-title">
         {/* Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID */}
-        Drawer to be moved : {drawerToBeMovedObj['name']}---ID
+        Drawer to be moved : {drawerToBeMovedObj["name"]}---ID
         {drawerToBeMoved}
       </h4>
       <h4>Selected drawer Id : {selectedDrawerId}</h4>
@@ -301,8 +304,7 @@ export default function SortDrawerPage({user, setUser}) {
           <MyButton
             href={null}
             // btnName="Create & Move"
-            btnName={<Icon icon="ic:baseline-move-down" width="30"/>}
-
+            btnName={<Icon icon="ic:baseline-move-down" width="30" />}
             handleNewDrawerCreate={handleCreate}
             drawerName={drawerName}
           />
@@ -316,7 +318,7 @@ export default function SortDrawerPage({user, setUser}) {
       {!newDrawerNameFieldSelected && (
         <>
           <div>
-            <MyDropdown user={user}/>
+            <MyDropdown user={user} />
           </div>
           <Button
             variant="dark"
@@ -333,7 +335,7 @@ export default function SortDrawerPage({user, setUser}) {
               }
             }}
           >
-             <Icon icon="tabler:player-track-next-filled" />
+            <Icon icon="tabler:player-track-next-filled" />
           </Button>
         </>
       )}

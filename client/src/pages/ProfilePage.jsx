@@ -12,17 +12,19 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
 import axios from "axios";
 import "../css/ProfilePage.css";
+import { useUserContext } from "../context/UserContext";
 
-export default function ProfilePage({ user, setUser }) {
+// export default function ProfilePage({ user, setUser }) {
+export default function ProfilePage() {
   const navigate = useNavigate();
+  const { user, setUser } = useUserContext();
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-    // return ()=> localStorage.setItem("user", JSON.stringify(user));
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -120,12 +122,16 @@ export default function ProfilePage({ user, setUser }) {
           </Col>
           <Col sm={2}>
             <Button variant="dark" type="submit" onClick={handleClick}>
-            <Icon icon="material-symbols:change-circle-outline" width="30"/>
+              <Icon icon="material-symbols:change-circle-outline" width="30" />
             </Button>
           </Col>
         </Form.Group>
 
-        <Form.Group as={Row} className="mb-3 email-form" controlId="formHorizontalEmail">
+        <Form.Group
+          as={Row}
+          className="mb-3 email-form"
+          controlId="formHorizontalEmail"
+        >
           <Form.Label column sm={2}>
             Email
           </Form.Label>
@@ -140,7 +146,7 @@ export default function ProfilePage({ user, setUser }) {
           </Col>
           <Col sm={2}>
             <Button variant="dark" type="submit" onClick={handleClick}>
-            <Icon icon="material-symbols:change-circle-outline" width="30"/>
+              <Icon icon="material-symbols:change-circle-outline" width="30" />
             </Button>
           </Col>
         </Form.Group>
@@ -165,7 +171,7 @@ export default function ProfilePage({ user, setUser }) {
           <Col sm={2}>
             {/* <Button variant="dark" type="submit" onClick={handleClick}> */}
             <Button variant="dark" type="submit" onClick={handlePasswordChange}>
-            <Icon icon="material-symbols:change-circle-outline" width="30"/>
+              <Icon icon="material-symbols:change-circle-outline" width="30" />
             </Button>
           </Col>
         </Form.Group>

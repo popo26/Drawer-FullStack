@@ -9,14 +9,17 @@ import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function SortDrawerPreviewPage({ user, setUser }) {
+// export default function SortDrawerPreviewPage({ user, setUser }) {
+export default function SortDrawerPreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
+  const { user, setUser } = useUserContext();
 
   //console.log("State", state);
   console.log("drawerToBeMoved", sessionStorage.getItem("drawerToBeMoved"));
@@ -35,11 +38,11 @@ export default function SortDrawerPreviewPage({ user, setUser }) {
     handleSelectedDrawerId(sessionStorage.getItem("selectedDrawerId"));
   }, []);
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    console.log("user in browser", userInBrowser);
-    setUser(userInBrowser);
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   console.log("user in browser", userInBrowser);
+  //   setUser(userInBrowser);
+  // }, []);
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;

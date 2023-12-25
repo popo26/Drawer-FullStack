@@ -7,15 +7,28 @@ import MyButton from "../components/MyButton";
 import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
+import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function SortScribblePreviewPage({ user, setUser }) {
+// export default function SortScribblePreviewPage({ user, setUser }) {
+export default function SortScribblePreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [newSubDrawerName, setNewSubDrawerName] = useState("");
   const [saveHereSelected, setSaveHereSelected] = useState(true);
   const [displayMessage, setDisplayMessage] = useState("Or create sub-drawer");
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const {
+    drawers,
+    scribbles,
+    setDrawers,
+    setScribbles,
+    loadingScribbles,
+    loading,
+  } = useDataContext();
   const [selectedScribbleId] = useSelectedScribbleContext();
+  const { selectedDrawerId, handleSelectedDrawerId } =
+    useSelectedDrawerContext();
+  const { user, setUser } = useUserContext();
 
   console.log("State", state.selectedDrawerId);
 
@@ -268,10 +281,25 @@ export default function SortScribblePreviewPage({ user, setUser }) {
     }
   };
 
+  const scrb = scribbles.find((item) => item._id === state.selectedScribbleId);
+  //console.log('scrb', scrb.tit
+
+  const destinationDrawer = drawers.find(
+    (item) => item._id === state.selectedDrawerId
+  );
+
   return (
     <div>
-      <p>Sort Preview - Selected Drawer ID: {state.selectedDrawerId}</p>
-      <p>Scribble ID: {state.selectedScribbleId}</p>
+      {/* <p>Sort Preview - Selected Drawer ID: {state.selectedDrawerId}</p>
+      <p>Scribble ID: {state.selectedScribbleId}</p> */}
+
+      <p>
+        {!loadingScribbles && scrb.title}
+        <Icon icon="tabler:scribble" color="red" />{" "}
+        <Icon icon="ri:arrow-right-fill" />
+        {selectedDrawerId && destinationDrawer?.name}{" "}
+        <Icon icon="mingcute:drawer-line" color="red" />
+      </p>
 
       <div>{renderedList}</div>
       <FindSubDrawers />

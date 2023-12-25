@@ -7,8 +7,10 @@ import ContentEditable from "react-contenteditable";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function DrawerListPage({ expandedIndex, user, setUser }) {
+// export default function DrawerListPage({ expandedIndex, user, setUser }) {
+export default function DrawerListPage({ expandedIndex }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [drawerNameToEdit, setDrawerNameToEdit] = useState("");
@@ -20,14 +22,14 @@ export default function DrawerListPage({ expandedIndex, user, setUser }) {
   const { selectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const text = useRef(drawerNameToEdit);
+  const { user, setUser } = useUserContext();
 
-
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   // ++++++++Delete Drawer and its sub-drawers and scribbles
   const deleteScribbles = (drawerId) => {
@@ -389,8 +391,7 @@ export default function DrawerListPage({ expandedIndex, user, setUser }) {
 
   const renderedList = drawers.map((item) => {
     // if (id == item._id) {
-      if (id == item._id && item.userId === user._id) {
-
+    if (id == item._id && item.userId === user._id) {
       return (
         <div key={item._id}>
           <div className="rendered-drawers">

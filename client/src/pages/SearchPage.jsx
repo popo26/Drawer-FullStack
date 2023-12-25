@@ -3,16 +3,19 @@ import Search from "../components/Search";
 import "../css/SearchPage.css";
 import { Icon } from "@iconify/react";
 import { useEffect } from "react";
+import { useUserContext } from "../context/UserContext";
 
-export default function SearchPage({user, setUser}) {
+// export default function SearchPage({user, setUser}) {
+export default function SearchPage() {
+  const { user, setUser } = useUserContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    if (userInBrowser) {
-      setUser(userInBrowser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
+  //   if (userInBrowser) {
+  //     setUser(userInBrowser);
+  //   }
+  // }, []);
 
   return (
     <div className="SearchPage">

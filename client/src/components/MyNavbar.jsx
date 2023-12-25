@@ -11,15 +11,19 @@ import { useState, useContext, useEffect } from "react";
 import { Button, Tooltip, OverlayTrigger, Badge } from "react-bootstrap";
 import logo from "../assets/logo_d1.png";
 import { useDataContext } from "../context/DataContext";
+import { useUserContext } from "../context/UserContext";
 
 // export default function MyNavbar({ user, setUser, currentStrayScribblesNum, setCurrentStrayScribblesNum }) {
-export default function MyNavbar({ user, setUser }) {
+// export default function MyNavbar({ user, setUser }) {
+  export default function MyNavbar() {
+
   const [isExpanded, setIsExpanded] = useState(false);
   const { scribbles } = useDataContext();
 
   const navigate = useNavigate();
 
   const [currentStrayScribblesNum, setCurrentStrayScribblesNum] = useState(0);
+  const {user, setUser} = useUserContext();
 
   useEffect(() => {
     const currentUser = localStorage.getItem("user");
