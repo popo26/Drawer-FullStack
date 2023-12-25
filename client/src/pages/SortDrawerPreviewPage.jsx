@@ -218,10 +218,11 @@ export default function SortDrawerPreviewPage() {
             {/* ID:{scrb._id}:{scrb.title}
             <span>-- [scribble]</span> */}
 
-            {scrb.title}
+           
             <span>
-              - <Icon icon="tabler:scribble" color="red" />
-            </span>
+              <Icon icon="tabler:scribble" color="black" /> 
+            </span> {" "}
+            {scrb.title}
           </p>
         ))
     );
@@ -237,10 +238,11 @@ export default function SortDrawerPreviewPage() {
         >
           {/* ID:{sub._id}:{sub.name}
           <span>-- [Sub-Drawer]</span> */}
-          {sub.name}
+         
           <span>
-            - <Icon icon="mingcute:drawer-line" color="red" />
-          </span>
+            <Icon icon="mingcute:drawer-line" color="black" />
+          </span> {" "}
+          {sub.name}
         </p>
       ));
   };
@@ -284,13 +286,13 @@ export default function SortDrawerPreviewPage() {
       </h3>
       <h3>To: {selectedDrawerId}</h3> */}
 
-      <h4 className="sort-drawer-title">
+      <h3 className="sort-drawer-title">
         {sessionStorage.getItem("drawerToBeMoved") && drawerToBeMovedObjName}
         <Icon icon="mingcute:drawer-line" color="red" />
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && destinationDrawerObjName}
         <Icon icon="mingcute:drawer-line" color="red" />
-      </h4>
+      </h3>
 
       <div className="drawer-content-result-div">
         <div>{renderedList}</div>

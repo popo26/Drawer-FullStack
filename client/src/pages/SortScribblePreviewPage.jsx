@@ -205,12 +205,10 @@ export default function SortScribblePreviewPage() {
     const result = scribbleArray.map((scrb) => (
       <p key={scrb._id} className={"sort-preview-scribbles scrb-indent" + 1}>
         {/* ID:{scrb._id}:{scrb.title} */}
-        {scrb.title}
-
         <span>
-          {" "}
-          - <Icon icon="tabler:scribble" color="red" />
-        </span>
+          <Icon icon="tabler:scribble" color="black" />
+        </span>{" "}
+        {scrb.title}
       </p>
     ));
     return result.length > 0 ? (
@@ -233,12 +231,10 @@ export default function SortScribblePreviewPage() {
     return subDrawersArray.map((sub) => (
       <p key={sub._id} className={"sort-preview-sub-drawers indent-" + 1}>
         {/* ID:{sub._id}:{sub.name} */}
-        {sub.name}
-
         <span>
-          {" "}
-          - <Icon icon="mingcute:drawer-line" color="red" />
-        </span>
+          <Icon icon="mingcute:drawer-line" color="black" />
+        </span>{" "}
+        {sub.name}
       </p>
     ));
   };
@@ -288,6 +284,7 @@ export default function SortScribblePreviewPage() {
       {/* <p>Sort Preview - Selected Drawer ID: {state.selectedDrawerId}</p>
       <p>Scribble ID: {state.selectedScribbleId}</p> */}
 
+      {/* I want to display scribble name an destination drawer name in future. Currently issue upon refresh */}
       <p>
         {!loadingScribbles && scrb.title}
         <Icon icon="tabler:scribble" color="red" />{" "}
