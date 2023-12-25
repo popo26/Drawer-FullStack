@@ -68,14 +68,12 @@ export default function MyNavbar({ user, setUser }) {
   const unauthenticatedNavBar = () => {
     const tooltipLogin = (
       <Tooltip id="tooltip">
-        {/* <strong>Logout</strong> */}
         Login
       </Tooltip>
     );
 
     const tooltipRegister = (
       <Tooltip id="tooltip">
-        {/* <strong>Logout</strong> */}
         Register
       </Tooltip>
     );

@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
+import { Icon } from "@iconify/react";
 import "../css/SearchPage.css";
 
-export default function Search({user}) {
+export default function Search({ user }) {
   const [searchItem, setSearchItem] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { drawers, scribbles } = useDataContext();
@@ -51,7 +52,7 @@ export default function Search({user}) {
             placeholder="Enter keyword.."
           />
           <Button variant="dark" onClick={handleSubmit}>
-            Search
+            <Icon icon="bi:search" color="white" width="30" height="30" />
           </Button>
         </form>
 

@@ -120,7 +120,7 @@ export default function ProfilePage({ user, setUser }) {
           </Col>
           <Col sm={2}>
             <Button variant="dark" type="submit" onClick={handleClick}>
-              Change
+            <Icon icon="material-symbols:change-circle-outline" width="30"/>
             </Button>
           </Col>
         </Form.Group>
@@ -140,7 +140,7 @@ export default function ProfilePage({ user, setUser }) {
           </Col>
           <Col sm={2}>
             <Button variant="dark" type="submit" onClick={handleClick}>
-              Change
+            <Icon icon="material-symbols:change-circle-outline" width="30"/>
             </Button>
           </Col>
         </Form.Group>
@@ -165,7 +165,7 @@ export default function ProfilePage({ user, setUser }) {
           <Col sm={2}>
             {/* <Button variant="dark" type="submit" onClick={handleClick}> */}
             <Button variant="dark" type="submit" onClick={handlePasswordChange}>
-              Change
+            <Icon icon="material-symbols:change-circle-outline" width="30"/>
             </Button>
           </Col>
         </Form.Group>

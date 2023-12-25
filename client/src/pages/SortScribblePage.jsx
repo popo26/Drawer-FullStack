@@ -9,8 +9,9 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-export default function SortScribblePage({user, setUser}) {
+export default function SortScribblePage({ user, setUser }) {
   const [newDrawerNameFieldSelected, setNewDrawerNameFieldSelected] =
     useState(true);
   const [displayMessage, setDisplayMessage] = useState(
@@ -33,7 +34,7 @@ export default function SortScribblePage({user, setUser}) {
   const [drawerName, setDrawerName] = useDrawerNameContext();
 
   //console.log("State", state.id);
-  console.log("user id", user)
+  console.log("user id", user);
 
   // //To persist selected Scribble ID so browser refresh won't wipe it
   // useEffect(() => {
@@ -41,13 +42,13 @@ export default function SortScribblePage({user, setUser}) {
   //   handleSelectedDrawerId(""); //this is still bit in quesion
   // }, []);
 
-    //To persist selected Scribble ID so browser refresh won't wipe it
-  useEffect(()=>{
-    const userInBrowser = JSON.parse(localStorage.getItem('user'))
-    console.log("user in browser", userInBrowser)
-    setUser(userInBrowser)
+  //To persist selected Scribble ID so browser refresh won't wipe it
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in browser", userInBrowser);
+    setUser(userInBrowser);
     handleSelectedDrawerId(""); //this is still bit in quesion
-  }, [])
+  }, []);
 
   console.log("Sccribleid is", selectedScribbleId);
 
@@ -82,7 +83,7 @@ export default function SortScribblePage({user, setUser}) {
       // .then((json) => {
       //   setScribbles((prevItems) => [...prevItems, json.data]);
       // })
-      .then(()=>navigate(0))
+      .then(() => navigate(0))
 
       .catch((error) => console.error(error.message));
   };
@@ -107,7 +108,7 @@ export default function SortScribblePage({user, setUser}) {
     })
       .then((response) => response.json())
       .then((json) => {
-          addScribbleToNewSubDrawer(json.data._id);
+        addScribbleToNewSubDrawer(json.data._id);
       })
       .catch((error) => console.error(error.message));
   };
@@ -135,6 +136,8 @@ export default function SortScribblePage({user, setUser}) {
     }
   };
 
+  // const tooltipCreate = <Tooltip id="tooltip">Create & Save</Tooltip>;
+
   return (
     <div id="page">
       <h4>Scribble ID: {selectedScribbleId}</h4>
@@ -151,14 +154,15 @@ export default function SortScribblePage({user, setUser}) {
               handleNewDrawerChange={handleChange}
             />
             <br />
-            <MyButton
-              href={null}
-              // btnName="Create & Save"
-              btnName={<Icon icon="typcn:plus" />}
-
-              handleNewDrawerCreate={handleCreate}
-              drawerName={drawerName}
-            />
+            {/* <OverlayTrigger placement="bottom" overlay={tooltipCreate}> */}
+              <MyButton
+                href={null}
+                // btnName="Create & Save"
+                btnName={<Icon icon="typcn:plus" />}
+                handleNewDrawerCreate={handleCreate}
+                drawerName={drawerName}
+              />
+            {/* </OverlayTrigger> */}
           </>
         )}
       </div>
@@ -170,10 +174,10 @@ export default function SortScribblePage({user, setUser}) {
       {!newDrawerNameFieldSelected && (
         <div className="scrb-createNewDrawer-div">
           <MyDropdown
-          // data={data}
-          // selectedDrawerId={selectedDrawerId}
-          // setSelectedDrawerId={setSelectedDrawerId}
-          user={user}
+            // data={data}
+            // selectedDrawerId={selectedDrawerId}
+            // setSelectedDrawerId={setSelectedDrawerId}
+            user={user}
           />
           <Button
             variant="dark"

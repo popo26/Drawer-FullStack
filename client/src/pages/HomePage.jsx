@@ -6,6 +6,7 @@ import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 //import { session } from "../../../backend/passport";
 import { Icon } from "@iconify/react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function HomePage({
   expandedIndex,
@@ -24,6 +25,8 @@ export default function HomePage({
     }
   }, []);
 
+  const tooltipCreate = <Tooltip id="tooltip">Create New Drawer</Tooltip>;
+
   return (
     <div>
       <MyAccordion
@@ -31,10 +34,12 @@ export default function HomePage({
         handleExpand={handleExpand}
         user={user}
       />
-
-      <Link to="/create" className="btn btn-dark btn-lg">
-      <Icon icon="typcn:plus" /><Icon icon="mingcute:drawer-line" color="white" width="30" />
-      </Link>
+      <OverlayTrigger placement="bottom" overlay={tooltipCreate}>
+        <Link to="/create" className="btn btn-dark btn-lg">
+          <Icon icon="typcn:plus" />
+          <Icon icon="mingcute:drawer-line" color="white" width="30" />
+        </Link>
+      </OverlayTrigger>
     </div>
   );
 }
