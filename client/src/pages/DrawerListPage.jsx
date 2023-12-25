@@ -315,7 +315,7 @@ export default function DrawerListPage({ expandedIndex }) {
                 // value={drawerNameToEdit}
               /> */}
             </h3>
-
+{/* <div style={{backgroundColor:"pink", display:"inline"}}> */}
             <Icon
               onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
@@ -339,6 +339,7 @@ export default function DrawerListPage({ expandedIndex }) {
                 sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
+            {/* </div> */}
             {showUpdateIcon(item._id)}
             {/* added */}
           </div>

@@ -264,8 +264,8 @@ export default function PerScribblePage() {
   const update = () => {
     updateContent();
     setIsEditable(false);
-    //workaround to update state
-    // navigate("/stray");
+    //workaround to update state. On refresh, content gets hidden
+    navigate("/stray");
     navigate(0);
   };
 
@@ -341,11 +341,12 @@ export default function PerScribblePage() {
   }
   return (
     <div>
-      <div>Per Scribble Page - ID {id}</div>
+      {/* <div>Per Scribble Page - ID {id}</div> */}
 
       <div>
         <h2>
-          {target?._id || id}, {target.title}
+          {/* {target?._id || id},  */}
+          {target.title}
         </h2>
 
         {/* <section id="content">{decodedHTML}</section> */}

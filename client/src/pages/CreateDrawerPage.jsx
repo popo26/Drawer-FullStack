@@ -9,12 +9,11 @@ import { useDrawerNameContext } from "../context/DrawerNameContext";
 import { useUserContext } from "../context/UserContext";
 
 // export default function CreateDrawerPage({ user, setUser }) {
-  export default function CreateDrawerPage() {
-
+export default function CreateDrawerPage() {
   const navigate = useNavigate();
   const { drawers, scribbles, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
-  const {user, setUser} = useUserContext();
+  const { user, setUser } = useUserContext();
 
   // useEffect(() => {
   //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
@@ -56,12 +55,21 @@ import { useUserContext } from "../context/UserContext";
     setDrawerName(value);
   };
 
+  // const handleCreate = (value) => {
+  //   //console.log("Create btn clicked", value);
+  //   createNewDrawer();
+  //   setDrawerName("");
+  //   navigate("/home");
+  // };
+
   const handleCreate = (value) => {
     //console.log("Create btn clicked", value);
-    createNewDrawer();
-    setDrawerName("");
-    navigate("/home");
-    // sessionStorage.setItem("newDrawerId", drawerName)
+
+    {
+      !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
+      setDrawerName("");
+      navigate("/home");
+    }
   };
 
   return (

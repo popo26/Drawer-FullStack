@@ -207,14 +207,18 @@ export default function SortDrawerPreviewPage() {
       scribbles
         // .filter((scrb) => scrb.drawerId == x[0]._id)
         .filter((scrb) => scrb.drawerId == x._id)
-
         .map((scrb) => (
           <p
             key={scrb._id}
             className={"sort-preview-scribbles scrb-indent" + scrb.level}
           >
-            ID:{scrb._id}:{scrb.title}
-            <span>-- [scribble]</span>
+            {/* ID:{scrb._id}:{scrb.title}
+            <span>-- [scribble]</span> */}
+
+            {scrb.title}
+            <span>
+              - <Icon icon="tabler:scribble" color="red" />
+            </span>
           </p>
         ))
     );
@@ -228,8 +232,12 @@ export default function SortDrawerPreviewPage() {
           key={sub._id}
           className={"sort-preview-sub-drawers indent-" + sub.level}
         >
-          ID:{sub._id}:{sub.name}
-          <span>-- [Sub-Drawer]</span>
+          {/* ID:{sub._id}:{sub.name}
+          <span>-- [Sub-Drawer]</span> */}
+          {sub.name}
+          <span>
+            - <Icon icon="mingcute:drawer-line" color="red" />
+          </span>
         </p>
       ));
   };
@@ -243,7 +251,6 @@ export default function SortDrawerPreviewPage() {
 
     const renderedChildren =
       x["subDrawer"] === true ? (
-        // x[0]["subDrawer"] === true ? (
         <>
           {scribblies(x)}
           {subDrawers(x)}
@@ -255,14 +262,37 @@ export default function SortDrawerPreviewPage() {
     return renderedChildren;
   };
 
+  const drawerToBeMovedObjName = () => {
+    const obj = drawers.filter(
+      (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+    );
+    return obj[0]["name"];
+  };
+
+  const destinationDrawerObjName = () => {
+    const obj = drawers.filter((item) => item._id == selectedDrawerId);
+    return obj[0]["name"];
+  };
+
   return (
     <div className="sort-drawer-preview-div">
-      <h3>
+      {/* <h3>
         Drawer to be moved: {drawerToBeMovedObj["name"]}---ID {drawerToBeMoved}
       </h3>
-      <h3>To: {selectedDrawerId}</h3>
-      <div>{renderedList}</div>
-      <FindSubDrawers />
+      <h3>To: {selectedDrawerId}</h3> */}
+
+      <h4 className="sort-drawer-title">
+        {sessionStorage.getItem("drawerToBeMoved") && drawerToBeMovedObjName}
+        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="ri:arrow-right-fill" />
+        {selectedDrawerId && destinationDrawerObjName}
+        <Icon icon="mingcute:drawer-line" color="red" />
+      </h4>
+
+      <div className="drawer-content-result-div">
+        <div>{renderedList}</div>
+        <FindSubDrawers />
+      </div>
       <div>
         <Button onClick={handleMoveHere} variant="dark" className="move-btn">
           <Icon icon="ic:baseline-move-down" width="30" />

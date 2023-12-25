@@ -165,7 +165,9 @@ export default function SortScribblePage() {
         {selectedDrawerId && destinationDrawer?.name}{" "}
         <Icon icon="mingcute:drawer-line" color="red" />
       </h4>
-      <div className="scrb-createNewDrawer-div">
+      {/* <div className="scrb-createNewDrawer-div"> */}
+      <div>
+
         {newDrawerNameFieldSelected && (
           <>
             <InputField
@@ -190,12 +192,18 @@ export default function SortScribblePage() {
         )}
       </div>
 
-      <button className="sort-msg-btn" onClick={handleDisplay}>
+      {/* <button className="sort-msg-btn" onClick={handleDisplay}>
         {displayMessage}
-      </button>
+      </button> */}
+
+      <Button className="sort-msg-btn" onClick={handleDisplay} variant="dark">
+        {displayMessage}
+      </Button>
 
       {!newDrawerNameFieldSelected && (
-        <div className="scrb-createNewDrawer-div">
+        // <div className="scrb-createNewDrawer-div">
+        <div>
+
           <MyDropdown
             // data={data}
             // selectedDrawerId={selectedDrawerId}

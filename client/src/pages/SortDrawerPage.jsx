@@ -16,7 +16,8 @@ import { useUserContext } from "../context/UserContext";
 export default function SortDrawerPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const { drawers, scribbles, setDrawers, setScribbles, loadingDrawers } =
+    useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
@@ -275,20 +276,51 @@ export default function SortDrawerPage() {
   // console.log("temp", temp)
   // const drawerToBeMovedObj = temp.find((item)=>item._id == sessionStorage.getItem("drawerToBeMoved"))
 
-  const drawerToBeMovedObj = drawers.filter(
-    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-  );
+  // const drawerToBeMovedObj = drawers.filter(
+  //   (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+  // );
+
+  const drawerToBeMovedObjName = () => {
+    const obj = drawers.filter(
+      (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+    );
+    return obj[0]["name"];
+  };
+
+  // const drawerToBeMovedObj = drawers.filter(
+  //   (item) => item._id == drawerToBeMoved
+  // );
   console.log("LOOK", drawerToBeMoved);
-  console.log("MILA", drawerToBeMovedObj["name"]);
+  console.log("MILA", drawerToBeMovedObjName);
+
+  //console.log("LOOK2", selectedDrawerId);
+
+  // const destinationDrawerObj = drawers.filter(
+  //   (item) => item._id == selectedDrawerId
+  // );
+
+  const destinationDrawerObjName = () => {
+    const obj = drawers.filter((item) => item._id == selectedDrawerId);
+    return obj[0]["name"];
+  };
 
   return (
     <div id="page">
-      <h4 className="sort-drawer-title">
-        {/* Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID */}
+      {/* <h4 className="sort-drawer-title">
         Drawer to be moved : {drawerToBeMovedObj["name"]}---ID
         {drawerToBeMoved}
       </h4>
-      <h4>Selected drawer Id : {selectedDrawerId}</h4>
+      <h4>Selected drawer Id : {selectedDrawerId}</h4> */}
+
+
+{/* At the moment showing only drawer icons but at least persistent on refresh */}
+      <h4 className="sort-drawer-title">
+        {sessionStorage.getItem("drawerToBeMoved") && drawerToBeMovedObjName}
+        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="ri:arrow-right-fill" />
+        {selectedDrawerId && destinationDrawerObjName}
+        <Icon icon="mingcute:drawer-line" color="red" />
+      </h4>
 
       {newDrawerNameFieldSelected && (
         <div>
@@ -311,7 +343,7 @@ export default function SortDrawerPage() {
         </div>
       )}
 
-      <Button onClick={handleDisplay} className="sort-msg-btn">
+      <Button onClick={handleDisplay} className="sort-msg-btn" variant="dark" >
         {displayMessage}
       </Button>
 

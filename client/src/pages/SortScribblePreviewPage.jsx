@@ -248,7 +248,7 @@ export default function SortScribblePreviewPage() {
       (item) => item._id == sessionStorage.getItem("selectedDrawer")
     );
 
-    console.log("Scribblies's X", selectedDrawerObj);
+    // console.log("Scribblies's X", selectedDrawerObj);
     const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
       <>
         {scribblies()}
@@ -257,14 +257,6 @@ export default function SortScribblePreviewPage() {
     ) : (
       <>{scribblies()}</>
     );
-
-    //   <>
-    //     {scribblies(selectedDrawerObj)}
-    //     {subDrawers(selectedDrawerObj)}
-    //   </>
-    // ) : (
-    //   <>{scribblies(selectedDrawerObj)}</>
-    // );
 
     return renderedChildren;
   };
@@ -301,8 +293,10 @@ export default function SortScribblePreviewPage() {
         <Icon icon="mingcute:drawer-line" color="red" />
       </p>
 
-      <div>{renderedList}</div>
-      <FindSubDrawers />
+      <div className="drawer-content-result-div">
+        <div>{renderedList}</div>
+        <FindSubDrawers />
+      </div>
 
       {saveHereSelected && (
         <div>

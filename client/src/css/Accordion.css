@@ -4,6 +4,9 @@
 
 .sub-drawer-name {
   color: #808080;
+  /* color: #606060; */
+  font-weight: 900;
+
   /* background-color: rgb(224, 220, 220); */
   background-color: #e0e0e0;
   padding: 3px;
@@ -155,7 +158,7 @@ a:hover {
 }
 
 .sub-drawer-div {
-  border-top: 2px dotted #808080;
+  /* border-top: 3px dotted #808080; */
 }
 
 /* .sub-drawer-scribble-list {
