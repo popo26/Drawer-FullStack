@@ -9,6 +9,7 @@ import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { DataProvider } from "../context/DataContext";
 import { useUserContext } from "../context/UserContext";
+import "../css/PerScribblePage.css";
 
 const thumbsContainer = {
   display: "flex",
@@ -340,7 +341,7 @@ export default function PerScribblePage() {
     return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
   }
   return (
-    <div>
+    <div className="PerScribblePage">
       {/* <div>Per Scribble Page - ID {id}</div> */}
 
       <div>

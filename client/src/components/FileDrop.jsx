@@ -163,10 +163,11 @@ function FileDrop({ tempFiles, setTempFiles, baseImage, setBaseImage }) {
         <aside style={thumbsContainer}>{thumbs}</aside>
       </div>
 
-      <div style={{ marginTop: "30px" }}>
+      {/* Keep it as alternative */}
+      {/* <div style={{ marginTop: "30px" }}>
         <input type="file" onChange={(e) => uploadImage(e)}></input>
         <img src={baseImage} width="100px" />
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -9,3 +9,18 @@
   border-radius: 10px;
   padding: 10px;
 }
+
+.profile-label {
+  font-family: "Pacifico", cursive;
+}
+
+@media screen and (max-width: 570px) {
+  .ProfilePage {
+    max-width: 90%;
+    margin: auto;
+  }
+
+  .modify-btn {
+    margin-top: 10px;
+  }
+}

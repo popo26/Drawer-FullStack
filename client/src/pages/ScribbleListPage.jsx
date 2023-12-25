@@ -113,8 +113,8 @@ export default function ScribbleListPage() {
   );
 
   return (
-    <div>
-      <h2>Stray scribbles</h2>
+    <div className="ScribbleListPage">
+      <h4>Stray scribbles</h4>
       <div className="stray-list">{renderedList}</div>
       <div>
         {" "}

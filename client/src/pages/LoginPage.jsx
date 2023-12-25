@@ -70,15 +70,16 @@ export default function LoginPage() {
 
   return (
     <div className="LoginPage">
+      <div className="form">
       <div>
         <img src={logo} width="100rem" />
       </div>
-      <Form>
+      <Form >
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label hidden>Email</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
+            placeholder="Email"
             value={user.email}
             name="email"
             onChange={handleChange}
@@ -105,6 +106,7 @@ export default function LoginPage() {
           Login
         </Button>
       </Form>
+      </div>
     </div>
   );
 

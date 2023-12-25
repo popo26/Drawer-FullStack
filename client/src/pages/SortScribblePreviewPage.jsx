@@ -327,13 +327,13 @@ export default function SortScribblePreviewPage() {
           />
           <br />
           {/* <OverlayTrigger placement="bottom" overlay={tooltipCreateAndSave}> */}
-            <MyButton
-              href={null}
-              // btnName="Create & Save"
-              btnName={<Icon icon="typcn:plus" />}
-              handleNewDrawerCreate={handleCreate}
-              drawerName={newSubDrawerName}
-            />
+          <MyButton
+            href={null}
+            // btnName="Create & Save"
+            btnName={<Icon icon="typcn:plus" />}
+            handleNewDrawerCreate={handleCreate}
+            drawerName={newSubDrawerName}
+          />
           {/* </OverlayTrigger> */}
         </div>
       )}

@@ -1,11 +1,12 @@
 import React from 'react';
-import logo from "../assets/logo_d.png"
+import logo from "../assets/logo_d.png";
+import "../css/LandingPage.css";
 
 export default function LandingPage(){
     return (
-        <>
-        <img src={logo} alt="logo" width="100%"/>
+        <div className="LandingPage"> 
+        <img src={logo} alt="logo"/>
         
-        </>
+        </div>
     )
 }

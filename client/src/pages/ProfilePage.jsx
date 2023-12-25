@@ -8,7 +8,14 @@ import {
 import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import { Icon } from "@iconify/react";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Row,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { useEffect } from "react";
 import axios from "axios";
 import "../css/ProfilePage.css";
@@ -18,6 +25,7 @@ import { useUserContext } from "../context/UserContext";
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, setUser } = useUserContext();
+  const tooltipUpdate = <Tooltip id="tooltip">Click To Update</Tooltip>;
 
   // useEffect(() => {
   //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
@@ -108,7 +116,7 @@ export default function ProfilePage() {
           className="mb-3 username-form"
           controlId="formHorizontalUsername"
         >
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="profile-label">
             Username
           </Form.Label>
           <Col sm={8}>
@@ -120,10 +128,21 @@ export default function ProfilePage() {
               value={user.username}
             />
           </Col>
+
           <Col sm={2}>
-            <Button variant="dark" type="submit" onClick={handleClick}>
-              <Icon icon="material-symbols:change-circle-outline" width="30" />
-            </Button>
+            <OverlayTrigger placement="right" overlay={tooltipUpdate}>
+              <Button
+                variant="dark"
+                type="submit"
+                onClick={handleClick}
+                className="modify-btn"
+              >
+                <Icon
+                  icon="material-symbols:change-circle-outline"
+                  width="30"
+                />
+              </Button>
+            </OverlayTrigger>
           </Col>
         </Form.Group>
 
@@ -132,7 +151,7 @@ export default function ProfilePage() {
           className="mb-3 email-form"
           controlId="formHorizontalEmail"
         >
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="profile-label">
             Email
           </Form.Label>
           <Col sm={8}>
@@ -145,9 +164,19 @@ export default function ProfilePage() {
             />
           </Col>
           <Col sm={2}>
-            <Button variant="dark" type="submit" onClick={handleClick}>
-              <Icon icon="material-symbols:change-circle-outline" width="30" />
-            </Button>
+            <OverlayTrigger placement="right" overlay={tooltipUpdate}>
+              <Button
+                variant="dark"
+                type="submit"
+                onClick={handleClick}
+                className="modify-btn"
+              >
+                <Icon
+                  icon="material-symbols:change-circle-outline"
+                  width="30"
+                />
+              </Button>
+            </OverlayTrigger>
           </Col>
         </Form.Group>
 
@@ -156,7 +185,7 @@ export default function ProfilePage() {
           className="mb-3 password-form"
           controlId="formHorizontalPassword"
         >
-          <Form.Label column sm={2}>
+          <Form.Label column sm={2} className="profile-label">
             Password
           </Form.Label>
           <Col sm={8}>
@@ -169,10 +198,19 @@ export default function ProfilePage() {
             />
           </Col>
           <Col sm={2}>
-            {/* <Button variant="dark" type="submit" onClick={handleClick}> */}
-            <Button variant="dark" type="submit" onClick={handlePasswordChange}>
-              <Icon icon="material-symbols:change-circle-outline" width="30" />
-            </Button>
+            <OverlayTrigger placement="right" overlay={tooltipUpdate}>
+              <Button
+                variant="dark"
+                type="submit"
+                onClick={handlePasswordChange}
+                className="modify-btn"
+              >
+                <Icon
+                  icon="material-symbols:change-circle-outline"
+                  width="30"
+                />
+              </Button>
+            </OverlayTrigger>
           </Col>
         </Form.Group>
 

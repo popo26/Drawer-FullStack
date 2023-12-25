@@ -160,8 +160,7 @@ export default function SortScribblePage() {
       {/* <h4>Scribble ID: {selectedScribbleId}</h4>
       <h4>Selected Drawer Id: {selectedDrawerId}</h4> */}
       <h4>
-        {/* {!loadingScribbles && scrb.title} */}
-        {!loadingScribbles && scrb[0].title}
+        {/* {!loadingScribbles && scrb[0].title} */}
         <Icon icon="tabler:scribble" color="red" />{" "}
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && destinationDrawer?.name}{" "}
@@ -169,7 +168,6 @@ export default function SortScribblePage() {
       </h4>
       {/* <div className="scrb-createNewDrawer-div"> */}
       <div>
-
         {newDrawerNameFieldSelected && (
           <>
             <InputField
@@ -205,31 +203,29 @@ export default function SortScribblePage() {
       {!newDrawerNameFieldSelected && (
         // <div className="scrb-createNewDrawer-div">
         <div>
-
           <MyDropdown
             // data={data}
             // selectedDrawerId={selectedDrawerId}
             // setSelectedDrawerId={setSelectedDrawerId}
             user={user}
           />
-                    <OverlayTrigger placement="right" overlay={tooltipNext}>
-
-          <Button
-            variant="dark"
-            className="next-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              let passingData = { selectedScribbleId, selectedDrawerId };
-              console.log("PassingData", passingData);
-              {
-                !selectedDrawerId
-                  ? alert("Please select destination drawer")
-                  : navigate("/sort-preview", { state: passingData });
-              }
-            }}
-          >
-            <Icon icon="tabler:player-track-next-filled" />
-          </Button>
+          <OverlayTrigger placement="right" overlay={tooltipNext}>
+            <Button
+              variant="dark"
+              className="next-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                let passingData = { selectedScribbleId, selectedDrawerId };
+                console.log("PassingData", passingData);
+                {
+                  !selectedDrawerId
+                    ? alert("Please select destination drawer")
+                    : navigate("/sort-preview", { state: passingData });
+                }
+              }}
+            >
+              <Icon icon="tabler:player-track-next-filled" />
+            </Button>
           </OverlayTrigger>
         </div>
       )}

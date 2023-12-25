@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import "../css/LoginPage.css";
+import "../css/RegisterPage.css";
 import { Button, Form, Alert } from "react-bootstrap";
 //import Message from "../components/Message";
 import { useNavigate } from "react-router-dom";
@@ -79,16 +79,16 @@ export default function RegisterPage() {
         }
       })
       .catch((error) => {
-        console.log("That email address is taken2.");
+        console.log("That email address is taken.");
         console.log(error);
-        setMessage("That email address is taken2.");
+        setMessage("That email address is taken.");
       });
   };
 
   return (
     <div className="RegisterPage">
       {/* {message ? <Message message={message} /> : null} */}
-      <div className="LoginPage">
+      <div className="form">
         <div>
           <img src={logo} width="100rem" />
         </div>
@@ -97,7 +97,7 @@ export default function RegisterPage() {
             <Form.Label hidden>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Username"
+              placeholder="Username (1-50 characters)"
               value={userForm.username}
               name="username"
               onChange={handleChange}
@@ -108,7 +108,7 @@ export default function RegisterPage() {
             <Form.Label hidden>Email</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Email"
+              placeholder="Email (6-50 characters)"
               value={userForm.email}
               name="email"
               onChange={handleChange}
