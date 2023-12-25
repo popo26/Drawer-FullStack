@@ -5,7 +5,7 @@ import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import MyDropdown from "../components/MyDropdown";
 import "../css/SortPage.css";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
@@ -28,6 +28,7 @@ export default function SortDrawerPage() {
     "Or move it to existing drawer"
   );
   const { user, setUser } = useUserContext();
+  const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
   console.log("State", state);
   console.log("DrawerToBeMoved", drawerToBeMoved);
@@ -312,8 +313,7 @@ export default function SortDrawerPage() {
       </h4>
       <h4>Selected drawer Id : {selectedDrawerId}</h4> */}
 
-
-{/* At the moment showing only drawer icons but at least persistent on refresh */}
+      {/* At the moment showing only drawer icons but at least persistent on refresh */}
       <h4 className="sort-drawer-title">
         {sessionStorage.getItem("drawerToBeMoved") && drawerToBeMovedObjName}
         <Icon icon="mingcute:drawer-line" color="red" />
@@ -343,7 +343,7 @@ export default function SortDrawerPage() {
         </div>
       )}
 
-      <Button onClick={handleDisplay} className="sort-msg-btn" variant="dark" >
+      <Button onClick={handleDisplay} className="sort-msg-btn" variant="dark">
         {displayMessage}
       </Button>
 
@@ -352,23 +352,25 @@ export default function SortDrawerPage() {
           <div>
             <MyDropdown user={user} />
           </div>
-          <Button
-            variant="dark"
-            className="next-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              let passingData = { selectedDrawerId, drawerToBeMoved };
-              console.log("PassingData", passingData);
-              {
-                !selectedDrawerId
-                  ? alert("Please select destination drawer")
-                  : navigate("/sort-drawer-preview", { state: passingData });
-                sessionStorage.setItem("selectedDrawerId", selectedDrawerId);
-              }
-            }}
-          >
-            <Icon icon="tabler:player-track-next-filled" />
-          </Button>
+          <OverlayTrigger placement="right" overlay={tooltipNext}>
+            <Button
+              variant="dark"
+              className="next-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                let passingData = { selectedDrawerId, drawerToBeMoved };
+                console.log("PassingData", passingData);
+                {
+                  !selectedDrawerId
+                    ? alert("Please select destination drawer")
+                    : navigate("/sort-drawer-preview", { state: passingData });
+                  sessionStorage.setItem("selectedDrawerId", selectedDrawerId);
+                }
+              }}
+            >
+              <Icon icon="tabler:player-track-next-filled" />
+            </Button>
+          </OverlayTrigger>
         </>
       )}
 

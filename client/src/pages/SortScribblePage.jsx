@@ -37,6 +37,8 @@ export default function SortScribblePage() {
   const [drawerName, setDrawerName] = useDrawerNameContext();
   const { user, setUser } = useUserContext();
 
+  const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
+
   //console.log("State", state.id);
   console.log("user id", user);
 
@@ -210,6 +212,8 @@ export default function SortScribblePage() {
             // setSelectedDrawerId={setSelectedDrawerId}
             user={user}
           />
+                    <OverlayTrigger placement="right" overlay={tooltipNext}>
+
           <Button
             variant="dark"
             className="next-btn"
@@ -226,6 +230,7 @@ export default function SortScribblePage() {
           >
             <Icon icon="tabler:player-track-next-filled" />
           </Button>
+          </OverlayTrigger>
         </div>
       )}
 

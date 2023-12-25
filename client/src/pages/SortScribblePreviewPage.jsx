@@ -4,7 +4,7 @@ import InputField from "../components/InputField";
 import { useState, useEffect } from "react";
 import "../css/SortPreviewPage.css";
 import MyButton from "../components/MyButton";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
@@ -35,6 +35,9 @@ export default function SortScribblePreviewPage() {
   // useEffect(() => {
   //   setDrawers(JSON.parse(sessionStorage.getItem("drawersData")));
   // }, []);
+
+  const tooltipSaveHere = <Tooltip id="tooltip">Save Here</Tooltip>;
+  // const tooltipCreateAndSave = <Tooltip id="tooltip">Create & Save</Tooltip>;
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;
@@ -300,9 +303,11 @@ export default function SortScribblePreviewPage() {
 
       {saveHereSelected && (
         <div>
-          <Button variant="dark" onClick={handleSaveHere}>
-            <Icon icon="ic:round-save-alt" width="30" />
-          </Button>
+          <OverlayTrigger placement="right" overlay={tooltipSaveHere}>
+            <Button variant="dark" onClick={handleSaveHere}>
+              <Icon icon="ic:round-save-alt" width="30" />
+            </Button>
+          </OverlayTrigger>
         </div>
       )}
 
@@ -321,13 +326,15 @@ export default function SortScribblePreviewPage() {
             handleNewDrawerChange={handleChange}
           />
           <br />
-          <MyButton
-            href={null}
-            // btnName="Create & Save"
-            btnName={<Icon icon="typcn:plus" />}
-            handleNewDrawerCreate={handleCreate}
-            drawerName={newSubDrawerName}
-          />
+          {/* <OverlayTrigger placement="bottom" overlay={tooltipCreateAndSave}> */}
+            <MyButton
+              href={null}
+              // btnName="Create & Save"
+              btnName={<Icon icon="typcn:plus" />}
+              handleNewDrawerCreate={handleCreate}
+              drawerName={newSubDrawerName}
+            />
+          {/* </OverlayTrigger> */}
         </div>
       )}
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 //Apply color in css in progress
 export default function MyButton({
@@ -16,17 +16,21 @@ export default function MyButton({
     handleNewDrawerCreate(drawerName);
   };
 
+  const tooltipCreateAndSave = <Tooltip id="tooltip">Create & Save</Tooltip>;
+
   return (
     <>
-      <Link to={href}>
-        {/* <button onClick={handleClick} className="btn btn-success">
+      <OverlayTrigger placement="right" overlay={tooltipCreateAndSave}>
+        <Link to={href}>
+          {/* <button onClick={handleClick} className="btn btn-success">
           {btnName}
         </button> */}
-        <Button variant="dark" onClick={handleClick}>
-          {" "}
-          {btnName}
-        </Button>{" "}
-      </Link>
+          <Button variant="dark" onClick={handleClick}>
+            {" "}
+            {btnName}
+          </Button>{" "}
+        </Link>
+      </OverlayTrigger>
     </>
   );
 }

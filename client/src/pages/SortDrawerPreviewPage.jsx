@@ -5,7 +5,7 @@ import { useState } from "react";
 import "../css/SortPreviewPage.css";
 import MyButton from "../components/MyButton";
 import { useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
@@ -31,6 +31,9 @@ export default function SortDrawerPreviewPage() {
   const destinationObj = drawers.filter(
     (item) => item._id == sessionStorage.getItem("selectedDrawerId")
   );
+
+  const tooltipMoveHere = <Tooltip id="tooltip">Move Here</Tooltip>;
+
 
   //To persist those 2 values incase of browser refresh
   useEffect(() => {
@@ -294,9 +297,12 @@ export default function SortDrawerPreviewPage() {
         <FindSubDrawers />
       </div>
       <div>
+      <OverlayTrigger placement="right" overlay={tooltipMoveHere}>
+
         <Button onClick={handleMoveHere} variant="dark" className="move-btn">
           <Icon icon="ic:baseline-move-down" width="30" />
         </Button>
+        </OverlayTrigger>
 
         {/* UNDERCONSTRUCTION or NOT REQUIRED */}
         {/* <h6>Or create new sub-drawer</h6>
