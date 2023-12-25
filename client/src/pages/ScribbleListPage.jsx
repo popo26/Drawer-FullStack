@@ -77,7 +77,9 @@ export default function ScribbleListPage({ user, setUser }) {
                 width="18"
               />
             )}
-            ID:{item._id}, {item.title}
+            {/* ID:{item._id}, {item.title} */}
+            {item.title}
+
           </Link>{" "}
           {/* </a>{" "} */}
           <a

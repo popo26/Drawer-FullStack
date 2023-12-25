@@ -26,6 +26,7 @@ export default function SortScribblePage({ user, setUser }) {
     setScribbles,
     loadingDrawers,
     setLoadingDrawers,
+    loadingScribbles,
   } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
@@ -138,10 +139,24 @@ export default function SortScribblePage({ user, setUser }) {
 
   // const tooltipCreate = <Tooltip id="tooltip">Create & Save</Tooltip>;
 
+  const scrb = scribbles.find((item) => item._id === selectedScribbleId);
+  //console.log('scrb', scrb.title)
+
+  const destinationDrawer = drawers.find(
+    (item) => item._id === selectedDrawerId
+  );
+
   return (
     <div id="page">
-      <h4>Scribble ID: {selectedScribbleId}</h4>
-      <h4>Selected Drawer Id: {selectedDrawerId}</h4>
+      {/* <h4>Scribble ID: {selectedScribbleId}</h4>
+      <h4>Selected Drawer Id: {selectedDrawerId}</h4> */}
+      <h4>
+        {!loadingScribbles && scrb.title}
+        <Icon icon="tabler:scribble" color="red" />{" "}
+        <Icon icon="ri:arrow-right-fill" />
+        {selectedDrawerId && destinationDrawer?.name}{" "}
+        <Icon icon="mingcute:drawer-line" color="red"  />
+      </h4>
       <div className="scrb-createNewDrawer-div">
         {newDrawerNameFieldSelected && (
           <>
@@ -155,13 +170,13 @@ export default function SortScribblePage({ user, setUser }) {
             />
             <br />
             {/* <OverlayTrigger placement="bottom" overlay={tooltipCreate}> */}
-              <MyButton
-                href={null}
-                // btnName="Create & Save"
-                btnName={<Icon icon="typcn:plus" />}
-                handleNewDrawerCreate={handleCreate}
-                drawerName={drawerName}
-              />
+            <MyButton
+              href={null}
+              // btnName="Create & Save"
+              btnName={<Icon icon="typcn:plus" />}
+              handleNewDrawerCreate={handleCreate}
+              drawerName={drawerName}
+            />
             {/* </OverlayTrigger> */}
           </>
         )}

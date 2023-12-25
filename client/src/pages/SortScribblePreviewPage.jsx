@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 
-export default function SortScribblePreviewPage({user, setUser}) {
+export default function SortScribblePreviewPage({ user, setUser }) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [newSubDrawerName, setNewSubDrawerName] = useState("");
@@ -93,7 +93,7 @@ export default function SortScribblePreviewPage({user, setUser}) {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then(()=>navigate(0))
+      .then(() => navigate(0))
       .catch((error) => console.error(error.message));
   };
 
@@ -188,8 +188,13 @@ export default function SortScribblePreviewPage({user, setUser}) {
     }
     const result = scribbleArray.map((scrb) => (
       <p key={scrb._id} className={"sort-preview-scribbles scrb-indent" + 1}>
-        ID:{scrb._id}:{scrb.title}
-        <span>-- [scribble]</span>
+        {/* ID:{scrb._id}:{scrb.title} */}
+        {scrb.title}
+
+        <span>
+          {" "}
+          - <Icon icon="tabler:scribble" color="red" />
+        </span>
       </p>
     ));
     return result.length > 0 ? (
@@ -211,8 +216,13 @@ export default function SortScribblePreviewPage({user, setUser}) {
     }
     return subDrawersArray.map((sub) => (
       <p key={sub._id} className={"sort-preview-sub-drawers indent-" + 1}>
-        ID:{sub._id}:{sub.name}
-        <span>-- [Sub-Drawer]</span>
+        {/* ID:{sub._id}:{sub.name} */}
+        {sub.name}
+
+        <span>
+          {" "}
+          - <Icon icon="mingcute:drawer-line" color="red" />
+        </span>
       </p>
     ));
   };
@@ -266,10 +276,10 @@ export default function SortScribblePreviewPage({user, setUser}) {
       <div>{renderedList}</div>
       <FindSubDrawers />
 
-      {saveHereSelected &&  (
+      {saveHereSelected && (
         <div>
           <Button variant="dark" onClick={handleSaveHere}>
-          <Icon icon="ic:round-save-alt" width="30"/>
+            <Icon icon="ic:round-save-alt" width="30" />
           </Button>
         </div>
       )}
