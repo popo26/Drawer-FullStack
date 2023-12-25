@@ -5,6 +5,8 @@
   padding: 30px;
 }
 
+
+
 /* top-level drawer */
 .rendered-drawers > h2 {
   /* font-size:22px; */
@@ -13,7 +15,7 @@
 
 /* sub-folders */
 .sub-drawer-header h3 {
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 900;
   /* font-size: 2em;
   container-name: sidebar */
@@ -26,13 +28,14 @@
 } */
 
 /* scribbles */
-.sub-drawer-header {
-  font-size: 8px;
-}
+/* .sub-drawer-header {
+  font-size: px;
+} */
 
 .sub-drawer-header-div {
   border-top: 2px dotted #808080;
-  background-color:oldlace
+  background-color:oldlace;
+  padding:3px;
 }
 
 .icon10{

@@ -139,7 +139,7 @@ export default function SortScribblePage({user, setUser}) {
     <div id="page">
       <h4>Scribble ID: {selectedScribbleId}</h4>
       <h4>Selected Drawer Id: {selectedDrawerId}</h4>
-      <div>
+      <div className="scrb-createNewDrawer-div">
         {newDrawerNameFieldSelected && (
           <>
             <InputField
@@ -153,7 +153,9 @@ export default function SortScribblePage({user, setUser}) {
             <br />
             <MyButton
               href={null}
-              btnName="Create & Save"
+              // btnName="Create & Save"
+              btnName={<Icon icon="typcn:plus" />}
+
               handleNewDrawerCreate={handleCreate}
               drawerName={drawerName}
             />
@@ -166,7 +168,7 @@ export default function SortScribblePage({user, setUser}) {
       </button>
 
       {!newDrawerNameFieldSelected && (
-        <>
+        <div className="scrb-createNewDrawer-div">
           <MyDropdown
           // data={data}
           // selectedDrawerId={selectedDrawerId}
@@ -174,7 +176,7 @@ export default function SortScribblePage({user, setUser}) {
           user={user}
           />
           <Button
-            variant="success"
+            variant="dark"
             className="next-btn"
             onClick={(e) => {
               e.preventDefault();
@@ -187,9 +189,9 @@ export default function SortScribblePage({user, setUser}) {
               }
             }}
           >
-            Next
+            <Icon icon="tabler:player-track-next-filled" />
           </Button>
-        </>
+        </div>
       )}
 
       <div>

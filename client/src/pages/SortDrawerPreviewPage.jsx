@@ -10,7 +10,7 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 
-export default function SortDrawerPreviewPage({user, setUser}) {
+export default function SortDrawerPreviewPage({ user, setUser }) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { drawers, scribbles } = useDataContext();
@@ -33,6 +33,12 @@ export default function SortDrawerPreviewPage({user, setUser}) {
   useEffect(() => {
     setDrawerToBeMoved(sessionStorage.getItem("drawerToBeMoved"));
     handleSelectedDrawerId(sessionStorage.getItem("selectedDrawerId"));
+  }, []);
+
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in browser", userInBrowser);
+    setUser(userInBrowser);
   }, []);
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
@@ -255,8 +261,8 @@ export default function SortDrawerPreviewPage({user, setUser}) {
       <div>{renderedList}</div>
       <FindSubDrawers />
       <div>
-        <Button onClick={handleMoveHere} variant="success" className="move-btn">
-          Move Here
+        <Button onClick={handleMoveHere} variant="dark" className="move-btn">
+          <Icon icon="ic:baseline-move-down" width="30" />
         </Button>
 
         {/* UNDERCONSTRUCTION or NOT REQUIRED */}

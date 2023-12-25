@@ -21,6 +21,14 @@ export default function DrawerListPage({ expandedIndex, user, setUser }) {
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const text = useRef(drawerNameToEdit);
 
+
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    if (userInBrowser) {
+      setUser(userInBrowser);
+    }
+  }, []);
+
   // ++++++++Delete Drawer and its sub-drawers and scribbles
   const deleteScribbles = (drawerId) => {
     const associatedScribbles = scribbles.filter(

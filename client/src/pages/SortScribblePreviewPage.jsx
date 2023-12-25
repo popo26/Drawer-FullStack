@@ -266,10 +266,10 @@ export default function SortScribblePreviewPage({user, setUser}) {
       <div>{renderedList}</div>
       <FindSubDrawers />
 
-      {saveHereSelected && (
+      {saveHereSelected &&  (
         <div>
-          <Button variant="success" onClick={handleSaveHere}>
-            Save Here
+          <Button variant="dark" onClick={handleSaveHere}>
+          <Icon icon="ic:round-save-alt" width="30"/>
           </Button>
         </div>
       )}
@@ -279,7 +279,7 @@ export default function SortScribblePreviewPage({user, setUser}) {
       </button>
 
       {!saveHereSelected && (
-        <div>
+        <div className="scrb-createNewDrawer-div">
           <InputField
             type="text"
             name="create-new-sub-drawer"
@@ -291,7 +291,8 @@ export default function SortScribblePreviewPage({user, setUser}) {
           <br />
           <MyButton
             href={null}
-            btnName="Create & Save"
+            // btnName="Create & Save"
+            btnName={<Icon icon="typcn:plus" />}
             handleNewDrawerCreate={handleCreate}
             drawerName={newSubDrawerName}
           />

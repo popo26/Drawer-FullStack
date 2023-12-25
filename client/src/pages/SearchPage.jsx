@@ -12,7 +12,6 @@ export default function SearchPage({user, setUser}) {
     if (userInBrowser) {
       setUser(userInBrowser);
     }
-    // return ()=> localStorage.setItem("user", JSON.stringify(user));
   }, []);
 
   return (

@@ -4,7 +4,10 @@
 
 .sub-drawer-name {
   color: #808080;
-  font-size:12px;
+  /* background-color: rgb(224, 220, 220); */
+  background-color: #e0e0e0;
+  padding: 3px;
+  font-size: 16px;
 }
 
 /* Drawer indent */
@@ -28,26 +31,25 @@
   text-indent: 100px;
 }
 
-.indent-6{
+.indent-6 {
   text-indent: 120px;
 }
 
-.indent-7{
+.indent-7 {
   text-indent: 140px;
 }
 
-.indent-8{
+.indent-8 {
   text-indent: 160px;
 }
 
-.indent-9{
+.indent-9 {
   text-indent: 180px;
 }
 
-.indent-10{
+.indent-10 {
   text-indent: 200px;
 }
-
 
 /* Scribble indent */
 .scrb-indent1 {
@@ -133,25 +135,23 @@
   text-indent: 100px;
 } */
 
-
-
 .no-scribble {
   color: blueviolet;
   /* text-indent: 100px; */
   display: block;
 }
 
-.individual-scribble {
-  /* text-indent: 100px; */
-}
+/* .individual-scribble {
+  font-size:20px;
+} */
 
 a {
   text-decoration: none;
-  color:#606060
+  color: #606060;
 }
 
 a:hover {
-  color:purple
+  color: purple;
 }
 
 .sub-drawer-div {

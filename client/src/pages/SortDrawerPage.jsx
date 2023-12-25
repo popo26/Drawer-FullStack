@@ -43,6 +43,12 @@ export default function SortDrawerPage({user, setUser}) {
     };
   }, []);
 
+  useEffect(() => {
+    const userInBrowser = JSON.parse(localStorage.getItem("user"));
+    console.log("user in browser", userInBrowser);
+    setUser(userInBrowser);
+  }, []);
+
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
@@ -294,7 +300,9 @@ export default function SortDrawerPage({user, setUser}) {
           <br />
           <MyButton
             href={null}
-            btnName="Create & Move"
+            // btnName="Create & Move"
+            btnName={<Icon icon="ic:baseline-move-down" width="30"/>}
+
             handleNewDrawerCreate={handleCreate}
             drawerName={drawerName}
           />
@@ -311,7 +319,7 @@ export default function SortDrawerPage({user, setUser}) {
             <MyDropdown user={user}/>
           </div>
           <Button
-            variant="success"
+            variant="dark"
             className="next-btn"
             onClick={(e) => {
               e.preventDefault();
@@ -325,7 +333,7 @@ export default function SortDrawerPage({user, setUser}) {
               }
             }}
           >
-            Next
+             <Icon icon="tabler:player-track-next-filled" />
           </Button>
         </>
       )}
