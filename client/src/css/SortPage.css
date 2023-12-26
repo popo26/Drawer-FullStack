@@ -6,6 +6,7 @@
   background: pink;
   color: #404040;
   font-family: "Pacifico", cursive;
+  font-size:1rem;
 }
 
 .next-btn {
@@ -21,4 +22,10 @@
   background-color: #e0e0e0;
   padding: 10px;
   border-radius: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .sort-msg-btn {
+    font-size: 1.4rem;
+  }
 }

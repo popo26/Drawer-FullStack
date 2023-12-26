@@ -94,6 +94,7 @@ export default function ScribbleListPage() {
           color="black"
           width="50"
           onClick={() => navigate(-1)}
+          className="back-btn"
         />
       </div>
     </div>

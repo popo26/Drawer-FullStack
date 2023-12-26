@@ -368,6 +368,7 @@ export default function DrawerListPage({ expandedIndex }) {
           color="black"
           width="50"
           onClick={() => navigate(-1)}
+          className="back-btn"
         />
       </div>
     </div>

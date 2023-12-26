@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import FileDrop from "../components/FileDrop";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
@@ -26,6 +26,9 @@ export default function ScribblePage() {
   const [baseImage, setBaseImage] = useState("");
 
   let timerID = useRef(null);
+  const tooltipJustSave = <Tooltip id="tooltip">Just Save</Tooltip>;
+
+  const tooltipSort = <Tooltip id="tooltip">Sort</Tooltip>;
 
   useEffect(() => {
     return () => {
@@ -178,26 +181,30 @@ export default function ScribblePage() {
       <br />
 
       <div className="buttons-div">
-        <Button onClick={() => handleSubmitScribble()} variant="dark">
-          Just Save
-        </Button>
+        <OverlayTrigger placement="bottom" overlay={tooltipJustSave}>
+          <Button onClick={() => handleSubmitScribble()} variant="dark">
+            <Icon icon="ic:round-save-alt" width="24" />
+          </Button>
+        </OverlayTrigger>
         <span className="or">or</span>
-        <Button variant="dark">
-          <Icon
-            icon="mingcute:drawer-line"
-            color="white"
-            width="24"
-            onClick={() => {
-              createNewScribble();
-              //Because of the async function above, selectedScribble ID doesn't get updated in time.
-              //This is still workaround as the error page still shows up in the halfway.
-              timerID = setTimeout(() => {
-                navigate("/sort");
-                navigate(0);
-              }, 1000);
-            }}
-          />
-        </Button>
+        <OverlayTrigger placement="bottom" overlay={tooltipSort}>
+          <Button variant="dark">
+            <Icon
+              icon="mingcute:drawer-line"
+              color="white"
+              width="24"
+              onClick={() => {
+                createNewScribble();
+                //Because of the async function above, selectedScribble ID doesn't get updated in time.
+                //This is still workaround as the error page still shows up in the halfway.
+                timerID = setTimeout(() => {
+                  navigate("/sort");
+                  navigate(0);
+                }, 1000);
+              }}
+            />
+          </Button>
+        </OverlayTrigger>
       </div>
       <div>
         {" "}
