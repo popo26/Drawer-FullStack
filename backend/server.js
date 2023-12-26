@@ -28,11 +28,15 @@ app.use(bodyParser.json())
 //sessions
 app.use(
   session({
-  secret: process.env.EXPRESS_SESSION_SECRET || 'fraggle-rock', //pick a random string to make the hash that is generated secure
+  secret: process.env.EXPRESS_SESSION_SECRET || 'fraggle-rock', // It holds the secret key for session
   // store: new MongoStore({ mongooseConnection: dbConnect }),
   store: MongoStore.create({mongoUrl:"mongodb://127.0.0.1/drawer-local"}),
-  resave: false, //required
-  saveUninitialized: false //required  
+  resave: false, // Forces the session to be saved back to the session store
+  saveUninitialized: false,  // Forces a session that is "uninitialized" to be saved to the store 
+  cookie: {
+    // Session expires after 1 min of inactivity.
+    expires: 60000
+}
 })
 )
 
