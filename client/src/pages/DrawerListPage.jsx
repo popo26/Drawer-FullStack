@@ -1,35 +1,23 @@
 import "../css/DrawerListPage.css";
 import { Icon } from "@iconify/react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useState, useCallback, useRef, useEffect } from "react";
-// import sanitizeHtml from "sanitize-html";
-import ContentEditable from "react-contenteditable";
+import { useState, useRef } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useUserContext } from "../context/UserContext";
 
-// export default function DrawerListPage({ expandedIndex, user, setUser }) {
 export default function DrawerListPage({ expandedIndex }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [drawerNameToEdit, setDrawerNameToEdit] = useState("");
   const [drawerIdToEdit, setDrawerIdToEdit] = useState("");
   const [updateIconIndex, setUpdateIconIndex] = useState(-1);
-  //const [isContentEditableDisabled, setIsContentEditableDisabled] = useState(true);
-  const [isContentEditable, setIsContentEditable] = useState(false);
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const { drawers, scribbles } = useDataContext();
   const { selectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const text = useRef(drawerNameToEdit);
-  const { user, setUser } = useUserContext();
-
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   if (userInBrowser) {
-  //     setUser(userInBrowser);
-  //   }
-  // }, []);
+  const { user } = useUserContext();
 
   // ++++++++Delete Drawer and its sub-drawers and scribbles
   const deleteScribbles = (drawerId) => {
@@ -109,12 +97,6 @@ export default function DrawerListPage({ expandedIndex }) {
     }
   };
 
-  //+++++++++++++++++++Get feedback from Anthony++++++++++++++++++++++++++++++++
-  // const sanitizeConf = {
-  //   allowedTags: ["b", "i", "em", "strong", "a", "p", "h1"],
-  //   allowedAttributes: { a: ["href"] },
-  // };
-
   const showUpdateIcon = (id) => {
     const isEditing = id == updateIconIndex;
     if (isEditing) {
@@ -143,16 +125,6 @@ export default function DrawerListPage({ expandedIndex }) {
 
   //experiement
   const test = (id) => {
-    //with sanitization - GET FEEDBACK from ANTHONY
-    // document
-    // .getElementById(`targetDrawerId${id}`)
-    // .addEventListener("input", function () {
-    //   setDrawerNameToEdit(
-    //     sanitizeHtml(document.getElementById(`targetDrawerId${id}`).innerText, sanitizeConf
-    //     )
-    //   );
-    // });
-
     document
       .getElementById(`targetDrawerId${id}`)
       .addEventListener("input", function () {
@@ -169,10 +141,7 @@ export default function DrawerListPage({ expandedIndex }) {
     test(clickedId);
     console.log("clickedId", clickedId);
     const drawerName = drawers.filter((item) => item._id == clickedId);
-    // setDrawerNameToEdit(drawerName[0]["name"]);
-    // setDrawerIdToEdit(drawerName[0]["idd"]);
     setDrawerNameToEdit(drawerName["name"]);
-    // setDrawerIdToEdit(drawerName["_id"]);
     setDrawerIdToEdit(clickedId);
 
     text.current = document.getElementById(
@@ -186,37 +155,8 @@ export default function DrawerListPage({ expandedIndex }) {
     navigate(0);
   };
 
-  // const save = (id) => {
-  //   setDrawerNameToEdit(
-  //     document.getElementById(`targetDrawerId${id}`).innerText
-  //   );
-  // };
-
-  // const handleChange3 = (id) => {
-  //   //can't access changed value with e.target.value
-  //   text.current = document.getElementById(`targetDrawerId${id}`).innerText;
-  //   // setDrawerNameToEdit(
-  //   //   document.getElementById(`targetDrawerId${id}`).innerText
-  //   // );
-  // };
-
-  // const onContentChange = useCallback((evt) => {
-  //   const sanitizeConf = {
-  //     allowedTags: ["b", "i", "a", "p"],
-  //     allowedAttributes: { a: ["href"] },
-  //   };
-  //   setDrawerNameToEdit(
-  //     sanitizeHtml(evt.currentTarget.innerText, sanitizeConf)
-  //     // sanitizeHtml(evt.target.value, sanitizeConf)
-  //   );
-  // }, []);
-
   const handleEdit = (e, id) => {
     handleSelectedDrawer(id);
-    console.log("Edit clicked");
-    //setIsContentEditableDisabled(!isContentEditableDisabled);
-    //setIsContentEditable(!isContentEditable);
-    console.log(e.target.value);
   };
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
@@ -234,7 +174,6 @@ export default function DrawerListPage({ expandedIndex }) {
       </Link>
     ));
   };
-  ///////////////////////////////////////////////////
 
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   const findSubDrawers = (id) => {
@@ -290,7 +229,6 @@ export default function DrawerListPage({ expandedIndex }) {
 
       return (
         <div key={item._id} className="sub-drawer-header">
-          {/* ADDED */}
           <div className="sub-drawer-header-div">
             <h3
               id={`targetDrawerId${item._id}`}
@@ -300,22 +238,11 @@ export default function DrawerListPage({ expandedIndex }) {
                 handleSelectedDrawer(item._id);
               }}
               contentEditable="true"
-              // contentEditable={isContentEditable}
               suppressContentEditableWarning={true}
-              //onChange={() => handleChange3(item.id)}
               ref={text}
             >
               {item.name}
-
-              {/* <ContentEditable
-                onChange={onContentChange}
-                // onChange={handleChange2}
-                // html={drawerNameToEdit}
-                html={item.name}
-                // value={drawerNameToEdit}
-              /> */}
             </h3>
-{/* <div style={{backgroundColor:"pink", display:"inline"}}> */}
             <Icon
               onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
@@ -329,19 +256,14 @@ export default function DrawerListPage({ expandedIndex }) {
               color="black"
               width="18"
               onClick={() => {
-                // drawerToBeMoved = item.id;
-                // setDrawerToBeMoved(drawerToBeMoved);
                 setDrawerToBeMoved(item.idd);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
-                console.log("PassingData", passingData);
+                //console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
-                // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
                 sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
-            {/* </div> */}
             {showUpdateIcon(item._id)}
-            {/* added */}
           </div>
           {scribbleList.length === 0 ? (
             <h6 className={"no-scribble scrb-indent" + item.level}>
@@ -359,24 +281,17 @@ export default function DrawerListPage({ expandedIndex }) {
     });
   };
 
-  console.log("Ref", text);
+  //console.log("Ref", text);
 
   ///////++++++++Update Drawer Name in DB+++++++++++++
   const updateDrawerName = (id) => {
     const drawerToBeUpdated = drawers.filter((item) => item._id == id);
     const newName = text.current.innerText;
-    console.log("newName", newName);
+    //console.log("newName", newName);
     setDrawerNameToEdit(text.current.innerText);
 
     let dataPost = {
-      // rootId: drawerToBeUpdated[0]["rootId"],
-      // userId: 1,
-      // drawerId: drawerToBeUpdated[0]["drawerId"],
       name: drawerNameToEdit,
-      // type: "drawer",
-      // ["subDrawer"]: drawerToBeUpdated[0]["subDrawer"],
-      // root: drawerToBeUpdated[0]["root"],
-      // level: drawerToBeUpdated[0]["level"],
     };
     fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "PUT",
@@ -391,39 +306,21 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const renderedList = drawers.map((item) => {
-    // if (id == item._id) {
     if (id == item._id && item.userId === user._id) {
       return (
         <div key={item._id}>
           <div className="rendered-drawers">
-            {/* <h2 contentEditable={isContentEditable} style={{display:"inline-block"}} value={drawerNameToEdit}>
-            {item.name}
-            </h2>             */}
             <h2
               id={`targetDrawerId${item._id}`}
-              // contentEditable={isContentEditable}
               style={{ display: "inline-block" }}
               onClick={() => {
                 handleSelectedDrawer(item._id);
               }}
               contentEditable="true"
-              // contentEditable={isContentEditable}
               suppressContentEditableWarning={true}
-              // onChange={handleChange3}
-              //onChange={() => handleChange3(item.id)}
               ref={text}
-              //ref={`text${item.id}`}
             >
               {item.name}
-
-              {/* <ContentEditable
-                // onChange={onContentChange}
-                onChange={handleChange2}
-                // html={drawerNameToEdit}
-                html={item.name}
-                disabled={isContentEditableDisabled}
-                // value={drawerNameToEdit}
-              /> */}
             </h2>
             <Icon
               onClick={() => handleDelete(item._id)}
@@ -438,47 +335,15 @@ export default function DrawerListPage({ expandedIndex }) {
               color="black"
               width="18"
               onClick={() => {
-                // drawerToBeMoved = item.id;
-                // setDrawerToBeMoved(drawerToBeMoved);
                 setDrawerToBeMoved(item._id);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
-                console.log("PassingData", passingData);
+                //console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
-                // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
                 sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
-            {/* <Icon
-              icon="uiw:edit"
-              color="black"
-              width="22"
-              // onClick={handleEdit}
-              onClick={(e) => handleEdit(e, item.id)}
-            /> */}
-            {/* temp */}
-            {/* {updateIconIndex && (
-              <Icon
-                icon="material-symbols:update"
-                color="black"
-                width="22"
-                onClick={update}
-              />
-            )} */}
 
             {showUpdateIcon(item._id)}
-
-            {/* <Icon
-              icon="material-symbols:update"
-              color="black"
-              width="48"
-              height="48"
-              // onClick={()=>{
-              //   save(item.id)
-              //   return ()=>update
-              // }}
-              onClick={update}
-            /> */}
-            {/* <button onClick={() => save(item.id)}>Save</button> */}
           </div>
 
           {item["subDrawer"] === true ? (

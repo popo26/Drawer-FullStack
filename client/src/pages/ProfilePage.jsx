@@ -1,12 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Link,
-  useNavigate,
-} from "react-router-dom";
-import InputField from "../components/InputField";
-import MyButton from "../components/MyButton";
+import { BrowserRouter as Router, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import {
   Button,
@@ -16,57 +8,36 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import { useEffect } from "react";
 import axios from "axios";
 import "../css/ProfilePage.css";
 import { useUserContext } from "../context/UserContext";
 
-// export default function ProfilePage({ user, setUser }) {
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, setUser } = useUserContext();
   const tooltipUpdate = <Tooltip id="tooltip">Click To Update</Tooltip>;
 
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   if (userInBrowser) {
-  //     setUser(userInBrowser);
-  //   }
-  // }, []);
-
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    console.log(user);
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("Change clicked");
 
     axios
       .put(`http://127.0.0.1:8080/api/users/update/${user._id}`, {
-        // _id:user._id,
         email: user.email,
         password: user.password,
         username: user.username,
-        //added for test
-        // isLoggedIn: user.isLoggedIn,
-        // role:"user"
       })
       .then((response) => {
         console.log(response);
         if (!response.data.errmsg) {
           //set isLoggedIn for frontend
           console.log("Update response", response.data);
-          //setUser({ ...user, isLoggedIn: true });
           console.log("successful UPDATED", user);
           localStorage.setItem("user", JSON.stringify(user));
-          //navigate("/login");
         }
-        // else {
-        //   console.log("Error");
-        //   setUser({ ...user, isLoggedIn: false });
-        // }
       })
       .catch((error) => {
         console.log("Update error: ");
@@ -79,28 +50,20 @@ export default function ProfilePage() {
     console.log("Change Password clicked");
 
     axios
-      // .post(`http://127.0.0.1:8080/api/users/changepassword`, {
       .put(`http://127.0.0.1:8080/api/users/changepassword/${user._id}`, {
         _id: user._id,
         email: user.email,
         password: user.password,
         username: user.username,
-        //isLoggedIn: user.isLoggedIn,
       })
       .then((response) => {
         console.log(response);
         if (!response.data.errmsg) {
           //set isLoggedIn for frontend
           console.log("Update response", response.data);
-          //setUser({ ...user, isLoggedIn: true });
           console.log("password UPDATED", user);
           localStorage.setItem("user", JSON.stringify(user));
-          //navigate("/login");
         }
-        // else {
-        //   console.log("Error");
-        //   setUser({ ...user, isLoggedIn: false });
-        // }
       })
       .catch((error) => {
         console.log("Update error: ");
@@ -213,38 +176,8 @@ export default function ProfilePage() {
             </OverlayTrigger>
           </Col>
         </Form.Group>
-
-        {/* <Button variant="dark" type="submit" onClick={handleClick}>
-          Change
-        </Button> */}
       </Form>
 
-      {/* <InputField
-        name="username"
-        htmlFor="username"
-        placeholder="Username"
-        id="username"
-        type="text"
-      />
-      <Button variant="dark">Change</Button>
-      <InputField
-        name="email"
-        htmlFor="email"
-        placeholder="Email"
-        id="email"
-        type="email"
-      />
-      <Button variant="dark">Change</Button>
-      <InputField
-        name="password"
-        htmlFor="password"
-        placeholder="Password"
-        id="password"
-        type="password"
-      />
-      <Link to="/password-reset">
-        <Button variant="dark">Change</Button>
-      </Link> */}
       <br />
       <div>
         <Icon

@@ -1,9 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import InputField from "../components/InputField";
-import { useState } from "react";
 import "../css/SortPreviewPage.css";
-import MyButton from "../components/MyButton";
 import { useEffect } from "react";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
@@ -11,7 +8,6 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useUserContext } from "../context/UserContext";
 
-// export default function SortDrawerPreviewPage({ user, setUser }) {
 export default function SortDrawerPreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -20,9 +16,6 @@ export default function SortDrawerPreviewPage() {
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const { user, setUser } = useUserContext();
-
-  //console.log("State", state);
-  console.log("drawerToBeMoved", sessionStorage.getItem("drawerToBeMoved"));
 
   //To persist those 2 values incase of browser refresh -- moved to context?
   const drawerToBeMovedObj = drawers.filter(
@@ -34,18 +27,11 @@ export default function SortDrawerPreviewPage() {
 
   const tooltipMoveHere = <Tooltip id="tooltip">Move Here</Tooltip>;
 
-
   //To persist those 2 values incase of browser refresh
   useEffect(() => {
     setDrawerToBeMoved(sessionStorage.getItem("drawerToBeMoved"));
     handleSelectedDrawerId(sessionStorage.getItem("selectedDrawerId"));
   }, []);
-
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   console.log("user in browser", userInBrowser);
-  //   setUser(userInBrowser);
-  // }, []);
 
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;
@@ -55,21 +41,10 @@ export default function SortDrawerPreviewPage() {
     //Later remove if statement
     if (parentDrawerObj[0]["drawerId"]) {
       dataPost = {
-        // rootId: parentDrawerObj[0]["rootId"],
-        // drawerId: parentDrawerObj[0]["drawerId"],
-        // userId: 1,
-        // name: parentDrawerObj[0]["name"],
-        // type: "drawer",
         ["subDrawer"]: true,
-        // level: parentDrawerObj[0]["level"],
-        // root: parentDrawerObj[0]["root"],
       };
     } else {
       dataPost = {
-        // rootId: parentDrawerObj[0]["rootId"],
-        // userId: 1,
-        // name: parentDrawerObj[0]["name"],
-        // type: "drawer",
         ["subDrawer"]: true,
         level: 1,
         root: true,
@@ -106,14 +81,8 @@ export default function SortDrawerPreviewPage() {
           drawers[x].level > drawerToBeMovedObject[0]["level"])
       ) {
         subDrawersToBeMoved.push(drawers[x]);
-        //console.log("index", subDrawersToBeMoved.indexOf(x));
         let dataPost = {
           rootId: newTopLevelDrawerId,
-          //userId: 1,
-          // drawerId: drawers[x].drawerId,
-          // name: drawers[x].name,
-          // type: "drawer",
-          // subDrawer: drawers[x]["subDrawer"],
           root: false,
           level:
             newTopLevelDrawerObject[0]["level"] +
@@ -138,11 +107,6 @@ export default function SortDrawerPreviewPage() {
       if (scribbles[x].rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
-          //userId: 1,
-          // drawerId: scribbles[x].drawerId,
-          // title: scribbles[x].title,
-          // content: scribbles[x].content,
-          // type: "scribble",
           stray: false,
           level: newTopLevelDrawerObject[0]["level"] + scribbles[x].level,
         };
@@ -161,17 +125,10 @@ export default function SortDrawerPreviewPage() {
   };
 
   const moveDrawerToNewDrawer = (passedId) => {
-    // const drawerToBeMovedObject = drawers.filter(
-    //   (item) => item._id == drawerToBeMoved
-    // );
     const parentDrawerObject = drawers.filter((item) => item._id == passedId);
     let dataPost = {
       rootId: parentDrawerObject[0]["rootId"],
-      //userId: 1,
       drawerId: parentDrawerObject[0]["_id"],
-      // name: drawerToBeMovedObject[0]["name"],
-      // type: "drawer",
-      // ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
       root: false,
       level: parentDrawerObject[0]["level"] + 1,
     };
@@ -196,7 +153,6 @@ export default function SortDrawerPreviewPage() {
   };
 
   const renderedList = drawers
-    // .filter((item) => item._id == state.selectedDrawerId)
     .filter((item) => item._id == sessionStorage.getItem("selectedDrawerId"))
 
     .map((item) => (
@@ -206,26 +162,19 @@ export default function SortDrawerPreviewPage() {
     ));
 
   const scribblies = (x) => {
-    return (
-      scribbles
-        // .filter((scrb) => scrb.drawerId == x[0]._id)
-        .filter((scrb) => scrb.drawerId == x._id)
-        .map((scrb) => (
-          <p
-            key={scrb._id}
-            className={"sort-preview-scribbles scrb-indent" + scrb.level}
-          >
-            {/* ID:{scrb._id}:{scrb.title}
-            <span>-- [scribble]</span> */}
-
-           
-            <span>
-              <Icon icon="tabler:scribble" color="black" /> 
-            </span> {" "}
-            {scrb.title}
-          </p>
-        ))
-    );
+    return scribbles
+      .filter((scrb) => scrb.drawerId == x._id)
+      .map((scrb) => (
+        <p
+          key={scrb._id}
+          className={"sort-preview-scribbles scrb-indent" + scrb.level}
+        >
+          <span>
+            <Icon icon="tabler:scribble" color="black" />
+          </span>{" "}
+          {scrb.title}
+        </p>
+      ));
   };
 
   const subDrawers = (x) => {
@@ -236,23 +185,18 @@ export default function SortDrawerPreviewPage() {
           key={sub._id}
           className={"sort-preview-sub-drawers indent-" + sub.level}
         >
-          {/* ID:{sub._id}:{sub.name}
-          <span>-- [Sub-Drawer]</span> */}
-         
           <span>
             <Icon icon="mingcute:drawer-line" color="black" />
-          </span> {" "}
+          </span>{" "}
           {sub.name}
         </p>
       ));
   };
 
   const FindSubDrawers = () => {
-    // const x = drawers.filter((item) => item._id == state.selectedDrawerId);
     const x = drawers.filter(
       (item) => item._id == sessionStorage.getItem("selectedDrawerId")
     );
-    console.log("X", x);
 
     const renderedChildren =
       x["subDrawer"] === true ? (
@@ -299,31 +243,11 @@ export default function SortDrawerPreviewPage() {
         <FindSubDrawers />
       </div>
       <div>
-      <OverlayTrigger placement="right" overlay={tooltipMoveHere}>
-
-        <Button onClick={handleMoveHere} variant="dark" className="move-btn">
-          <Icon icon="ic:baseline-move-down" width="30" />
-        </Button>
+        <OverlayTrigger placement="right" overlay={tooltipMoveHere}>
+          <Button onClick={handleMoveHere} variant="dark" className="move-btn">
+            <Icon icon="ic:baseline-move-down" width="30" />
+          </Button>
         </OverlayTrigger>
-
-        {/* UNDERCONSTRUCTION or NOT REQUIRED */}
-        {/* <h6>Or create new sub-drawer</h6>
-        <InputField
-          type="text"
-          name="create-new-sub-drawer"
-          id="create-new-sub-drawer"
-          placeholder="New sub drawer name"
-          value={newSubDrawerName}
-          //handleNewDrawerChange={handleChange}
-        />
-        <br />
-        <MyButton
-          href={null}
-          btnName="Create & Move"
-          //handleNewDrawerCreate={handleCreate}
-          drawerName={newSubDrawerName}
-        /> */}
-        {/* UNDERCONSTRUCTION        */}
       </div>
       <div>
         <Icon

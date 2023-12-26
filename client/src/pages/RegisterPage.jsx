@@ -1,14 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/RegisterPage.css";
 import { Button, Form, Alert } from "react-bootstrap";
-//import Message from "../components/Message";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo_d.png";
-import { useUserContext } from "../context/UserContext";
 
-// export default function RegisterPage(props, {user, setUser}) {
-// export default function RegisterPage({ user, setUser }) {
 export default function RegisterPage() {
   const [userForm, setUserForm] = useState({
     email: "",
@@ -17,18 +13,9 @@ export default function RegisterPage() {
     role: "user",
     isLoggedIn: false,
   });
-  //const [message, setMessage] = useState(null);
   let timerID = useRef(null);
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  const { user, setUser } = useUserContext();
-
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   if (userInBrowser) {
-  //     setUser(userInBrowser);
-  //   }
-  // }, []);
 
   useEffect(() => {
     return () => {
@@ -38,9 +25,7 @@ export default function RegisterPage() {
 
   const handleChange = (e) => {
     setMessage("");
-    //console.log(e.target.value)
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
-    console.log(userForm);
   };
 
   const resetForm = () => {
@@ -87,7 +72,6 @@ export default function RegisterPage() {
 
   return (
     <div className="RegisterPage">
-      {/* {message ? <Message message={message} /> : null} */}
       <div className="form">
         <div>
           <img src={logo} width="100rem" />
@@ -113,9 +97,6 @@ export default function RegisterPage() {
               name="email"
               onChange={handleChange}
             />
-            {/* <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text> */}
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -128,9 +109,10 @@ export default function RegisterPage() {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            {/* <a href="#">Don't remember?</a> */}
-          </Form.Group>
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicCheckbox"
+          ></Form.Group>
           {message && <Alert variant="danger">{message}</Alert>}
           <Button variant="dark" type="submit" onClick={handleSubmitRegister}>
             Register
@@ -139,40 +121,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-
-  // return (
-  //   <div className="RegisterPage">
-  //     {/* {message ? <Message message={message} /> : null} */}
-  //     <form>
-  //       <input
-  //         type="text"
-  //         name="username"
-  //         placeholder="username"
-  //         id="username"
-  //         value={userForm.username}
-  //         onChange={handleChange}
-  //       />
-  //       <input
-  //         type="email"
-  //         name="email"
-  //         placeholder="email"
-  //         id="email"
-  //         value={userForm.email}
-  //         onChange={handleChange}
-  //       />
-  //       <br />
-  //       <input
-  //         type="password"
-  //         name="password"
-  //         placeholder="password"
-  //         id="password"
-  //         value={userForm.password}
-  //         onChange={handleChange}
-  //       />
-  //       <Button variant="outline-dark" onClick={handleSubmitRegister}>
-  //         Register
-  //       </Button>
-  //     </form>
-  //   </div>
-  // );
 }

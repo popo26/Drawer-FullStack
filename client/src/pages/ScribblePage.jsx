@@ -1,24 +1,16 @@
-import { useState, useCallback, useRef, useEffect } from "react";
-import MyButton from "../components/MyButton";
+import { useState, useRef, useEffect } from "react";
 import "../css/ScribblePage.css";
 import { Icon } from "@iconify/react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import FileDrop from "../components/FileDrop";
-import { useDropzone } from "react-dropzone";
 import { Button } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 
-// export default function ScribblePage({ user, setUser }) {
 export default function ScribblePage() {
-  // export default function ScribblePage({baseImage, setBaseImage}) {
-  // export default function ScribblePage({
-  //   files,
-  //   setFiles,
-  // })
   const navigate = useNavigate();
   const { drawers, scribbles, setScribbles, loading } = useDataContext();
   const [scribbleContent, setScribbleContent] = useState("");
@@ -28,58 +20,12 @@ export default function ScribblePage() {
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-  // const [files, setFiles] = useFileContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
-  const { user, setUser } = useUserContext();
+  const { user } = useUserContext();
 
   const [baseImage, setBaseImage] = useState("");
-  // const [baseImage1, setBaseImage1] = useState("");
-  // const [baseImage2, setBaseImage2] = useState("");
-  // const [baseImage3, setBaseImage3] = useState("");
 
   let timerID = useRef(null);
-
-  //const [image64, setImage64] = useState([])
-
-  //console.log("FILES", files);
-
-  //experiment 10Dec
-  // useEffect(() => {
-  //   if (!loading) {
-  //     let fileArray = [];
-  //     for (let x in scribbles) {
-  //       if (scribbles[x]["files"]) {
-  //         fileArray.push(scribbles[x]["files"]);
-  //       }
-  //     }
-  //     setFiles(fileArray);
-  //   }
-  // }, []);
-
-  //experiment11Dec
-  // const convertFileToBase64 = (file) =>
-  //    new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file.preview);
-
-  //     reader.onload = () =>
-  //       resolve({
-  //         fileName: file["file"].name,
-  //         base64: reader.result,
-  //       });
-  //     reader.onerror = reject;
-  //     console.log(result_base64)
-
-  //   }
-  //   );
-
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   console.log("user in Scribble List", userInBrowser);
-  //   if (userInBrowser) {
-  //     setUser(userInBrowser);
-  //   }
-  // }, []);
 
   useEffect(() => {
     return () => {
@@ -100,52 +46,8 @@ export default function ScribblePage() {
     reader.onloadend = function () {
       var base64data = reader.result;
       console.log(base64data);
-      // setFiles((prevValues)=>[...prevValues,JSON.parse(sessionStorage.getItem("images"))])
-      // sessionStorage.setItem("images", JSON.stringify(base64data))
-      // return base64data;
     };
-    // return new Promise((resolve, reject) => {
-    //   const fileReader = new FileReader();
-    //   if (file){
-    //     fileReader.readAsDataURL(file);
-    //     fileReader.onload = () => {
-    //       resolve(fileReader.result);
-    //     };
-    //   }
-
-    //   fileReader.onerror = (error) => {
-    //     reject(error);
-    //   };
-    // });
   };
-
-  // async function convertFileToBase64(file) {
-  //   let result_base64 = await new Promise((resolve) => {
-  //     let fileReader = new FileReader();
-  //     fileReader.onload = () =>
-  //       // resolve({
-  //       //   fileName: file["file"].name,
-  //       //   base64: fileReader.result,
-  //       // });
-  //       // fileReader.readAsDataURL(file.preview);
-  //       (fileReader.onload = () => resolve(fileReader.result));
-  //     fileReader.readAsDataURL(file);
-  //   });
-
-  //   console.log("RESLT is..", result_base64); // aGV5IHRoZXJl...
-  //   return result_base64;
-  // }
-
-  // async function convertFileToBase64(file) {
-  //   let result_base64 = await new Promise((resolve) => {
-  //     let fileReader = new FileReader();
-  //     fileReader.onload = () => resolve(fileReader.result);
-  //     fileReader.readAsDataURL(file);
-  //   });
-
-  //   console.log(result_base64); // aGV5IHRoZXJl...
-  //   return result_base64;
-  // }
 
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
@@ -153,28 +55,18 @@ export default function ScribblePage() {
     setContent(body.current);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
-    //console.log("You are inside the Fetch function");
     console.log("files", files);
 
     let filesInfo = [];
-    //console.log("FILES ...", files[0].preview);
-    //console.log("Funciton", convertFileToBase64(files[0].preview));
     for (let x in files) {
-      console.log("Function", files[x].preview);
-      // const r =  convertFileToBase64(files[x].preview);
-      // console.log("R", r);
       convertFileToBase64(files[x].preview);
 
       const perFile = {};
       perFile["path"] = files[x]["file"].path;
       perFile["name"] = files[x]["file"].name;
-      // perFile["preview"] = convertFileToBase64(files[x].preview);
-      // perFile["preview"] = files[x].preview;
       perFile["preview"] = files[x].preview;
-
       perFile["size"] = files[x]["file"].size;
       perFile["format"] = files[x]["file"].type;
-      //perFile['test'] = sessionStorage.getItem("image");
       filesInfo.push(perFile);
     }
 
@@ -185,7 +77,6 @@ export default function ScribblePage() {
       userId: user._id,
       title: scribbleTitle ? scribbleTitle : "Untitled",
       type: "scribble",
-      // content: body.current,
       content: contentDetails,
       stray: true,
       level: 1,
@@ -202,8 +93,6 @@ export default function ScribblePage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        //setFiles((prevItems) => [...prevItems, json.data["files"]]);
-        //sessionStorage.setItem("files", JSON.stringify(files))
         setSelectedScribbleId(json.data._id);
         console.log("selected Scribble ID setting complete");
         console.log("JSON", json);
@@ -217,7 +106,6 @@ export default function ScribblePage() {
 
   const handleTitleChange = (value) => {
     setScribbleTitle(value);
-    // setSelectedScribbleId(scribbles.length + 1);
   };
 
   const handleSubmitScribble = (e) => {
@@ -231,35 +119,13 @@ export default function ScribblePage() {
     navigate(0);
   };
 
-  // const deleteAttachment = (blob) => {
-  //   fetch(`http://localhost:3000/scribbles/${id}`, {
-  //     method: "DELETE",
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     // body: JSON.stringify(dataPost),
-  //   })
-  //     .then((response) => console.log(response.json()))
-  //     .catch((error) => console.error(error.message));
-  // };
-
-  // const handleDelete = (blob) => {
-  //   alert(`Are you sure to delete? -ID:${blob}`);
-  //   deleteAttachment(blob);
-  // };
-
-  // const handleDeleteAttachment = (passedBlob) => {
-  //   deleteAttachment(passedBlob);
-  // };
-
   const detectContent = () => {
     if (document.querySelector(".screenshot")) {
       document
         .querySelector(".screenshot")
         .addEventListener("input", function (e) {
           let imageArray = [];
-          console.log(document.querySelector(".screenshot").innerHTML);
+          //console.log(document.querySelector(".screenshot").innerHTML);
           const parent = document.querySelector(".screenshot");
           console.log(typeof body.current);
           if (parent.getElementsByTagName("img")) {
@@ -268,38 +134,11 @@ export default function ScribblePage() {
             console.log("NOOOOOOOOOOOOOOOOOOOO");
           }
           console.log("imageArray", imageArray);
-          // setContent("");
         });
     }
   };
 
   detectContent();
-
-  //console.log("BOdy", body);
-
-  // //Experiment Screenshot+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // const [imageDataURL, setImageDataURL] = useState(null);
-
-  // const onPaste = (event) => {
-  //     const clipboardData = event.clipboardData || window.clipboardData;
-  //     const items = clipboardData.items;
-
-  //     for (let i = 0; i < items.length; i++) {
-  //         if (items[i].type.indexOf('image') !== -1) {
-  //             const imageFile = items[i].getAsFile();
-  //             processImage(imageFile);
-  //         }
-  //     }
-  // };
-
-  // const processImage = (imageFile) => {
-  //     const reader = new FileReader();
-  //     reader.onload = (event) => {
-  //         setImageDataURL(event.target.result);
-  //     };
-  //     reader.readAsDataURL(imageFile);
-  // };
-  // //Experiment Screenshot++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   return (
     <div className="ScribblePage">
@@ -315,31 +154,7 @@ export default function ScribblePage() {
       />
 
       <br />
-      {/* Experiment++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
-      {/* <div className="span-div">
-        <span
-          className="input"
-          role="textbox"
-          contentEditable
-          onClick={handleContentChange2}
-          ref={body}
-          suppressContentEditableWarning={true}
-        >
-          {content}
-        </span>
-      </div> */}
-      {/* Experiment++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
-      {/* <div className="textarea-wrap">
-        <textarea
-          autoFocus
-          value={scribbleContent}
-          onChange={handleScribbleChange}
-          rows="20"
-          cols="100"
-        >
-          Scribble here
-        </textarea>
-      </div> */}
+
       <div
         contentEditable="true"
         className="screenshot"
@@ -374,8 +189,8 @@ export default function ScribblePage() {
             width="24"
             onClick={() => {
               createNewScribble();
-              //navigate("/sort", { state: { id: selectedScribbleId } })
-              //Because of the async function above, selectedScribble ID doesn't get updated in time. This is still workaround as the error page still shows up in the halfway
+              //Because of the async function above, selectedScribble ID doesn't get updated in time.
+              //This is still workaround as the error page still shows up in the halfway.
               timerID = setTimeout(() => {
                 navigate("/sort");
                 navigate(0);
@@ -394,24 +209,6 @@ export default function ScribblePage() {
           onClick={() => navigate(-1)}
         />
       </div>
-
-      {/* Experiment Screenshot++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
-      {/* <div className='container'>
-                    <h3 className='title'>React js Copy Paste Image Clipboard</h3>
-                    <div
-                        className='paste-container'
-                        ref={(ref) => {
-                            if (ref) {
-                                ref.addEventListener('paste', onPaste);
-                            }
-                        }}
-                    >
-                        Click here and use Control-V to paste the image.
-                    </div>
-                    <br />
-                    {imageDataURL && <img src={imageDataURL} alt="Pasted Image" className='pasted-image' />}
-                </div> */}
-      {/* Experiment++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
     </div>
   );
 }

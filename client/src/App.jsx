@@ -16,27 +16,8 @@ import { useUserContext } from "./context/UserContext";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  // const [files, setFiles] = useState([]);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
-  // const [baseImage, setBaseImage] = useState("")
-  // const [user, setUser] = useState({
-  //   _id: "",
-  //   username: "",
-  //   email: "",
-  //   password: "",
-  //   isLoggedIn: false,
-  // });
-
-  const {user, setUser} = useUserContext();
-
-  //const [currentStrayScribblesNum, setCurrentStrayScribblesNum] = useState(0)
-
-  // useEffect(()=>{
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   setUser(userInBrowser)
-  // }, [])
-
-  console.log("User in APP", user);
+  const { user, setUser } = useUserContext();
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -50,34 +31,27 @@ export default function App() {
 
   return (
     <>
-      {/* <UserContextProvider> */}
-        <DataProvider>
-          <SelectedDrawerProvider>
-            <SelectedScribbleProvider>
-              <DrawerToBeMovedContextProvider>
-                <DrawerNameProvider>
-                  <FileProvider>
-                    {/* <MyNavbar user={user} setUser={setUser} currentStrayScribblesNum={currentStrayScribblesNum} setCurrentStrayScribblesNum={setCurrentStrayScribblesNum}/> */}
-                    {/* <MyNavbar user={user} setUser={setUser} /> */}
-                    <MyNavbar />
+      <DataProvider>
+        <SelectedDrawerProvider>
+          <SelectedScribbleProvider>
+            <DrawerToBeMovedContextProvider>
+              <DrawerNameProvider>
+                <FileProvider>
+                  <MyNavbar />
 
-                    <AppRoutes
-                      expandedIndex={expandedIndex}
-                      handleExpand={handleClickExpand}
-
-                      // user={user}
-                      // setUser={setUser}
-                    />
-                    <Link to="/scribble">
-                      {user.isLoggedIn && <ScribbleBtn />}
-                    </Link>
-                  </FileProvider>
-                </DrawerNameProvider>
-              </DrawerToBeMovedContextProvider>
-            </SelectedScribbleProvider>
-          </SelectedDrawerProvider>
-        </DataProvider>
-      {/* </UserContextProvider> */}
+                  <AppRoutes
+                    expandedIndex={expandedIndex}
+                    handleExpand={handleClickExpand}
+                  />
+                  <Link to="/scribble">
+                    {user.isLoggedIn && <ScribbleBtn />}
+                  </Link>
+                </FileProvider>
+              </DrawerNameProvider>
+            </DrawerToBeMovedContextProvider>
+          </SelectedScribbleProvider>
+        </SelectedDrawerProvider>
+      </DataProvider>
     </>
   );
 }

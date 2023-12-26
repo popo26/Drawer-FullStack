@@ -6,7 +6,6 @@
   padding: 20px;
   margin-top: 16px;
   border-width: 6px;
-  /* border-color: #eeeeee; */
   border-style: dashed;
   background-color: #fafafa;
 
@@ -15,21 +14,6 @@
   transition: border 0.24s ease-in-out;
 }
 
-/* const focusedStyle = {
-    borderColor: '#2196f3'
-  };
-  
-  const acceptStyle = {
-    borderColor: '#00e676'
-  };
-  
-  const rejectStyle = {
-    borderColor: '#ff1744'
-  }; */
-
-.remove-div {
-  /* position:relative; */
-}
 .remove-btn {
   position: absolute;
   background-color: #777;

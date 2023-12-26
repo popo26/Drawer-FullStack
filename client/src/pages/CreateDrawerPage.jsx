@@ -11,19 +11,10 @@ import { useUserContext } from "../context/UserContext";
 // export default function CreateDrawerPage({ user, setUser }) {
 export default function CreateDrawerPage() {
   const navigate = useNavigate();
-  const { drawers, scribbles, setDrawers } = useDataContext();
+  const { drawers, setDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
-  const { user, setUser } = useUserContext();
+  const { user } = useUserContext();
 
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   console.log("user in browser", userInBrowser);
-  //   setUser(userInBrowser);
-  // }, []);
-
-  console.log("user ID", user._id);
-
-  //working! POST
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
@@ -45,26 +36,15 @@ export default function CreateDrawerPage() {
       .then((response) => response.json())
       .then((json) => {
         setDrawers((prevItems) => [...prevItems, json.data]);
-        // sessionStorage.setItem("newDrawerId", json.data._id)
       })
       .catch((error) => console.error(error.message));
   };
 
   const handleChange = (value) => {
-    //console.log(value);
     setDrawerName(value);
   };
 
-  // const handleCreate = (value) => {
-  //   //console.log("Create btn clicked", value);
-  //   createNewDrawer();
-  //   setDrawerName("");
-  //   navigate("/home");
-  // };
-
   const handleCreate = (value) => {
-    //console.log("Create btn clicked", value);
-
     {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
       setDrawerName("");
@@ -82,7 +62,6 @@ export default function CreateDrawerPage() {
           placeholder="New Drawer Name"
           type="text"
           value={drawerName}
-          // onChange={handleChange}
           handleNewDrawerChange={handleChange}
         />
         <br />
@@ -94,12 +73,6 @@ export default function CreateDrawerPage() {
         />
         <br />
       </form>
-      {/* <button
-        onClick={() => navigate(-1)}
-        className="btn btn-outline-success cancel-btn"
-      >
-        Cancel
-      </button> */}
 
       <div>
         {" "}

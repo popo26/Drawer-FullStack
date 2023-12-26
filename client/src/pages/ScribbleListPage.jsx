@@ -1,30 +1,18 @@
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import "../css/ScribbleListPage.css";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 
-// export default function ScribbleListPage({ files }) {
-// export default function ScribbleListPage({ user, setUser }) {
 export default function ScribbleListPage() {
   const navigate = useNavigate();
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const { scribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-  // const [files] = useFileContext();
-  const { files } = useFileContext();
-  const { user, setUser } = useUserContext();
-
-  // useEffect(() => {
-  //   const userInBrowser = JSON.parse(localStorage.getItem("user"));
-  //   console.log("user in Scribble List", userInBrowser);
-  //   if (userInBrowser) {
-  //     setUser(userInBrowser);
-  //   }
-  // }, []);
+  //const { files } = useFileContext();
+  const { user } = useUserContext();
 
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
@@ -35,10 +23,6 @@ export default function ScribbleListPage() {
       },
     })
       .then((response) => response.json())
-      // .then(() => {
-      //   const updatedScribbles = scribbles.filter((item) => item._id != id);
-      //   setScribbles(updatedScribbles);
-      // })
       .catch((error) => console.error(error.message));
   };
 
@@ -49,22 +33,11 @@ export default function ScribbleListPage() {
     }
   };
 
-  //console.log("files length", files.length);
-
   const renderedList = scribbles.map(
     (item) =>
-      // item.stray === true && (
       item.stray === true &&
       item.userId === user._id && (
         <p key={item._id}>
-          {/* <a
-            
-            onClick={() => {
-              setSelectedScribbleId(item._id);
-              sessionStorage.setItem("selectedScribble", item._id);
-              navigate(`/scribble/${item._id}` , { state: { id: item._id } });
-            }}
-          > */}
           <Link
             to={`/scribble/${item._id}`}
             onClick={() => {
@@ -80,10 +53,8 @@ export default function ScribbleListPage() {
                 width="18"
               />
             )}
-            {/* ID:{item._id}, {item.title} */}
             {item.title}
           </Link>{" "}
-          {/* </a>{" "} */}
           <a
             onClick={() => {
               handleDelete(item._id);

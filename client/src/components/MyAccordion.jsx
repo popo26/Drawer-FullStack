@@ -1,35 +1,16 @@
 import AccordionItem from "./AccordionItem";
 import "../css/Accordion.css";
 import { GoTriangleRight, GoTriangleDown } from "react-icons/go";
-import { useState, useEffect, useHistory, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react";
-import { Accordion } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useUserContext } from "../context/UserContext";
 
-export default function MyAccordion({
-  expandedIndex,
-  setExpandedIndex,
-  handleExpand,
-  // user
-}) {
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+export default function MyAccordion({ expandedIndex, handleExpand }) {
+  const { drawers, scribbles } = useDataContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-
   const { user } = useUserContext();
-
-  // const [, updateState] = useState();
-  // const forceUpdate = useCallback(() => updateState({}), []);
-
-  //   useEffect(() => {
-  //  const newDrawerId = sessionStorage.getItem("newDrawerId");
-  //  const newDrawerObj = drawers.find((item)=>item._id == newDrawerId)
-  //  console.log("newDrawerObj", newDrawerObj)
-  //  setDrawers((prevValues)=>[...prevValues, newDrawerObj])
-  //   }, []);
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
 
@@ -125,7 +106,6 @@ export default function MyAccordion({
 
   // ++++++++++++++ Render Whole List +++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
-    // if (!item.drawerId) {
     if (!item.drawerId && item.userId === user._id) {
       const isExpanded = item._id == expandedIndex;
       const triangle = (

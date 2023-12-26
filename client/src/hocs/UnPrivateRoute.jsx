@@ -4,7 +4,6 @@ import { useUserContext } from "../context/UserContext";
 export default function UnPrivateRoute({
   redirectPath = "/home",
   children,
-  // user,
   ...rest
 }) {
   const { user } = useUserContext();

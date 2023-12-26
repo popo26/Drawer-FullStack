@@ -1,34 +1,24 @@
 .sort-msg-btn {
-    margin: 20px;
-    border-radius: 6px;
-    padding:6px;
-    border:4px solid black;
-    background: pink;
-    color:#404040;
-    /* font-weight:900; */
-    font-family: "Pacifico", cursive;
-    /* font-family: "Gasoek One"; */
-
+  margin: 20px;
+  border-radius: 6px;
+  padding: 6px;
+  border: 4px solid black;
+  background: pink;
+  color: #404040;
+  font-family: "Pacifico", cursive;
 }
-
-/* .sort-msg-btn:hover {
-
-    border:4px solid purple;
-    background: black;
-    color:white;
-} */
 
 .next-btn {
-    margin-top:30px;
-    margin-bottom:40px;
+  margin-top: 30px;
+  margin-bottom: 40px;
 }
 
-#page>h4{
-    font-size:12px;
+#page > h4 {
+  font-size: 12px;
 }
 
-.scrb-createNewDrawer-div{
-    background-color: #e0e0e0;
-    padding:10px;
-    border-radius: 10px;;
+.scrb-createNewDrawer-div {
+  background-color: #e0e0e0;
+  padding: 10px;
+  border-radius: 10px;
 }

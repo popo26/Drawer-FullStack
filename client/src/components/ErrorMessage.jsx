@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-// add to ErrorMessage.jsx
 function ErrorMessage({ error, resetErrorBoundary }) {
   const navigate = useNavigate();
   console.error(error);
@@ -18,7 +17,6 @@ function ErrorMessage({ error, resetErrorBoundary }) {
       </Button>
       <br />
       <br />
-      {/* <Button variant="dark" onClick={() => navigate("/")}>Home</Button> */}
       <Link to="/">Home</Link>
 
       <div>

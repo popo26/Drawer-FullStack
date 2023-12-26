@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
@@ -6,21 +6,17 @@ import { Icon } from "@iconify/react";
 import "../css/SearchPage.css";
 import { useUserContext } from "../context/UserContext";
 
-// export default function Search({ user }) {
 export default function Search() {
   const [searchItem, setSearchItem] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const { drawers, scribbles } = useDataContext();
+  const { scribbles } = useDataContext();
   const { user } = useUserContext();
-
-  //Testing out search results with userId1
 
   const searchKeywordInDb = () => {
     let searchResultArray = [];
     for (let x in scribbles) {
       if (
         (scribbles[x]["userId"] == user._id &&
-          // scribbles[x]["type"] == "scribble" &&
           scribbles[x]["title"]
             .toLowerCase()
             .includes(searchItem.toLowerCase())) ||
@@ -64,9 +60,7 @@ export default function Search() {
             searchResult.map((item) => {
               return (
                 <Link to={`/scribble/${item._id}`} key={item._id}>
-                  <p>
-                    ID{item._id}: {item.title}
-                  </p>
+                  <p>{item.title}</p>
                 </Link>
               );
             })

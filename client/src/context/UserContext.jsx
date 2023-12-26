@@ -9,8 +9,6 @@ export const UserContextProvider = (props) => {
     password: "",
     isLoggedIn: false,
   });
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  //const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const userInBrowser = JSON.parse(localStorage.getItem("user"));
@@ -21,11 +19,9 @@ export const UserContextProvider = (props) => {
   }, []);
 
   return (
-    // <div>
     <UserContext.Provider value={{ user, setUser }}>
       {props.children}
     </UserContext.Provider>
-    // </div>
   );
 };
 export const useUserContext = () => {

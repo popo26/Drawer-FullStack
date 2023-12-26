@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../css/Dropdown.css";
 import { Icon } from "@iconify/react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useUserContext } from "../context/UserContext";
 
-// export default function MyDropdown({user}) {
 export default function MyDropdown() {
   const [open, setOpen] = useState(false);
   const [currentDropdown, setCurrentDropDown] = useState("Existing Drawers");
@@ -99,7 +98,6 @@ export default function MyDropdown() {
 
   // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
-    // if (item.root === true) {
     if (item.root === true && item.userId === user._id) {
       return (
         <>
@@ -124,32 +122,12 @@ export default function MyDropdown() {
           <div>
             {item["subDrawer"] === true ? (
               <>{findSubDrawers(item._id)} </>
-            ) : // <>{findSubDrawers2(item._id, drawers)} </>
-
-            null}
+            ) : null}
           </div>
         </>
       );
     }
   });
-
-  //   return (
-  //     <div>
-  //       <div className="dropdown">
-  //         <button
-  //           className="btn btn-secondary dropdown-toggle"
-  //           type="button"
-  //           data-bs-toggle="dropdown"
-  //           aria-expanded="false"
-  //           onClick={handleOpen} //Not sure why this is needed
-  //         >
-  //           {currentDropdown}
-  //         </button>
-  //         <div className="dropdown-menu">{existingDrawersList}</div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div>
@@ -162,20 +140,6 @@ export default function MyDropdown() {
           <Dropdown.Item>{existingDrawersList}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-
-      {/* ORIGINAL without React-BOOTSTRAP */}
-      {/* <div className="dropdown">
-      <button
-        className="btn btn-secondary dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        onClick={handleOpen} //Not sure why this is needed
-      >
-        {currentDropdown}
-      </button>
-      <div className="dropdown-menu">{existingDrawersList}</div>
-    </div> */}
     </div>
   );
 }

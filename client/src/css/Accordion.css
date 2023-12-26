@@ -4,10 +4,7 @@
 
 .sub-drawer-name {
   color: #808080;
-  /* color: #606060; */
   font-weight: 900;
-
-  /* background-color: rgb(224, 220, 220); */
   background-color: #e0e0e0;
   padding: 3px;
   font-size: 16px;
@@ -95,58 +92,10 @@
   text-indent: 200px;
 }
 
-/* .indent-2 {
-  text-indent: 20px;
-
-}
-
-.indent-3 {
-  text-indent: 40px;
-
-}
-
-.indent-4 {
-  text-indent: 60px;
-
-}
-
-.indent-5 {
-  text-indent: 80px;
-
-}
-
-.scrb-indent1 {
-  text-indent: 20px;
-}
-
-.scrb-indent2 {
-  text-indent: 40px;
-
-}
-
-.scrb-indent3 {
-  text-indent: 60px;
-
-}
-
-.scrb-indent4 {
-  text-indent: 80px;
-
-}
-
-.scrb-indent5 {
-  text-indent: 100px;
-} */
-
 .no-scribble {
   color: blueviolet;
-  /* text-indent: 100px; */
   display: block;
 }
-
-/* .individual-scribble {
-  font-size:20px;
-} */
 
 a {
   text-decoration: none;
@@ -156,14 +105,6 @@ a {
 a:hover {
   color: purple;
 }
-
-.sub-drawer-div {
-  /* border-top: 3px dotted #808080; */
-}
-
-/* .sub-drawer-scribble-list {
-  display:block;
-} */
 
 .triangle {
   float: left;

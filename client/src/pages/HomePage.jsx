@@ -1,26 +1,16 @@
 import MyAccordion from "../components/MyAccordion";
 import { Link } from "react-router-dom";
-//import { useDataContext } from "../context/DataContext";
-import { useEffect, useHistory } from "react";
-import { useFileContext } from "../context/FileContext";
+import { useEffect } from "react";
 import { useUserContext } from "../context/UserContext";
-//import { session } from "../../../backend/passport";
 import { Icon } from "@iconify/react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-export default function HomePage({
-  expandedIndex,
-  handleExpand,
-  // user,
-  // setUser,
-}) {
+export default function HomePage({ expandedIndex, handleExpand }) {
   const { user, setUser } = useUserContext();
-  console.log("user Home", user);
 
   useEffect(() => {
     const userInBrowser = JSON.parse(localStorage.getItem("user"));
     if (userInBrowser) {
-      console.log("user in browser", userInBrowser);
       setUser(userInBrowser);
     }
   }, []);

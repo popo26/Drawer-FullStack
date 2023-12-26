@@ -5,12 +5,10 @@
 .ScribbleListPage > h4 {
   font-family: "Pacifico", cursive;
   margin-top: 20px;
-  /* color:#808080; */
   color: pink;
 
   background-color: black;
   padding: 12px;
   border-radius: 10px;
   display: inline-block;
-  /* box-shadow: blue; */
 }

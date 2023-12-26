@@ -1,25 +1,22 @@
+//Future feature
+
 import InputField from "../components/InputField";
 import { useState } from "react";
 import "../css/PasswordResetPage.css";
 import { Button } from "react-bootstrap";
 import { useUserContext } from "../context/UserContext";
 
-// export default function PasswordResetPage({user, setUser}) {
-  export default function PasswordResetPage() {
-
+export default function PasswordResetPage() {
   const [email, setEmail] = useState("");
   const [isSent, setIsSent] = useState(false);
-  const {user, setUser} = useUserContext();
+  const { user, setUser } = useUserContext();
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setEmail(e.target.value);
-    console.log("email is: ", email);
     setIsSent(true);
   };
 

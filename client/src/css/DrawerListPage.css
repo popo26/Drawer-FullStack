@@ -7,7 +7,6 @@
 
 /* top-level drawer */
 .rendered-drawers > h2 {
-  /* font-size:22px; */
   font-weight: 900;
 }
 
@@ -15,20 +14,7 @@
 .sub-drawer-header h3 {
   font-size: 16px;
   font-weight: 900;
-  /* font-size: 2em;
-  container-name: sidebar */
 }
-
-/* @container sidebar (min-width: 700px) {
-  .sub-drawer-header h3 {
-    font-size: 1em;
-  }
-} */
-
-/* scribbles */
-/* .sub-drawer-header {
-  font-size: px;
-} */
 
 .sub-drawer-header-div {
   border-top: 3px dashed #808080;
