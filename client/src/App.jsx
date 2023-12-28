@@ -13,11 +13,14 @@ import { useDataContext } from "./context/DataContext";
 import { FileProvider } from "./context/FileContext";
 import { UserContextProvider } from "./context/UserContext";
 import { useUserContext } from "./context/UserContext";
+import { useTimeout } from "./hooks/useTimeout";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const { user, setUser } = useUserContext();
+
+  //console.log("user is loggedin?", user.isLoggedIn)
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -28,6 +31,9 @@ export default function App() {
       }
     });
   };
+
+
+useTimeout();
 
   return (
     <>
