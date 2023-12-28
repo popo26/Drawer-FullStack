@@ -16,7 +16,7 @@ export default function SortScribblePreviewPage() {
   const [newSubDrawerName, setNewSubDrawerName] = useState("");
   const [saveHereSelected, setSaveHereSelected] = useState(true);
   const [displayMessage, setDisplayMessage] = useState("Or create sub-drawer");
-  const { drawers, scribbles, loadingScribbles } = useDataContext();
+  const { drawers, scribbles, loadingScribbles, loadingDrawers } = useDataContext();
   const [selectedScribbleId] = useSelectedScribbleContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
@@ -194,22 +194,45 @@ export default function SortScribblePreviewPage() {
     ));
   };
 
+
   const FindSubDrawers = () => {
-    const selectedDrawerObj = drawers?.filter(
-      (item) => item._id == sessionStorage.getItem("selectedDrawer")
-    );
+    if (!loadingDrawers) {
+      const selectedDrawerObj = drawers.filter(
+        (item) => item._id == sessionStorage.getItem("selectedDrawer")
+      );
+  
+      console.log('selectedDrawer', sessionStorage.getItem("selectedDrawer"))
+      const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
+        <>
+          {scribblies()}
+          {subDrawers()}
+        </>
+      ) : (
+        <>{scribblies()}</>
+      );
+  
+      return renderedChildren;
+    }
 
-    const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
-      <>
-        {scribblies()}
-        {subDrawers()}
-      </>
-    ) : (
-      <>{scribblies()}</>
-    );
-
-    return renderedChildren;
   };
+
+  // const FindSubDrawers = () => {
+  //   const selectedDrawerObj = drawers.filter(
+  //     (item) => item._id == sessionStorage.getItem("selectedDrawer")
+  //   );
+
+  //   console.log('selectedDrawer', sessionStorage.getItem("selectedDrawer"))
+  //   const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
+  //     <>
+  //       {scribblies()}
+  //       {subDrawers()}
+  //     </>
+  //   ) : (
+  //     <>{scribblies()}</>
+  //   );
+
+  //   return renderedChildren;
+  // };
 
   const handleDisplay = () => {
     setSaveHereSelected(!saveHereSelected);

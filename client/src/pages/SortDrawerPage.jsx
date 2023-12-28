@@ -177,18 +177,14 @@ export default function SortDrawerPage() {
 
   return (
     <div id="page">
-      {/* <h4 className="sort-drawer-title">
-        Drawer to be moved : {drawerToBeMovedObj["name"]}---ID
-        {drawerToBeMoved}
-      </h4>
-      <h4>Selected drawer Id : {selectedDrawerId}</h4> */}
 
-      {/* At the moment showing only drawer icons but at least persistent on refresh */}
       <h4 className="sort-drawer-title">
-        {sessionStorage.getItem("drawerToBeMoved") && drawerToBeMovedObjName}
+        {sessionStorage.getItem("drawerToBeMoved") &&
+          !loadingDrawers &&
+          drawerToBeMovedObjName()}
         <Icon icon="mingcute:drawer-line" color="red" />
         <Icon icon="ri:arrow-right-fill" />
-        {selectedDrawerId && destinationDrawerObjName}
+        {selectedDrawerId && destinationDrawerObjName()}
         <Icon icon="mingcute:drawer-line" color="red" />
       </h4>
 

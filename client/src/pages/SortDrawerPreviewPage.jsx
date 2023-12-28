@@ -11,7 +11,7 @@ import { useUserContext } from "../context/UserContext";
 export default function SortDrawerPreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { drawers, scribbles } = useDataContext();
+  const { drawers, scribbles, loadingDrawers } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
@@ -225,16 +225,13 @@ export default function SortDrawerPreviewPage() {
 
   return (
     <div className="sort-drawer-preview-div">
-      {/* <h3>
-        Drawer to be moved: {drawerToBeMovedObj["name"]}---ID {drawerToBeMoved}
-      </h3>
-      <h3>To: {selectedDrawerId}</h3> */}
-
       <h3 className="sort-drawer-title">
-        {sessionStorage.getItem("drawerToBeMoved") && drawerToBeMovedObjName}
+        {sessionStorage.getItem("drawerToBeMoved") &&
+          !loadingDrawers &&
+          drawerToBeMovedObjName()}
         <Icon icon="mingcute:drawer-line" color="red" />
         <Icon icon="ri:arrow-right-fill" />
-        {selectedDrawerId && destinationDrawerObjName}
+        {selectedDrawerId && !loadingDrawers && destinationDrawerObjName()}
         <Icon icon="mingcute:drawer-line" color="red" />
       </h3>
 

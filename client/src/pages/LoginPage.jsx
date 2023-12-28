@@ -30,9 +30,9 @@ export default function LoginPage() {
           //set isLoggedIn for frontend
           setUser({ ...user, isLoggedIn: true });
           localStorage.setItem("user", JSON.stringify(response.data));
-
           console.log("successful signup");
           navigate("/home");
+          navigate(0);
         } else {
           console.log("email already taken");
           setUser({ ...user, isLoggedIn: false });

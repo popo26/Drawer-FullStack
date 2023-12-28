@@ -44,6 +44,7 @@ export const DataProvider = (props) => {
     })
       .then((response) => response.json())
       .then((json) => {
+        setLoadingDrawers(false);
         setDrawers(json.data);
       });
   }, []);

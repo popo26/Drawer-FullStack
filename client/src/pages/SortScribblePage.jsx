@@ -115,10 +115,8 @@ export default function SortScribblePage() {
 
   return (
     <div id="page">
-      {/* <h4>Scribble ID: {selectedScribbleId}</h4>
-      <h4>Selected Drawer Id: {selectedDrawerId}</h4> */}
       <h4>
-        {/* {!loadingScribbles && scrb[0].title} */}
+        {!loadingScribbles && scrb[0].title}
         <Icon icon="tabler:scribble" color="red" />{" "}
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && destinationDrawer?.name}{" "}

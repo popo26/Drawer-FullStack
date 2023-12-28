@@ -18,7 +18,7 @@ export function useTimeout() {
       const diffMs = Math.abs(new Date(lastAcivity) - new Date()); // milliseconds between now & last activity
       const seconds = Math.floor(diffMs / 1000);
       const minute = Math.floor(seconds / 60);
-      console.log(seconds + " sec and " + minute + " min since last activity");
+      //console.log(seconds + " sec and " + minute + " min since last activity");
       if (minute == 10) {
         console.log("No activity from last 10 minutes... Logging Out");
         clearInterval(timeoutID);

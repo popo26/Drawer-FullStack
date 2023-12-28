@@ -32,8 +32,7 @@ export default function App() {
     });
   };
 
-
-useTimeout();
+  useTimeout();
 
   return (
     <>
