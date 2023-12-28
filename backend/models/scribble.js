@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const scribbleSchema = new Schema({
   rootDrawerId: { type: String },
   drawerId: { type: String },
-  //ids: { type: Number, trim: true, required: true, unique: true },
   title: { type: String, trim: true },
   content: { type: String },
   type: { type: String, trim: true, required: true },
@@ -19,10 +18,8 @@ const scribbleSchema = new Schema({
       path: String,
       name: String,
       preview: String,
-      // preview: { base64: String },
       size: Number,
       format: String,
-      // test:String,
     },
   ],
 

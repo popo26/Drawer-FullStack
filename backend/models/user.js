@@ -30,9 +30,6 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     required: true,
   },
-  //added - experiement
-  // drawers:[{type: mongoose.Schema.Types.ObjectId, ref: "drawer"}],
-  // scribbles:[{type: mongoose.Schema.Types.ObjectId, ref: "scribble"}]
 });
 
 //In order to auhenticate email as username for passport
@@ -83,19 +80,3 @@ userSchema.pre("save", function (next) {
 });
 
 module.exports = mongoose.model("user", userSchema);
-
-////ORIGINAL/////////////////////////////////
-// const mongoose = require("mongoose");
-// const Schema = mongoose.Schema;
-
-// const userSchema = new Schema({
-//   firstName: { type: String, trim: true, required: true },
-//   lastName: { type: String, trim: true, required: true },
-//   emailId: { type: String, trim: true, required: true, unique: true },
-//   password: { type: String },
-//   createdAt: { type: Date, default: Date.now },
-//   updatedAt: { type: Date, default: Date.now },
-//   //userId: { type: Number, required: true}, //Forein key
-// });
-
-// module.exports = mongoose.model("user", userSchema);
