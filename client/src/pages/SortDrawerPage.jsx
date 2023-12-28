@@ -29,12 +29,6 @@ export default function SortDrawerPage() {
   const { user } = useUserContext();
   const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
-  // console.log("State", state);
-  // console.log("DrawerToBeMoved", drawerToBeMoved);
-  // console.log(
-  //   "sessionStorage-drawerToBeMoved not in context",
-  //   sessionStorage.getItem("drawerToBeMoved")
-  // );
 
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
@@ -45,6 +39,9 @@ export default function SortDrawerPage() {
     };
   }, []);
 
+
+  ///NOT WORKING! :-()
+
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
@@ -54,14 +51,23 @@ export default function SortDrawerPage() {
     for (let x in drawers) {
       if (
         drawers[x].drawerId == parentDrawerId ||
-        (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
+        // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
+        (drawers[x].rootId == drawerToBeMoved)
+
       ) {
-        subDrawersToBeMoved.push(x);
+        // subDrawersToBeMoved.push(x);
+        subDrawersToBeMoved.push(drawers[x]);
+
+
 
         let dataPost = {
           rootId: newTopLevelDrawerId,
           root: false,
-          level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
+          // level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
+          // level: 1 + subDrawersToBeMoved.indexOf(drawers[x]),
+          level: drawers[x].level + 1,
+
+
         };
 
         fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
@@ -82,7 +88,9 @@ export default function SortDrawerPage() {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           stray: false,
-          level: drawerToBeMovedObject[0]["level"] + scribbles[x].level + 1,
+          // level: drawerToBeMovedObject[0]["level"] + scribbles[x].level + 1,
+          level: drawerToBeMovedObject[0]["level"] + scribbles[x].level,
+
         };
         fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
           method: "PUT",
@@ -114,6 +122,7 @@ export default function SortDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+      .then(()=>navigate(0))
       .catch((error) => console.error(error.message));
   };
 
@@ -137,7 +146,10 @@ export default function SortDrawerPage() {
     })
       .then((response) => response.json())
       .then((json) => {
+        console.log("You are here1")
+
         moveDrawerToNewDrawer(json.data._id);
+        console.log("You are here2")
         moveAllChildrenToNewDrawer(drawerToBeMoved, json.data._id);
       })
       .catch((error) => console.error(error.message));
@@ -147,11 +159,13 @@ export default function SortDrawerPage() {
     setDrawerName(value);
   };
 
-  const handleCreate = (value) => {
-    createNewDrawer();
-    setDrawerName("");
-    navigate("/home");
-    navigate(0);
+  const handleCreate = () => {
+    {
+      !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
+      setDrawerName("");
+      navigate("/home");
+      //navigate(0);
+    }
   };
 
   const handleDisplay = () => {
@@ -177,7 +191,6 @@ export default function SortDrawerPage() {
 
   return (
     <div id="page">
-
       <h4 className="sort-drawer-title">
         {sessionStorage.getItem("drawerToBeMoved") &&
           !loadingDrawers &&

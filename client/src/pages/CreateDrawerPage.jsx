@@ -44,7 +44,7 @@ export default function CreateDrawerPage() {
     setDrawerName(value);
   };
 
-  const handleCreate = (value) => {
+  const handleCreate = () => {
     {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
       setDrawerName("");

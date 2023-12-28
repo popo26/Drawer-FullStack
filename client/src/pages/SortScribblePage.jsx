@@ -87,11 +87,12 @@ export default function SortScribblePage() {
     setDrawerName(value);
   };
 
-  const handleCreate = (value) => {
-    console.log("Create btn clicked", value);
-    createNewDrawer();
-    setDrawerName("");
-    navigate("/home");
+  const handleCreate = () => {
+    {
+      !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
+      setDrawerName("");
+      navigate("/home");
+    }
   };
 
   const handleDisplay = () => {
