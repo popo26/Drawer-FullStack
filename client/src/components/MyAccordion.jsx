@@ -93,18 +93,22 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
           const obj = Object.values(k)[0];
           //console.log("obj", obj);
 
-          //Add some filter for duplicate here
-
           newArray3 = [
             ...newArray.slice(0, index + 1),
             obj,
             ...newArray.slice(index + 1),
           ];
+
+          //Add some filter for duplicate here
+          newArray3 = removeDuplicates(newArray3);
+
           newArray = newArray3;
         }
-        // newArray = newArray3;
       }
-      //newArray = newArray3;
+    }
+
+    function removeDuplicates(data) {
+      return data.filter((value, index) => data.indexOf(value) === index);
     }
 
     //console.log("newArray", newArray)
