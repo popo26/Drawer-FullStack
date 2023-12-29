@@ -29,7 +29,6 @@ export default function SortDrawerPage() {
   const { user } = useUserContext();
   const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
-
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
     setDrawerToBeMoved(drawerToBeMovedSession);
@@ -39,47 +38,79 @@ export default function SortDrawerPage() {
     };
   }, []);
 
+// //checking
+// const drawerToBeMovedObject = drawers.filter(
+//   (item) => item._id == drawerToBeMoved
+// );
+
+// //let subDrawersToBeMoved = [];
+// console.log("drawer to be moved obj", drawerToBeMovedObject[0].subDrawer)
+
+// if (drawerToBeMovedObject[0].subDrawer) {
+//   for (let x in drawers) {
+//     if (
+//       drawers[x].drawerId == drawerToBeMoved ||
+//       // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
+//       // drawers[x].rootId == drawerToBeMoved
+//       drawers[x].rootId == drawerToBeMoved
+//     ) {
+//       // subDrawersToBeMoved.push(x);
+//       //subDrawersToBeMoved.push(drawers[x]);
+
+//       console.log("matching subdrawers", drawers[x])
+
+//   }
+// }}
+
+
+
+// ///checking
+
+
+
+
 
   ///NOT WORKING! :-()
-
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
+    // parentDrawerId ---> Drawer To Be Moved
+    //newTopLevelDrawerId ---> Newly created root drawer
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
     );
 
     let subDrawersToBeMoved = [];
-    for (let x in drawers) {
-      if (
-        drawers[x].drawerId == parentDrawerId ||
-        // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
-        (drawers[x].rootId == drawerToBeMoved)
 
-      ) {
-        // subDrawersToBeMoved.push(x);
-        subDrawersToBeMoved.push(drawers[x]);
+    if (drawerToBeMovedObject[0].subDrawer) {
+      for (let x in drawers) {
+        if (
+          drawers[x].drawerId == parentDrawerId ||
+          // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
+          // drawers[x].rootId == drawerToBeMoved
+          drawers[x].rootId == parentDrawerId
+        ) {
+          // subDrawersToBeMoved.push(x);
+          subDrawersToBeMoved.push(drawers[x]);
 
+          console.log("matching subdrawers", drawers[x])
+          let dataPost = {
+            rootId: newTopLevelDrawerId,
+            root: false,
+            // level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
+            // level: 1 + subDrawersToBeMoved.indexOf(drawers[x]),
+            level: drawerToBeMovedObject[0]["level"] + drawers[x].level,
+          };
 
-
-        let dataPost = {
-          rootId: newTopLevelDrawerId,
-          root: false,
-          // level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
-          // level: 1 + subDrawersToBeMoved.indexOf(drawers[x]),
-          level: drawers[x].level + 1,
-
-
-        };
-
-        fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(dataPost),
-        })
-          .then((response) => response.json())
-          .catch((error) => console.error(error.message));
+          fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataPost),
+          })
+            .then((response) => response.json())
+            .catch((error) => console.error(error.message));
+        }
       }
     }
 
@@ -90,7 +121,6 @@ export default function SortDrawerPage() {
           stray: false,
           // level: drawerToBeMovedObject[0]["level"] + scribbles[x].level + 1,
           level: drawerToBeMovedObject[0]["level"] + scribbles[x].level,
-
         };
         fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
           method: "PUT",
@@ -105,6 +135,67 @@ export default function SortDrawerPage() {
       }
     }
   };
+
+  // ///NOT WORKING! :-()
+  // const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
+  //   // parentDrawerId ---> Drawer To Be Moved
+  //   //newTopLevelDrawerId ---> Newly created root drawer
+  //   const drawerToBeMovedObject = drawers.filter(
+  //     (item) => item._id == parentDrawerId
+  //   );
+
+  //   let subDrawersToBeMoved = [];
+  //   for (let x in drawers) {
+  //     if (
+  //       drawers[x].drawerId == parentDrawerId ||
+  //       // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
+  //       drawers[x].rootId == drawerToBeMoved
+  //     ) {
+  //       // subDrawersToBeMoved.push(x);
+  //       subDrawersToBeMoved.push(drawers[x]);
+
+  //       let dataPost = {
+  //         rootId: newTopLevelDrawerId,
+  //         root: false,
+  //         // level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
+  //         // level: 1 + subDrawersToBeMoved.indexOf(drawers[x]),
+  //         level: drawers[x].level + 1,
+  //       };
+
+  //       fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
+  //         method: "PUT",
+  //         mode: "cors",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(dataPost),
+  //       })
+  //         .then((response) => response.json())
+  //         .catch((error) => console.error(error.message));
+  //     }
+  //   }
+
+  //   for (let x in scribbles) {
+  //     if (scribbles[x].rootDrawerId == parentDrawerId) {
+  //       let dataPost = {
+  //         rootDrawerId: newTopLevelDrawerId,
+  //         stray: false,
+  //         // level: drawerToBeMovedObject[0]["level"] + scribbles[x].level + 1,
+  //         level: drawerToBeMovedObject[0]["level"] + scribbles[x].level,
+  //       };
+  //       fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
+  //         method: "PUT",
+  //         mode: "cors",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(dataPost),
+  //       })
+  //         .then((response) => response.json())
+  //         .catch((error) => console.error(error.message));
+  //     }
+  //   }
+  // };
 
   const moveDrawerToNewDrawer = (passedId) => {
     let dataPost = {
@@ -122,7 +213,7 @@ export default function SortDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then(()=>navigate(0))
+      .then(() => navigate(0))
       .catch((error) => console.error(error.message));
   };
 
@@ -146,10 +237,10 @@ export default function SortDrawerPage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("You are here1")
+        console.log("You are here1");
 
         moveDrawerToNewDrawer(json.data._id);
-        console.log("You are here2")
+        console.log("You are here2");
         moveAllChildrenToNewDrawer(drawerToBeMoved, json.data._id);
       })
       .catch((error) => console.error(error.message));
