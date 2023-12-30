@@ -75,18 +75,41 @@ export default function SortDrawerPreviewPage() {
     let subDrawersToBeMoved = [];
 
     for (let x in drawers) {
+      console.log("drawers[x].drawerId", drawers[x].drawerId);
+      console.log("ParentDrawerId", parentDrawerId);
+      console.log(
+        "drawerToBeMovedObject[0]['rootId']",
+        drawerToBeMovedObject[0]["rootId"]
+      );
+
       if (
-        drawers[x].drawerId == parentDrawerId ||
+        (drawers[x].drawerId && drawers[x].drawerId == parentDrawerId) ||
         (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
           drawers[x].level > drawerToBeMovedObject[0]["level"])
       ) {
+        console.log("INSIDE");
+
         subDrawersToBeMoved.push(drawers[x]);
+
+        let newLevel;
+        if (drawers[x].drawerId) {
+          const parentDrawer = drawers.filter(
+            (item) => item._id == drawers[x].drawerId
+          );
+          newLevel = parentDrawer[0].level+1;
+          console.log("new Level AAAAAA", newLevel)
+        } else {newLevel = 2; console.log("new Level BBBB", newLevel)}
+
         let dataPost = {
           rootId: newTopLevelDrawerId,
           root: false,
           level:
-            newTopLevelDrawerObject[0]["level"] +
-            subDrawersToBeMoved.indexOf(drawers[x]),
+          // drawerToBeMovedObject[0]['level'] +
+          //   // newTopLevelDrawerObject[0]["level"] +
+          //   subDrawersToBeMoved.indexOf(drawers[x])+1,
+            //drawerToBeMovedObject[0]['level'],
+          newLevel
+            
         };
 
         fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
@@ -98,18 +121,21 @@ export default function SortDrawerPreviewPage() {
           body: JSON.stringify(dataPost),
         })
           .then((response) => response.json())
+          // .then(()=>setDrawers(drawers)) //experiment for trigger mismatch function
+          // .then(()=>navigate(0)) //experiment for trigger mismatch function
+
           .catch((error) => console.error(error.message));
+      } else {
+        console.log("You are HERE", drawers[x].name);
       }
     }
 
     for (let x in scribbles) {
-
       if (scribbles[x].rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           stray: false,
           level: newTopLevelDrawerObject[0]["level"] + scribbles[x].level,
-
         };
         fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
           method: "PUT",
@@ -142,14 +168,21 @@ export default function SortDrawerPreviewPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then(()=>setDrawers(drawers)) //In order to trigger rootId change in DataContext
+      // .then(() => setDrawers(drawers)) //In order to trigger rootId change in DataContext
+      // .then(() => navigate(0)) //In order to trigger rootId change in DataContext
+
       .catch((error) => console.error(error.message));
   };
 
   const handleMoveHere = () => {
     moveDrawerToNewDrawer(selectedDrawerId);
+    console.log("checkpoint1");
     moveAllChildrenToNewDrawer(drawerToBeMoved, selectedDrawerId);
+    console.log("checkpoint2");
+
     updateParentDrawerBoolean(selectedDrawerId);
+    console.log("checkpoint3");
+
     navigate("/home");
     navigate(0);
   };
