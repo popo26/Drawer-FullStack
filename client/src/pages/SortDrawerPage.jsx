@@ -78,20 +78,34 @@ export default function SortDrawerPage() {
       for (let x in drawers) {
         if (
           drawers[x].drawerId == parentDrawerId ||
-          // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
-          // drawers[x].rootId == drawerToBeMoved
-          drawers[x].rootId == parentDrawerId
+      (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
+          drawers[x].level > drawerToBeMovedObject[0]["level"]) 
+          // drawers[x].rootId == parentDrawerId
+
         ) {
           // subDrawersToBeMoved.push(x);
           subDrawersToBeMoved.push(drawers[x]);
+          console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved)
+
+          let newLevel;
+          if (drawers[x].drawerId) {
+            const parentDrawer = drawers.filter(
+              (item) => item._id == drawers[x].drawerId
+            );
+            newLevel = parentDrawer[0].level+1;
+            console.log("new Level CCCCCCCCCC", newLevel)
+          } else {newLevel = 2; console.log("new Level DDDDDDDD", newLevel)}
+
+ 
+
 
           console.log("matching subdrawers", drawers[x]);
           let dataPost = {
             rootId: newTopLevelDrawerId,
             root: false,
-            // level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
-            // level: 1 + subDrawersToBeMoved.indexOf(drawers[x]),
-            level: drawerToBeMovedObject[0]["level"] + drawers[x].level,
+            // level: drawerToBeMovedObject[0]["level"] + drawers[x].level,
+            level: newLevel
+
           };
 
           fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {

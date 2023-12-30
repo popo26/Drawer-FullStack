@@ -11,7 +11,7 @@ import { useUserContext } from "../context/UserContext";
 // export default function CreateDrawerPage({ user, setUser }) {
 export default function CreateDrawerPage() {
   const navigate = useNavigate();
-  const { drawers, setDrawers } = useDataContext();
+  const { drawers, setDrawers, loadingDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
   const { user } = useUserContext();
 
@@ -34,8 +34,9 @@ export default function CreateDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+
       .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
+        !loadingDrawers && setDrawers((prevItems) => [...prevItems, json.data]);
       })
       .catch((error) => console.error(error.message));
   };
@@ -49,6 +50,7 @@ export default function CreateDrawerPage() {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
       setDrawerName("");
       navigate("/home");
+      navigate(0);
     }
   };
 

@@ -85,11 +85,17 @@ export default function SortDrawerPreviewPage() {
       if (
         (drawers[x].drawerId && drawers[x].drawerId == parentDrawerId) ||
         (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
-          drawers[x].level > drawerToBeMovedObject[0]["level"])
+          drawers[x].level > drawerToBeMovedObject[0]["level"]) 
+        // drawers[x].rootId == parentDrawerId||
+        // drawers[x].rootId == drawerToBeMovedObject[0]["rootId"]
+        // (drawers[x].rootId == parentDrawerId &&
+        // drawers[x].level > drawerToBeMovedObject[0]["level"]) 
+  
       ) {
         console.log("INSIDE");
 
         subDrawersToBeMoved.push(drawers[x]);
+        console.log("subDrawersToBeMoved PREVIEW", subDrawersToBeMoved)
 
         let newLevel;
         if (drawers[x].drawerId) {

@@ -20,7 +20,6 @@ export default function MyDropdown() {
     setOpen(!open);
   };
 
-
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   const findSubDrawers = (id) => {
     let newArray = [];
@@ -97,9 +96,15 @@ export default function MyDropdown() {
     }
 
     return newArray.map((item) => {
-     return (
+      const drawerToBeMovedObj = drawers.find(
+        (item) => item._id == drawerToBeMoved
+      );
+
+      return (
         <div key={item._id}>
-          {item._id == drawerToBeMoved || item.rootId === drawerToBeMoved ? (
+          {item._id == drawerToBeMoved ||
+          item._id == drawerToBeMovedObj.drawerId ||
+          item.drawerId == drawerToBeMovedObj._id ? (
             <p
               className={"sub-drawer indent-" + item.level}
               style={{ color: "red" }}
@@ -122,9 +127,6 @@ export default function MyDropdown() {
       );
     });
   };
-
-
-
 
   ////DONT DELETE TILL END
   // // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
@@ -205,10 +207,16 @@ export default function MyDropdown() {
 
   // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
+    const drawerToBeMovedObj = drawers.find(
+      (item) => item._id == drawerToBeMoved
+    );
+
     if (item.root === true && item.userId === user._id) {
       return (
         <>
-          {item._id == drawerToBeMoved ? (
+          {item._id == drawerToBeMoved ||
+          item._id == drawerToBeMovedObj.drawerId ||
+          item.drawerId == drawerToBeMovedObj._id ? (
             <div key={item._id} style={{ color: "red" }}>
               <p className="top-drawer">
                 {item.name}
