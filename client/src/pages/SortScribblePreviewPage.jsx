@@ -106,6 +106,7 @@ export default function SortScribblePreviewPage() {
           json.data._id,
           selectedDrawerObject[0]["level"] + 1
         );
+        navigate(0);
       })
       .then(() => updateParentDrawerBoolean(state.selectedDrawerId))
       .catch((error) => console.error(error.message));
@@ -131,7 +132,7 @@ export default function SortScribblePreviewPage() {
     setNewSubDrawerName(value);
   };
 
-  const handleCreate = (value) => {
+  const handleCreate = () => {
     createNewSubDrawer();
     navigate("/home");
   };

@@ -11,7 +11,7 @@ import { useUserContext } from "../context/UserContext";
 export default function SortDrawerPreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { drawers, scribbles, loadingDrawers } = useDataContext();
+  const { drawers, scribbles, loadingDrawers, setDrawers } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
@@ -86,8 +86,7 @@ export default function SortDrawerPreviewPage() {
           root: false,
           level:
             newTopLevelDrawerObject[0]["level"] +
-            subDrawersToBeMoved.indexOf(drawers[x]) +
-            2,
+            subDrawersToBeMoved.indexOf(drawers[x]),
         };
 
         fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
@@ -104,11 +103,13 @@ export default function SortDrawerPreviewPage() {
     }
 
     for (let x in scribbles) {
+
       if (scribbles[x].rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
           stray: false,
           level: newTopLevelDrawerObject[0]["level"] + scribbles[x].level,
+
         };
         fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
           method: "PUT",
@@ -141,6 +142,7 @@ export default function SortDrawerPreviewPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+      .then(()=>setDrawers(drawers)) //In order to trigger rootId change in DataContext
       .catch((error) => console.error(error.message));
   };
 

@@ -80,6 +80,7 @@ export const DataProvider = (props) => {
     }
   }, [drawers, scribbles]);
 
+
   useEffect(() => {
     sessionStorage.setItem("drawersData", JSON.stringify(drawers));
   }, [drawers]);

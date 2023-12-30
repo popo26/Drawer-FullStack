@@ -27,7 +27,7 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
         to={`/scribble/${item._id}`}
         onClick={() => setSelectedScribbleId(item._id)}
       >
-        <p className={"individual-scribble scrb-indent" + item.level}>
+        <p className="individual-scribble">
           {item.title}{" "}
         </p>
       </Link>
@@ -43,11 +43,9 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
     //Collect all sub-drawers
     for (let x in drawers) {
       if (drawers[x].drawerId && drawers[x].rootId == id) {
-        //console.log("drawers[x]", drawers[x])
         newArray.push(drawers[x]);
       }
     }
-    //console.log("newArray", newArray)
 
     // Collect subdrawers that are subdrawers that have parent in this array
     for (let y of newArray) {
@@ -56,63 +54,60 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
         if (z.drawerId == id) {
           let obj = { [`${id}`]: z };
           newArray2.push(obj);
-          //console.log("obj", obj)
         }
       }
     }
-
-    //console.log("newArray2", newArray2) -- having right drawers
-    // console.log("newArray", newArray)
 
     //Remove drawers that are collected in the above forloop
     for (let p of newArray2) {
       for (let i of newArray) {
         if (i._id == Object.values(p)[0]._id) {
-          //console.log("new array [i]", i)
           newArray.splice(newArray.indexOf(i), 1);
         }
       }
     }
 
-    //console.log("newArray2", newArray2)
-    console.log("newArray", newArray);
-
     //Insert collected subdrawers to the right location
     for (let k of newArray2) {
-      // console.log("newArray2 K", k)
       for (let j of newArray) {
-        //console.log("newArray J", j)
-
         //Something wrong around here
-        // if (Object.values(k)[0].drawerId == j._id) {
+        if (Object.values(k)[0].drawerId == j._id) {
+          const index = newArray.indexOf(j);
+          const obj = Object.values(k)[0];
+
+          if (!newArray.includes(obj)) {
+            newArray3 = [
+              ...newArray.slice(0, index + 1),
+              obj,
+              ...newArray.slice(index + 1),
+            ];
+          }
+
+          newArray = newArray3;
+        }
+      }
+
+      for (let j of newArray) {
+        //Something wrong around here
         if (
-          Object.values(k)[0].drawerId == j._id ||
+          Object.values(k)[0].drawerId !== j._id ||
           Object.values(k)[0].rootId == j.rootId
         ) {
           const index = newArray.indexOf(j);
           const obj = Object.values(k)[0];
-          //console.log("obj", obj);
 
-          newArray3 = [
-            ...newArray.slice(0, index + 1),
-            obj,
-            ...newArray.slice(index + 1),
-          ];
-
-          //Add some filter for duplicate here
-          newArray3 = removeDuplicates(newArray3);
+          if (!newArray.includes(obj)) {
+            newArray3 = [
+              ...newArray.slice(0, index + 1),
+              obj,
+              ...newArray.slice(index + 1),
+            ];
+          }
 
           newArray = newArray3;
         }
       }
     }
-
-    function removeDuplicates(data) {
-      return data.filter((value, index) => data.indexOf(value) === index);
-    }
-
-    //console.log("newArray", newArray)
-    //console.log("newArray3", newArray3)
 
     return newArray.map((item) => {
       const scribbleList = findScribbles(item._id);
@@ -127,7 +122,12 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
                 No Scribbles
               </h6>
             ) : (
-              <div className="sub-drawer-scribble-list">{scribbleList}</div>
+              <div
+                className={"sub-drawer-scribble-list scrb-indent" + item.level}
+              >
+                {scribbleList}
+              </div>
+              // <div className={"sub-drawer-scribble-list"}>{scribbleList}</div>
             )}
           </div>
         </div>

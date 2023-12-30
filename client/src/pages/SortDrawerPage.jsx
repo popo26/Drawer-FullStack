@@ -38,37 +38,31 @@ export default function SortDrawerPage() {
     };
   }, []);
 
-// //checking
-// const drawerToBeMovedObject = drawers.filter(
-//   (item) => item._id == drawerToBeMoved
-// );
+  // //checking
+  // const drawerToBeMovedObject = drawers.filter(
+  //   (item) => item._id == drawerToBeMoved
+  // );
 
-// //let subDrawersToBeMoved = [];
-// console.log("drawer to be moved obj", drawerToBeMovedObject[0].subDrawer)
+  // //let subDrawersToBeMoved = [];
+  // console.log("drawer to be moved obj", drawerToBeMovedObject[0].subDrawer)
 
-// if (drawerToBeMovedObject[0].subDrawer) {
-//   for (let x in drawers) {
-//     if (
-//       drawers[x].drawerId == drawerToBeMoved ||
-//       // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
-//       // drawers[x].rootId == drawerToBeMoved
-//       drawers[x].rootId == drawerToBeMoved
-//     ) {
-//       // subDrawersToBeMoved.push(x);
-//       //subDrawersToBeMoved.push(drawers[x]);
+  // if (drawerToBeMovedObject[0].subDrawer) {
+  //   for (let x in drawers) {
+  //     if (
+  //       drawers[x].drawerId == drawerToBeMoved ||
+  //       // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
+  //       // drawers[x].rootId == drawerToBeMoved
+  //       drawers[x].rootId == drawerToBeMoved
+  //     ) {
+  //       // subDrawersToBeMoved.push(x);
+  //       //subDrawersToBeMoved.push(drawers[x]);
 
-//       console.log("matching subdrawers", drawers[x])
+  //       console.log("matching subdrawers", drawers[x])
 
-//   }
-// }}
+  //   }
+  // }}
 
-
-
-// ///checking
-
-
-
-
+  // ///checking
 
   ///NOT WORKING! :-()
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
@@ -91,7 +85,7 @@ export default function SortDrawerPage() {
           // subDrawersToBeMoved.push(x);
           subDrawersToBeMoved.push(drawers[x]);
 
-          console.log("matching subdrawers", drawers[x])
+          console.log("matching subdrawers", drawers[x]);
           let dataPost = {
             rootId: newTopLevelDrawerId,
             root: false,
@@ -269,15 +263,26 @@ export default function SortDrawerPage() {
   };
 
   const drawerToBeMovedObjName = () => {
-    const obj = drawers.filter(
-      (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-    );
-    return obj[0]["name"];
+    if (!loadingDrawers) {
+      const obj = drawers.filter(
+        (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+      );
+      return obj[0]["name"];
+    }
   };
 
+  // const drawerToBeMovedObjName = () => {
+  //   const obj = drawers.filter(
+  //     (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+  //   );
+  //   return obj[0]["name"];
+  // };
+
   const destinationDrawerObjName = () => {
-    const obj = drawers.filter((item) => item._id == selectedDrawerId);
-    return obj[0]["name"];
+    if (!loadingDrawers) {
+      const obj = drawers.filter((item) => item._id == selectedDrawerId);
+      return obj[0]["name"];
+    }
   };
 
   return (
