@@ -252,7 +252,7 @@ export default function DrawerListPage({ expandedIndex }) {
 
     return newArray.map((item) => {
       const scribbleList = findScribbles(item._id);
-    return (
+      return (
         <div key={item._id} className="sub-drawer-header">
           <div className="sub-drawer-header-div">
             <h3
@@ -286,7 +286,6 @@ export default function DrawerListPage({ expandedIndex }) {
                 //console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
                 sessionStorage.setItem("drawerToBeMoved", item._id);
-               
               }}
             />
             {showUpdateIcon(item._id)}

@@ -16,11 +16,14 @@ export default function Search() {
     let searchResultArray = [];
     for (let x in scribbles) {
       if (
-        (scribbles[x]["userId"] == user._id &&
+        (scribbles[x]["userId"] === user._id &&
           scribbles[x]["title"]
             .toLowerCase()
             .includes(searchItem.toLowerCase())) ||
-        scribbles[x]["content"].toLowerCase().includes(searchItem.toLowerCase())
+        (scribbles[x]["userId"] === user._id &&
+          scribbles[x]["content"]
+            .toLowerCase()
+            .includes(searchItem.toLowerCase()))
       ) {
         searchResultArray.push(scribbles[x]);
       }
