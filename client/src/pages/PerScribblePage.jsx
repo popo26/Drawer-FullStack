@@ -178,7 +178,8 @@ export default function PerScribblePage() {
     updateContent();
     setIsEditable(false);
     //workaround to update state. On refresh, content gets hidden
-    navigate("/stray");
+    const updatedScribble = scribbles.filter((item) => item._id == id);
+    updatedScribble[0].stray == true ? navigate("/stray") : navigate("/home");
     navigate(0);
   };
 
