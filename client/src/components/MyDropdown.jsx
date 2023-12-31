@@ -10,7 +10,7 @@ import { useUserContext } from "../context/UserContext";
 export default function MyDropdown() {
   const [open, setOpen] = useState(false);
   const [currentDropdown, setCurrentDropDown] = useState("Existing Drawers");
-  const { drawers } = useDataContext();
+  const { drawers, loadingDrawers } = useDataContext();
   const { handleSelectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved] = useDrawerToBeMovedContext();
   const { user } = useUserContext();
@@ -96,15 +96,9 @@ export default function MyDropdown() {
     }
 
     return newArray.map((item) => {
-      const drawerToBeMovedObj = drawers.find(
-        (item) => item._id == drawerToBeMoved
-      );
-
       return (
         <div key={item._id}>
-          {item._id == drawerToBeMoved ||
-          item._id == drawerToBeMovedObj.drawerId ||
-          item.drawerId == drawerToBeMovedObj._id ? (
+          {item._id == drawerToBeMoved || item.rootId == drawerToBeMoved ? (
             <p
               className={"sub-drawer indent-" + item.level}
               style={{ color: "red" }}
@@ -207,16 +201,10 @@ export default function MyDropdown() {
 
   // ++++++++++++++ existingDrawerList +++++++++++++++++++++++++++++++++++++++++++++
   const existingDrawersList = drawers.map((item) => {
-    const drawerToBeMovedObj = drawers.find(
-      (item) => item._id == drawerToBeMoved
-    );
-
     if (item.root === true && item.userId === user._id) {
       return (
         <>
-          {item._id == drawerToBeMoved ||
-          item._id == drawerToBeMovedObj.drawerId ||
-          item.drawerId == drawerToBeMovedObj._id ? (
+          {item._id == drawerToBeMoved ? (
             <div key={item._id} style={{ color: "red" }}>
               <p className="top-drawer">
                 {item.name}

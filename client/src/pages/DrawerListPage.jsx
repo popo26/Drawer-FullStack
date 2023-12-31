@@ -281,11 +281,12 @@ export default function DrawerListPage({ expandedIndex }) {
               color="black"
               width="18"
               onClick={() => {
-                setDrawerToBeMoved(item.idd);
+                //setDrawerToBeMoved(item.idd); --Any effect?
                 let passingData = { selectedDrawerId, drawerToBeMoved };
                 //console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
                 sessionStorage.setItem("drawerToBeMoved", item._id);
+               
               }}
             />
             {showUpdateIcon(item._id)}
