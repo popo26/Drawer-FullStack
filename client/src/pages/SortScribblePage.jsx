@@ -82,7 +82,7 @@ export default function SortScribblePage() {
   };
 
   const handleChange = (value) => {
-    console.log(value);
+    //console.log(value);
     //somehow need a spot to set this state
     setDrawerName(value);
   };

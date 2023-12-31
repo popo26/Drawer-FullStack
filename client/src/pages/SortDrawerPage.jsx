@@ -285,12 +285,7 @@ export default function SortDrawerPage() {
     }
   };
 
-  // const drawerToBeMovedObjName = () => {
-  //   const obj = drawers.filter(
-  //     (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-  //   );
-  //   return obj[0]["name"];
-  // };
+
 
   const destinationDrawerObjName = () => {
     if (!loadingDrawers) {

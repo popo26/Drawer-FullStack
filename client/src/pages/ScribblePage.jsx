@@ -22,12 +22,11 @@ export default function ScribblePage() {
     useSelectedScribbleContext();
   const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
   const { user } = useUserContext();
-
   const [baseImage, setBaseImage] = useState("");
 
   let timerID = useRef(null);
-  const tooltipJustSave = <Tooltip id="tooltip">Just Save</Tooltip>;
 
+  const tooltipJustSave = <Tooltip id="tooltip">Just Save</Tooltip>;
   const tooltipSort = <Tooltip id="tooltip">Sort</Tooltip>;
 
   useEffect(() => {
@@ -41,14 +40,12 @@ export default function ScribblePage() {
       type: "application/json",
     });
 
-    console.log("blob", blob);
-
     var reader = new FileReader();
 
     reader.readAsDataURL(blob);
     reader.onloadend = function () {
       var base64data = reader.result;
-      console.log(base64data);
+      //console.log(base64data);
     };
   };
 
@@ -97,8 +94,8 @@ export default function ScribblePage() {
       .then((response) => response.json())
       .then((json) => {
         setSelectedScribbleId(json.data._id);
-        console.log("selected Scribble ID setting complete");
-        console.log("JSON", json);
+        // console.log("selected Scribble ID setting complete");
+        // console.log("JSON", json);
       })
       .catch((error) => console.error(error.message));
   };
@@ -130,13 +127,13 @@ export default function ScribblePage() {
           let imageArray = [];
           //console.log(document.querySelector(".screenshot").innerHTML);
           const parent = document.querySelector(".screenshot");
-          console.log(typeof body.current);
+          //console.log(typeof body.current);
           if (parent.getElementsByTagName("img")) {
             console.log("________________FOUND");
           } else {
             console.log("NOOOOOOOOOOOOOOOOOOOO");
           }
-          console.log("imageArray", imageArray);
+          //console.log("imageArray", imageArray);
         });
     }
   };

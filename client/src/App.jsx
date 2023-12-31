@@ -20,7 +20,6 @@ export default function App() {
   let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
   const { user, setUser } = useUserContext();
 
-  //console.log("user is loggedin?", user.isLoggedIn)
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {

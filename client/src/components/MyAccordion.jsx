@@ -27,9 +27,7 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
         to={`/scribble/${item._id}`}
         onClick={() => setSelectedScribbleId(item._id)}
       >
-        <p className="individual-scribble">
-          {item.title}{" "}
-        </p>
+        <p className="individual-scribble">{item.title} </p>
       </Link>
     ));
   };
@@ -127,7 +125,6 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
               >
                 {scribbleList}
               </div>
-              // <div className={"sub-drawer-scribble-list"}>{scribbleList}</div>
             )}
           </div>
         </div>

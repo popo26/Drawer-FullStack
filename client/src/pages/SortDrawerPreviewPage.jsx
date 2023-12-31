@@ -85,37 +85,38 @@ export default function SortDrawerPreviewPage() {
       if (
         (drawers[x].drawerId && drawers[x].drawerId == parentDrawerId) ||
         (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
-          drawers[x].level > drawerToBeMovedObject[0]["level"]) 
+          drawers[x].level > drawerToBeMovedObject[0]["level"])
         // drawers[x].rootId == parentDrawerId||
         // drawers[x].rootId == drawerToBeMovedObject[0]["rootId"]
         // (drawers[x].rootId == parentDrawerId &&
-        // drawers[x].level > drawerToBeMovedObject[0]["level"]) 
-  
+        // drawers[x].level > drawerToBeMovedObject[0]["level"])
       ) {
         console.log("INSIDE");
 
         subDrawersToBeMoved.push(drawers[x]);
-        console.log("subDrawersToBeMoved PREVIEW", subDrawersToBeMoved)
+        console.log("subDrawersToBeMoved PREVIEW", subDrawersToBeMoved);
 
         let newLevel;
         if (drawers[x].drawerId) {
           const parentDrawer = drawers.filter(
             (item) => item._id == drawers[x].drawerId
           );
-          newLevel = parentDrawer[0].level+1;
-          console.log("new Level AAAAAA", newLevel)
-        } else {newLevel = 2; console.log("new Level BBBB", newLevel)}
+          newLevel = parentDrawer[0].level + 1;
+          console.log("new Level AAAAAA", newLevel);
+        } else {
+          newLevel = 2;
+          console.log("new Level BBBB", newLevel);
+        }
 
         let dataPost = {
           rootId: newTopLevelDrawerId,
           root: false,
           level:
-          // drawerToBeMovedObject[0]['level'] +
-          //   // newTopLevelDrawerObject[0]["level"] +
-          //   subDrawersToBeMoved.indexOf(drawers[x])+1,
+            // drawerToBeMovedObject[0]['level'] +
+            //   // newTopLevelDrawerObject[0]["level"] +
+            //   subDrawersToBeMoved.indexOf(drawers[x])+1,
             //drawerToBeMovedObject[0]['level'],
-          newLevel
-            
+            newLevel,
         };
 
         fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {

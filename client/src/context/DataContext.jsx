@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const DataContext = createContext("");
 
@@ -9,9 +8,6 @@ export const DataProvider = (props) => {
   const [users, setUsers] = useState([]);
   const [loadingScribbles, setLoadingScribbles] = useState(true);
   const [loadingDrawers, setLoadingDrawers] = useState(true);
-
-  // //experiment
-  // const navigate = useNavigate();
 
   //retrieve data from sessionStorage on mount or refresh
   useEffect(() => {
@@ -82,7 +78,6 @@ export const DataProvider = (props) => {
         updateRootId(drawers[x]["_id"]);
       }
     }
-    // }, [drawers, scribbles, navigate]);
   }, [drawers, scribbles]);
 
   useEffect(() => {

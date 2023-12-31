@@ -8,7 +8,6 @@ export const FileProvider = (props) => {
 
   useEffect(() => {
     const currentFiles = JSON.parse(sessionStorage.getItem("files"));
-    console.log("current files CONTEXT", currentFiles);
     if (currentFiles) {
       setFiles(currentFiles);
     }
