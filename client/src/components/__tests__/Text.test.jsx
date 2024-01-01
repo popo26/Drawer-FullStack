@@ -2,7 +2,7 @@
 import React from 'react'
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import Text from './Text'
+import Text from '../Text'
 
 describe('App', () => {
   it('Vite to be in document', () => {
