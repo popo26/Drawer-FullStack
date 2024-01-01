@@ -135,14 +135,15 @@ export default function AppRoutes({
           }
         ></Route>
 
-        <Route
+        {/* Future Feature */}
+        {/* <Route
           path="/password-reset"
           element={
             <PrivateRoute>
               <PasswordResetPage />{" "}
             </PrivateRoute>
           }
-        ></Route>
+        ></Route> */}
         <Route
           path="/create"
           element={

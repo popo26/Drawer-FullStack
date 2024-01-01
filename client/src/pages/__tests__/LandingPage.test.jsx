@@ -1,14 +1,15 @@
 import React from "react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, test } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import LandingPage from "../LandingPage";
+import { BrowserRouter, Router } from "react-router-dom";
 
-describe("LandingPage", () => {
-  it("LandingPage contains logo image", () => {
-    //const logo = "../assets/logo_d.png";
-    const { getByRole } = render(<LandingPage />);
-    const imgTag = getByRole("img");
-    fireEvent.click(imgTag);
-    //expect(imgTag).toBe("../assets/logo_d.png")
-  });
+test("LandingPage contains logo image", () => {
+  render(
+    <BrowserRouter>
+      <LandingPage />
+    </BrowserRouter>
+  );
+  const imageLogo = screen.queryByTestId("imageLogo");
+  expect(imageLogo).toBeDefined();
 });

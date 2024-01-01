@@ -1,8 +1,8 @@
- let drawersArray = [];
- let scribblesArray = [];
- let users = [];
+let drawersArray = [];
+let scribblesArray = [];
+let users = [];
 
- async function getDrawers() {
+async function getDrawers() {
   await fetch("http://localhost:8080/api/drawers", {
     method: "GET",
     mode: "cors",
@@ -18,7 +18,7 @@
     });
 }
 
- async function getScribbles() {
+async function getScribbles() {
   // let obj;
   await fetch("http://localhost:8080/api/scribbles", {
     method: "GET",
@@ -50,11 +50,4 @@ async function getUsers() {
   users.push(obj.data);
 }
 
-
-export {
-    getDrawers,
-    getScribbles,
-    getUsers,
-}
-
-
+export { getDrawers, getScribbles, getUsers };

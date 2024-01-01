@@ -7,7 +7,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
   return (
     <div className="LandingPage">
-      <img src={logo} alt="logo" onClick={()=>navigate('/login')} />
+      <img src={logo} alt="logo" onClick={()=>navigate('/login')} data-testid="imageLogo"/>
     </div>
   );
 }
