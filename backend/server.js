@@ -48,6 +48,7 @@ app.get("/", (req, res) => {
 });
 
 //swagger
+//ref: https://swagger.io/docs/specification/2-0/describing-request-body/
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 let userRoutes = require("./routes/userRoutes");

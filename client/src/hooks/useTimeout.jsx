@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../utils/AuthService";
 
 ///+++++++++++++++++++This hook will remove all the sessionStorage/localStorage after 10 min of inactivity+++++++++++++++++++++++++++++
 export function useTimeout() {
@@ -24,15 +25,17 @@ export function useTimeout() {
         console.log("No activity from last 10 minutes... Logging Out");
         clearInterval(timeoutID);
         //code for logout
-        localStorage.setItem("user", null);
-        sessionStorage.setItem("scribblesData", null);
-        sessionStorage.setItem("drawersData", null);
-        sessionStorage.setItem("selectedDrawer", null);
-        sessionStorage.setItem("selectedScribble", null);
-        sessionStorage.setItem("toBeMovedDrawer", null);
-        sessionStorage.setItem("drawerToBeMoved", null);
-        localStorage.setItem("lastActvity", null);
-        navigate(0);
+        AuthService.logout().then(() => {
+          localStorage.setItem("user", null);
+          sessionStorage.setItem("scribblesData", null);
+          sessionStorage.setItem("drawersData", null);
+          sessionStorage.setItem("selectedDrawer", null);
+          sessionStorage.setItem("selectedScribble", null);
+          sessionStorage.setItem("toBeMovedDrawer", null);
+          sessionStorage.setItem("drawerToBeMoved", null);
+          localStorage.setItem("lastActvity", null);
+          navigate(0);
+        });
       }
     }, 1000);
   };

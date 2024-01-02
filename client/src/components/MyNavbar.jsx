@@ -10,6 +10,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Tooltip, OverlayTrigger, Badge } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useUserContext } from "../context/UserContext";
+import AuthService from "../utils/AuthService";
 
 export default function MyNavbar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -29,13 +30,9 @@ export default function MyNavbar() {
   }, [scribbles]);
 
   //++++++++++++++++++++++++++Logout++++++++++++++++++++++++++++++++++++++++++++
+
   const handleLogout = () => {
-    fetch("http://127.0.0.1:8080/api/users/logout", {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(user),
-    })
-      .then((data) => data.json())
+    AuthService.logout()
       .then(() => {
         setUser({
           ...user,
