@@ -1,18 +1,18 @@
-import { useState, useRef, useEffect } from "react";
 import "../css/ScribblePage.css";
 import { Icon } from "@iconify/react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import FileDrop from "../components/FileDrop";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDataContext } from "../context/DataContext";
+//import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 
 export default function ScribblePage() {
   const navigate = useNavigate();
-  const { drawers, scribbles, setScribbles, loading } = useDataContext();
+  //const { drawers, scribbles, setScribbles, loading } = useDataContext();
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
@@ -20,12 +20,13 @@ export default function ScribblePage() {
   const body = useRef(content);
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
-  const { files, setFiles, loadingFiles, setLoadingFiles } = useFileContext();
+  const { files, setFiles } = useFileContext();
   const { user } = useUserContext();
   const [baseImage, setBaseImage] = useState("");
 
   let timerID = useRef(null);
 
+  //++++++++++++++Tooltips+++++++++++++++++++++++++++++++++++++++++++++++++
   const tooltipJustSave = <Tooltip id="tooltip">Just Save</Tooltip>;
   const tooltipSort = <Tooltip id="tooltip">Sort</Tooltip>;
 
@@ -39,19 +40,16 @@ export default function ScribblePage() {
     const blob = new Blob([JSON.stringify(file, null, 2)], {
       type: "application/json",
     });
-
-    var reader = new FileReader();
-
+    const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = function () {
-      var base64data = reader.result;
-      //console.log(base64data);
+      const base64data = reader.result;
     };
   };
 
+  /////+++++++++++++++++++++++++++Create a new scribble++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const createNewScribble = () => {
     body.current = document.querySelector(".screenshot").innerHTML;
-    //console.log("Current body", body.current);
     setContent(body.current);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
@@ -94,15 +92,13 @@ export default function ScribblePage() {
       .then((response) => response.json())
       .then((json) => {
         setSelectedScribbleId(json.data._id);
-        // console.log("selected Scribble ID setting complete");
-        // console.log("JSON", json);
       })
       .catch((error) => console.error(error.message));
   };
 
-  const handleScribbleChange = (e) => {
-    setScribbleContent(e.target.value);
-  };
+  // const handleScribbleChange = (e) => {
+  //   setScribbleContent(e.target.value);
+  // };
 
   const handleTitleChange = (value) => {
     setScribbleTitle(value);
@@ -110,7 +106,6 @@ export default function ScribblePage() {
 
   const handleSubmitScribble = (e) => {
     createNewScribble(e);
-
     setTempFiles([]);
     setScribbleTitle("");
     setContent("");
@@ -119,21 +114,19 @@ export default function ScribblePage() {
     navigate(0);
   };
 
+  //Future Feature - in progress
   const detectContent = () => {
     if (document.querySelector(".screenshot")) {
       document
         .querySelector(".screenshot")
         .addEventListener("input", function (e) {
           let imageArray = [];
-          //console.log(document.querySelector(".screenshot").innerHTML);
           const parent = document.querySelector(".screenshot");
-          //console.log(typeof body.current);
           if (parent.getElementsByTagName("img")) {
             console.log("________________FOUND");
           } else {
             console.log("NOOOOOOOOOOOOOOOOOOOO");
           }
-          //console.log("imageArray", imageArray);
         });
     }
   };

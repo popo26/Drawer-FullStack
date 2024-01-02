@@ -3,14 +3,12 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const session = require("express-session");
 const passport = require("./passport");
-// const MongoStore = require('connect-mongo')(session)
 const MongoStore = require("connect-mongo");
 const swaggerUi = require("swagger-ui-express");
 swaggerDocument = require("./swagger.json");
 
 const cors = require("cors");
 let dbConnect = require("./dbConnect");
-// const passport = require('passport')
 
 const app = express();
 require("dotenv").config();
@@ -31,7 +29,6 @@ app.use(bodyParser.json());
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET || "fraggle-rock", // It holds the secret key for session
-    // store: new MongoStore({ mongooseConnection: dbConnect }),
     store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1/drawer-local" }),
     resave: false, // Forces the session to be saved back to the session store
     saveUninitialized: false, // Forces a session that is "uninitialized" to be saved to the store

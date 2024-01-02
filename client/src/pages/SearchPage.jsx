@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import Search from "../components/Search";
 import "../css/SearchPage.css";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
+import Search from "../components/Search";
 import { useUserContext } from "../context/UserContext";
 
-// export default function SearchPage({user, setUser}) {
 export default function SearchPage() {
   const { user } = useUserContext();
   const navigate = useNavigate();

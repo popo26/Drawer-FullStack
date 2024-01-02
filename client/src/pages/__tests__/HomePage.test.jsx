@@ -1,8 +1,7 @@
-import React from "react";
-import { describe, it, expect, test } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { expect, test } from "vitest";
+import { render, screen } from "@testing-library/react";
 import HomePage from "../HomePage";
-import { BrowserRouter, Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { UserContextProvider } from "../../context/UserContext";
 import { DataProvider } from "../../context/DataContext";
 

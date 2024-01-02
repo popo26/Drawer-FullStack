@@ -21,6 +21,7 @@ export default function ProfilePage() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  //++++++++++++++++++++ Change username or email ++++++++++++++++++++++++++++++++++++++++++++++++
   const handleClick = (e) => {
     e.preventDefault();
 
@@ -45,6 +46,7 @@ export default function ProfilePage() {
       });
   };
 
+  //++++++++++++++++++++ Change password ++++++++++++++++++++++++++++++++++++++++++++++++
   const handlePasswordChange = (e) => {
     e.preventDefault();
     console.log("Change Password clicked");

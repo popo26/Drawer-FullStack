@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <ErrorBoundary FallbackComponent={ErrorMessage}>
         <UserContextProvider>
-        <App />
+          <App />
         </UserContextProvider>
       </ErrorBoundary>
     </BrowserRouter>

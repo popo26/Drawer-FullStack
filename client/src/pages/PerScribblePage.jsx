@@ -1,9 +1,9 @@
-import { useParams, useNavigate } from "react-router-dom";
+import "../css/PerScribblePage.css";
 import { Icon } from "@iconify/react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useFileContext } from "../context/FileContext";
-import "../css/PerScribblePage.css";
 
 const thumbsContainer = {
   display: "flex",
@@ -63,6 +63,7 @@ export default function PerScribblePage() {
     }
   }, []);
 
+  //+++++++++++++++ Delete a Scribble from DB ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "DELETE",
@@ -152,11 +153,8 @@ export default function PerScribblePage() {
   };
 
   const updateContent = () => {
-    //console.log("CURRENT in update fx", body.current.innerHTML);
     const newContent = body.current.innerHTML;
-    //console.log("newContent", newContent);
     setSecreenshots(newContent);
-    //console.log("CURRENT newCOntent", newContent);
 
     let dataPost = {
       content: newContent,

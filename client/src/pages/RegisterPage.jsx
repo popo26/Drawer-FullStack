@@ -1,33 +1,36 @@
-import { useState, useRef, useEffect } from "react";
-import "../css/RegisterPage.css";
-import { Button, Form, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo_d.png";
+import "../css/RegisterPage.css";
+import { useState, useRef, useEffect } from "react";
+import { Button, Form, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [userForm, setUserForm] = useState({
     email: "",
     password: "",
     username: "",
-    role: "user",
+    role: "user", //admin can only be created via postman
     isLoggedIn: false,
   });
   let timerID = useRef(null);
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
+  //++++++++++++++For redirection to Login page++++++++++++++++++++++++++++++++++++++++++++++++
   useEffect(() => {
     return () => {
       clearTimeout(timerID);
     };
   }, []);
 
+  //++++++++++++++Reset Error Message Once User starts typing++++++++++++++++++++++++++++++++++++++++++++++++
   const handleChange = (e) => {
     setMessage("");
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
   };
 
+  //++++++++++++++Reset Register Form++++++++++++++++++++++++++++++++++++++++++++++++
   const resetForm = () => {
     setUserForm({
       username: "",
@@ -36,12 +39,10 @@ export default function RegisterPage() {
     });
   };
 
+  //++++++++++++++Submit Register Form++++++++++++++++++++++++++++++++++++++++++++++++
   const handleSubmitRegister = (e) => {
-    console.log("sign-up handleSubmit, username: ");
-    console.log(userForm.username);
     e.preventDefault();
 
-    //request to server to add a new username/password
     axios
       .post("http://127.0.0.1:8080/api/users/register", {
         username: userForm.username,

@@ -7,6 +7,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function HomePage({ expandedIndex, handleExpand }) {
   const { user, setUser } = useUserContext();
+  const tooltipCreate = <Tooltip id="tooltip">Create New Drawer</Tooltip>;
 
   useEffect(() => {
     const userInBrowser = JSON.parse(localStorage.getItem("user"));
@@ -14,8 +15,6 @@ export default function HomePage({ expandedIndex, handleExpand }) {
       setUser(userInBrowser);
     }
   }, []);
-
-  const tooltipCreate = <Tooltip id="tooltip">Create New Drawer</Tooltip>;
 
   return (
     <div>
@@ -25,7 +24,11 @@ export default function HomePage({ expandedIndex, handleExpand }) {
         user={user}
       />
       <OverlayTrigger placement="bottom" overlay={tooltipCreate}>
-        <Link to="/create" className="btn btn-dark btn-lg" data-testid="createNewDrawer">
+        <Link
+          to="/create"
+          className="btn btn-dark btn-lg"
+          data-testid="createNewDrawer"
+        >
           <Icon icon="typcn:plus" />
           <Icon icon="mingcute:drawer-line" color="white" width="30" />
         </Link>

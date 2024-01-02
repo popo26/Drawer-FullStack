@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "../css/App.css";
 import SearchPage from "../pages/SearchPage";
-import PasswordResetPage from "../pages/PasswordResetPage";
+//import PasswordResetPage from "../pages/PasswordResetPage";
 import CreateDrawerPage from "../pages/CreateDrawerPage";
 import ScribblePage from "../pages/ScribblePage";
 import ProfilePage from "../pages/ProfilePage";

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
@@ -8,7 +7,6 @@ import { useDataContext } from "../context/DataContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
 import { useUserContext } from "../context/UserContext";
 
-// export default function CreateDrawerPage({ user, setUser }) {
 export default function CreateDrawerPage() {
   const navigate = useNavigate();
   const { drawers, setDrawers, loadingDrawers } = useDataContext();
@@ -34,7 +32,6 @@ export default function CreateDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-
       .then((json) => {
         !loadingDrawers && setDrawers((prevItems) => [...prevItems, json.data]);
       })
