@@ -60,6 +60,11 @@ router.put("/changepassword/:id", async function (req, res) {
   Controllers.userController.updatePassword(req, res);
 });
 
+//for deleting user - to be used at Admin page in future
+router.delete("/:id", async function (req, res) {
+  Controllers.userController.deleteUser(req, res);
+});
+
 module.exports = router;
 
 ////LATEST ORIGINAL

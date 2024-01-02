@@ -1,0 +1,244 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Drawer",
+    "description": "Drawer Application API"
+  },
+  "host": "127.0.0.1:8080",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Drawer",
+      "description": "API for Drawers/Scribbles/User in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "paths": {
+    "/drawers": {
+      "get": {
+        "tags": ["GET Service"],
+        "summary": "Get All Drawers",
+
+        "responses": {
+          "200": {
+            "description": "This service retrieves ALL drawers"
+          }
+        }
+      }
+    },
+
+    "/drawers/create": {
+      "post": {
+        "tags": ["POST Service"],
+        "summary": "Create a new drawer",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "drawer",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "default": "drawer"
+                },
+                "subDrawer": {
+                  "type": "boolean"
+                },
+                "root": {
+                  "type": "boolean"
+                },
+                "level": {
+                  "type": "integer",
+                  "default": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This service allows you to create a drawer"
+          }
+        }
+      }
+    },
+
+    "/drawers/{id}": {
+      "delete": {
+        "tags": ["Delete Service"],
+        "summary": "DELETE a drawer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The First Number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This service deletes a drawer"
+          }
+        }
+      }
+    },
+    "/scribbles": {
+      "get": {
+        "tags": ["GET Service"],
+        "summary": "Get All Scribbles",
+
+        "responses": {
+          "200": {
+            "description": "This service retrieves ALL scribbles"
+          }
+        }
+      }
+    },
+
+    "/scribbles/create": {
+      "post": {
+        "tags": ["POST Service"],
+        "summary": "Create a new scribble",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "scribble",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "default": "scribble"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "stray": {
+                  "type": "boolean"
+                },
+                "level": {
+                  "type": "integer",
+                  "default": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This service allows you to create a drawer"
+          }
+        }
+      }
+    },
+
+    "/scribbles/{id}": {
+      "delete": {
+        "tags": ["Delete Service"],
+        "summary": "DELETE a scribble",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Scribble ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This service deletes a scribble"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["GET Service"],
+        "summary": "Get All Users",
+        "responses": {
+          "200": {
+            "description": "This service retrieves ALL users"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["POST Service"],
+        "summary": "Create/Register a new user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "scribble",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "min 1, max 50"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "min 6, max 50"
+                },
+                "password": {
+                  "type": "string",
+                  "required": true
+                },
+                "role": {
+                  "type": "string",
+                  "required": true,
+                  "default": "user",
+                  "description": "'user' or 'admin'"
+                },
+                "isLoggedIn": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This service creates a new user"
+          }
+        }
+      }
+    },
+
+    "/users/{id}": {
+      "delete": {
+        "tags": ["Delete Service"],
+        "summary": "DELETE a user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This service deletes an user."
+          }
+        }
+      }
+    }
+  }
+}

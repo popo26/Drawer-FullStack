@@ -5,8 +5,10 @@ const session = require("express-session");
 const passport = require("./passport");
 // const MongoStore = require('connect-mongo')(session)
 const MongoStore = require("connect-mongo");
+const swaggerUi = require("swagger-ui-express");
+swaggerDocument = require("./swagger.json");
 
-var cors = require("cors");
+const cors = require("cors");
 let dbConnect = require("./dbConnect");
 // const passport = require('passport')
 
@@ -44,19 +46,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // calls the deserializeUser
 
-// var corsOptions = {
-//   origin: '*',
-//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-//   'Access-Control-Allow-Origin':'*'
-// }
-
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to my MongoDB application." });
 });
 
-// app.get("/", cors(corsOptions), (req, res) => {
-//   res.json({ message: "Welcome to my MongoDB application." });
-// });
+//swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 let userRoutes = require("./routes/userRoutes");
 let drawerRoutes = require("./routes/drawerRoutes");
@@ -65,7 +60,6 @@ let scribbleRoutes = require("./routes/scribbleRoutes");
 app.use("/api/users", userRoutes);
 app.use("/api/drawers", drawerRoutes);
 app.use("/api/scribbles", scribbleRoutes);
-// app.use("/api/scribbles", cors(corsOptions), scribbleRoutes);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
