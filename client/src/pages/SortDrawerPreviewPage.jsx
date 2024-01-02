@@ -1,7 +1,7 @@
-import { useNavigate, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../css/SortPreviewPage.css";
 import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
@@ -11,20 +11,21 @@ import { useUserContext } from "../context/UserContext";
 export default function SortDrawerPreviewPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { drawers, scribbles, loadingDrawers, setDrawers } = useDataContext();
+  const { drawers, scribbles, loadingDrawers } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
-  const { user, setUser } = useUserContext();
 
-  //To persist those 2 values incase of browser refresh -- moved to context?
-  const drawerToBeMovedObj = drawers.filter(
-    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-  );
-  const destinationObj = drawers.filter(
-    (item) => item._id == sessionStorage.getItem("selectedDrawerId")
-  );
+  //Not in use? - delete them after I check
+  // //To persist those 2 values incase of browser refresh -- moved to context?
+  // const drawerToBeMovedObj = drawers.filter(
+  //   (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+  // );
+  // const destinationObj = drawers.filter(
+  //   (item) => item._id == sessionStorage.getItem("selectedDrawerId")
+  // );
 
+  //+++++++++++Tooltips++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const tooltipMoveHere = <Tooltip id="tooltip">Move Here</Tooltip>;
 
   //To persist those 2 values incase of browser refresh
@@ -33,6 +34,7 @@ export default function SortDrawerPreviewPage() {
     handleSelectedDrawerId(sessionStorage.getItem("selectedDrawerId"));
   }, []);
 
+  //+++++++++Update Parent Drawer's Boolean (subDrawer to be true) +++++++++++++++++++++++++++++++++++++++++++++++
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;
     const parentDrawerObj = drawers.filter(
@@ -63,6 +65,7 @@ export default function SortDrawerPreviewPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++++++++++Move All Children (both sub-drawers and scribbles) to the new drawer +++++++++++++++++++++++++
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
@@ -75,12 +78,12 @@ export default function SortDrawerPreviewPage() {
     let subDrawersToBeMoved = [];
 
     for (let x in drawers) {
-      console.log("drawers[x].drawerId", drawers[x].drawerId);
-      console.log("ParentDrawerId", parentDrawerId);
-      console.log(
-        "drawerToBeMovedObject[0]['rootId']",
-        drawerToBeMovedObject[0]["rootId"]
-      );
+      // console.log("drawers[x].drawerId", drawers[x].drawerId);
+      // console.log("ParentDrawerId", parentDrawerId);
+      // console.log(
+      //   "drawerToBeMovedObject[0]['rootId']",
+      //   drawerToBeMovedObject[0]["rootId"]
+      // );
 
       if (
         (drawers[x].drawerId && drawers[x].drawerId == parentDrawerId) ||
@@ -102,10 +105,10 @@ export default function SortDrawerPreviewPage() {
             (item) => item._id == drawers[x].drawerId
           );
           newLevel = parentDrawer[0].level + 1;
-          console.log("new Level AAAAAA", newLevel);
+          //console.log("new Level AAAAAA", newLevel);
         } else {
           newLevel = 2;
-          console.log("new Level BBBB", newLevel);
+          //console.log("new Level BBBB", newLevel);
         }
 
         let dataPost = {
@@ -158,6 +161,7 @@ export default function SortDrawerPreviewPage() {
     }
   };
 
+  //++++++++++++++Move selected drawer to new parent drawer+++++++++++++++++++++++++++++++++++++++++++++
   const moveDrawerToNewDrawer = (passedId) => {
     const parentDrawerObject = drawers.filter((item) => item._id == passedId);
     let dataPost = {
@@ -181,12 +185,12 @@ export default function SortDrawerPreviewPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //++++++++++++++++++++++++++This is where to use above 3 functions ++++++++++++++++++++++++++++++++++++++++
   const handleMoveHere = () => {
     moveDrawerToNewDrawer(selectedDrawerId);
     console.log("checkpoint1");
     moveAllChildrenToNewDrawer(drawerToBeMoved, selectedDrawerId);
     console.log("checkpoint2");
-
     updateParentDrawerBoolean(selectedDrawerId);
     console.log("checkpoint3");
 
@@ -194,15 +198,16 @@ export default function SortDrawerPreviewPage() {
     navigate(0);
   };
 
+  //+++++++++++++++++++++++++++Preview list --- Selected Drawer+++++++++++++++
   const renderedList = drawers
     .filter((item) => item._id == sessionStorage.getItem("selectedDrawerId"))
-
     .map((item) => (
       <h4 className="sort-preview-drawer" key={item._id}>
         {item.name}
       </h4>
     ));
 
+  //+++++++++++++++++++++++++++Function --- Scribbles in the selected drawer+++++++++++++++
   const scribblies = (x) => {
     return scribbles
       .filter((scrb) => scrb.drawerId == x._id)
@@ -219,6 +224,7 @@ export default function SortDrawerPreviewPage() {
       ));
   };
 
+  //+++++++++++++++++++++++++++Function --- Sub-drawers in the selected drawer+++++++++++++++
   const subDrawers = (x) => {
     return drawers
       .filter((sub) => sub.drawerId == x[0]._id)
@@ -235,6 +241,7 @@ export default function SortDrawerPreviewPage() {
       ));
   };
 
+  //+++++++++++++++++++++++++++Finding to consolidate scribbles and sub drawers+++++++++++++++
   const FindSubDrawers = () => {
     const x = drawers.filter(
       (item) => item._id == sessionStorage.getItem("selectedDrawerId")
@@ -253,6 +260,7 @@ export default function SortDrawerPreviewPage() {
     return renderedChildren;
   };
 
+  //+++++++++++++++++++++++++++Finding the name of drawer to be moved for a small display at the top +++++++++++++++
   const drawerToBeMovedObjName = () => {
     const obj = drawers.filter(
       (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
@@ -260,6 +268,7 @@ export default function SortDrawerPreviewPage() {
     return obj[0]["name"];
   };
 
+  //+++++++++++++++++++++++++++Finding the name of the destination drawer for a small display at the top +++++++++++++++
   const destinationDrawerObjName = () => {
     const obj = drawers.filter((item) => item._id == selectedDrawerId);
     return obj[0]["name"];

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import "../css/SearchPage.css";
+import { Icon } from "@iconify/react";
 import { Button } from "react-bootstrap";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
-import { Icon } from "@iconify/react";
-import "../css/SearchPage.css";
 import { useUserContext } from "../context/UserContext";
 
 export default function Search() {
@@ -12,6 +12,7 @@ export default function Search() {
   const { scribbles } = useDataContext();
   const { user } = useUserContext();
 
+  ///++++++++++++++++++++++Search function++++++++++++++++++++++++++++++++++++++
   const searchKeywordInDb = () => {
     let searchResultArray = [];
     for (let x in scribbles) {
@@ -31,12 +32,14 @@ export default function Search() {
     return searchResultArray;
   };
 
+  //++++++++++++++++++++++++++Get the result and set it as state+++++++++++++++++
   const handleSubmit = (e) => {
     e.preventDefault();
     const result = searchKeywordInDb();
     setSearchResult(result);
   };
 
+  //++++++++++++++++++++++++Track search keyword as state+++++++++++++++++++++++
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };

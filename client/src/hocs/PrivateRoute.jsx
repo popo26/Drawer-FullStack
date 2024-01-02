@@ -8,6 +8,7 @@ export default function PrivateRoute({
 }) {
   const userInBrowser = JSON.parse(localStorage.getItem("user"));
 
+  //+++++++++++if user's state is not 'isLoggedIn', user gets redirected to login page when trying to access protected private pages+++++++++++++
   if (userInBrowser === null || !userInBrowser.isLoggedIn) {
     return <Navigate to={redirectPath} replace />;
   }

@@ -1,8 +1,8 @@
-import { useNavigate, useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import InputField from "../components/InputField";
-import { useState } from "react";
 import "../css/SortPreviewPage.css";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
@@ -23,8 +23,10 @@ export default function SortScribblePreviewPage() {
     useSelectedDrawerContext();
   const { user } = useUserContext();
 
+  //+++++++++++++++++Tooltip++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const tooltipSaveHere = <Tooltip id="tooltip">Save Here</Tooltip>;
 
+  //+++++++++++++++++Update Parent Drawer's Boolean [subDrawer to true]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;
     const x = drawers.filter((item) => item._id == parentDrawerId);
@@ -53,6 +55,7 @@ export default function SortScribblePreviewPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++++Add selected scribble to the new sub drawer++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const addScribbleToNewSubDrawer = (passedId, selectedDrawerLevel) => {
     const newlyCreatedDrawerObj = drawers.filter(
       (item) => item._id == state.selectedDrawerId
@@ -76,12 +79,12 @@ export default function SortScribblePreviewPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++++Create a new sub drawer+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const createNewSubDrawer = () => {
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
     );
-    const item = selectedDrawerObject[0]["rootId"];
-    //console.log("item match exists?", item.match(/[a-z]/i));
+    //const item = selectedDrawerObject[0]["rootId"];
 
     let dataPost = {
       rootId: selectedDrawerObject[0]["rootId"],
@@ -113,6 +116,7 @@ export default function SortScribblePreviewPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++++Save selected scribble to existing drawer+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const handleSaveHere = () => {
     const selectedDrawerObject = drawers.filter(
       (item) => item._id == state.selectedDrawerId
@@ -133,13 +137,14 @@ export default function SortScribblePreviewPage() {
     setNewSubDrawerName(value);
   };
 
+  //+++++++++++++++++Create new subdrawer under the selected existing drawer instead of directly saving under the selected drawer++++++++++++++++++++
   const handleCreate = () => {
     createNewSubDrawer();
     navigate("/home");
   };
 
+  //+++++++++++++++++Preview list - selected drawer++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const renderedList = drawers
-
     .filter((item) => item._id == state.selectedDrawerId)
     .map((item) => (
       <h4 className="sort-preview-drawer" key={item._id}>
@@ -147,11 +152,11 @@ export default function SortScribblePreviewPage() {
       </h4>
     ));
 
+  //+++++++++++++Function to find scribbles in the selected drawer++++++++++++++++++++++++++++++++++++
   const scribblies = () => {
     console.log("Obj ID", sessionStorage.getItem("selectedDrawer"));
     let scribbleArray = [];
     for (let x of scribbles) {
-      //console.log("scribbles[x]", x._id);
       if (
         x["drawerId"] &&
         x.stray === false &&
@@ -176,6 +181,7 @@ export default function SortScribblePreviewPage() {
     );
   };
 
+  //+++++++++++++++++Function to find sub drawers in the selected drawer++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const subDrawers = () => {
     let subDrawersArray = [];
     for (let x in drawers) {
@@ -196,13 +202,12 @@ export default function SortScribblePreviewPage() {
     ));
   };
 
+  //+++++++++++++++++++++++++++Function to finally render all the sub-drawers and scribbles in the selected drawer+++++++++++++++++++++++++++++++
   const FindSubDrawers = () => {
     if (!loadingDrawers) {
       const selectedDrawerObj = drawers.filter(
         (item) => item._id == sessionStorage.getItem("selectedDrawer")
       );
-
-      console.log("selectedDrawer", sessionStorage.getItem("selectedDrawer"));
       const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
         <>
           {scribblies()}
@@ -216,24 +221,7 @@ export default function SortScribblePreviewPage() {
     }
   };
 
-  // const FindSubDrawers = () => {
-  //   const selectedDrawerObj = drawers.filter(
-  //     (item) => item._id == sessionStorage.getItem("selectedDrawer")
-  //   );
-
-  //   console.log('selectedDrawer', sessionStorage.getItem("selectedDrawer"))
-  //   const renderedChildren = selectedDrawerObj[0]["subDrawer"] ? (
-  //     <>
-  //       {scribblies()}
-  //       {subDrawers()}
-  //     </>
-  //   ) : (
-  //     <>{scribblies()}</>
-  //   );
-
-  //   return renderedChildren;
-  // };
-
+  ///++++++++++++++++++++++++++++To swap display message on a button+++++++++++++++++++++++++++++++++++
   const handleDisplay = () => {
     setSaveHereSelected(!saveHereSelected);
     {
@@ -243,8 +231,8 @@ export default function SortScribblePreviewPage() {
     }
   };
 
+  //++++++++++++++++++++++++++++To handle source and destination display at the top of the page++++++++++++++++++++++++++
   const scrb = scribbles.find((item) => item._id === state.selectedScribbleId);
-
   const destinationDrawer = drawers.find(
     (item) => item._id === state.selectedDrawerId
   );

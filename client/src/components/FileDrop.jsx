@@ -1,6 +1,6 @@
-import { useDropzone } from "react-dropzone";
-import { Icon } from "@iconify/react";
 import "../css/FileDrop.css";
+import { Icon } from "@iconify/react";
+import { useDropzone } from "react-dropzone";
 import { useFileContext } from "../context/FileContext";
 
 const thumbsContainer = {

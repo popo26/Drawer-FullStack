@@ -1,13 +1,13 @@
 //////////////////WITH AUTHENTICATION//////////////////////////////////////////////////////////
 import "../css/Navbar.css";
+import logo from "../assets/logo_d1.png";
 import { Icon } from "@iconify/react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { useState, useEffect } from "react";
 import { Tooltip, OverlayTrigger, Badge } from "react-bootstrap";
-import logo from "../assets/logo_d1.png";
 import { useDataContext } from "../context/DataContext";
 import { useUserContext } from "../context/UserContext";
 
@@ -28,6 +28,7 @@ export default function MyNavbar() {
     }
   }, [scribbles]);
 
+  //++++++++++++++++++++++++++Logout++++++++++++++++++++++++++++++++++++++++++++
   const handleLogout = () => {
     fetch("http://127.0.0.1:8080/api/users/logout", {
       method: "POST",
@@ -58,7 +59,7 @@ export default function MyNavbar() {
       .catch((error) => console.error(error.message));
   };
 
-  ////Without Hamburger
+  //+++++++++++++++++++++++++++++++++++++NavBar when user has not logged in++++++++++++++++++++++++++++++++++++++++++++++++
   const unauthenticatedNavBar = () => {
     const tooltipLogin = <Tooltip id="tooltip">Login</Tooltip>;
     const tooltipRegister = <Tooltip id="tooltip">Register</Tooltip>;
@@ -101,6 +102,7 @@ export default function MyNavbar() {
     );
   };
 
+  //+++++++++++++++++++++++++++++++++++++NavBar when user has logged in++++++++++++++++++++++++++++++++++++++++++++++++
   const authenticatedNavBar = () => {
     const tooltipSearch = <Tooltip id="tooltip">Search</Tooltip>;
     const tooltipProfile = <Tooltip id="tooltip">Profile</Tooltip>;

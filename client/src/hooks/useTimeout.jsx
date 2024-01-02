@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+///+++++++++++++++++++This hook will remove all the sessionStorage/localStorage after 10 min of inactivity+++++++++++++++++++++++++++++
 export function useTimeout() {
   let timeoutID = useRef(null);
   const navigate = useNavigate();

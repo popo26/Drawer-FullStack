@@ -28,13 +28,15 @@ export default function SortScribblePage() {
   const [drawerName, setDrawerName] = useDrawerNameContext();
   const { user } = useUserContext();
 
+  //++++++++++++Tooltips+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
-  //To persist selected Scribble ID so browser refresh won't wipe it
+  //+++++++++++++++To persist selected Scribble ID so browser refresh won't wipe it+++++++++++++++++++
   useEffect(() => {
     handleSelectedDrawerId(""); //this is still bit in quesion
   }, []);
 
+  //+++++++++++++++++++++Add selected scribble to the newly created sub drawer+++++++++++++++++++++++++++
   const addScribbleToNewSubDrawer = (passedId) => {
     let dataPost = {
       rootDrawerId: passedId,
@@ -56,6 +58,7 @@ export default function SortScribblePage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++++++++Create a new Drawer+++++++++++++++++++++++++++
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
@@ -82,7 +85,6 @@ export default function SortScribblePage() {
   };
 
   const handleChange = (value) => {
-    //console.log(value);
     //somehow need a spot to set this state
     setDrawerName(value);
   };
@@ -95,6 +97,7 @@ export default function SortScribblePage() {
     }
   };
 
+  //+++++++++++++++++++++Swap display message on the button+++++++++++++++++++++++++++
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);
     {
@@ -104,8 +107,8 @@ export default function SortScribblePage() {
     }
   };
 
+  //+++++++++++++++++++++To display source and destination at the top of the page+++++++++++++++++++++++++++
   const scrb = scribbles.filter((item) => item._id == selectedScribbleId);
-
   const destinationDrawer = drawers.find(
     (item) => item._id === selectedDrawerId
   );
@@ -113,7 +116,6 @@ export default function SortScribblePage() {
   if (loadingScribbles) {
     return <div>Loading...</div>;
   }
-
   return (
     <div id="page">
       <h4>

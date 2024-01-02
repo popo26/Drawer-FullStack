@@ -8,6 +8,7 @@ export default function UnPrivateRoute({
 }) {
   const { user } = useUserContext();
 
+  ///+++++++++++++If user has already logged in, user gets redirected to home page when trying to access /register or /login route++++++++++++++
   if (user) {
     if (user.isLoggedIn) {
       return <Navigate to={redirectPath} replace />;
