@@ -5,7 +5,7 @@ const DataContext = createContext("");
 export const DataProvider = (props) => {
   const [drawers, setDrawers] = useState([]);
   const [scribbles, setScribbles] = useState([]);
-  const [users, setUsers] = useState([]);
+  //const [users, setUsers] = useState([]);
   const [loadingScribbles, setLoadingScribbles] = useState(true);
   const [loadingDrawers, setLoadingDrawers] = useState(true);
 
@@ -93,10 +93,10 @@ export const DataProvider = (props) => {
       value={{
         drawers,
         scribbles,
-        users,
+        //users,
         setDrawers,
         setScribbles,
-        setUsers,
+        //setUsers,
         loadingScribbles,
         setLoadingScribbles,
         loadingDrawers,

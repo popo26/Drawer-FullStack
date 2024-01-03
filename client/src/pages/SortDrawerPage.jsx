@@ -26,41 +26,19 @@ export default function SortDrawerPage() {
     "Or move it to existing drawer"
   );
   const { user } = useUserContext();
+
+  //++++++++Tooltip++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
+  //+++++++To grab drawerToBeMoved from sessionStorage and set as a state++++++++++++++++++++++++++++++++++++++
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
     setDrawerToBeMoved(drawerToBeMovedSession);
     handleSelectedDrawerId("");
   }, []);
 
-  // //checking
-  // const drawerToBeMovedObject = drawers.filter(
-  //   (item) => item._id == drawerToBeMoved
-  // );
-
-  // //let subDrawersToBeMoved = [];
-  // console.log("drawer to be moved obj", drawerToBeMovedObject[0].subDrawer)
-
-  // if (drawerToBeMovedObject[0].subDrawer) {
-  //   for (let x in drawers) {
-  //     if (
-  //       drawers[x].drawerId == drawerToBeMoved ||
-  //       // (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
-  //       // drawers[x].rootId == drawerToBeMoved
-  //       drawers[x].rootId == drawerToBeMoved
-  //     ) {
-  //       // subDrawersToBeMoved.push(x);
-  //       //subDrawersToBeMoved.push(drawers[x]);
-
-  //       console.log("matching subdrawers", drawers[x])
-
-  //   }
-  // }}
-
-  // ///checking
-
-  ///NOT WORKING! :-()
+  ///NOT WORKING! :-(
+  //++++++++Move children to the new drawer in DB +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     // parentDrawerId ---> Drawer To Be Moved
     //newTopLevelDrawerId ---> Newly created root drawer
@@ -98,7 +76,6 @@ export default function SortDrawerPage() {
           let dataPost = {
             rootId: newTopLevelDrawerId,
             root: false,
-            // level: drawerToBeMovedObject[0]["level"] + drawers[x].level,
             level: newLevel,
           };
 
@@ -137,6 +114,7 @@ export default function SortDrawerPage() {
     }
   };
 
+  //++++++++Move selected drawer to the new drawer +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const moveDrawerToNewDrawer = (passedId) => {
     let dataPost = {
       rootId: passedId,
@@ -157,6 +135,7 @@ export default function SortDrawerPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //++++++++Create new drawer in DB +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
@@ -186,10 +165,12 @@ export default function SortDrawerPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++To track new drawer name+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const handleChange = (value) => {
     setDrawerName(value);
   };
 
+  //++++++++Create new drawer with alert in case of no input+++++++++++++++++++++++++++++++++++++++++++
   const handleCreate = () => {
     {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
@@ -199,6 +180,7 @@ export default function SortDrawerPage() {
     }
   };
 
+  //+++++++++To swap display message on the button++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);
     {
@@ -208,6 +190,7 @@ export default function SortDrawerPage() {
     }
   };
 
+  //++++++++++To display Source and Destination drawer name at the top of the page++++++++++++++++++++++++
   const drawerToBeMovedObjName = () => {
     if (!loadingDrawers) {
       const obj = drawers.filter(
