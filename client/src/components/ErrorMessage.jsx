@@ -13,7 +13,7 @@ function ErrorMessage({ error, resetErrorBoundary }) {
       <p>An error occurred:</p>
       <pre>{error.message}</pre>
       <Button variant="warning" onClick={() => resetErrorBoundary()}>
-        Try Again? Sometimes refresh helps.
+        Try Again?
       </Button>
       <br />
       <br />
