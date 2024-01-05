@@ -61,4 +61,5 @@ Delete drawer:
 - Admin page
 - Preview, download, and deletion of attachment files.
 - Password Reset Email link.
-- Sanitize forms to prevent cross-site scripting (XSS) 
+- Sanitize forms to prevent cross-site scripting (XSS)
+- Shring functionality - e.g., shared drawers/scribbles for teams
