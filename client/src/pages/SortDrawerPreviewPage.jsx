@@ -77,21 +77,51 @@ export default function SortDrawerPreviewPage() {
 
     for (let x in drawers) {
       if (
-        (drawers[x].drawerId && drawers[x].drawerId == parentDrawerId) ||
+        drawers[x].drawerId == parentDrawerId ||
         (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
           drawers[x].level > drawerToBeMovedObject[0]["level"])
       ) {
         subDrawersToBeMoved.push(drawers[x]);
 
         let newLevel;
-        if (drawers[x].drawerId) {
+        // if (drawers[x].drawerId) {
+        //   const parentDrawer = drawers.filter(
+        //     (item) => item._id == drawers[x].drawerId
+        //   );
+        //   // newLevel = parentDrawer[0].level + 1;
+        //   newLevel = drawers[x].level + 1;
+
+        // } else {
+        //   newLevel = 3;
+        // }
+
+        //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
+        if (drawers[x].drawerId && drawers[x].drawerId === parentDrawerId) {
           const parentDrawer = drawers.filter(
             (item) => item._id == drawers[x].drawerId
           );
-          newLevel = parentDrawer[0].level + 1;
-        } else {
-          newLevel = 2;
+          // newLevel = parentDrawer[0].level + 1;
+          newLevel = drawers[x].level + 1;
+
+          console.log("new Level CCCCCCCCCC", drawers[x].name);
+        } else if (
+          drawers[x].drawerId &&
+          drawers[x].drawerId !== parentDrawerId &&
+          drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
+        ) {
+          newLevel = drawers[x].level + 1;
+          console.log("new Level EEEEEEEEEEE", drawers[x].name);
+        } else if (!drawers[x].drawerId){
+          newLevel = 2
+          console.log("new Level GGGGGGGGGGGGGGG", drawers[x].name);
+
         }
+        
+        else {
+          newLevel = 3;
+          console.log("new Level DDDDDDDD", drawers[x].name);
+        }
+        ///////////////////////////////////////////////////////////////////////////
 
         let dataPost = {
           rootId: newTopLevelDrawerId,
@@ -162,7 +192,7 @@ export default function SortDrawerPreviewPage() {
     moveAllChildrenToNewDrawer(drawerToBeMoved, selectedDrawerId);
     updateParentDrawerBoolean(selectedDrawerId);
     navigate("/home");
-    navigate(0);
+    //navigate(0);
   };
 
   //+++++++++++++++++++++++++++Preview list --- Selected Drawer+++++++++++++++

@@ -109,7 +109,7 @@ export default function MyNavbar() {
     return (
       <>
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="#home" >
             <NavLink className="navbar-brand" to="/home">
               <img
                 src={logo}
@@ -118,8 +118,8 @@ export default function MyNavbar() {
                 onClick={() => setIsExpanded(false)}
               />
             </NavLink>
-            <span className="navbar-text greeting">Hi {user.username}!</span>
           </Navbar.Brand>
+          <span className="greeting">Hi {user.username}!</span>
 
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"

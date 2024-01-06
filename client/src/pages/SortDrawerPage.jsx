@@ -61,16 +61,40 @@ export default function SortDrawerPage() {
           console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved);
 
           let newLevel;
-          if (drawers[x].drawerId) {
+          // if (drawers[x].drawerId) {
+          //   const parentDrawer = drawers.filter(
+          //     (item) => item._id == drawers[x].drawerId
+          //   );
+          //   // newLevel = parentDrawer[0].level + 1;
+          //   newLevel = drawers[x].level + 1;
+
+          //   console.log("new Level CCCCCCCCCC", newLevel);
+          // } else {
+          //   newLevel = 3;
+          //   console.log("new Level DDDDDDDD", newLevel);
+          // }
+
+          //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
+          if (drawers[x].drawerId && drawers[x].drawerId === parentDrawerId) {
             const parentDrawer = drawers.filter(
               (item) => item._id == drawers[x].drawerId
             );
-            newLevel = parentDrawer[0].level + 1;
-            console.log("new Level CCCCCCCCCC", newLevel);
+            // newLevel = parentDrawer[0].level + 1;
+            newLevel = drawers[x].level + 1;
+
+            console.log("new Level CCCCCCCCCC", drawers[x].name);
+          } else if (
+            drawers[x].drawerId &&
+            drawers[x].drawerId !== parentDrawerId &&
+            drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
+          ) {
+            newLevel = drawers[x].level + 1;
+            console.log("new Level EEEEEEEEEEE", drawers[x].name);
           } else {
-            newLevel = 2;
-            console.log("new Level DDDDDDDD", newLevel);
+            newLevel = 3;
+            console.log("new Level DDDDDDDD", drawers[x].name);
           }
+          //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
 
           console.log("matching subdrawers", drawers[x]);
           let dataPost = {
@@ -131,7 +155,7 @@ export default function SortDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then(() => navigate(0))
+      //.then(() => navigate(0))
       .catch((error) => console.error(error.message));
   };
 
