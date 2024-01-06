@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DataContext = createContext("");
 
@@ -8,6 +9,8 @@ export const DataProvider = (props) => {
   //const [users, setUsers] = useState([]);
   const [loadingScribbles, setLoadingScribbles] = useState(true);
   const [loadingDrawers, setLoadingDrawers] = useState(true);
+
+  const navigate = useNavigate()
 
   //retrieve data from sessionStorage on mount or refresh
   useEffect(() => {
@@ -64,6 +67,7 @@ export const DataProvider = (props) => {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
+      .then(()=>navigate(0)) //To sync sessionStorage and DB
       .catch((error) => console.error(error.message));
   };
 
@@ -76,6 +80,8 @@ export const DataProvider = (props) => {
       ) {
         console.log("Mismatch", drawers[x]);
         updateRootId(drawers[x]["_id"]);
+        //console.log("current drawers", drawers)
+
       }
     }
   }, [drawers, scribbles]);

@@ -100,24 +100,39 @@ export default function SortDrawerPreviewPage() {
           const parentDrawer = drawers.filter(
             (item) => item._id == drawers[x].drawerId
           );
+
+          console.log("parentDrawer[0]['level']", parentDrawer[0]['level'])
           // newLevel = parentDrawer[0].level + 1;
+          if (parentDrawer[0]['level']===2){
+            newLevel = 3
+            console.log(
+              `DRAWER-PREVIEW AAAAAAAAAA: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
+          }
           newLevel = drawers[x].level + 1;
 
-          console.log(`DRAWER-PREVIEW CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`);
+          console.log(
+            `DRAWER-PREVIEW CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+          );
         } else if (
           drawers[x].drawerId &&
           drawers[x].drawerId !== parentDrawerId &&
           drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
         ) {
           newLevel = drawers[x].level + 1;
-          console.log(`DRAWER-PREVIEW EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`);
-        } else if (!drawers[x].drawerId){
-          newLevel = 2
-          console.log(`DRAWER-PREVIEW GGGGGGGGGGGGGGGG: ${drawers[x].name}, , , Level is ${newLevel}`);
-        }
-        else {
+          console.log(
+            `DRAWER-PREVIEW EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
+          );
+        } else if (!drawers[x].drawerId) {
+          newLevel = 2;
+          console.log(
+            `DRAWER-PREVIEW GGGGGGGGGGGGGGGG: ${drawers[x].name}, , , Level is ${newLevel}`
+          );
+        } else {
           newLevel = 3;
-          console.log(`DRAWER-PREVIEW DDDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`);
+          console.log(
+            `DRAWER-PREVIEW DDDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
+          );
         }
         ///////////////////////////////////////////////////////////////////////////
 
@@ -165,13 +180,26 @@ export default function SortDrawerPreviewPage() {
 
   //++++++++++++++Move selected drawer to new parent drawer+++++++++++++++++++++++++++++++++++++++++++++
   const moveDrawerToNewDrawer = (passedId) => {
-    const parentDrawerObject = drawers.filter((item) => item._id == passedId);
-    console.log("Sort-Preview, Move Drawer", parentDrawerObject[0]["rootId"])
+    // const parentDrawerObject = drawers.filter((item) => item._id == passedId);
+    // console.log("Sort-Preview, Move Drawer", parentDrawerObject[0]["rootId"])
+
+    // let dataPost = {
+    //   rootId: parentDrawerObject[0]["rootId"],
+    //   drawerId: parentDrawerObject[0]["_id"],
+    //   root: false,
+    //   level: parentDrawerObject[0]["level"] + 1,
+    // };
+
+    const parentDrawerObject = drawers.find((item) => item._id == passedId);
+    console.log("Sort-Preview, Move Drawer ROOTID", parentDrawerObject["rootId"]);
+    console.log("Sort-Preview, Move Drawer _ID", parentDrawerObject["_id"]);
+
+
     let dataPost = {
-      rootId: parentDrawerObject[0]["rootId"],
-      drawerId: parentDrawerObject[0]["_id"],
+      rootId: parentDrawerObject["rootId"],
+      drawerId: parentDrawerObject["_id"],
       root: false,
-      level: parentDrawerObject[0]["level"] + 1,
+      level: parentDrawerObject["level"] + 1,
     };
     fetch(`http://localhost:8080/api/drawers/${drawerToBeMoved}`, {
       method: "PUT",
