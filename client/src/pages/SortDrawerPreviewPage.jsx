@@ -101,25 +101,31 @@ export default function SortDrawerPreviewPage() {
             (item) => item._id == drawers[x].drawerId
           );
 
-          console.log("parentDrawer[0]['level']", parentDrawer[0]['level'])
+          console.log("parentDrawer[0]['level']", parentDrawer[0]["level"]);
           // newLevel = parentDrawer[0].level + 1;
-          if (parentDrawer[0]['level']===2){
-            newLevel = 3
+          //AFTER || added
+          if (parentDrawer[0]["level"] === 2 || (drawerToBeMovedObject[0].level - newTopLevelDrawerObject[0].level) > 1) {
+            newLevel = 3;
             console.log(
               `DRAWER-PREVIEW AAAAAAAAAA: ${drawers[x].name}, , , Level is ${newLevel}`
             );
+          } else {
+            newLevel = drawers[x].level + 1;
+            console.log(
+              `DRAWER-PREVIEW CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           }
-          newLevel = drawers[x].level + 1;
-
-          console.log(
-            `DRAWER-PREVIEW CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
-          );
         } else if (
           drawers[x].drawerId &&
           drawers[x].drawerId !== parentDrawerId &&
           drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
         ) {
-          newLevel = drawers[x].level + 1;
+          const directParentDrawer = drawers.filter(
+            (item) => item._id == drawers[x].drawerId
+          );
+          newLevel = directParentDrawer[0].level + 1
+
+          // newLevel = drawers[x].level + 1;
           console.log(
             `DRAWER-PREVIEW EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
           );
@@ -191,9 +197,11 @@ export default function SortDrawerPreviewPage() {
     // };
 
     const parentDrawerObject = drawers.find((item) => item._id == passedId);
-    console.log("Sort-Preview, Move Drawer ROOTID", parentDrawerObject["rootId"]);
+    console.log(
+      "Sort-Preview, Move Drawer ROOTID",
+      parentDrawerObject["rootId"]
+    );
     console.log("Sort-Preview, Move Drawer _ID", parentDrawerObject["_id"]);
-
 
     let dataPost = {
       rootId: parentDrawerObject["rootId"],
