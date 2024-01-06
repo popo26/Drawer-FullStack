@@ -82,17 +82,23 @@ export default function SortDrawerPage() {
             // newLevel = parentDrawer[0].level + 1;
             newLevel = drawers[x].level + 1;
 
-            console.log("new Level CCCCCCCCCC", drawers[x].name);
+            console.log(
+              `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           } else if (
             drawers[x].drawerId &&
             drawers[x].drawerId !== parentDrawerId &&
             drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
           ) {
             newLevel = drawers[x].level + 1;
-            console.log("new Level EEEEEEEEEEE", drawers[x].name);
+            console.log(
+              `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           } else {
             newLevel = 3;
-            console.log("new Level DDDDDDDD", drawers[x].name);
+            console.log(
+              `SORT DDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           }
           //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
 

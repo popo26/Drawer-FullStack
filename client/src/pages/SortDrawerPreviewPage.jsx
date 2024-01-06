@@ -103,23 +103,21 @@ export default function SortDrawerPreviewPage() {
           // newLevel = parentDrawer[0].level + 1;
           newLevel = drawers[x].level + 1;
 
-          console.log("new Level CCCCCCCCCC", drawers[x].name);
+          console.log(`DRAWER-PREVIEW CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`);
         } else if (
           drawers[x].drawerId &&
           drawers[x].drawerId !== parentDrawerId &&
           drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
         ) {
           newLevel = drawers[x].level + 1;
-          console.log("new Level EEEEEEEEEEE", drawers[x].name);
+          console.log(`DRAWER-PREVIEW EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`);
         } else if (!drawers[x].drawerId){
           newLevel = 2
-          console.log("new Level GGGGGGGGGGGGGGG", drawers[x].name);
-
+          console.log(`DRAWER-PREVIEW GGGGGGGGGGGGGGGG: ${drawers[x].name}, , , Level is ${newLevel}`);
         }
-        
         else {
           newLevel = 3;
-          console.log("new Level DDDDDDDD", drawers[x].name);
+          console.log(`DRAWER-PREVIEW DDDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`);
         }
         ///////////////////////////////////////////////////////////////////////////
 
@@ -168,6 +166,7 @@ export default function SortDrawerPreviewPage() {
   //++++++++++++++Move selected drawer to new parent drawer+++++++++++++++++++++++++++++++++++++++++++++
   const moveDrawerToNewDrawer = (passedId) => {
     const parentDrawerObject = drawers.filter((item) => item._id == passedId);
+    console.log("Sort-Preview, Move Drawer", parentDrawerObject[0]["rootId"])
     let dataPost = {
       rootId: parentDrawerObject[0]["rootId"],
       drawerId: parentDrawerObject[0]["_id"],
