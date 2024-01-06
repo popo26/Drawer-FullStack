@@ -62,4 +62,4 @@ Delete drawer:
 - Preview, download, and deletion of attachment files.
 - Password Reset Email link.
 - Sanitize forms to prevent cross-site scripting (XSS)
-- Shring functionality - e.g., shared drawers/scribbles for teams
+- Sharing functionality - e.g., shared drawers/scribbles for teams
