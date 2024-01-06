@@ -304,7 +304,7 @@ export default function DrawerListPage({ expandedIndex }) {
     setDrawerNameToEdit(text.current.innerText);
 
     let dataPost = {
-      name: drawerNameToEdit,
+      name: drawerNameToEdit.toUpperCase(),
     };
     fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "PUT",
