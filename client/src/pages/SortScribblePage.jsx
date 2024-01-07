@@ -132,7 +132,7 @@ export default function SortScribblePage() {
               type="text"
               name="create-new-drawer"
               id="create-new-drawer"
-              placeholder="Enter new drawer name"
+              placeholder="New drawer name"
               value={drawerName}
               handleNewDrawerChange={handleChange}
             />

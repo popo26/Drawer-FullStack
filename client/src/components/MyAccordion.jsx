@@ -16,9 +16,9 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
 
   const findScribbles = (id) => {
     let scribbleArray = [];
-    for (let x in scribbles) {
-      if (scribbles[x].drawerId == id) {
-        scribbleArray.push(scribbles[x]);
+    for (let key in scribbles) {
+      if (scribbles[key].drawerId == id) {
+        scribbleArray.push(scribbles[key]);
       }
     }
     return scribbleArray.map((item) => (
@@ -39,39 +39,38 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
     let newArray3 = [];
 
     //Collect all sub-drawers
-    for (let x in drawers) {
-      if (drawers[x].drawerId && drawers[x].rootId == id) {
-        newArray.push(drawers[x]);
+    for (let key in drawers) {
+      if (drawers[key].drawerId && drawers[key].rootId == id) {
+        newArray.push(drawers[key]);
       }
     }
 
     // Collect subdrawers that are subdrawers that have parent in this array
-    for (let y of newArray) {
-      const id = y._id;
-      for (let z of newArray) {
-        if (z.drawerId == id) {
-          let obj = { [`${id}`]: z };
+    for (let firstRoundObj of newArray) {
+      const id = firstRoundObj._id;
+      for (let secondRoundObj of newArray) {
+        if (secondRoundObj.drawerId == id) {
+          let obj = { [`${id}`]: secondRoundObj };
           newArray2.push(obj);
         }
       }
     }
 
     //Remove drawers that are collected in the above forloop
-    for (let p of newArray2) {
-      for (let i of newArray) {
-        if (i._id == Object.values(p)[0]._id) {
-          newArray.splice(newArray.indexOf(i), 1);
+    for (let array2Obj of newArray2) {
+      for (let array1Obj of newArray) {
+        if (array1Obj._id == Object.values(array2Obj)[0]._id) {
+          newArray.splice(newArray.indexOf(array1Obj), 1);
         }
       }
     }
 
     //Insert collected subdrawers to the right location
-    for (let k of newArray2) {
-      for (let j of newArray) {
-        //Something wrong around here
-        if (Object.values(k)[0].drawerId == j._id) {
-          const index = newArray.indexOf(j);
-          const obj = Object.values(k)[0];
+    for (let array2Item of newArray2) {
+      for (let array1Item1stRound of newArray) {
+        if (Object.values(array2Item)[0].drawerId == array1Item1stRound._id) {
+          const index = newArray.indexOf(array1Item1stRound);
+          const obj = Object.values(array2Item)[0];
 
           if (!newArray.includes(obj)) {
             newArray3 = [
@@ -85,14 +84,13 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
         }
       }
 
-      for (let j of newArray) {
-        //Something wrong around here
+      for (let array1Item2ndRound of newArray) {
         if (
-          Object.values(k)[0].drawerId !== j._id ||
-          Object.values(k)[0].rootId == j.rootId
+          Object.values(array2Item)[0].drawerId !== array1Item2ndRound._id ||
+          Object.values(array2Item)[0].rootId == array1Item2ndRound.rootId
         ) {
-          const index = newArray.indexOf(j);
-          const obj = Object.values(k)[0];
+          const index = newArray.indexOf(array1Item2ndRound);
+          const obj = Object.values(array2Item)[0];
 
           if (!newArray.includes(obj)) {
             newArray3 = [
