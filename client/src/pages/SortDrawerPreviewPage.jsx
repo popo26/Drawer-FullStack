@@ -100,7 +100,6 @@ export default function SortDrawerPreviewPage() {
           const parentDrawer = drawers.filter(
             (item) => item._id == drawers[x].drawerId
           );
-
           console.log("parentDrawer[0]['level']", parentDrawer[0]["level"]);
           // newLevel = parentDrawer[0].level + 1;
           //AFTER || added
