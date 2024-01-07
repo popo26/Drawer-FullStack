@@ -13,6 +13,7 @@ export default function CreateDrawerPage() {
   const [drawerName, setDrawerName] = useDrawerNameContext();
   const { user } = useUserContext();
 
+  //+++++++++Create New Drawer in DB+++++++++++++++++
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
@@ -38,10 +39,12 @@ export default function CreateDrawerPage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++Track Drawer Name Change++++++++++++++
   const handleChange = (value) => {
     setDrawerName(value);
   };
 
+  //+++++++++Create new drawer - whole process+++++++++++
   const handleCreate = () => {
     {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();

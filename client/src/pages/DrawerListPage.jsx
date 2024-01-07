@@ -7,7 +7,8 @@ import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useUserContext } from "../context/UserContext";
 
-export default function DrawerListPage({ expandedIndex }) {
+// export default function DrawerListPage({ expandedIndex }) {
+export default function DrawerListPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [drawerNameToEdit, setDrawerNameToEdit] = useState("");
@@ -89,6 +90,7 @@ export default function DrawerListPage({ expandedIndex }) {
     }
   };
 
+  //+++++++++Delete Drawer and its content - whole process+++++++++++++++++++++++++++++++++++
   const handleDelete = (id) => {
     const response = confirm(
       `Are you sure to delete this drawer and all the content?`
@@ -100,6 +102,7 @@ export default function DrawerListPage({ expandedIndex }) {
     }
   };
 
+  //+++++++++Display Update icon when Drawer Name is clicked for editing+++++++++++++++++++++++++++++++++++
   const showUpdateIcon = (id) => {
     const isEditing = id == updateIconIndex;
     if (isEditing) {
@@ -115,7 +118,7 @@ export default function DrawerListPage({ expandedIndex }) {
     }
   };
 
-  //top
+  //+++++++++Detect which drawer name is clicked and display update icon+++++++++++++++++++++++++++++++++++
   const handleUpdateIcon = (passedIndex) => {
     setUpdateIconIndex((currentExpandedIndex) => {
       if (currentExpandedIndex == passedIndex) {
@@ -126,6 +129,7 @@ export default function DrawerListPage({ expandedIndex }) {
     });
   };
 
+  //+++++++++Detect which drawer name is clicked for editing+++++++++++++++++++++++++++++++++++
   const detectClickedInnerText = (id) => {
     document
       .getElementById(`targetDrawerId${id}`)
@@ -136,6 +140,7 @@ export default function DrawerListPage({ expandedIndex }) {
       });
   };
 
+  //+++++++++State changes upon drawer name is clicked for editing++++++++++++++++++++++++++++++
   const handleSelectedDrawer = (clickedId) => {
     handleUpdateIcon(clickedId);
     setUpdateIconIndex(clickedId);
@@ -149,6 +154,7 @@ export default function DrawerListPage({ expandedIndex }) {
     ).innerText;
   };
 
+  //+++++++++Update drawer name, remove Update icon, and refresh+++++++++++++++++++++++++++++++++
   const update = () => {
     updateDrawerName(drawerIdToEdit);
     setUpdateIconIndex(-1);
@@ -156,7 +162,6 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
-
   const findScribbles = (id) => {
     let scribbleArray = [];
     for (let item in scribbles) {
@@ -300,8 +305,6 @@ export default function DrawerListPage({ expandedIndex }) {
 
   ///////++++++++Update Drawer Name in DB+++++++++++++
   const updateDrawerName = (id) => {
-    // const drawerToBeUpdated = drawers.filter((item) => item._id == id);
-    // const newName = text.current.innerText;
     setDrawerNameToEdit(text.current.innerText);
 
     let dataPost = {
@@ -319,6 +322,7 @@ export default function DrawerListPage({ expandedIndex }) {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++Whole tree view of this drawer+++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
     if (id == item._id && item.userId === user._id) {
       return (

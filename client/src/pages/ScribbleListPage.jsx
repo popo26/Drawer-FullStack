@@ -13,7 +13,7 @@ export default function ScribbleListPage() {
     useSelectedScribbleContext();
   const { user } = useUserContext();
 
-  //+++++++++++++ Delete a scribble in DB++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++ Delete a scribble in DB+++++++++++++++++++++++++++++++++++
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "DELETE",
@@ -26,7 +26,7 @@ export default function ScribbleListPage() {
       .catch((error) => console.error(error.message));
   };
 
-  //+++++++++++++ Delete a scribble Alert++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++ Delete a scribble Alert+++++++++++++++++++++++++++++++++++
   const handleDelete = (id) => {
     const response = confirm(`Are you sure to delete?`);
     if (response == true) {

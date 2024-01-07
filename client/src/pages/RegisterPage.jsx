@@ -17,14 +17,14 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
-  //++++++++++++++For redirection to Login page++++++++++++++++++++++++++++++++++++++++++++++++
+  //++++++++++++++For redirection to Login page++++++++++++++++++++++++++++++++++++++++
   useEffect(() => {
     return () => {
       clearTimeout(timerID);
     };
   }, []);
 
-  //++++++++++++++Reset Error Message Once User starts typing++++++++++++++++++++++++++++++++++++++++++++++++
+  //++++++++++++++Reset Error Message Once User starts typing++++++++++++++++++++++++
   const handleChange = (e) => {
     setMessage("");
     setUserForm({ ...userForm, [e.target.name]: e.target.value });

@@ -190,7 +190,6 @@ export default function SortDrawerPreviewPage() {
         ///////////////////////////////////////////////////////////////////////////
 
         let dataPost = {
-          // rootId: newTopLevelDrawerId,
           rootId: newTopLevelDrawerObject[0]["rootId"],
 
           root: false,

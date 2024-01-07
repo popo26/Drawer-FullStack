@@ -42,7 +42,6 @@ export default function PerScribblePage() {
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const { scribbles, loadingScribbles } = useDataContext();
-
   const body = useRef(screenshots);
   const { setFiles, loadingFiles } = useFileContext();
 
@@ -55,7 +54,6 @@ export default function PerScribblePage() {
 
       if (!loadingFiles) {
         const newFiles = JSON.parse(sessionStorage.getItem("files"));
-        //console.log("newFiles", newFiles);
         setFiles(newFiles);
       }
 
@@ -63,7 +61,16 @@ export default function PerScribblePage() {
     }
   }, []);
 
-  //+++++++++++++++ Delete a Scribble from DB ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++ Navigate to different endpoint depending on scribble stray type +++++++++++++++++
+  const scribbleNavigation = (id) => {
+    const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
+    scribbleToBeDeleted[0].stray == true
+      ? navigate("/stray")
+      : navigate("/home");
+    navigate(0);
+  };
+
+  //+++++++++++++++ Delete a Scribble from DB ++++++++++++++++++++++++++++++++++++++++++++++
   const deleteScribble = (id) => {
     fetch(`http://localhost:8080/api/scribbles/${id}`, {
       method: "DELETE",
@@ -76,54 +83,19 @@ export default function PerScribblePage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++ Delete a Scribble - whole process +++++++++++++++++++++++++++++++++++++
   const handleDelete = (id) => {
     const response = confirm(`Are you sure to delete this scribble?`);
     if (response == true) {
       deleteScribble(id);
-      const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
-      scribbleToBeDeleted[0].stray == true
-        ? navigate("/stray")
-        : navigate("/home");
-      navigate(0);
+      scribbleNavigation(id);
     }
   };
 
-  // const deleteAttachment = (id, blob) => {
-  //   const selectedScribble = scribbles.filter((item) => item._id == id);
-  //   const newAttachments = selectedScribble.files.filter(
-  //     (item) => item.preview != blob
-  //   );
-  //   let filesInfo = [];
-  //   for (let x of newAttachments) {
-  //     const perFile = {};
-  //     perFile["path"] = x.path;
-  //     perFile["name"] = x.name;
-  //     perFile["preview"] = x.preview;
-  //     perFile["size"] = x.size;
-  //     perFile["type"] = x.type;
-  //     filesInfo.push(perFile);
-  //   }
-  //   let dataPost = {
-  //     attachment: filesInfo.length === 0 ? false : selectedScribble.attachment,
-  //     files: filesInfo,
-  //   };
-  //   fetch(`http://localhost:8080/api/scribbles/${id}`, {
-  //     method: "PUT",
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(dataPost),
-  //   })
-  //     .then((response) => response.json())
-  //     .catch((error) => console.error(error.message));
-  // };
-
+  //+++++++++++++++ Delete an attachment from Scribble ++++++++++++++++++++++++++++++++++++
   const handleDeleteAttachment = (e, blob) => {
     e.stopPropagation();
     const selectedAttachments = scribbles.find((item) => item._id === id).files;
-    // console.log("currentAttachment", selectedAttachments);
-    // console.log("scribbles", scribbles);
     let newFilesArray = [];
     for (let scribble of scribbles) {
       if (scribble.files.length > 0) {
@@ -132,7 +104,6 @@ export default function PerScribblePage() {
             newFilesArray = selectedAttachments.filter(
               (file) => file._id !== item._id
             );
-            //console.log(newFilesArray);
             let dataPost = {};
             newFilesArray.length === 0
               ? (dataPost = {
@@ -158,10 +129,12 @@ export default function PerScribblePage() {
     }
   };
 
+  //+++++++++++++++ Set Editable state to True for Scribble Content +++++++++++++++++++++++++
   const handleEdit = () => {
     setIsEditable(true);
   };
 
+  //+++++++++++++++ Attachment file thumbnails +++++++++++++++++++++++++++++++++++++++++++++
   const thumbs = () => {
     return scribbles
       .find((item) => item._id == id)
@@ -175,8 +148,7 @@ export default function PerScribblePage() {
               className="remove-btn"
               onClick={(e) => {
                 handleDeleteAttachment(e, file.preview);
-                navigate("/stray");
-                navigate(0);
+                scribbleNavigation(id);
               }}
             >
               X
@@ -186,6 +158,7 @@ export default function PerScribblePage() {
       ));
   };
 
+  //+++++++++++++++ Update Scribble Content +++++++++++++++++++++++++++++++++++++++++++++++
   const updateContent = () => {
     const newContent = body.current.innerHTML;
     setSecreenshots(newContent);
@@ -206,13 +179,12 @@ export default function PerScribblePage() {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++ Update Scribble Content - whole process ++++++++++++++++++++++++++++++
   const update = () => {
     updateContent();
     setIsEditable(false);
     //workaround to update state. On refresh, content gets hidden
-    const updatedScribble = scribbles.filter((item) => item._id == id);
-    updatedScribble[0].stray == true ? navigate("/stray") : navigate("/home");
-    navigate(0);
+    scribbleNavigation(id);
   };
 
   const htmlStr = target?.content || "";

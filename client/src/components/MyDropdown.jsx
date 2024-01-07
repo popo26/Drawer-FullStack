@@ -16,9 +16,9 @@ export default function MyDropdown() {
   const { user } = useUserContext();
 
   //++++++++++NOt sure if I need this++++++++++++++++++++
-  const handleOpen = () => {
-    setOpen(!open);
-  };
+  // const handleOpen = () => {
+  //   setOpen(!open);
+  // };
 
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   const findSubDrawers = (id) => {
@@ -27,9 +27,9 @@ export default function MyDropdown() {
     let newArray3 = [];
 
     //Collect all sub-drawers
-    for (let key in drawers) {
-      if (drawers[key].drawerId && drawers[key].rootId == id) {
-        newArray.push(drawers[key]);
+    for (let item in drawers) {
+      if (drawers[item].drawerId && drawers[item].rootId == id) {
+        newArray.push(drawers[item]);
       }
     }
 

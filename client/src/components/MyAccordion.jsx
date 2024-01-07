@@ -16,9 +16,9 @@ export default function MyAccordion({ expandedIndex, handleExpand }) {
 
   const findScribbles = (id) => {
     let scribbleArray = [];
-    for (let key in scribbles) {
-      if (scribbles[key].drawerId == id) {
-        scribbleArray.push(scribbles[key]);
+    for (let item in scribbles) {
+      if (scribbles[item].drawerId == id) {
+        scribbleArray.push(scribbles[item]);
       }
     }
     return scribbleArray.map((item) => (

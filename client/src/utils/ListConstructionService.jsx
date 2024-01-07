@@ -3,16 +3,15 @@ import { Icon } from "@iconify/react";
 export default {
   //+++++++++++++Function --- Scribbles in the selected drawer+++++++++++++++
   findScribbles: () => {
-    //console.log("Obj ID", sessionStorage.getItem("selectedDrawer"));
     const scribbles = JSON.parse(sessionStorage.getItem("scribblesData"));
     let scribbleArray = [];
-    for (let x of scribbles) {
+    for (let scribbleObj of scribbles) {
       if (
-        x["drawerId"] &&
-        x.stray === false &&
-        x["drawerId"] == sessionStorage.getItem("selectedDrawer")
+        scribbleObj["drawerId"] &&
+        scribbleObj.stray === false &&
+        scribbleObj["drawerId"] == sessionStorage.getItem("selectedDrawer")
       ) {
-        scribbleArray.push(x);
+        scribbleArray.push(scribbleObj);
         console.log("scribbleArray", scribbleArray);
       }
     }
@@ -35,12 +34,13 @@ export default {
   findSubDrawers: () => {
     const drawers = JSON.parse(sessionStorage.getItem("drawersData"));
     let subDrawersArray = [];
-    for (let x in drawers) {
+    for (let drawerObj in drawers) {
       if (
-        drawers[x]["drawerId"] &&
-        drawers[x]["drawerId"] == sessionStorage.getItem("selectedDrawer")
+        drawers[drawerObj]["drawerId"] &&
+        drawers[drawerObj]["drawerId"] ==
+          sessionStorage.getItem("selectedDrawer")
       ) {
-        subDrawersArray.push(drawers[x]);
+        subDrawersArray.push(drawers[drawerObj]);
       }
     }
     return subDrawersArray.map((sub) => (

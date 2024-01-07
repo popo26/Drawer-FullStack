@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "../css/App.css";
 import SearchPage from "../pages/SearchPage";
-//import PasswordResetPage from "../pages/PasswordResetPage";
 import CreateDrawerPage from "../pages/CreateDrawerPage";
 import ScribblePage from "../pages/ScribblePage";
 import ProfilePage from "../pages/ProfilePage";
@@ -135,15 +134,6 @@ export default function AppRoutes({
           }
         ></Route>
 
-        {/* Future Feature */}
-        {/* <Route
-          path="/password-reset"
-          element={
-            <PrivateRoute>
-              <PasswordResetPage />{" "}
-            </PrivateRoute>
-          }
-        ></Route> */}
         <Route
           path="/create"
           element={
@@ -156,7 +146,8 @@ export default function AppRoutes({
           path="/drawer-list/:id"
           element={
             <PrivateRoute>
-              <DrawerListPage expandedIndex={expandedIndex} />
+              {/* <DrawerListPage expandedIndex={expandedIndex} /> */}
+              <DrawerListPage />
             </PrivateRoute>
           }
         ></Route>
