@@ -59,11 +59,11 @@ export default function ProfilePage() {
         username: user.username,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (!response.data.errmsg) {
-          //set isLoggedIn for frontend
-          console.log("Update response", response.data);
-          console.log("password UPDATED", user);
+          ////set isLoggedIn for frontend
+          //console.log("Update response", response.data);
+          //console.log("password UPDATED", user);
           localStorage.setItem("user", JSON.stringify(user));
         }
       })

@@ -30,9 +30,11 @@ export default function SortScribblePreviewPage() {
   //+++++++Update Parent Drawer's Boolean [subDrawer to true]+++++++++++++++++++++++++++++++
   const updateParentDrawerBoolean = (parentDrawerId) => {
     let dataPost;
-    const x = drawers.filter((item) => item._id == parentDrawerId);
+    const parentDrawerObj = drawers.filter(
+      (item) => item._id == parentDrawerId
+    );
 
-    x[0]["drawerId"]
+    parentDrawerObj[0]["drawerId"]
       ? (dataPost = {
           ["subDrawer"]: true,
         })

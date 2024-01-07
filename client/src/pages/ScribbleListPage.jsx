@@ -28,7 +28,7 @@ export default function ScribbleListPage() {
 
   //+++++++++++++ Delete a scribble Alert++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const handleDelete = (id) => {
-    const response = confirm(`Are you sure to delete? -ID:${id}`);
+    const response = confirm(`Are you sure to delete?`);
     if (response == true) {
       deleteScribble(id);
     }

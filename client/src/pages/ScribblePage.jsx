@@ -5,14 +5,12 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import FileDrop from "../components/FileDrop";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-//import { useDataContext } from "../context/DataContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useFileContext } from "../context/FileContext";
 import { useUserContext } from "../context/UserContext";
 
 export default function ScribblePage() {
   const navigate = useNavigate();
-  //const { drawers, scribbles, setScribbles, loading } = useDataContext();
   const [scribbleContent, setScribbleContent] = useState("");
   const [scribbleTitle, setScribbleTitle] = useState("");
   const [tempFiles, setTempFiles] = useState([]);
@@ -53,18 +51,18 @@ export default function ScribblePage() {
     setContent(body.current);
     const attachmentBool = files.length < 1 ? false : true;
     //files default extraction include only path and preview so add more info here
-    console.log("files", files);
+    //console.log("files", files);
 
     let filesInfo = [];
-    for (let x in files) {
-      convertFileToBase64(files[x].preview);
+    for (let obj in files) {
+      convertFileToBase64(files[obj].preview);
 
       const perFile = {};
-      perFile["path"] = files[x]["file"].path;
-      perFile["name"] = files[x]["file"].name;
-      perFile["preview"] = files[x].preview;
-      perFile["size"] = files[x]["file"].size;
-      perFile["format"] = files[x]["file"].type;
+      perFile["path"] = files[obj]["file"].path;
+      perFile["name"] = files[obj]["file"].name;
+      perFile["preview"] = files[obj].preview;
+      perFile["size"] = files[obj]["file"].size;
+      perFile["format"] = files[obj]["file"].type;
       filesInfo.push(perFile);
     }
 

@@ -15,18 +15,18 @@ export default function Search() {
   ///++++++++++++++++++++++Search function++++++++++++++++++++++++++++++++++++++
   const searchKeywordInDb = () => {
     let searchResultArray = [];
-    for (let x in scribbles) {
+    for (let item in scribbles) {
       if (
-        (scribbles[x]["userId"] === user._id &&
-          scribbles[x]["title"]
+        (scribbles[item]["userId"] === user._id &&
+          scribbles[item]["title"]
             .toLowerCase()
             .includes(searchItem.toLowerCase())) ||
-        (scribbles[x]["userId"] === user._id &&
-          scribbles[x]["content"]
+        (scribbles[item]["userId"] === user._id &&
+          scribbles[item]["content"]
             .toLowerCase()
             .includes(searchItem.toLowerCase()))
       ) {
-        searchResultArray.push(scribbles[x]);
+        searchResultArray.push(scribbles[item]);
       }
     }
     return searchResultArray;

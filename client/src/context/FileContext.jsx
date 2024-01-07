@@ -18,7 +18,6 @@ export const FileProvider = (props) => {
   }, [files]);
 
   return (
-    // <FileContext.Provider value={[files, setFiles]}>
     <FileContext.Provider
       value={{ files, setFiles, loadingFiles, setLoadingFiles }}
     >

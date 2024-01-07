@@ -6,11 +6,10 @@ const DataContext = createContext("");
 export const DataProvider = (props) => {
   const [drawers, setDrawers] = useState([]);
   const [scribbles, setScribbles] = useState([]);
-  //const [users, setUsers] = useState([]);
   const [loadingScribbles, setLoadingScribbles] = useState(true);
   const [loadingDrawers, setLoadingDrawers] = useState(true);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   //retrieve data from sessionStorage on mount or refresh
   useEffect(() => {
@@ -67,21 +66,19 @@ export const DataProvider = (props) => {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      .then(()=>navigate(0)) //To sync sessionStorage and DB
+      .then(() => navigate(0)) //To sync sessionStorage and DB
       .catch((error) => console.error(error.message));
   };
 
   //Original rootId gets updated to match id for root drawers
   useEffect(() => {
-    for (let x in drawers) {
+    for (let item in drawers) {
       if (
-        drawers[x]["root"] == true &&
-        drawers[x]["rootId"] != drawers[x]["_id"]
+        drawers[item]["root"] == true &&
+        drawers[item]["rootId"] != drawers[item]["_id"]
       ) {
-        console.log("Mismatch", drawers[x]);
-        updateRootId(drawers[x]["_id"]);
-        //console.log("current drawers", drawers)
-
+        console.log("Mismatch", drawers[item]);
+        updateRootId(drawers[item]["_id"]);
       }
     }
   }, [drawers, scribbles]);
@@ -99,10 +96,8 @@ export const DataProvider = (props) => {
       value={{
         drawers,
         scribbles,
-        //users,
         setDrawers,
         setScribbles,
-        //setUsers,
         loadingScribbles,
         setLoadingScribbles,
         loadingDrawers,

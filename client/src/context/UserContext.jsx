@@ -12,7 +12,6 @@ export const UserContextProvider = (props) => {
 
   useEffect(() => {
     const userInBrowser = JSON.parse(localStorage.getItem("user"));
-    //console.log("user in Scribble List", userInBrowser);
     if (userInBrowser) {
       setUser(userInBrowser);
     }

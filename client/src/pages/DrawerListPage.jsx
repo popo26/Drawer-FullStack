@@ -51,27 +51,30 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const deleteSubDrawers = (id) => {
-    for (let x of drawers) {
-      if (x.root === true) {
+    for (let drawerObj of drawers) {
+      if (drawerObj.root === true) {
         //delete all rootId
         const sameRootIdDrawers = drawers.filter((item) => item.rootId == id);
-        for (let y of sameRootIdDrawers) {
-          fetch(`http://localhost:8080/api/drawers/${y._id}`, {
-            method: "DELETE",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
+        for (let sameRootIdDrawerObj of sameRootIdDrawers) {
+          fetch(
+            `http://localhost:8080/api/drawers/${sameRootIdDrawerObj._id}`,
+            {
+              method: "DELETE",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
             .then((response) => response.json())
             .catch((error) => console.error(error.message));
-          deleteScribbles(y._id);
+          deleteScribbles(sameRootIdDrawerObj._id);
         }
-      } else if (x.root === false && x["subDrawer"] === true) {
+      } else if (drawerObj.root === false && drawerObj["subDrawer"] === true) {
         //delete all subdrawers whose drawerId is id
         const subDrawers = drawers.filter((item) => item.drawerId == id);
-        for (let y of subDrawers) {
-          fetch(`http://localhost:8080/api/drawers/${y._id}`, {
+        for (let subDrawerObj of subDrawers) {
+          fetch(`http://localhost:8080/api/drawers/${subDrawerObj._id}`, {
             method: "DELETE",
             mode: "cors",
             headers: {
@@ -80,7 +83,7 @@ export default function DrawerListPage({ expandedIndex }) {
           })
             .then((response) => response.json())
             .catch((error) => console.error(error.message));
-          deleteScribbles(y._id);
+          deleteScribbles(subDrawerObj._id);
         }
       }
     }
@@ -88,7 +91,7 @@ export default function DrawerListPage({ expandedIndex }) {
 
   const handleDelete = (id) => {
     const response = confirm(
-      `Are you sure to delete this drawer and all the content? -ID:${id}`
+      `Are you sure to delete this drawer and all the content?`
     );
     if (response == true) {
       deleteSelectedDrawer(id);
@@ -156,9 +159,9 @@ export default function DrawerListPage({ expandedIndex }) {
 
   const findScribbles = (id) => {
     let scribbleArray = [];
-    for (let key in scribbles) {
-      if (scribbles[key].drawerId == id) {
-        scribbleArray.push(scribbles[key]);
+    for (let item in scribbles) {
+      if (scribbles[item].drawerId == id) {
+        scribbleArray.push(scribbles[item]);
       }
     }
     return scribbleArray.map((item) => (
@@ -175,9 +178,9 @@ export default function DrawerListPage({ expandedIndex }) {
     let newArray3 = [];
 
     //Collect all sub-drawers
-    for (let key in drawers) {
-      if (drawers[key].drawerId && drawers[key].rootId == id) {
-        newArray.push(drawers[key]);
+    for (let item in drawers) {
+      if (drawers[item].drawerId && drawers[item].rootId == id) {
+        newArray.push(drawers[item]);
       }
     }
 
