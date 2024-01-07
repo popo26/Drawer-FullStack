@@ -41,7 +41,7 @@ export default function PerScribblePage() {
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-  const { scribbles, setScribbles, loadingScribbles } = useDataContext();
+  const { scribbles, loadingScribbles } = useDataContext();
 
   const body = useRef(screenshots);
   const { setFiles, loadingFiles } = useFileContext();
@@ -55,7 +55,7 @@ export default function PerScribblePage() {
 
       if (!loadingFiles) {
         const newFiles = JSON.parse(sessionStorage.getItem("files"));
-        console.log("newFiles", newFiles);
+        //console.log("newFiles", newFiles);
         setFiles(newFiles);
       }
 
@@ -77,7 +77,7 @@ export default function PerScribblePage() {
   };
 
   const handleDelete = (id) => {
-    const response = confirm(`Are you sure to delete this scribble? -ID:${id}`);
+    const response = confirm(`Are you sure to delete this scribble?`);
     if (response == true) {
       deleteScribble(id);
       const scribbleToBeDeleted = scribbles.filter((item) => item._id == id);
@@ -88,36 +88,36 @@ export default function PerScribblePage() {
     }
   };
 
-  const deleteAttachment = (id, blob) => {
-    const selectedScribble = scribbles.filter((item) => item._id == id);
-    const newAttachments = selectedScribble.files.filter(
-      (item) => item.preview != blob
-    );
-    let filesInfo = [];
-    for (let x of newAttachments) {
-      const perFile = {};
-      perFile["path"] = x.path;
-      perFile["name"] = x.name;
-      perFile["preview"] = x.preview;
-      perFile["size"] = x.size;
-      perFile["type"] = x.type;
-      filesInfo.push(perFile);
-    }
-    let dataPost = {
-      attachment: filesInfo.length === 0 ? false : selectedScribble.attachment,
-      files: filesInfo,
-    };
-    fetch(`http://localhost:8080/api/scribbles/${id}`, {
-      method: "PUT",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataPost),
-    })
-      .then((response) => response.json())
-      .catch((error) => console.error(error.message));
-  };
+  // const deleteAttachment = (id, blob) => {
+  //   const selectedScribble = scribbles.filter((item) => item._id == id);
+  //   const newAttachments = selectedScribble.files.filter(
+  //     (item) => item.preview != blob
+  //   );
+  //   let filesInfo = [];
+  //   for (let x of newAttachments) {
+  //     const perFile = {};
+  //     perFile["path"] = x.path;
+  //     perFile["name"] = x.name;
+  //     perFile["preview"] = x.preview;
+  //     perFile["size"] = x.size;
+  //     perFile["type"] = x.type;
+  //     filesInfo.push(perFile);
+  //   }
+  //   let dataPost = {
+  //     attachment: filesInfo.length === 0 ? false : selectedScribble.attachment,
+  //     files: filesInfo,
+  //   };
+  //   fetch(`http://localhost:8080/api/scribbles/${id}`, {
+  //     method: "PUT",
+  //     mode: "cors",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(dataPost),
+  //   })
+  //     .then((response) => response.json())
+  //     .catch((error) => console.error(error.message));
+  // };
 
   const handleDeleteAttachment = (e, blob) => {
     e.stopPropagation();
@@ -125,12 +125,12 @@ export default function PerScribblePage() {
     // console.log("currentAttachment", selectedAttachments);
     // console.log("scribbles", scribbles);
     let newFilesArray = [];
-    for (let x of scribbles) {
-      if (x.files.length > 0) {
-        for (let y of selectedAttachments) {
-          if (y.preview === blob) {
+    for (let scribble of scribbles) {
+      if (scribble.files.length > 0) {
+        for (let item of selectedAttachments) {
+          if (item.preview === blob) {
             newFilesArray = selectedAttachments.filter(
-              (file) => file._id !== y._id
+              (file) => file._id !== item._id
             );
             //console.log(newFilesArray);
             let dataPost = {};
@@ -151,7 +151,6 @@ export default function PerScribblePage() {
               body: JSON.stringify(dataPost),
             })
               .then((response) => response.json())
-              // .then(() => navigate(0))
               .catch((error) => console.error(error.message));
           }
         }
@@ -174,7 +173,11 @@ export default function PerScribblePage() {
           <div className="remove-div">
             <button
               className="remove-btn"
-              onClick={(e) => {handleDeleteAttachment(e, file.preview); navigate("/stray")}}
+              onClick={(e) => {
+                handleDeleteAttachment(e, file.preview);
+                navigate("/stray");
+                navigate(0);
+              }}
             >
               X
             </button>
