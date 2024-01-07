@@ -41,7 +41,7 @@ export default function PerScribblePage() {
   const navigate = useNavigate();
   const [screenshots, setSecreenshots] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-  const { scribbles, loadingScribbles } = useDataContext();
+  const { scribbles, setScribbles, loadingScribbles } = useDataContext();
 
   const body = useRef(screenshots);
   const { setFiles, loadingFiles } = useFileContext();
@@ -120,12 +120,43 @@ export default function PerScribblePage() {
   };
 
   const handleDeleteAttachment = (e, blob) => {
-    const currentAttachemnts = scribbles.filter((item) => item._id == id).files;
-    // console.log(
-    //   "Delete clicked",
-    //   scribbles.filter((item) => item._id == id)[0].files[0]._id
-    // );
-    deleteAttachment(id, blob);
+    e.stopPropagation();
+    const selectedAttachments = scribbles.find((item) => item._id === id).files;
+    // console.log("currentAttachment", selectedAttachments);
+    // console.log("scribbles", scribbles);
+    let newFilesArray = [];
+    for (let x of scribbles) {
+      if (x.files.length > 0) {
+        for (let y of selectedAttachments) {
+          if (y.preview === blob) {
+            newFilesArray = selectedAttachments.filter(
+              (file) => file._id !== y._id
+            );
+            //console.log(newFilesArray);
+            let dataPost = {};
+            newFilesArray.length === 0
+              ? (dataPost = {
+                  files: newFilesArray,
+                  attachment: false,
+                })
+              : (dataPost = {
+                  files: newFilesArray,
+                });
+            fetch(`http://localhost:8080/api/scribbles/${id}`, {
+              method: "PUT",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(dataPost),
+            })
+              .then((response) => response.json())
+              // .then(() => navigate(0))
+              .catch((error) => console.error(error.message));
+          }
+        }
+      }
+    }
   };
 
   const handleEdit = () => {
@@ -143,7 +174,7 @@ export default function PerScribblePage() {
           <div className="remove-div">
             <button
               className="remove-btn"
-              onClick={(e) => handleDeleteAttachment(e, file.preview)}
+              onClick={(e) => {handleDeleteAttachment(e, file.preview); navigate("/stray")}}
             >
               X
             </button>
