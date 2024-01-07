@@ -56,7 +56,7 @@ export default function MyNavbar() {
       .catch((error) => console.error(error.message));
   };
 
-  //+++++++++++++++++++++++++++++++++++++NavBar when user has not logged in++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++NavBar when user has not logged in++++++++++++++++++++++++++++
   const unauthenticatedNavBar = () => {
     const tooltipLogin = <Tooltip id="tooltip">Login</Tooltip>;
     const tooltipRegister = <Tooltip id="tooltip">Register</Tooltip>;
@@ -109,7 +109,7 @@ export default function MyNavbar() {
     return (
       <>
         <Container>
-          <Navbar.Brand href="#home" >
+          <Navbar.Brand href="#home">
             <NavLink className="navbar-brand" to="/home">
               <img
                 src={logo}
@@ -204,16 +204,16 @@ export default function MyNavbar() {
                 </NavLink>
               </Nav.Link>
               {user.role === "admin" ? (
-                <Nav.Link>
-                  <NavLink
-                    className="nav-link"
-                    to="/admin"
-                    onClick={() => setIsExpanded(false)}
-                  >
-                    Admin
-                  </NavLink>
-                </Nav.Link>
-              ) : null}
+                // <Nav.Link>
+                <NavLink
+                  className="nav-link"
+                  to="/admin"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  Admin
+                </NavLink>
+              ) : // </Nav.Link>
+              null}
             </Nav>
           </Navbar.Collapse>
         </Container>
