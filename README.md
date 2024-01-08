@@ -6,6 +6,24 @@ Drawer is an easy-to-use note app for quick scribbles. It lets you jot down thou
 
 ## How to Setup Locally & Run Drawer
 
+1. Download zip file from `main` branch here. Extract it in your computer.
+2. Open it with your preferred code editor(e.g., Visual Studio Code).
+3. Have [MongoDB](https://www.mongodb.com/docs/manual/installation/) installed in your computer in advance.
+4. Open a terminal and run the following commands : <br />
+   `cd backend` <br />
+   `npm install`<br />
+   `npm start`<br />
+   Open another terminal and run the following commands"<br />
+   `cd client` <br />
+   `npm install` <br />
+   `npm run dev`<br />
+
+## How to run Vitest
+
+1. Open a terminal and go to `/client` directory.
+2. Run the following command: <br />
+   `npm test` <br />
+
 ## How to Use Drawer
 
 Create a scribble :
