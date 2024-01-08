@@ -8,11 +8,11 @@ import { DataProvider } from "../../context/DataContext";
 test("Home Page contains Create New Drawer button", () => {
   render(
     <UserContextProvider>
-      <DataProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <DataProvider>
           <HomePage />
-        </BrowserRouter>
-      </DataProvider>
+        </DataProvider>
+      </BrowserRouter>
     </UserContextProvider>
   );
 
