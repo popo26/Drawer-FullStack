@@ -2,14 +2,16 @@
   "name": "drawer",
   "private": true,
   "version": "0.0.0",
-  "proxy":"https://drawer-v6fk.onrender.com/",
+  "proxy": "https://drawer-v6fk.onrender.com/",
   "type": "module",
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest"
+    
   },
   "dependencies": {
     "axios": "^1.6.2",

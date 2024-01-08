@@ -4,7 +4,6 @@
   },
   "scripts": {
     "start:backend": "cd backend && npm start",
-    "start:frontend": "cd client && npm run dev",
-    "start:both": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
-  }
+    "start:frontend": "cd client && npm start",
+    "start:both": "cd backend && npm install && cd ../client && npm install && concurrently \"npm start\" \"npm start\" --prefix client"  }
 }
