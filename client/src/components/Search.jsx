@@ -1,38 +1,45 @@
-import { useState, useEffect } from "react";
+import "../css/SearchPage.css";
+import { Icon } from "@iconify/react";
 import { Button } from "react-bootstrap";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
+import { useUserContext } from "../context/UserContext";
 
 export default function Search() {
   const [searchItem, setSearchItem] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const { drawers, scribbles } = useDataContext();
+  const { scribbles } = useDataContext();
+  const { user } = useUserContext();
 
-  //Testing out search results with userId1
-
+  ///++++++++++++++++++++++Search function++++++++++++++++++++++++++++++++++++++
   const searchKeywordInDb = () => {
     let searchResultArray = [];
-    for (let x in scribbles) {
+    for (let item in scribbles) {
       if (
-        (scribbles[x]["userId"] == 1 &&
-          // scribbles[x]["type"] == "scribble" &&
-          scribbles[x]["title"]
+        (scribbles[item]["userId"] === user._id &&
+          scribbles[item]["title"]
             .toLowerCase()
             .includes(searchItem.toLowerCase())) ||
-        scribbles[x]["content"].toLowerCase().includes(searchItem.toLowerCase())
+        (scribbles[item]["userId"] === user._id &&
+          scribbles[item]["content"]
+            .toLowerCase()
+            .includes(searchItem.toLowerCase()))
       ) {
-        searchResultArray.push(scribbles[x]);
+        searchResultArray.push(scribbles[item]);
       }
     }
     return searchResultArray;
   };
 
+  //++++++++++++++++++++++++++Get the result and set it as state+++++++++++++++++
   const handleSubmit = (e) => {
     e.preventDefault();
     const result = searchKeywordInDb();
     setSearchResult(result);
   };
 
+  //++++++++++++++++++++++++Track search keyword as state+++++++++++++++++++++++
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };
@@ -50,18 +57,16 @@ export default function Search() {
             placeholder="Enter keyword.."
           />
           <Button variant="dark" onClick={handleSubmit}>
-            Search
+            <Icon icon="bi:search" color="white" width="30" height="30" />
           </Button>
         </form>
 
-        <div>
+        <div className="search-result-div">
           {searchResult.length != 0 ? (
             searchResult.map((item) => {
               return (
                 <Link to={`/scribble/${item._id}`} key={item._id}>
-                  <p>
-                    ID{item._id}: {item.title}
-                  </p>
+                  <p>{item.title}</p>
                 </Link>
               );
             })

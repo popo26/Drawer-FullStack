@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import MyNavbar from "./components/MyNavbar";
@@ -9,15 +9,13 @@ import { SelectedDrawerProvider } from "./context/SelectedDrawerContext";
 import { SelectedScribbleProvider } from "./context/SelectedScribbleContext";
 import { DrawerToBeMovedContextProvider } from "./context/DrawerToBeMovedContext";
 import { DrawerNameProvider } from "./context/DrawerNameContext";
-import { useDataContext } from "./context/DataContext";
 import { FileProvider } from "./context/FileContext";
+import { useUserContext } from "./context/UserContext";
+import { useTimeout } from "./hooks/useTimeout";
 
 export default function App() {
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  // const [files, setFiles] = useState([]);
-  let { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
-  // const [baseImage, setBaseImage] = useState("")
-
+  const { user } = useUserContext();
 
   const handleClickExpand = (passedIndex) => {
     setExpandedIndex((currentExpandedIndex) => {
@@ -29,7 +27,7 @@ export default function App() {
     });
   };
 
-
+  useTimeout();
 
   return (
     <>
@@ -39,18 +37,15 @@ export default function App() {
             <DrawerToBeMovedContextProvider>
               <DrawerNameProvider>
                 <FileProvider>
-                <MyNavbar/>
-                <AppRoutes
-                  expandedIndex={expandedIndex}
-                  handleExpand={handleClickExpand}
-                  // files={files}
-                  // setFiles={setFiles}
-                  // baseImage={baseImage}
-                  // setBaseImage={setBaseImage}
-                />
-                <Link to="/scribble">
-                  <ScribbleBtn />
-                </Link>
+                  <MyNavbar />
+
+                  <AppRoutes
+                    expandedIndex={expandedIndex}
+                    handleExpand={handleClickExpand}
+                  />
+                  <Link to="/scribble">
+                    {user.isLoggedIn && <ScribbleBtn />}
+                  </Link>
                 </FileProvider>
               </DrawerNameProvider>
             </DrawerToBeMovedContextProvider>

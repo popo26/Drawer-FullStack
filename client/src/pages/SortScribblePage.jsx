@@ -9,6 +9,8 @@ import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useSelectedScribbleContext } from "../context/SelectedScribbleContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useUserContext } from "../context/UserContext";
 
 export default function SortScribblePage() {
   const [newDrawerNameFieldSelected, setNewDrawerNameFieldSelected] =
@@ -18,46 +20,30 @@ export default function SortScribblePage() {
   );
   const navigate = useNavigate();
   const { state } = useLocation();
-  const {
-    drawers,
-    scribbles,
-    setDrawers,
-    setScribbles,
-    loadingDrawers,
-    setLoadingDrawers,
-  } = useDataContext();
+  const { drawers, scribbles, loadingScribbles } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [selectedScribbleId, setSelectedScribbleId] =
     useSelectedScribbleContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
+  const { user } = useUserContext();
 
-  //console.log("State", state);
+  //++++Tooltips++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
-  //To persist selected Scribble ID so browser refresh won't wipe it
+  //++++++To persist selected Scribble ID so browser refresh won't wipe it++++++++++++++++++
   useEffect(() => {
-    //setSelectedScribbleId(state.id);
     handleSelectedDrawerId(""); //this is still bit in quesion
   }, []);
 
-  console.log("Sccribleid is", selectedScribbleId);
-
+  //+++++++Add selected scribble to the newly created sub drawer+++++++++++++++++++++++++++
   const addScribbleToNewSubDrawer = (passedId) => {
-    const scribbleObject = scribbles.filter(
-      (item) => item._id == selectedScribbleId
-    );
-
     let dataPost = {
       rootDrawerId: passedId,
       drawerId: passedId,
-      // userId: 1,
-      // title: scribbleObject[0]["title"],
-      // content: scribbleObject[0]["content"],
-      // type: "scribble",
+      userId: user._id,
       stray: false,
       level: 1,
-      // attachment: scribbleObject[0]["attachment"],
-      // files: [scribbleObject[0]["files"]],
     };
     fetch(`http://localhost:8080/api/scribbles/${selectedScribbleId}`, {
       method: "PUT",
@@ -68,17 +54,15 @@ export default function SortScribblePage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      // .then((json) => {
-      //   setScribbles((prevItems) => [...prevItems, json.data]);
-      // })
-
+      .then(() => navigate(0))
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++++++++++Create a new Drawer++++++++++++++++++++++++++++++++++++++++++
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,
@@ -95,26 +79,25 @@ export default function SortScribblePage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
         addScribbleToNewSubDrawer(json.data._id);
       })
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++++++Track drawer name change++++++++++++++++++++++++++++++++++++++++++++++++
   const handleChange = (value) => {
-    console.log(value);
-    //somehow need a spot to set this state
     setDrawerName(value);
   };
 
-  const handleCreate = (value) => {
-    console.log("Create btn clicked", value);
-    createNewDrawer();
-    setDrawerName("");
-    navigate("/");
-    navigate(0);
+  const handleCreate = () => {
+    {
+      !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
+      setDrawerName("");
+      navigate("/home");
+    }
   };
 
+  //++++++++++++++++++++++++++Swap display message on the button+++++++++++++++++++++++++++
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);
     {
@@ -124,10 +107,24 @@ export default function SortScribblePage() {
     }
   };
 
+  //++++++To display source and destination at the top of the page+++++++++++++++++++++++++++
+  const scrb = scribbles.filter((item) => item._id == selectedScribbleId);
+  const destinationDrawer = drawers.find(
+    (item) => item._id === selectedDrawerId
+  );
+
+  if (loadingScribbles) {
+    return <div>Loading...</div>;
+  }
   return (
     <div id="page">
-      <h4>Scribble ID: {selectedScribbleId}</h4>
-      <h4>Selected Drawer Id: {selectedDrawerId}</h4>
+      <h4>
+        {!loadingScribbles && scrb[0].title}
+        <Icon icon="tabler:scribble" color="red" />{" "}
+        <Icon icon="ri:arrow-right-fill" />
+        {selectedDrawerId && destinationDrawer?.name}{" "}
+        <Icon icon="mingcute:drawer-line" color="red" />
+      </h4>
       <div>
         {newDrawerNameFieldSelected && (
           <>
@@ -135,14 +132,14 @@ export default function SortScribblePage() {
               type="text"
               name="create-new-drawer"
               id="create-new-drawer"
-              placeholder="Enter new drawer name"
+              placeholder="New drawer name"
               value={drawerName}
               handleNewDrawerChange={handleChange}
             />
             <br />
             <MyButton
               href={null}
-              btnName="Create & Save"
+              btnName={<Icon icon="typcn:plus" />}
               handleNewDrawerCreate={handleCreate}
               drawerName={drawerName}
             />
@@ -150,34 +147,32 @@ export default function SortScribblePage() {
         )}
       </div>
 
-      <button className="sort-msg-btn" onClick={handleDisplay}>
+      <Button className="sort-msg-btn" onClick={handleDisplay} variant="dark">
         {displayMessage}
-      </button>
+      </Button>
 
       {!newDrawerNameFieldSelected && (
-        <>
-          <MyDropdown
-          // data={data}
-          // selectedDrawerId={selectedDrawerId}
-          // setSelectedDrawerId={setSelectedDrawerId}
-          />
-          <Button
-            variant="success"
-            className="next-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              let passingData = { selectedScribbleId, selectedDrawerId };
-              console.log("PassingData", passingData);
-              {
-                !selectedDrawerId
-                  ? alert("Please select destination drawer")
-                  : navigate("/sort-preview", { state: passingData });
-              }
-            }}
-          >
-            Next
-          </Button>
-        </>
+        <div>
+          <MyDropdown user={user} />
+          <OverlayTrigger placement="right" overlay={tooltipNext}>
+            <Button
+              variant="dark"
+              className="next-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                let passingData = { selectedScribbleId, selectedDrawerId };
+                //console.log("PassingData", passingData);
+                {
+                  !selectedDrawerId
+                    ? alert("Please select destination drawer")
+                    : navigate("/sort-preview", { state: passingData });
+                }
+              }}
+            >
+              <Icon icon="tabler:player-track-next-filled" />
+            </Button>
+          </OverlayTrigger>
+        </div>
       )}
 
       <div>

@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
+import { Icon } from "@iconify/react";
 import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import "../css/CreateDrawerPage.css";
 import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../context/DataContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { useUserContext } from "../context/UserContext";
 
 export default function CreateDrawerPage() {
   const navigate = useNavigate();
-  const { drawers, scribbles, setDrawers } = useDataContext();
+  const { drawers, setDrawers, loadingDrawers } = useDataContext();
   const [drawerName, setDrawerName] = useDrawerNameContext();
+  const { user } = useUserContext();
 
-
-
-  //working! POST
+  //+++++++++Create New Drawer in DB+++++++++++++++++
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: false,
@@ -34,33 +34,25 @@ export default function CreateDrawerPage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        setDrawers((prevItems) => [...prevItems, json.data]);
-        // sessionStorage.setItem("newDrawerId", json.data._id)
+        !loadingDrawers && setDrawers((prevItems) => [...prevItems, json.data]);
       })
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++Track Drawer Name Change++++++++++++++
   const handleChange = (value) => {
-    //console.log(value);
     setDrawerName(value);
   };
 
-  const handleCreate = (value) => {
-    //console.log("Create btn clicked", value);
-    createNewDrawer();
-    setDrawerName("");
-    navigate("/");
-    // sessionStorage.setItem("newDrawerId", drawerName)
-
+  //+++++++++Create new drawer - whole process+++++++++++
+  const handleCreate = () => {
+    {
+      !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
+      setDrawerName("");
+      navigate("/home");
+      navigate(0);
+    }
   };
-
-  // useEffect(()=>{
-  //   setDrawers(drawers)
-  //   sessionStorage.setItem("drawers", JSON.stringify(drawers));
-  //   //setDrawers(sessionStorage.setItem("drawers", JSON.stringify(drawers)))
-  //   // sessionStorage.setItem("scribbles", JSON.stringify(scribbles))
-
-  // }, [createNewDrawer])
 
   return (
     <div className="CreateDrawerPage">
@@ -72,24 +64,28 @@ export default function CreateDrawerPage() {
           placeholder="New Drawer Name"
           type="text"
           value={drawerName}
-          // onChange={handleChange}
           handleNewDrawerChange={handleChange}
         />
         <br />
         <MyButton
           href={null}
-          btnName="Create"
+          btnName={<Icon icon="typcn:plus" />}
           handleNewDrawerCreate={handleCreate}
           drawerName={drawerName}
         />
         <br />
       </form>
-      <button
-        onClick={() => navigate(-1)}
-        className="btn btn-outline-success cancel-btn"
-      >
-        Cancel
-      </button>
+
+      <div>
+        {" "}
+        <Icon
+          className="back-btn"
+          icon="icon-park-outline:back"
+          color="black"
+          width="50"
+          onClick={() => navigate(-1)}
+        />
+      </div>
     </div>
   );
 }

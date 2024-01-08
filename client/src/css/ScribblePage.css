@@ -1,39 +1,42 @@
-.ScribblePage{
-    padding:20px;
-    /* border:2px solid black; */
+.ScribblePage {
+  padding: 20px;
 }
 
- .textarea-wrap {
-overflow:hidden;
-padding: 0 4px 0 12px
-
+.textarea-wrap {
+  overflow: hidden;
+  padding: 0 4px 0 12px;
 }
 
 textarea {
-    width: 100%;
-    height: min-content;
-    border:4px dotted pink;
-    margin-top:20px;
-    outline:none;
+  width: 100%;
+  height: min-content;
+  border: 4px dotted pink;
+  margin-top: 20px;
+  outline: none;
 }
 
 .screenshot {
-    /* min-height: 300px;
-    border: solid 1px #ccc; */
-    width: 100%;
-    height: min-content;
-    /* border:4px dotted pink; */
-    background-color:rgb(240, 204, 224, 0.3);
-    text-align: left;
-    padding:10px;
-    border-radius: 6px;
+  width: 90%;
+  margin: auto;
+  height: min-content;
+  background-color: rgb(240, 204, 224, 0.3);
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
 }
 
-.span-div{
-    border:1px solid black;
-    /* min-height:30px */
+.span-div {
+  border: 1px solid black;
 }
 
-.input{
-    outline:pink
+.input {
+  outline: pink;
+}
+
+.or {
+  margin: 10px;
+}
+
+.buttons-div {
+  text-align: center;
 }

@@ -2,56 +2,44 @@
   text-align: left;
   width: 100%;
   margin: auto;
-  padding: 30px;
+  padding: 30px 10px 10px 10px;
 }
 
 /* top-level drawer */
 .rendered-drawers > h2 {
-  /* font-size:22px; */
   font-weight: 900;
 }
 
 /* sub-folders */
 .sub-drawer-header h3 {
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 900;
-  /* font-size: 2em;
-  container-name: sidebar */
-}
-
-/* @container sidebar (min-width: 700px) {
-  .sub-drawer-header h3 {
-    font-size: 1em;
-  }
-} */
-
-/* scribbles */
-.sub-drawer-header {
-  font-size: 8px;
 }
 
 .sub-drawer-header-div {
-  border-top: 2px dotted #808080;
-  background-color:oldlace
+  border-top: 3px dashed #808080;
+  background-color: #e0e0e0;
+  padding: 3px;
 }
 
-.icon10{
-  margin-left:10px;
-  cursor:pointer;
+.icon10 {
+  margin-left: 10px;
+  cursor: pointer;
 }
 
-.icon5{
-  margin:5px;
-  cursor:pointer;
+.icon5 {
+  margin: 5px;
+  cursor: pointer;
 }
 
 .no-scribble {
   font-size: 10px;
-  padding:5px;
+  padding: 5px;
 }
 
 .individual-scribble {
-  font-size: 10px;
+  font-size: 12px;
+  padding-top: 6px;
 }
 
 /* Drawer indent */
@@ -76,26 +64,25 @@
   text-indent: 100px;
 }
 
-.indent-6{
+.indent-6 {
   text-indent: 120px;
 }
 
-.indent-7{
+.indent-7 {
   text-indent: 140px;
 }
 
-.indent-8{
+.indent-8 {
   text-indent: 160px;
 }
 
-.indent-9{
+.indent-9 {
   text-indent: 180px;
 }
 
-.indent-10{
+.indent-10 {
   text-indent: 200px;
 }
-
 
 /* Scribble indent */
 .scrb-indent1 {

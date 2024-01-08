@@ -5,16 +5,17 @@ import InputField from "../components/InputField";
 import MyButton from "../components/MyButton";
 import MyDropdown from "../components/MyDropdown";
 import "../css/SortPage.css";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
 import { useDrawerNameContext } from "../context/DrawerNameContext";
+import { useUserContext } from "../context/UserContext";
 
 export default function SortDrawerPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const { drawers, scribbles, loadingDrawers } = useDataContext();
   const { selectedDrawerId, handleSelectedDrawerId } =
     useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
@@ -24,122 +25,218 @@ export default function SortDrawerPage() {
   const [displayMessage, setDisplayMessage] = useState(
     "Or move it to existing drawer"
   );
+  const { user } = useUserContext();
 
-  console.log("State", state);
-  console.log("DrawerToBeMoved", drawerToBeMoved);
-  console.log(
-    "sessionStorage-drawerToBeMoved not in context",
-    sessionStorage.getItem("drawerToBeMoved")
-  );
+  //++++++++Tooltip++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  const tooltipNext = <Tooltip id="tooltip">Next</Tooltip>;
 
+  //+++++++To grab drawerToBeMoved from sessionStorage and set as a state++++++++++++++++++++++++++++++++++++++
   useEffect(() => {
     let drawerToBeMovedSession = sessionStorage.getItem("drawerToBeMoved");
-    // let drawerToBeMovedSession = sessionStorage.getItem("toBeMovedDrawer");
-
     setDrawerToBeMoved(drawerToBeMovedSession);
     handleSelectedDrawerId("");
-    return () => {
-      console.log("cleanup");
-    };
   }, []);
 
+  ///NOT WORKING! :-(
+  //++++++++Move children to the new drawer in DB +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
+    // parentDrawerId ---> Drawer To Be Moved
+    //newTopLevelDrawerId ---> Newly created root drawer
     const drawerToBeMovedObject = drawers.filter(
       (item) => item._id == parentDrawerId
     );
 
-    // const newTopLevelDrawerObject = drawers.filter(
-    //   (item) => item._id == newTopLevelDrawerId
-    // );
-
     let subDrawersToBeMoved = [];
-    for (let x in drawers) {
-      if (
-        drawers[x].drawerId == parentDrawerId ||
-        (drawers[x].rootId == drawerToBeMoved && drawers[x].level > 1)
-      ) {
-        subDrawersToBeMoved.push(x);
 
-        let dataPost = {
-          rootId: newTopLevelDrawerId,
-          // userId: 1,
-          // drawerId: x.drawerId,
-          // name: x.name,
-          // type: "drawer",
-          // ["subDrawer"]: x["subDrawer"],
-          root: false,
-          //DONT DELETE TILL GET MONGO
-          level: 2 + subDrawersToBeMoved.indexOf(drawers[x]),
-          // level: 2 + parseInt(subDrawersToBeMoved.indexOf(x)),
-          // level: drawerToBeMovedObj[0]['level'] - subDrawersToBeMoved.indexOf(x),
-        };
+    if (drawerToBeMovedObject[0].subDrawer) {
+      for (let x in drawers) {
+        if (
+          drawers[x].drawerId == parentDrawerId ||
+          (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
+            drawers[x].level > drawerToBeMovedObject[0]["level"])
+          // drawers[x].rootId == parentDrawerId
+        ) {
+          // subDrawersToBeMoved.push(x);
+          subDrawersToBeMoved.push(drawers[x]);
+          console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved);
 
-        fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(dataPost),
-        })
-          .then((response) => response.json())
-          .catch((error) => console.error(error.message));
+          let newLevel;
+          // if (drawers[x].drawerId) {
+          //   const parentDrawer = drawers.filter(
+          //     (item) => item._id == drawers[x].drawerId
+          //   );
+          //   // newLevel = parentDrawer[0].level + 1;
+          //   newLevel = drawers[x].level + 1;
+
+          //   console.log("new Level CCCCCCCCCC", newLevel);
+          // } else {
+          //   newLevel = 3;
+          //   console.log("new Level DDDDDDDD", newLevel);
+          // }
+
+          //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
+          if (drawers[x].drawerId && drawers[x].drawerId === parentDrawerId) {
+            const parentDrawer = drawers.filter(
+              (item) => item._id == drawers[x].drawerId
+            );
+            // newLevel = parentDrawer[0].level + 1;
+            newLevel = drawers[x].level + 1;
+            console.log(
+              `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
+          } else if (
+            drawers[x].drawerId &&
+            drawers[x].drawerId !== parentDrawerId &&
+            drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
+          ) {
+            newLevel = drawers[x].level + 1;
+            console.log(
+              `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
+          } else {
+            newLevel = 3;
+            console.log(
+              `SORT DDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
+          }
+          //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
+
+          
+          
+          //////WORKING ON THIS COPIED SORTDRAWER PREVIEW LOGIC/////////////////////////////////////////////////////////////////////
+          
+          // const newTopLevelDrawerObject = drawers.filter(
+          //   (item) => item._id == newTopLevelDrawerId
+          // );
+          
+          
+          // if (drawers[x].drawerId && drawers[x].drawerId === parentDrawerId) {
+          //   const parentDrawer = drawers.filter(
+          //     (item) => item._id == drawers[x].drawerId
+          //   );
+          //   console.log("parentDrawer[0]['level']", parentDrawer[0]["level"]);
+          //   // newLevel = parentDrawer[0].level + 1;
+          //   //AFTER || added
+          //   if (
+          //     parentDrawer[0]["level"] === 2 &&
+          //     drawerToBeMovedObject[0].level -
+          //       newTopLevelDrawerObject[0].level ===
+          //       0
+          //   ) {
+          //     console.log(
+          //       "difference in levels",
+          //       drawerToBeMovedObject[0].level -
+          //         newTopLevelDrawerObject[0].level
+          //     );
+          //     newLevel = parentDrawer[0].level + 2;
+          //     console.log(
+          //       `SORT BBBBBBBBBBBB: ${drawers[x].name}, , , Level is ${newLevel}`
+          //     );
+          //   } else if (
+          //     parentDrawer[0]["level"] === 2 &&
+          //     drawerToBeMovedObject[0].level -
+          //       newTopLevelDrawerObject[0].level >
+          //       1
+          //   ) {
+          //     console.log(
+          //       "difference in levels",
+          //       drawerToBeMovedObject[0].level -
+          //         newTopLevelDrawerObject[0].level
+          //     );
+          //     newLevel = 3;
+          //     console.log(
+          //       `SORT AAAAAAAAAA: ${drawers[x].name}, , , Level is ${newLevel}`
+          //     );
+          //   } else if (parentDrawer[0]["level"] === 2) {
+          //     console.log(
+          //       "difference in levels",
+          //       drawerToBeMovedObject[0].level -
+          //         newTopLevelDrawerObject[0].level
+          //     );
+          //     newLevel = 3;
+          //     console.log(
+          //       `SORT DDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
+          //     );
+          //   } else if (
+          //     parentDrawer[0]["level"] > 2 &&
+          //     drawerToBeMovedObject[0].level -
+          //       newTopLevelDrawerObject[0].level >
+          //       0
+          //   ) {
+          //     console.log(
+          //       "difference in levels",
+          //       drawerToBeMovedObject[0].level -
+          //         newTopLevelDrawerObject[0].level
+          //     );
+          //     newLevel = newTopLevelDrawerObject[0].level + 2;
+          //     console.log(
+          //       `SORT HHHHHHHHHHHHH: ${drawers[x].name}, , , Level is ${newLevel}`
+          //     );
+          //   } else {
+          //     newLevel = drawers[x].level + 1;
+          //     console.log(
+          //       "difference in levels",
+          //       drawerToBeMovedObject[0].level -
+          //         newTopLevelDrawerObject[0].level
+          //     );
+          //     console.log(
+          //       `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+          //     );
+          //   }
+          // } else if (
+          //   drawers[x].drawerId &&
+          //   drawers[x].drawerId !== parentDrawerId &&
+          //   drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
+          // ) {
+          //   const directParentDrawer = drawers.filter(
+          //     (item) => item._id == drawers[x].drawerId
+          //   );
+          //   newLevel = directParentDrawer[0].level + 1;
+          //   // newLevel = drawers[x].level + 1;
+          //   console.log("direct parent drawer".directParentDrawer);
+          //   console.log(
+          //     `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
+          //   );
+          // } else if (!drawers[x].drawerId) {
+          //   newLevel = 2;
+          //   console.log(
+          //     `SORT GGGGGGGGGGGGGGGG: ${drawers[x].name}, , , Level is ${newLevel}`
+          //   );
+          // } else {
+          //   newLevel = 3;
+          //   console.log(
+          //     `SORT FFFFFFFFFFFF: ${drawers[x].name}, , , Level is ${newLevel}`
+          //   );
+          // }
+          ///////////////////////////////////////////////////////////////////////////
+
+          console.log("matching subdrawers", drawers[x]);
+          let dataPost = {
+            rootId: newTopLevelDrawerId,
+            root: false,
+            level: newLevel,
+          };
+
+          fetch(`http://localhost:8080/api/drawers/${drawers[x]._id}`, {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataPost),
+          })
+            .then((response) => response.json())
+            .catch((error) => console.error(error.message));
+        }
       }
     }
-
-    // for (let x of drawers) {
-    //   if (
-    //     x.drawerId == parentDrawerId ||
-    //     (x.rootId == drawerToBeMoved && x.level > 1)
-    //   ) {
-    //     subDrawersToBeMoved.push(x);
-
-    //     // console.log("drawerToBeMoved!!!", drawerToBeMoved);
-    //     // console.log("INDEXINDEXINDEX", subDrawersToBeMoved);
-    //     // console.log("newTopLevelDrawerId", newTopLevelDrawerId);
-    //     // console.log("drawerToBeMovedObj", drawerToBeMovedObject[0]);
-
-    //     let dataPost = {
-    //       rootId: newTopLevelDrawerId,
-    //       // userId: 1,
-    //       // drawerId: x.drawerId,
-    //       // name: x.name,
-    //       // type: "drawer",
-    //       // ["subDrawer"]: x["subDrawer"],
-    //       root: false,
-    //       //DONT DELETE TILL GET MONGO
-    //       level: 2 + subDrawersToBeMoved.indexOf(x),
-    //       // level: 2 + parseInt(subDrawersToBeMoved.indexOf(x)),
-    //       // level: drawerToBeMovedObj[0]['level'] - subDrawersToBeMoved.indexOf(x),
-    //     };
-
-    //     fetch(`http://localhost:8080/api/drawers/${x._id}`, {
-    //       method: "PUT",
-    //       mode: "cors",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(dataPost),
-    //     })
-    //       .then((response) => response.json())
-    //       .catch((error) => console.error(error.message));
-    //   }
-    // }
 
     for (let x in scribbles) {
       if (scribbles[x].rootDrawerId == parentDrawerId) {
         let dataPost = {
           rootDrawerId: newTopLevelDrawerId,
-          // userId: 1,
-          // drawerId: x.drawerId,
-          // title: x.title,
-          // content: x.content,
-          // type: "scribble",
           stray: false,
-          level: drawerToBeMovedObject[0]["level"] + scribbles[x].level + 1,
-          // level: x.level + 2,
-          // level: parseInt(linkedDrawerObj[0]['level'])+1,
-          // level:newLevel,
+          level: drawerToBeMovedObject[0]["level"] + scribbles[x].level,
         };
         fetch(`http://localhost:8080/api/scribbles/${scribbles[x]._id}`, {
           method: "PUT",
@@ -150,52 +247,16 @@ export default function SortDrawerPage() {
           body: JSON.stringify(dataPost),
         })
           .then((response) => response.json())
-          // .then((json) => setScribbles((prevItems) => [...prevItems, json.data]))
           .catch((error) => console.error(error.message));
       }
     }
   };
 
-  //   for (let x of scribbles) {
-  //     if (x.rootDrawerId == parentDrawerId) {
-  //       let dataPost = {
-  //         rootDrawerId: newTopLevelDrawerId,
-  //         userId: 1,
-  //         drawerId: x.drawerId,
-  //         title: x.title,
-  //         content: x.content,
-  //         type: "scribble",
-  //         stray: false,
-  //         level: drawerToBeMovedObject[0]["level"] + x.level + 1,
-  //         // level: x.level + 2,
-  //         // level: parseInt(linkedDrawerObj[0]['level'])+1,
-  //         // level:newLevel,
-  //       };
-  //       fetch(`http://localhost:8080/api/scribbles/${x._id}`, {
-  //         method: "PUT",
-  //         mode: "cors",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(dataPost),
-  //       })
-  //         .then((response) => response.json())
-  //         .catch((error) => console.error(error.message));
-  //     }
-  //   }
-  // };
-
+  //++++++++Move selected drawer to the new drawer +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const moveDrawerToNewDrawer = (passedId) => {
-    // const drawerToBeMovedObject = drawers.filter(
-    //   (item) => item._id == drawerToBeMoved
-    // );
     let dataPost = {
       rootId: passedId,
-      // userId: 1,
       drawerId: passedId,
-      // name: drawerToBeMovedObject[0]["name"],
-      // type: "drawer",
-      // ["subDrawer"]: drawerToBeMovedObject[0]["subDrawer"],
       root: false,
       level: 2,
     };
@@ -208,14 +269,15 @@ export default function SortDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      // .then((json) => setDrawers((prevItems) => [...prevItems, json.data]))
+      //.then(() => navigate(0))
       .catch((error) => console.error(error.message));
   };
 
+  //++++++++Create new drawer in DB +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const createNewDrawer = () => {
     let dataPost = {
       rootId: drawers.length + 1,
-      userId: 1,
+      userId: user._id,
       name: drawerName.toUpperCase(),
       type: "drawer",
       subDrawer: true,
@@ -232,26 +294,31 @@ export default function SortDrawerPage() {
     })
       .then((response) => response.json())
       .then((json) => {
+        console.log("You are here1");
+
         moveDrawerToNewDrawer(json.data._id);
+        console.log("You are here2");
         moveAllChildrenToNewDrawer(drawerToBeMoved, json.data._id);
       })
       .catch((error) => console.error(error.message));
-
-    // moveDrawerToNewDrawer(dataPost._id);
-    // moveAllChildrenToNewDrawer(drawerToBeMoved, dataPost._id);
   };
 
+  //+++++++To track new drawer name+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const handleChange = (value) => {
     setDrawerName(value);
   };
 
-  const handleCreate = (value) => {
-    createNewDrawer();
-    setDrawerName("");
-    navigate("/");
-    navigate(0);
+  //++++++++Create new drawer with alert in case of no input+++++++++++++++++++++++++++++++++++++++++++
+  const handleCreate = () => {
+    {
+      !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
+      setDrawerName("");
+      navigate("/home");
+      //navigate(0);
+    }
   };
 
+  //+++++++++To swap display message on the button++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const handleDisplay = () => {
     setNewDrawerNameFieldSelected(!newDrawerNameFieldSelected);
     {
@@ -261,25 +328,34 @@ export default function SortDrawerPage() {
     }
   };
 
-  //Using ID of drawerToBeMoved stored in sessionStorage to avoid error in case of page refresh
-  // const temp = JSON.parse(sessionStorage.getItem("drawersData"))
-  // console.log("temp", temp)
-  // const drawerToBeMovedObj = temp.find((item)=>item._id == sessionStorage.getItem("drawerToBeMoved"))
+  //++++++++++To display Source and Destination drawer name at the top of the page++++++++++++++++++++++++
+  const drawerToBeMovedObjName = () => {
+    if (!loadingDrawers) {
+      const obj = drawers.filter(
+        (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+      );
+      return obj[0]["name"];
+    }
+  };
 
-  const drawerToBeMovedObj = drawers.filter(
-    (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-  );
-  console.log("LOOK", drawerToBeMoved);
-  console.log("MILA", drawerToBeMovedObj["name"]);
+  const destinationDrawerObjName = () => {
+    if (!loadingDrawers) {
+      const obj = drawers.filter((item) => item._id == selectedDrawerId);
+      return obj[0]["name"];
+    }
+  };
 
   return (
     <div id="page">
       <h4 className="sort-drawer-title">
-        {/* Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID */}
-        Drawer to be moved : {drawerToBeMovedObj['name']}---ID
-        {drawerToBeMoved}
+        {sessionStorage.getItem("drawerToBeMoved") &&
+          !loadingDrawers &&
+          drawerToBeMovedObjName()}
+        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="ri:arrow-right-fill" />
+        {selectedDrawerId && destinationDrawerObjName()}
+        <Icon icon="mingcute:drawer-line" color="red" />
       </h4>
-      <h4>Selected drawer Id : {selectedDrawerId}</h4>
 
       {newDrawerNameFieldSelected && (
         <div>
@@ -294,39 +370,40 @@ export default function SortDrawerPage() {
           <br />
           <MyButton
             href={null}
-            btnName="Create & Move"
+            btnName={<Icon icon="ic:baseline-move-down" width="30" />}
             handleNewDrawerCreate={handleCreate}
             drawerName={drawerName}
           />
         </div>
       )}
 
-      <Button onClick={handleDisplay} className="sort-msg-btn">
+      <Button onClick={handleDisplay} className="sort-msg-btn" variant="dark">
         {displayMessage}
       </Button>
 
       {!newDrawerNameFieldSelected && (
         <>
           <div>
-            <MyDropdown />
+            <MyDropdown user={user} />
           </div>
-          <Button
-            variant="success"
-            className="next-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              let passingData = { selectedDrawerId, drawerToBeMoved };
-              console.log("PassingData", passingData);
-              {
-                !selectedDrawerId
-                  ? alert("Please select destination drawer")
-                  : navigate("/sort-drawer-preview", { state: passingData });
-                sessionStorage.setItem("selectedDrawerId", selectedDrawerId);
-              }
-            }}
-          >
-            Next
-          </Button>
+          <OverlayTrigger placement="right" overlay={tooltipNext}>
+            <Button
+              variant="dark"
+              className="next-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                let passingData = { selectedDrawerId, drawerToBeMoved };
+                {
+                  !selectedDrawerId
+                    ? alert("Please select destination drawer")
+                    : navigate("/sort-drawer-preview", { state: passingData });
+                  sessionStorage.setItem("selectedDrawerId", selectedDrawerId);
+                }
+              }}
+            >
+              <Icon icon="tabler:player-track-next-filled" />
+            </Button>
+          </OverlayTrigger>
         </>
       )}
 
@@ -341,58 +418,3 @@ export default function SortDrawerPage() {
     </div>
   );
 }
-
-//   return (
-//     <div id="page">
-//       <h4 className="sort-drawer-title">
-//         Drawer to be moved : {drawerToBeMovedObj[0]["name"]}---ID
-//         {drawerToBeMoved}
-//       </h4>
-//       <h4>Selected drawer Id : {selectedDrawerId}</h4>
-//       <div>
-//         <InputField
-//           type="text"
-//           name="create-new-drawer"
-//           id="create-new-drawer"
-//           placeholder="Create new TOP-level drawer"
-//           value={drawerName}
-//           handleNewDrawerChange={handleChange}
-//         />
-//         <br />
-//         <MyButton
-//           href={null}
-//           btnName="Create & Move"
-//           handleNewDrawerCreate={handleCreate}
-//           drawerName={drawerName}
-//         />
-
-//         <h4 className="sort-msg">Or move it to...</h4>
-
-//         <Dropdown
-//           data={data}
-//           selectedDrawerId={selectedDrawerId}
-//           setSelectedDrawerId={setSelectedDrawerId}
-//         />
-//       </div>
-//       <button
-//         className="btn btn-outline-success next-btn"
-//         onClick={(e) => {
-//           e.preventDefault();
-//           let passingData = { selectedDrawerId, drawerToBeMoved };
-//           console.log("PassingData", passingData);
-//           navigate("/sort-drawer-preview", { state: passingData });
-//         }}
-//       >
-//         Next
-//       </button>
-//       <div>
-//         <Icon
-//           icon="icon-park-outline:back"
-//           color="black"
-//           width="50"
-//           onClick={() => navigate(-1)}
-//         />
-//       </div>
-//     </div>
-//   );
-// }

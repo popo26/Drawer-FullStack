@@ -1,11 +1,8 @@
 "use strict";
 const Mongoose = require("mongoose");
+require("dotenv").config();
 const uri = process.env.DB_URI || "mongodb://127.0.0.1/drawer-local";
 
-// const mongooseOptions = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// };
 //Connect to MongoDB
 Mongoose.connect(uri)
   .then(() => console.log("MongoDB Connected"))

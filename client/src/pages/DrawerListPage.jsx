@@ -1,25 +1,24 @@
 import "../css/DrawerListPage.css";
 import { Icon } from "@iconify/react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useState, useCallback, useRef, useEffect } from "react";
-// import sanitizeHtml from "sanitize-html";
-import ContentEditable from "react-contenteditable";
+import { useState, useRef } from "react";
 import { useDataContext } from "../context/DataContext";
 import { useSelectedDrawerContext } from "../context/SelectedDrawerContext";
 import { useDrawerToBeMovedContext } from "../context/DrawerToBeMovedContext";
+import { useUserContext } from "../context/UserContext";
 
-export default function DrawerListPage({ expandedIndex }) {
+// export default function DrawerListPage({ expandedIndex }) {
+export default function DrawerListPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [drawerNameToEdit, setDrawerNameToEdit] = useState("");
   const [drawerIdToEdit, setDrawerIdToEdit] = useState("");
   const [updateIconIndex, setUpdateIconIndex] = useState(-1);
-  //const [isContentEditableDisabled, setIsContentEditableDisabled] = useState(true);
-  const [isContentEditable, setIsContentEditable] = useState(false);
-  const { drawers, scribbles, setDrawers, setScribbles } = useDataContext();
+  const { drawers, scribbles } = useDataContext();
   const { selectedDrawerId } = useSelectedDrawerContext();
   const [drawerToBeMoved, setDrawerToBeMoved] = useDrawerToBeMovedContext();
   const text = useRef(drawerNameToEdit);
+  const { user } = useUserContext();
 
   // ++++++++Delete Drawer and its sub-drawers and scribbles
   const deleteScribbles = (drawerId) => {
@@ -53,27 +52,30 @@ export default function DrawerListPage({ expandedIndex }) {
   };
 
   const deleteSubDrawers = (id) => {
-    for (let x of drawers) {
-      if (x.root === true) {
+    for (let drawerObj of drawers) {
+      if (drawerObj.root === true) {
         //delete all rootId
         const sameRootIdDrawers = drawers.filter((item) => item.rootId == id);
-        for (let y of sameRootIdDrawers) {
-          fetch(`http://localhost:8080/api/drawers/${y._id}`, {
-            method: "DELETE",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
+        for (let sameRootIdDrawerObj of sameRootIdDrawers) {
+          fetch(
+            `http://localhost:8080/api/drawers/${sameRootIdDrawerObj._id}`,
+            {
+              method: "DELETE",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
             .then((response) => response.json())
             .catch((error) => console.error(error.message));
-          deleteScribbles(y._id);
+          deleteScribbles(sameRootIdDrawerObj._id);
         }
-      } else if (x.root === false && x["subDrawer"] === true) {
+      } else if (drawerObj.root === false && drawerObj["subDrawer"] === true) {
         //delete all subdrawers whose drawerId is id
         const subDrawers = drawers.filter((item) => item.drawerId == id);
-        for (let y of subDrawers) {
-          fetch(`http://localhost:8080/api/drawers/${y._id}`, {
+        for (let subDrawerObj of subDrawers) {
+          fetch(`http://localhost:8080/api/drawers/${subDrawerObj._id}`, {
             method: "DELETE",
             mode: "cors",
             headers: {
@@ -82,29 +84,25 @@ export default function DrawerListPage({ expandedIndex }) {
           })
             .then((response) => response.json())
             .catch((error) => console.error(error.message));
-          deleteScribbles(y._id);
+          deleteScribbles(subDrawerObj._id);
         }
       }
     }
   };
 
+  //+++++++++Delete Drawer and its content - whole process+++++++++++++++++++++++++++++++++++
   const handleDelete = (id) => {
     const response = confirm(
-      `Are you sure to delete this drawer and all the content? -ID:${id}`
+      `Are you sure to delete this drawer and all the content?`
     );
     if (response == true) {
       deleteSelectedDrawer(id);
-      navigate("/");
+      navigate("/home");
       navigate(0);
     }
   };
 
-  //+++++++++++++++++++Get feedback from Anthony++++++++++++++++++++++++++++++++
-  // const sanitizeConf = {
-  //   allowedTags: ["b", "i", "em", "strong", "a", "p", "h1"],
-  //   allowedAttributes: { a: ["href"] },
-  // };
-
+  //+++++++++Display Update icon when Drawer Name is clicked for editing+++++++++++++++++++++++++++++++++++
   const showUpdateIcon = (id) => {
     const isEditing = id == updateIconIndex;
     if (isEditing) {
@@ -120,7 +118,7 @@ export default function DrawerListPage({ expandedIndex }) {
     }
   };
 
-  //top
+  //+++++++++Detect which drawer name is clicked and display update icon+++++++++++++++++++++++++++++++++++
   const handleUpdateIcon = (passedIndex) => {
     setUpdateIconIndex((currentExpandedIndex) => {
       if (currentExpandedIndex == passedIndex) {
@@ -131,18 +129,8 @@ export default function DrawerListPage({ expandedIndex }) {
     });
   };
 
-  //experiement
-  const test = (id) => {
-    //with sanitization - GET FEEDBACK from ANTHONY
-    // document
-    // .getElementById(`targetDrawerId${id}`)
-    // .addEventListener("input", function () {
-    //   setDrawerNameToEdit(
-    //     sanitizeHtml(document.getElementById(`targetDrawerId${id}`).innerText, sanitizeConf
-    //     )
-    //   );
-    // });
-
+  //+++++++++Detect which drawer name is clicked for editing+++++++++++++++++++++++++++++++++++
+  const detectClickedInnerText = (id) => {
     document
       .getElementById(`targetDrawerId${id}`)
       .addEventListener("input", function () {
@@ -152,17 +140,13 @@ export default function DrawerListPage({ expandedIndex }) {
       });
   };
 
+  //+++++++++State changes upon drawer name is clicked for editing++++++++++++++++++++++++++++++
   const handleSelectedDrawer = (clickedId) => {
     handleUpdateIcon(clickedId);
-    console.log("update icon index", updateIconIndex);
     setUpdateIconIndex(clickedId);
-    test(clickedId);
-    console.log("clickedId", clickedId);
+    detectClickedInnerText(clickedId);
     const drawerName = drawers.filter((item) => item._id == clickedId);
-    // setDrawerNameToEdit(drawerName[0]["name"]);
-    // setDrawerIdToEdit(drawerName[0]["idd"]);
     setDrawerNameToEdit(drawerName["name"]);
-    // setDrawerIdToEdit(drawerName["_id"]);
     setDrawerIdToEdit(clickedId);
 
     text.current = document.getElementById(
@@ -170,52 +154,19 @@ export default function DrawerListPage({ expandedIndex }) {
     ).innerText;
   };
 
+  //+++++++++Update drawer name, remove Update icon, and refresh+++++++++++++++++++++++++++++++++
   const update = () => {
     updateDrawerName(drawerIdToEdit);
     setUpdateIconIndex(-1);
     navigate(0);
   };
 
-  // const save = (id) => {
-  //   setDrawerNameToEdit(
-  //     document.getElementById(`targetDrawerId${id}`).innerText
-  //   );
-  // };
-
-  // const handleChange3 = (id) => {
-  //   //can't access changed value with e.target.value
-  //   text.current = document.getElementById(`targetDrawerId${id}`).innerText;
-  //   // setDrawerNameToEdit(
-  //   //   document.getElementById(`targetDrawerId${id}`).innerText
-  //   // );
-  // };
-
-  // const onContentChange = useCallback((evt) => {
-  //   const sanitizeConf = {
-  //     allowedTags: ["b", "i", "a", "p"],
-  //     allowedAttributes: { a: ["href"] },
-  //   };
-  //   setDrawerNameToEdit(
-  //     sanitizeHtml(evt.currentTarget.innerText, sanitizeConf)
-  //     // sanitizeHtml(evt.target.value, sanitizeConf)
-  //   );
-  // }, []);
-
-  const handleEdit = (e, id) => {
-    handleSelectedDrawer(id);
-    console.log("Edit clicked");
-    //setIsContentEditableDisabled(!isContentEditableDisabled);
-    //setIsContentEditable(!isContentEditable);
-    console.log(e.target.value);
-  };
-
   // ++++++++++++++ Find Scribbles +++++++++++++++++++++++++++++++++++++++++++++
-
   const findScribbles = (id) => {
     let scribbleArray = [];
-    for (let x in scribbles) {
-      if (scribbles[x].drawerId == id) {
-        scribbleArray.push(scribbles[x]);
+    for (let item in scribbles) {
+      if (scribbles[item].drawerId == id) {
+        scribbleArray.push(scribbles[item]);
       }
     }
     return scribbleArray.map((item) => (
@@ -224,7 +175,6 @@ export default function DrawerListPage({ expandedIndex }) {
       </Link>
     ));
   };
-  ///////////////////////////////////////////////////
 
   // ++++++++++++++ Find Sub Drawers +++++++++++++++++++++++++++++++++++++++++++++
   const findSubDrawers = (id) => {
@@ -233,54 +183,76 @@ export default function DrawerListPage({ expandedIndex }) {
     let newArray3 = [];
 
     //Collect all sub-drawers
-    for (let x in drawers) {
-      if (drawers[x].drawerId && drawers[x].rootId == id) {
-        newArray.push(drawers[x]);
+    for (let item in drawers) {
+      if (drawers[item].drawerId && drawers[item].rootId == id) {
+        newArray.push(drawers[item]);
       }
     }
 
     // Collect subdrawers that are subdrawers that have parent in this array
-    for (let y of newArray) {
-      const id = y._id;
-      for (let z of newArray) {
-        if (z.drawerId == id) {
-          let obj = { [`${id}`]: z };
+    for (let firstRoundObj of newArray) {
+      const id = firstRoundObj._id;
+      for (let secondRoundObj of newArray) {
+        if (secondRoundObj.drawerId == id) {
+          let obj = { [`${id}`]: secondRoundObj };
           newArray2.push(obj);
         }
       }
     }
 
     //Remove drawers that are collected in the above forloop
-    for (let p of newArray2) {
-      for (let i of newArray) {
-        if (i._id == Object.values(p)[0]._id) {
-          newArray.splice(newArray.indexOf(i), 1);
+    for (let array2Obj of newArray2) {
+      for (let array1Obj of newArray) {
+        if (array1Obj._id == Object.values(array2Obj)[0]._id) {
+          newArray.splice(newArray.indexOf(array1Obj), 1);
         }
       }
     }
 
     //Insert collected subdrawers to the right location
-    for (let k of newArray2) {
-      for (let j of newArray) {
-        if (Object.values(k)[0].drawerId == j._id) {
-          const index = newArray.indexOf(j);
-          const obj = Object.values(k)[0];
-          newArray3 = [
-            ...newArray.slice(0, index + 1),
-            obj,
-            ...newArray.slice(index + 1),
-          ];
+    for (let array2Item of newArray2) {
+      for (let array1Item1stRound of newArray) {
+        if (Object.values(array2Item)[0].drawerId == array1Item1stRound._id) {
+          const index = newArray.indexOf(array1Item1stRound);
+          const obj = Object.values(array2Item)[0];
+
+          if (!newArray.includes(obj)) {
+            newArray3 = [
+              ...newArray.slice(0, index + 1),
+              obj,
+              ...newArray.slice(index + 1),
+            ];
+          }
+
+          newArray = newArray3;
+        }
+      }
+
+      for (let array1Item2ndRound of newArray) {
+        if (
+          Object.values(array2Item)[0].drawerId !== array1Item2ndRound._id ||
+          Object.values(array2Item)[0].rootId == array1Item2ndRound.rootId
+        ) {
+          const index = newArray.indexOf(array1Item2ndRound);
+          const obj = Object.values(array2Item)[0];
+
+          if (!newArray.includes(obj)) {
+            newArray3 = [
+              ...newArray.slice(0, index + 1),
+              obj,
+              ...newArray.slice(index + 1),
+            ];
+          }
+
           newArray = newArray3;
         }
       }
     }
 
-    return newArray3.map((item) => {
+    return newArray.map((item) => {
       const scribbleList = findScribbles(item._id);
-
       return (
         <div key={item._id} className="sub-drawer-header">
-          {/* ADDED */}
           <div className="sub-drawer-header-div">
             <h3
               id={`targetDrawerId${item._id}`}
@@ -290,22 +262,11 @@ export default function DrawerListPage({ expandedIndex }) {
                 handleSelectedDrawer(item._id);
               }}
               contentEditable="true"
-              // contentEditable={isContentEditable}
               suppressContentEditableWarning={true}
-              //onChange={() => handleChange3(item.id)}
               ref={text}
             >
               {item.name}
-
-              {/* <ContentEditable
-                onChange={onContentChange}
-                // onChange={handleChange2}
-                // html={drawerNameToEdit}
-                html={item.name}
-                // value={drawerNameToEdit}
-              /> */}
             </h3>
-
             <Icon
               onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
@@ -319,18 +280,12 @@ export default function DrawerListPage({ expandedIndex }) {
               color="black"
               width="18"
               onClick={() => {
-                // drawerToBeMoved = item.id;
-                // setDrawerToBeMoved(drawerToBeMoved);
-                setDrawerToBeMoved(item.idd);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
-                console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
-                // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
                 sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
             {showUpdateIcon(item._id)}
-            {/* added */}
           </div>
           {scribbleList.length === 0 ? (
             <h6 className={"no-scribble scrb-indent" + item.level}>
@@ -348,24 +303,12 @@ export default function DrawerListPage({ expandedIndex }) {
     });
   };
 
-  console.log("Ref", text);
-
   ///////++++++++Update Drawer Name in DB+++++++++++++
   const updateDrawerName = (id) => {
-    const drawerToBeUpdated = drawers.filter((item) => item._id == id);
-    const newName = text.current.innerText;
-    console.log("newName", newName);
     setDrawerNameToEdit(text.current.innerText);
 
     let dataPost = {
-      // rootId: drawerToBeUpdated[0]["rootId"],
-      // userId: 1,
-      // drawerId: drawerToBeUpdated[0]["drawerId"],
-      name: drawerNameToEdit,
-      // type: "drawer",
-      // ["subDrawer"]: drawerToBeUpdated[0]["subDrawer"],
-      // root: drawerToBeUpdated[0]["root"],
-      // level: drawerToBeUpdated[0]["level"],
+      name: drawerNameToEdit.toUpperCase(),
     };
     fetch(`http://localhost:8080/api/drawers/${id}`, {
       method: "PUT",
@@ -379,39 +322,23 @@ export default function DrawerListPage({ expandedIndex }) {
       .catch((error) => console.error(error.message));
   };
 
+  //+++++++++Whole tree view of this drawer+++++++++++++++++++++++++++++++++++
   const renderedList = drawers.map((item) => {
-    if (id == item._id) {
+    if (id == item._id && item.userId === user._id) {
       return (
         <div key={item._id}>
           <div className="rendered-drawers">
-            {/* <h2 contentEditable={isContentEditable} style={{display:"inline-block"}} value={drawerNameToEdit}>
-            {item.name}
-            </h2>             */}
             <h2
               id={`targetDrawerId${item._id}`}
-              // contentEditable={isContentEditable}
               style={{ display: "inline-block" }}
               onClick={() => {
                 handleSelectedDrawer(item._id);
               }}
               contentEditable="true"
-              // contentEditable={isContentEditable}
               suppressContentEditableWarning={true}
-              // onChange={handleChange3}
-              //onChange={() => handleChange3(item.id)}
               ref={text}
-              //ref={`text${item.id}`}
             >
               {item.name}
-
-              {/* <ContentEditable
-                // onChange={onContentChange}
-                onChange={handleChange2}
-                // html={drawerNameToEdit}
-                html={item.name}
-                disabled={isContentEditableDisabled}
-                // value={drawerNameToEdit}
-              /> */}
             </h2>
             <Icon
               onClick={() => handleDelete(item._id)}
@@ -426,47 +353,14 @@ export default function DrawerListPage({ expandedIndex }) {
               color="black"
               width="18"
               onClick={() => {
-                // drawerToBeMoved = item.id;
-                // setDrawerToBeMoved(drawerToBeMoved);
                 setDrawerToBeMoved(item._id);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
-                console.log("PassingData", passingData);
                 navigate("/sort-drawer", { state: passingData });
-                // sessionStorage.setItem("drawerToBeMoved", drawerToBeMoved);
                 sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
-            {/* <Icon
-              icon="uiw:edit"
-              color="black"
-              width="22"
-              // onClick={handleEdit}
-              onClick={(e) => handleEdit(e, item.id)}
-            /> */}
-            {/* temp */}
-            {/* {updateIconIndex && (
-              <Icon
-                icon="material-symbols:update"
-                color="black"
-                width="22"
-                onClick={update}
-              />
-            )} */}
 
             {showUpdateIcon(item._id)}
-
-            {/* <Icon
-              icon="material-symbols:update"
-              color="black"
-              width="48"
-              height="48"
-              // onClick={()=>{
-              //   save(item.id)
-              //   return ()=>update
-              // }}
-              onClick={update}
-            /> */}
-            {/* <button onClick={() => save(item.id)}>Save</button> */}
           </div>
 
           {item["subDrawer"] === true ? (
@@ -491,6 +385,7 @@ export default function DrawerListPage({ expandedIndex }) {
           color="black"
           width="50"
           onClick={() => navigate(-1)}
+          className="back-btn"
         />
       </div>
     </div>

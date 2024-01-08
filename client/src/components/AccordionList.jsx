@@ -1,9 +1,9 @@
-import AccordionItem from "./AccordionItem"
+import AccordionItem from "./AccordionItem";
 
-export default function AccordionList(){
-    return (
-        <div>
-            <AccordionItem />
-        </div>
-    )
+export default function AccordionList() {
+  return (
+    <div>
+      <AccordionItem />
+    </div>
+  );
 }
