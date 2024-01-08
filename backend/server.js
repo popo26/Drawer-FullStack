@@ -6,6 +6,7 @@ const passport = require("./passport");
 const MongoStore = require("connect-mongo");
 const swaggerUi = require("swagger-ui-express");
 swaggerDocument = require("./swagger.json");
+const path = require("path");
 
 const cors = require("cors");
 let dbConnect = require("./dbConnect");
@@ -15,6 +16,7 @@ require("dotenv").config();
 // parse requests of content-type - application / json;
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, "build")));
 
 //Middleware
 app.use(morgan("dev"));
