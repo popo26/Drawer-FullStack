@@ -77,7 +77,8 @@ export const DataProvider = (props) => {
         drawers[item]["root"] == true &&
         drawers[item]["rootId"] != drawers[item]["_id"]
       ) {
-        console.log("Mismatch", drawers[item]);
+        //DO NOT DELETE - NEED THIS FOR TROUBLESHOOT
+        //console.log("Mismatch", drawers[item]);
         updateRootId(drawers[item]["_id"]);
       }
     }

@@ -37,7 +37,6 @@ export default function SortDrawerPage() {
     handleSelectedDrawerId("");
   }, []);
 
-  ///NOT WORKING! :-(
   //++++++++Move children to the new drawer in DB +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const moveAllChildrenToNewDrawer = (parentDrawerId, newTopLevelDrawerId) => {
     // parentDrawerId ---> Drawer To Be Moved
@@ -54,163 +53,39 @@ export default function SortDrawerPage() {
           drawers[x].drawerId == parentDrawerId ||
           (drawers[x].rootId == drawerToBeMovedObject[0]["rootId"] &&
             drawers[x].level > drawerToBeMovedObject[0]["level"])
-          // drawers[x].rootId == parentDrawerId
         ) {
-          // subDrawersToBeMoved.push(x);
           subDrawersToBeMoved.push(drawers[x]);
-          console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved);
+          //console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved);
 
           let newLevel;
-          // if (drawers[x].drawerId) {
-          //   const parentDrawer = drawers.filter(
-          //     (item) => item._id == drawers[x].drawerId
-          //   );
-          //   // newLevel = parentDrawer[0].level + 1;
-          //   newLevel = drawers[x].level + 1;
 
-          //   console.log("new Level CCCCCCCCCC", newLevel);
-          // } else {
-          //   newLevel = 3;
-          //   console.log("new Level DDDDDDDD", newLevel);
-          // }
-
-          //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
+          //////CURRENTLY WORKING ON THIS/////////////////////////////////////////////////////////////////////
           if (drawers[x].drawerId && drawers[x].drawerId === parentDrawerId) {
             const parentDrawer = drawers.filter(
               (item) => item._id == drawers[x].drawerId
             );
-            // newLevel = parentDrawer[0].level + 1;
             newLevel = drawers[x].level + 1;
-            console.log(
-              `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
-            );
+            // console.log(
+            //   `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+            // );
           } else if (
             drawers[x].drawerId &&
             drawers[x].drawerId !== parentDrawerId &&
             drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
           ) {
             newLevel = drawers[x].level + 1;
-            console.log(
-              `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
-            );
+            // console.log(
+            //   `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
+            // );
           } else {
             newLevel = 3;
-            console.log(
-              `SORT DDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
-            );
+            // console.log(
+            //   `SORT DDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
+            // );
           }
-          //////WORKING ON THIS/////////////////////////////////////////////////////////////////////
+          //////CURRENTLY WORKING ON THIS/////////////////////////////////////////////////////////////////////
 
-          
-          
-          //////WORKING ON THIS COPIED SORTDRAWER PREVIEW LOGIC/////////////////////////////////////////////////////////////////////
-          
-          // const newTopLevelDrawerObject = drawers.filter(
-          //   (item) => item._id == newTopLevelDrawerId
-          // );
-          
-          
-          // if (drawers[x].drawerId && drawers[x].drawerId === parentDrawerId) {
-          //   const parentDrawer = drawers.filter(
-          //     (item) => item._id == drawers[x].drawerId
-          //   );
-          //   console.log("parentDrawer[0]['level']", parentDrawer[0]["level"]);
-          //   // newLevel = parentDrawer[0].level + 1;
-          //   //AFTER || added
-          //   if (
-          //     parentDrawer[0]["level"] === 2 &&
-          //     drawerToBeMovedObject[0].level -
-          //       newTopLevelDrawerObject[0].level ===
-          //       0
-          //   ) {
-          //     console.log(
-          //       "difference in levels",
-          //       drawerToBeMovedObject[0].level -
-          //         newTopLevelDrawerObject[0].level
-          //     );
-          //     newLevel = parentDrawer[0].level + 2;
-          //     console.log(
-          //       `SORT BBBBBBBBBBBB: ${drawers[x].name}, , , Level is ${newLevel}`
-          //     );
-          //   } else if (
-          //     parentDrawer[0]["level"] === 2 &&
-          //     drawerToBeMovedObject[0].level -
-          //       newTopLevelDrawerObject[0].level >
-          //       1
-          //   ) {
-          //     console.log(
-          //       "difference in levels",
-          //       drawerToBeMovedObject[0].level -
-          //         newTopLevelDrawerObject[0].level
-          //     );
-          //     newLevel = 3;
-          //     console.log(
-          //       `SORT AAAAAAAAAA: ${drawers[x].name}, , , Level is ${newLevel}`
-          //     );
-          //   } else if (parentDrawer[0]["level"] === 2) {
-          //     console.log(
-          //       "difference in levels",
-          //       drawerToBeMovedObject[0].level -
-          //         newTopLevelDrawerObject[0].level
-          //     );
-          //     newLevel = 3;
-          //     console.log(
-          //       `SORT DDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
-          //     );
-          //   } else if (
-          //     parentDrawer[0]["level"] > 2 &&
-          //     drawerToBeMovedObject[0].level -
-          //       newTopLevelDrawerObject[0].level >
-          //       0
-          //   ) {
-          //     console.log(
-          //       "difference in levels",
-          //       drawerToBeMovedObject[0].level -
-          //         newTopLevelDrawerObject[0].level
-          //     );
-          //     newLevel = newTopLevelDrawerObject[0].level + 2;
-          //     console.log(
-          //       `SORT HHHHHHHHHHHHH: ${drawers[x].name}, , , Level is ${newLevel}`
-          //     );
-          //   } else {
-          //     newLevel = drawers[x].level + 1;
-          //     console.log(
-          //       "difference in levels",
-          //       drawerToBeMovedObject[0].level -
-          //         newTopLevelDrawerObject[0].level
-          //     );
-          //     console.log(
-          //       `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
-          //     );
-          //   }
-          // } else if (
-          //   drawers[x].drawerId &&
-          //   drawers[x].drawerId !== parentDrawerId &&
-          //   drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
-          // ) {
-          //   const directParentDrawer = drawers.filter(
-          //     (item) => item._id == drawers[x].drawerId
-          //   );
-          //   newLevel = directParentDrawer[0].level + 1;
-          //   // newLevel = drawers[x].level + 1;
-          //   console.log("direct parent drawer".directParentDrawer);
-          //   console.log(
-          //     `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
-          //   );
-          // } else if (!drawers[x].drawerId) {
-          //   newLevel = 2;
-          //   console.log(
-          //     `SORT GGGGGGGGGGGGGGGG: ${drawers[x].name}, , , Level is ${newLevel}`
-          //   );
-          // } else {
-          //   newLevel = 3;
-          //   console.log(
-          //     `SORT FFFFFFFFFFFF: ${drawers[x].name}, , , Level is ${newLevel}`
-          //   );
-          // }
-          ///////////////////////////////////////////////////////////////////////////
-
-          console.log("matching subdrawers", drawers[x]);
+          //console.log("matching subdrawers", drawers[x]);
           let dataPost = {
             rootId: newTopLevelDrawerId,
             root: false,
@@ -269,7 +144,6 @@ export default function SortDrawerPage() {
       body: JSON.stringify(dataPost),
     })
       .then((response) => response.json())
-      //.then(() => navigate(0))
       .catch((error) => console.error(error.message));
   };
 
@@ -294,10 +168,7 @@ export default function SortDrawerPage() {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log("You are here1");
-
         moveDrawerToNewDrawer(json.data._id);
-        console.log("You are here2");
         moveAllChildrenToNewDrawer(drawerToBeMoved, json.data._id);
       })
       .catch((error) => console.error(error.message));
@@ -314,7 +185,7 @@ export default function SortDrawerPage() {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
       setDrawerName("");
       navigate("/home");
-      //navigate(0);
+      navigate(0);
     }
   };
 

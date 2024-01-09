@@ -12,7 +12,7 @@ export default {
         scribbleObj["drawerId"] == sessionStorage.getItem("selectedDrawer")
       ) {
         scribbleArray.push(scribbleObj);
-        console.log("scribbleArray", scribbleArray);
+        //console.log("scribbleArray", scribbleArray);
       }
     }
     const result = scribbleArray.map((scrb) => (

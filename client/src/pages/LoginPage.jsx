@@ -25,7 +25,7 @@ export default function LoginPage() {
         password: user.password,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (!response.data.errmsg) {
           //set isLoggedIn for frontend
           setUser({ ...user, isLoggedIn: true });
@@ -40,7 +40,7 @@ export default function LoginPage() {
       })
       .catch((error) => {
         console.log("login error: ");
-        console.log(error);
+        console.error(error);
         setMessage("Invalid email or password");
       });
   };

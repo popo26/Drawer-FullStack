@@ -52,7 +52,7 @@ export default function RegisterPage() {
         isLoggedIn: false,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (!response.data.errmsg) {
           console.log("successful signup");
           resetForm();
@@ -66,7 +66,7 @@ export default function RegisterPage() {
       })
       .catch((error) => {
         console.log("That email address is taken.");
-        console.log(error);
+        console.error(error);
         setMessage("That email address is taken.");
       });
   };

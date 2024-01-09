@@ -32,17 +32,17 @@ export default function ProfilePage() {
         username: user.username,
       })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         if (!response.data.errmsg) {
           //set isLoggedIn for frontend
-          console.log("Update response", response.data);
-          console.log("successful UPDATED", user);
+          // console.log("Update response", response.data);
+          // console.log("successful UPDATED", user);
           localStorage.setItem("user", JSON.stringify(user));
         }
       })
       .catch((error) => {
         console.log("Update error: ");
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -69,7 +69,7 @@ export default function ProfilePage() {
       })
       .catch((error) => {
         console.log("Update error: ");
-        console.log(error);
+        console.error(error);
       });
   };
 
