@@ -16,7 +16,7 @@ Drawer is an easy-to-use note app for quick scribbles. It lets you jot down thou
    Open another terminal and run the following commands"<br />
    `cd client` <br />
    `npm install` <br />
-   `npm run dev`<br />
+   `npm start`<br />
 
 ## How to run Vitest
 
