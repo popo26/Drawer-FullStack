@@ -271,14 +271,14 @@ export default function DrawerListPage() {
               onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
               color="black"
-              width="18"
+              width="22"
               className="icon10"
             />
             <Icon
               className="icon10"
               icon="mingcute:drawer-line"
               color="black"
-              width="18"
+              width="22"
               onClick={() => {
                 let passingData = { selectedDrawerId, drawerToBeMoved };
                 navigate("/sort-drawer", { state: passingData });
@@ -344,14 +344,14 @@ export default function DrawerListPage() {
               onClick={() => handleDelete(item._id)}
               icon="ion:trash-outline"
               color="black"
-              width="18"
+              width="26"
               className="icon10"
             />
             <Icon
               className="icon10"
               icon="mingcute:drawer-line"
               color="black"
-              width="18"
+              width="26"
               onClick={() => {
                 setDrawerToBeMoved(item._id);
                 let passingData = { selectedDrawerId, drawerToBeMoved };
@@ -359,7 +359,6 @@ export default function DrawerListPage() {
                 sessionStorage.setItem("drawerToBeMoved", item._id);
               }}
             />
-
             {showUpdateIcon(item._id)}
           </div>
 
