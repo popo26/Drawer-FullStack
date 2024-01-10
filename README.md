@@ -89,5 +89,4 @@ Delete drawer:
 - Sanitize forms to prevent cross-site scripting (XSS)
 - Sharing functionality - e.g., shared drawers/scribbles for teams
 - Set max limit for drawer nesting
-- Add search function for drawer name
 - Google OAuth
