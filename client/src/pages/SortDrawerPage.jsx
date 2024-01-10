@@ -205,7 +205,6 @@ export default function SortDrawerPage() {
       (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
     );
     return obj[0]["name"];
-
   };
 
   const destinationDrawerObjName = () => {
