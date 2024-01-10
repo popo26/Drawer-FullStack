@@ -201,19 +201,16 @@ export default function SortDrawerPage() {
 
   //++++++++++To display Source and Destination drawer name at the top of the page++++++++++++++++++++++++
   const drawerToBeMovedObjName = () => {
-    if (!loadingDrawers) {
-      const obj = drawers.filter(
-        (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
-      );
-      return obj[0]["name"];
-    }
+    const obj = drawers.filter(
+      (item) => item._id == sessionStorage.getItem("drawerToBeMoved")
+    );
+    return obj[0]["name"];
+
   };
 
   const destinationDrawerObjName = () => {
-    if (!loadingDrawers && sessionStorage.getItem('selectedDrawerId')) {
-      const obj = drawers.filter((item) => item._id == sessionStorage.getItem('selectedDrawer'));
-      return obj[0]["name"];
-    }
+    const obj = drawers.filter((item) => item._id === selectedDrawerId);
+    return obj[0]["name"];
   };
 
   return (
@@ -224,7 +221,8 @@ export default function SortDrawerPage() {
           drawerToBeMovedObjName()}
         <Icon icon="mingcute:drawer-line" color="#EA4C4C" />
         <Icon icon="ri:arrow-right-fill" />
-        {selectedDrawerId && destinationDrawerObjName()}
+
+        {selectedDrawerId && !loadingDrawers && destinationDrawerObjName()}
         <Icon icon="mingcute:drawer-line" color="#EA4C4C" />
       </h4>
 
