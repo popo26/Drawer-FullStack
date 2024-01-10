@@ -31,6 +31,7 @@ export default function AccordionItem({
                   color="black"
                   width="30"
                   height="30"
+                  className="move-btn2"
                 />
               </Link>
             </div>

@@ -120,10 +120,10 @@ export default function SortScribblePage() {
     <div id="page">
       <h4>
         {!loadingScribbles && scrb[0].title}
-        <Icon icon="tabler:scribble" color="red" />{" "}
+        <Icon icon="tabler:scribble" color="#EA4C4C" />{" "}
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && destinationDrawer?.name}{" "}
-        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="mingcute:drawer-line" color="#EA4C4C" />
       </h4>
       <div>
         {newDrawerNameFieldSelected && (
@@ -181,6 +181,7 @@ export default function SortScribblePage() {
           color="black"
           width="50"
           onClick={() => navigate(-1)}
+          className="back-btn move-btn"
         />
       </div>
     </div>

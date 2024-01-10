@@ -302,10 +302,10 @@ export default function SortDrawerPreviewPage() {
         {sessionStorage.getItem("drawerToBeMoved") &&
           !loadingDrawers &&
           drawerToBeMovedObjName()}
-        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="mingcute:drawer-line" color="#EA4C4C" />
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && !loadingDrawers && destinationDrawerObjName()}
-        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="mingcute:drawer-line" color="#EA4C4C" />
       </h3>
 
       <div className="drawer-content-result-div">
@@ -325,6 +325,7 @@ export default function SortDrawerPreviewPage() {
           color="black"
           width="50"
           onClick={() => navigate(-1)}
+          className="back-btn move-btn"
         />
       </div>
     </div>

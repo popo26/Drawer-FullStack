@@ -187,10 +187,10 @@ export default function SortScribblePreviewPage() {
     <div>
       <p>
         {!loadingScribbles && scrb.title}
-        <Icon icon="tabler:scribble" color="red" />{" "}
+        <Icon icon="tabler:scribble" color="#EA4C4C" />{" "}
         <Icon icon="ri:arrow-right-fill" />
         {selectedDrawerId && destinationDrawer?.name}{" "}
-        <Icon icon="mingcute:drawer-line" color="red" />
+        <Icon icon="mingcute:drawer-line" color="#EA4C4C" />
       </p>
 
       <div className="drawer-content-result-div">
@@ -232,7 +232,7 @@ export default function SortScribblePreviewPage() {
         </div>
       )}
 
-      <div className="back-btn">
+      <div className="back-btn move-btn">
         <Icon
           icon="icon-park-outline:back"
           color="black"
