@@ -209,12 +209,9 @@ export default function SortDrawerPage() {
     }
   };
 
-
-
   const destinationDrawerObjName = () => {
-    if (!loadingDrawers) {
-      const obj = drawers.filter((item) => item._id == sessionStorage.getItem('drawerToBeMoved'));
-
+    if (!loadingDrawers && sessionStorage.getItem('selectedDrawerId')) {
+      const obj = drawers.filter((item) => item._id == sessionStorage.getItem('selectedDrawer'));
       return obj[0]["name"];
     }
   };
