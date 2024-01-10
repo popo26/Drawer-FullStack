@@ -50,6 +50,9 @@ export default function MyNavbar() {
         sessionStorage.setItem("selectedScribble", null);
         sessionStorage.setItem("toBeMovedDrawer", null);
         sessionStorage.setItem("drawerToBeMoved", null);
+        sessionStorage.setItem("files", null);
+        localStorage.setItem("lastActvity", null);
+
         navigate("/");
         setIsExpanded(false);
       })
@@ -65,8 +68,13 @@ export default function MyNavbar() {
       <>
         <Container>
           <Navbar.Brand href="#home">
-            <NavLink className="navbar-brand" to="/" >
-              <Icon icon="mingcute:drawer-line" color="black" width="50" className="move-btn2" />
+            <NavLink className="navbar-brand" to="/">
+              <Icon
+                icon="mingcute:drawer-line"
+                color="black"
+                width="50"
+                className="move-btn2"
+              />
             </NavLink>
           </Navbar.Brand>
 
@@ -82,14 +90,24 @@ export default function MyNavbar() {
             <Nav.Link>
               <NavLink className="nav-link" to="/login">
                 <OverlayTrigger placement="bottom" overlay={tooltipLogin}>
-                  <Icon icon="clarity:login-solid" color="black" width="30" className="move-btn2"/>
+                  <Icon
+                    icon="clarity:login-solid"
+                    color="black"
+                    width="30"
+                    className="move-btn2"
+                  />
                 </OverlayTrigger>
               </NavLink>
             </Nav.Link>
             <Nav.Link>
               <NavLink className="nav-link" to="/register">
                 <OverlayTrigger placement="bottom" overlay={tooltipRegister}>
-                  <Icon icon="mdi:register" color="black" width="30" className="move-btn2"/>
+                  <Icon
+                    icon="mdi:register"
+                    color="black"
+                    width="30"
+                    className="move-btn2"
+                  />
                 </OverlayTrigger>
               </NavLink>
             </Nav.Link>
