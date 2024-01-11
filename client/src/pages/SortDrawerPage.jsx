@@ -55,7 +55,7 @@ export default function SortDrawerPage() {
             drawers[x].level > drawerToBeMovedObject[0]["level"])
         ) {
           subDrawersToBeMoved.push(drawers[x]);
-          //console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved);
+          console.log("subDrawersToBeMoved SORTDRAWER", subDrawersToBeMoved);
 
           let newLevel;
 
@@ -65,23 +65,23 @@ export default function SortDrawerPage() {
               (item) => item._id == drawers[x].drawerId
             );
             newLevel = drawers[x].level + 1;
-            // console.log(
-            //   `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
-            // );
+            console.log(
+              `SORT CCCCCCCCCC: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           } else if (
             drawers[x].drawerId &&
             drawers[x].drawerId !== parentDrawerId &&
             drawers[x].rootId === drawerToBeMovedObject[0]["rootId"]
           ) {
             newLevel = drawers[x].level + 1;
-            // console.log(
-            //   `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
-            // );
+            console.log(
+              `SORT EEEEEEEEEEEE: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           } else {
             newLevel = 3;
-            // console.log(
-            //   `SORT DDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
-            // );
+            console.log(
+              `SORT DDDDDDDDDDD: ${drawers[x].name}, , , Level is ${newLevel}`
+            );
           }
           //////CURRENTLY WORKING ON THIS/////////////////////////////////////////////////////////////////////
 
@@ -180,12 +180,13 @@ export default function SortDrawerPage() {
   };
 
   //++++++++Create new drawer with alert in case of no input+++++++++++++++++++++++++++++++++++++++++++
-  const handleCreate = () => {
+  const handleCreate =  () => {
     {
       !drawerName ? alert("The new drawer name is empty.") : createNewDrawer();
       setDrawerName("");
       navigate("/home");
-      navigate(0);
+       //navigate(0);
+       setTimeout(()=>navigate(0), 50)
     }
   };
 

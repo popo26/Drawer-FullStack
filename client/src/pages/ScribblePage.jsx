@@ -170,7 +170,11 @@ export default function ScribblePage() {
 
       <div className="buttons-div">
         <OverlayTrigger placement="bottom" overlay={tooltipJustSave}>
-          <Button onClick={() => handleSubmitScribble()} variant="dark" className="move-btn2">
+          <Button
+            onClick={() => handleSubmitScribble()}
+            variant="dark"
+            className="move-btn2"
+          >
             <Icon icon="ic:round-save-alt" width="24" />
           </Button>
         </OverlayTrigger>
@@ -184,7 +188,7 @@ export default function ScribblePage() {
               onClick={() => {
                 createNewScribble();
                 //Because of the async function above, selectedScribble ID doesn't get updated in time.
-                //This is still workaround as the error page still shows up in the halfway.
+                //This is still workaround as the error page still shows up at the transition.
                 timerID = setTimeout(() => {
                   navigate("/sort");
                   navigate(0);

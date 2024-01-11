@@ -126,7 +126,6 @@ export default function SortScribblePreviewPage() {
       selectedDrawerObject[0]["level"]
     );
     navigate("/home");
-    //navigate(0);
   };
 
   //++++++++Track new sub drawer name+++++++++++++++++++++++++++++++++++++
