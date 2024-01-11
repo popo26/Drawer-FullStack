@@ -13,7 +13,7 @@ let dbConnect = require("./dbConnect");
 const app = express();
 require("dotenv").config();
 // parse requests of content-type - application / json;
-app.use(express.json({limit:'50mb'})); //to prevent PayloadTooLargeError for scribble creation
+app.use(express.json({ limit: "50mb" })); //to prevent PayloadTooLargeError for scribble creation
 app.use(cors());
 
 //Middleware
@@ -21,7 +21,7 @@ app.use(morgan("dev"));
 app.use(
   bodyParser.urlencoded({
     extended: false,
-    limit:"50mb",
+    limit: "50mb",
   })
 );
 app.use(bodyParser.json());

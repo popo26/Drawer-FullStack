@@ -77,16 +77,15 @@ Delete drawer:
 ## Current Limitations
 
 - Reorganising drawers works more accurately when there is no sub drawers.
-- Screenshot added during the creation of scribble needs to be small.
-- Attachments preview only works during the creation of scribble.
+- Attachments preview only persists unless screen is not refreshed.
 - Scribble title can't be edited later (only content can be edited)
 
 ## Future Features
 
 - Admin page
-- Preview, download, and deletion of attachment files.
+- Preview and download of attachment files.
 - Password Reset Email link.
 - Sanitize forms to prevent cross-site scripting (XSS)
-- Sharing functionality - e.g., shared drawers/scribbles for teams
+- Sharing functionality - e.g., shared drawers/scribbles for team collaboration
 - Set max limit for drawer nesting
 - Google OAuth
